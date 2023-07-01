@@ -28,6 +28,7 @@ const locationImageUri = Image.resolveAssetSource(locationImage).uri
 
 
 const DATA = [
+  
   {
     id: '1',
     title: 'Sky Dandelions Apartment',

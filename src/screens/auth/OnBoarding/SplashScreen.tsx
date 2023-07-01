@@ -17,6 +17,7 @@ const maskgroupImageUri = Image.resolveAssetSource(maskgroup).uri;
 
 export default function SplashScreen() {
   const navigation = useNavigation();
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.imageContainer}>

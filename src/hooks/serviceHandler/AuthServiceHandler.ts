@@ -5,19 +5,20 @@ import {
   VerifyOTPService,
   RegisterService,
 } from '../../services/auth/authService';
+import { useDispatch } from 'react-redux';
+import { UpdateIsLoginState } from '../../redux/reducers/userReducer';
 
 const useAuthServiceHandler = () => {
   const Navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const GenerateOtpServiceHandler = async (data: any) => {
     try {
-      const res = await GenerateOTPService(data);
+      // const res = await GenerateOTPService(data);
 
-      const {result} = res.data;
+      // const {result} = res.data;
 
-      Alert.alert('OTP', result.generateOTP);
-
-      console.log('data->>>>>>>>>', data, result.generateOTP);
+      // Alert.alert('OTP', result.generateOTP);
 
       Navigation.navigate(
         'RegisterWithOTP' as never,
@@ -26,27 +27,26 @@ const useAuthServiceHandler = () => {
       
     } catch (error: any) {
       console.log('error', error.response.data.error.message);
-
       Alert.alert('', 'User Not Register!');
-
       Navigation.navigate('Register' as never);
     }
   };
 
   const VerifyOTPServiceHandler = async (data: any) => {
     try {
-      const res = await VerifyOTPService(data);
-      // console.log(res.status)
-      const {result} = res.data;
-      if (typeof result === 'string') {
-        Navigation.navigate('Register' as never);
-      } else {
-        Navigation.navigate('HomePage' as never);
-      }
+      // const res = await VerifyOTPService(data);
+      // const {result} = res.data;
+      // if (typeof result === 'string') {
+      //   Navigation.navigate('Register' as never);
+      // } else {
+      //   dispatch(UpdateIsLoginState(true));
+      //   Navigation.navigate('HomePage' as never);
+      // }
+      dispatch(UpdateIsLoginState(true));
+      Navigation.navigate('HomePage' as never);
     } catch (error: any) {
-      console.log('error->>>>>', error.response.data.error.message);
-
-      Navigation.navigate('Register' as never);
+       console.log('error');
+       
     }
   };
 

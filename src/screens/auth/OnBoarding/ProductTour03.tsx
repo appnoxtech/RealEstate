@@ -1,0 +1,139 @@
+import {
+  StyleSheet,
+  View,
+  Text,
+  ImageBackground,
+  Image,
+  TouchableOpacity,
+  SafeAreaView,
+} from 'react-native';
+import React from 'react';
+import TourHeader from './TourHeader';
+import {
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+  useResponsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
+
+import {useNavigation} from '@react-navigation/native';
+
+import image1 from '../../../../assets/images/Rectangle8.png'
+import vector from '../../../../assets/images/Vector.png'
+
+const image1Uri = Image.resolveAssetSource(image1).uri
+const vectorUri = Image.resolveAssetSource(vector).uri
+
+export default function ProductTour03() {
+  const navigation = useNavigation();
+  return (
+    <SafeAreaView>
+      <View style={styles.container}>
+        <TourHeader />
+
+        <Text style={styles.containerText}>
+          Find perfect choice for {'\n'}
+          <Text style={styles.containerTextInner}>your future house</Text>{' '}
+        </Text>
+        <Text style={styles.containerText1}>
+          Lorem ipsum dolor sit amet, {'\n'}consectetur adipiscing elit, sed.
+        </Text>
+
+        <View>
+          <ImageBackground
+            style={styles.backGroundImage}
+            source={{uri: image1Uri}}
+            resizeMode="cover">
+            <View style={styles.backGroundImageButton}>
+              <TouchableOpacity
+                style={styles.pressBack}
+                onPress={() => navigation.goBack()}>
+                <Image
+                  style={styles.pressBackImg}
+                  source={{uri: vectorUri}}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('Login' as never)}
+                style={styles.button}>
+                <Text style={styles.btnText}>Next</Text>
+              </TouchableOpacity>
+            </View>
+          </ImageBackground>
+        </View>
+      </View>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    padding: 15,
+    paddingTop: 0,
+  },
+  containerText: {
+    marginVertical: responsiveScreenHeight(5),
+    fontSize: 25,
+  },
+  containerTextInner: {
+    color: '#204D6C',
+  },
+  containerText1: {
+    fontSize: 12,
+    marginBottom: 20,
+  },
+  backGroundImage: {
+    width: responsiveScreenWidth(91),
+    height: responsiveScreenHeight(59),
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    paddingVertical: responsiveScreenHeight(2),
+    resizeMode: 'contain',
+  },
+
+  backGroundImageButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 30,
+  },
+
+  imageContainerButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: responsiveScreenHeight(2),
+    gap: responsiveScreenWidth(2),
+  },
+  pressBack: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderWidth: 1,
+    borderRadius: 200,
+    borderColor: 'white',
+    backgroundColor: 'white',
+    padding: 17,
+  },
+
+  pressBackImg: {
+    width: 24,
+    height: 24,
+  },
+
+  button: {
+    padding: 10,
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: '#8BC83F',
+    paddingVertical: responsiveScreenHeight(2),
+    width: responsiveScreenWidth(50),
+    backgroundColor: '#8BC83F',
+  },
+  btnText: {color: 'white', fontSize: 16, textAlign: 'center'},
+  // footer: {
+  //   flex: 1,
+  //   alignItems: 'center',
+  //   flexDirection: 'column-reverse',
+  //   marginVertical: responsiveScreenHeight(2),
+  // },
+});

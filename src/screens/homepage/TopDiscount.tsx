@@ -87,7 +87,7 @@ const DATA = [
 // type ItemProps = {image: string};
 
 // const Navigation = useNavigation();
-const Item = ({data}) => (
+const Item = ({data} : any) => (
   
   <TouchableOpacity>
     <View style={styles.featuredCard}>

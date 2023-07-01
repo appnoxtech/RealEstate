@@ -28,7 +28,7 @@ const locationImageUri = Image.resolveAssetSource(locationImage).uri
 
 
 const DATA = [
-  
+
   {
     id: '1',
     title: 'Sky Dandelions Apartment',
@@ -87,7 +87,7 @@ const DATA = [
 
 // type ItemProps = {image: string};
 
-const Item = ({data}) => (
+const Item = ({data} : any) => (
   <TouchableOpacity>
     <View style={styles.container}>
       <View style={styles.featuredCard}>

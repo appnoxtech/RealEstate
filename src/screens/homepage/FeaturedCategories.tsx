@@ -115,7 +115,7 @@ const Item: React.FC<renderProp> = ({data}) => (
           <View style={styles.detailsHeader}>
             <Text style={styles.detailesHeadertext}>{data.title}</Text>
             <View style={styles.ratingContainer}>
-              <Image style={styles.star} source={data.image} />
+              <Image style={styles.star} source={require('../../../assets/images/Star.png')} />
               <Text>{data.rating}</Text>
             </View>
             <View style={styles.map}>

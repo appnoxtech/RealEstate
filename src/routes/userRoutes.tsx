@@ -8,6 +8,7 @@ import Notification from '../screens/profile/Notification';
 import Profile from '../screens/profile/Profile';
 import Search from '../screens/search/Search';
 import Villa from '../screens/discover/Category/Villa';
+import TopDicount from '../screens/homepage/TopDiscount'
 
 const Stack = createNativeStackNavigator();
 
@@ -47,6 +48,11 @@ export default function userRoutes() {
       <Stack.Screen
         name="FeaturedEstate"
         component={FeaturedEstate}
+        options={{headerShown: false}}
+      />
+       <Stack.Screen
+        name="TopDicount"
+        component={TopDicount}
         options={{headerShown: false}}
       />
       <Stack.Screen

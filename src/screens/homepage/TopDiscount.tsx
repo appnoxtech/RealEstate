@@ -1,15 +1,6 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  View,
-  FlatList,
-  StyleSheet,
-  Text,
-  StatusBar,
-  TouchableOpacity,
-  ImageBackground,
-  Image,
-} from 'react-native';
+import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, TouchableOpacity, ImageBackground, Image } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -17,8 +8,6 @@ import {
   responsiveScreenWidth,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-
-// import {useNavigation} from '@react-navigation/native';
 
 
 const DATA = [
@@ -84,12 +73,15 @@ const DATA = [
   },
 ];
 
-// type ItemProps = {image: string};
 
-// const Navigation = useNavigation();
-const Item = ({data} : any) => (
+// type ItemProps = {image: string};
+const TopDiscount = () => {
+  const Navigation = useNavigation();
+
+const Item = ({data}) => (
   
-  <TouchableOpacity>
+  
+  <TouchableOpacity onPress={() => Navigation.navigate('Villa' as never)}>
     <View style={styles.featuredCard}>
     <ImageBackground style={styles.imageContainer} source={data.image}>
       <Text style={styles.buttonText}>{data.buttonTitle}</Text>
@@ -99,7 +91,7 @@ const Item = ({data} : any) => (
   </TouchableOpacity>
 );
 
-const FeaturedCategories = () => {
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
@@ -150,4 +142,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FeaturedCategories;
+export default TopDiscount;

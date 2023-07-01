@@ -44,9 +44,9 @@ const DATA = [
   },
 ];
 
-// type ItemProps = {title: string};
+type ItemProps = {title: string};
 
-const Item = ({title}) => (
+const Item = ({title} : ItemProps) => (
   <TouchableOpacity>
     <View style={styles.item}>
     <Text style={styles.title}>{title}</Text>

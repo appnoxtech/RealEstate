@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import { colorPrimary } from '../../assets/Styles/GlobalTheme';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
@@ -7,7 +7,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import HomePage from '../screens/homepage/HomePage';
+import Homepage from '../screens/homepage/HomePage';
+import Search from '../screens/search/Search';
+import Profile from '../screens/profile/Profile';
+import Notification from '../screens/profile/Notification';
 
 
 const Tab = createBottomTabNavigator();
@@ -31,52 +34,45 @@ const BottomNavigation = () => {
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, color, size}) => {
           let iconName;
-          if (route.name === 'Cars') {
+          if (route.name === 'Homepage') {
             return (
               <Ionicons
                 style={(iconName = focused ? styles.iconFocused : styles.icon)}
                 name={
-                  (iconName = focused ? 'md-car-sport' : 'md-car-sport-outline')
+                  (iconName = focused ? 'home' : 'home-outline')
                 }
               />
             );
-          } else if (route.name === 'Mechanic') {
+          } else if (route.name === 'Search') {
             return (
-              <MaterialCommunityIcons
+              <Ionicons
                 style={(iconName = focused ? styles.iconFocused : styles.icon)}
                 name={
                   (iconName = focused
-                    ? 'hammer-screwdriver'
-                    : 'hammer-screwdriver')
+                    ? 'search' 
+                    : 'search-outline')
                 }
               />
             );
-          } else if (route.name === 'Profile') {
+          }else if (route.name === 'Notification') {
             return (
-              <MaterialIcons
+              <Ionicons
+                style={(iconName = focused ? styles.iconFocused : styles.icon)}
+                name={(iconName = focused ? 'heart' : 'heart-outline')}
+              />
+            );
+          }  else if (route.name === 'Profile') {
+            
+            return (
+             
+               <MaterialIcons
                 style={(iconName = focused ? styles.iconFocused : styles.icon)}
                 name="account-circle"
               />
+             
             );
-          } else if (route.name === 'My Books') {
-            return (
-              <Ionicons
-                style={(iconName = focused ? styles.iconFocused : styles.icon)}
-                name={(iconName = focused ? 'book' : 'book-outline')}
-              />
-            );
-          } else if (route.name === 'Dashboard') {
-            return (
-              <MaterialCommunityIcons
-                style={(iconName = focused ? styles.iconFocused : styles.icon)}
-                name={
-                  (iconName = focused
-                    ? 'view-dashboard'
-                    : 'view-dashboard-outline')
-                }
-              />
-            );
-          }
+          } 
+          
         },
         tabBarActiveTintColor: colorPrimary,
         tabBarInactiveTintColor: 'gray',
@@ -87,42 +83,62 @@ const BottomNavigation = () => {
         },
       })}>
       <Tab.Screen
-        name="Cars"
-        component={HomePage}
+        name="Homepage"
+        component={Homepage}
         listeners={({navigation, route}) => ({
           tabPress: e => {
             // Prevent default action
             e.preventDefault();
 
             // Do something with the `navigation` object
-            navigation.navigate('Cars');
+            navigation.navigate('Homepage');
           },
         })}
         options={{
           headerShown: false,
           tabBarHideOnKeyboard: true,
+          tabBarShowLabel: false
         }}
       />
       <Tab.Screen
-        name="HomePage"
-        component={HomePage}
+        name="Search"
+        component={Search}
         listeners={({navigation, route}) => ({
           tabPress: e => {
             // Prevent default action
             e.preventDefault();
 
             // Do something with the `navigation` object
-            navigation.navigate('HomePage');
+            navigation.navigate('Search');
           },
         })}
         options={{
           headerShown: false,
           tabBarHideOnKeyboard: true,
+          tabBarShowLabel: false
         }}
       />
       <Tab.Screen
+        name="Notification"
+        component={Notification}
+        listeners={({navigation, route}) => ({
+          tabPress: e => {
+            // Prevent default action
+            e.preventDefault();
+
+            // Do something with the `navigation` object
+            navigation.navigate('Notification');
+          },
+        })}
+        options={{
+          headerShown: false,
+          tabBarHideOnKeyboard: true,
+          tabBarShowLabel: false
+        }}
+      />
+       <Tab.Screen
         name="Profile"
-        component={HomePage}
+        component={Profile}
         listeners={({navigation, route}) => ({
           tabPress: e => {
             // Prevent default action
@@ -135,6 +151,7 @@ const BottomNavigation = () => {
         options={{
           headerShown: false,
           tabBarHideOnKeyboard: true,
+          tabBarShowLabel: false
         }}
       />
     </Tab.Navigator>
@@ -147,7 +164,7 @@ const styles = StyleSheet.create({
   iconFocused: {
     fontSize: 25,
     fontWeight: 'bold',
-    color: colorPrimary,
+    color: '#234F68',
   },
   icon: {
     fontSize: 25,

@@ -175,6 +175,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: responsiveScreenWidth(3),
     paddingVertical: responsiveScreenHeight(1),
   },
+  vertical: {},
   horizonatal: {
     paddingHorizontal: responsiveScreenWidth(2),
     paddingVertical: responsiveScreenHeight(1),

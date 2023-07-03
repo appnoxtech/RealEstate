@@ -1,11 +1,13 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
 export default function Notification() {
   return (
-    <View>
+    <SafeAreaView>
+      <View>
       <Text>Hey there I'm Notification</Text>
     </View>
+    </SafeAreaView>
   )
 }
 

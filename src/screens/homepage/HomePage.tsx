@@ -7,7 +7,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   TextInput,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 import React from 'react';
 
@@ -21,110 +21,120 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import Category from './Category';
 import FeaturedCategories from './FeaturedCategories';
-import TopDiscount from '../homepage/TopDiscount'
+import TopDiscount from '../homepage/TopDiscount';
 
 import locationImage from '../../../assets/images/Location.png';
 import downImage from '../../../assets/images/Down.png';
-import notification from '../../../assets/images/Notification.png'
-import profileImage from '../../../assets/images/Ellipse.png'
-import searchImage from '../../../assets/images/Search.png'
-import micImage from '../../../assets/images/Mic.png'
+import notification from '../../../assets/images/Notification.png';
+import profileImage from '../../../assets/images/Ellipse.png';
+import micImage from '../../../assets/images/Mic.png';
+import TopLocation from '../discover/Category/TopLocation';
+import TopEstateAgent from '../discover/Category/TopEstateAgent';
 
-const micImageUri = Image.resolveAssetSource(micImage).uri
-const searchImageUri = Image.resolveAssetSource(searchImage).uri
-const profileImageUri = Image.resolveAssetSource(profileImage).uri
-const notificationUri = Image.resolveAssetSource(notification).uri
-const locationImageUri = Image.resolveAssetSource(locationImage).uri
-const downImageUri = Image.resolveAssetSource(downImage).uri
-
+const micImageUri = Image.resolveAssetSource(micImage).uri;
+const profileImageUri = Image.resolveAssetSource(profileImage).uri;
+const notificationUri = Image.resolveAssetSource(notification).uri;
+const locationImageUri = Image.resolveAssetSource(locationImage).uri;
+const downImageUri = Image.resolveAssetSource(downImage).uri;
 
 const HomePage = () => {
   const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.mainContainer}>
-    
-     <ScrollView showsVerticalScrollIndicator={false}>
-       
-       <View style={styles.container}>
-        <View style={styles.header}>
-          <View style={styles.headerItems}>
-            <TouchableOpacity style={styles.location}>
-              <Image
-                style={styles.locationImage}
-                source={{uri: downImageUri}}
-              />
-              <Text>Jakarta, Indonesia</Text>
-
-              <Image
-                style={styles.locationImage1}
-                source={{uri: locationImageUri}}
-              />
-            </TouchableOpacity>
-
-            <View style={styles.profileContainer}>
-              <TouchableOpacity>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <View style={styles.headerItems}>
+              <TouchableOpacity style={styles.location}>
                 <Image
-                  style={styles.notification}
-                  source={{uri: notificationUri}}
+                  style={styles.locationImage}
+                  source={{uri: downImageUri}}
+                />
+                <Text>Jakarta, Indonesia</Text>
+
+                <Image
+                  style={styles.locationImage1}
+                  source={{uri: locationImageUri}}
                 />
               </TouchableOpacity>
 
-              <TouchableOpacity>
-                <Image
-                  style={styles.profile}
-                  source={{uri: profileImageUri}}
-                />
+              <View style={styles.profileContainer}>
+                <TouchableOpacity>
+                  <Image
+                    style={styles.notification}
+                    source={{uri: notificationUri}}
+                  />
+                </TouchableOpacity>
+
+                <TouchableOpacity>
+                  <Image
+                    style={styles.profile}
+                    source={{uri: profileImageUri}}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+
+          <Text style={styles.headerText}>
+            Hey,<Text style={styles.subText}> Jonathan! </Text>
+            {'\n'}
+            Let's start exploring
+          </Text>
+
+          <View style={styles.serchContainer}>
+            <TouchableOpacity>
+              <Image source={require('../../../assets/images/Search.png')} />
+            </TouchableOpacity>
+            <TextInput
+              style={styles.input}
+              placeholder="Full Search House, Apartment, etc"
+              // value={value}
+              autoCorrect={true}
+              autoCapitalize="none"
+              // onChangeText={value => {
+              //   setValue(value);
+              // }}
+              // onFocus={() => setIsFocus(true)}
+            />
+            <View style={styles.verticleLine}></View>
+            <TouchableOpacity>
+              <Image style={styles.mic} source={{uri: micImageUri}} />
+            </TouchableOpacity>
+          </View>
+          <Category />
+          <TopDiscount />
+
+          <View style={styles.featuredEstate}>
+            <View style={styles.featuredEstateText}>
+              <Text style={styles.featuredEstateHeaderText}>
+                Featured Estates
+              </Text>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('FeaturedEstate' as never)}>
+                <Text style={styles.textAll}>view all</Text>
               </TouchableOpacity>
             </View>
           </View>
-        </View>
-
-        <Text style={styles.headerText}>
-          Hey,<Text style={styles.subText}> Jonathan! </Text>
-          {'\n'}
-          Let's start exploring
-        </Text>
-
-        <View style={styles.serchContainer}>
-          <TouchableOpacity>
-            <Image source={{uri: searchImageUri}} />
-          </TouchableOpacity>
-          <TextInput
-            style={styles.input}
-            placeholder="Full Search House, Apartment, etc"
-            // value={value}
-            autoCorrect={true}
-            autoCapitalize="none"
-            // onChangeText={value => {
-            //   setValue(value);
-            // }}
-            // onFocus={() => setIsFocus(true)}
-          />
-          <View style={styles.verticleLine}></View>
-          <TouchableOpacity>
-            <Image
-              style={styles.mic}
-              source={{uri: micImageUri}}
-            />
-          </TouchableOpacity>
-          
-        </View>
-        <Category />
-        <TopDiscount />
-
-        <View style={styles.featuredEstate}>
-          <View style={styles.featuredEstateText}>
-            <Text style={styles.featuredEstateHeaderText}>
-              Featured Estates
+          <FeaturedCategories />
+          <View style={styles.toplocation}>
+            <Text style={{fontSize: 20, color: '#252B5C', fontWeight: '700'}}>
+              Top Location
             </Text>
-            <TouchableOpacity onPress={() => navigation.navigate('FeaturedEstate' as never)}>
-            <Text style={styles.textAll}>view all</Text>
+            <TouchableOpacity>
+              <Text style={{color: '#234F68', fontSize: 14}}>explore</Text>
             </TouchableOpacity>
           </View>
+          <TopLocation />
+          <View style={styles.topEstateAgent}>
+            <Text style={styles.topAgent}>Top Estate Agent</Text>
+            <TouchableOpacity>
+              <Text style={styles.explore}>explore</Text>
+            </TouchableOpacity>
+          </View>
+          <TopEstateAgent />
         </View>
-      <FeaturedCategories />
-      </View>
-     </ScrollView>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -237,5 +247,23 @@ const styles = StyleSheet.create({
   },
   textAll: {
     color: '#252B5C',
+  },
+  toplocation: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  topEstateAgent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  explore: {
+    color: '#234F68'
+  },
+  topAgent: {
+    fontSize: 20, 
+    color: '#252B5C', 
+    fontWeight: '700'
   },
 });

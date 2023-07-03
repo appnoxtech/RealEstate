@@ -4,6 +4,9 @@ import BottomTabNavigation from '../navigation/BottomTabNavigation';
 import FeaturedEstate from '../screens/homepage/FeaturedEstate';
 import TopDiscount from '../screens/homepage/TopDiscount';
 import Villa from '../screens/discover/Category/Villa';
+import TopLocation from '../screens/discover/Category/TopLocation';
+import TopEstateAgent from '../screens/discover/Category/TopEstateAgent';
+import TopLocationPage from '../screens/discover/Category/TopLocationPage'
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +31,21 @@ const AuthRoute = () => {
       <Stack.Screen
         name="Villa"
         component={Villa}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="TopLocation"
+        component={TopLocation}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="TopEstateAgent"
+        component={TopEstateAgent}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="TopLocationPage"
+        component={TopLocationPage}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

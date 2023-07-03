@@ -22,6 +22,7 @@ import {useNavigation} from '@react-navigation/native';
 import Category from './Category';
 import FeaturedCategories from './FeaturedCategories';
 import TopDiscount from '../homepage/TopDiscount';
+import ExploreNearbyEstate from '../../screens/discover/Category/ExploreNearbyEstate'
 
 import locationImage from '../../../assets/images/Location.png';
 import downImage from '../../../assets/images/Down.png';
@@ -121,7 +122,8 @@ const HomePage = () => {
             <Text style={{fontSize: 20, color: '#252B5C', fontWeight: '700'}}>
               Top Location
             </Text>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('TopLocationPage' as never)}>
               <Text style={{color: '#234F68', fontSize: 14}}>explore</Text>
             </TouchableOpacity>
           </View>
@@ -133,6 +135,12 @@ const HomePage = () => {
             </TouchableOpacity>
           </View>
           <TopEstateAgent />
+          <Text style={{color: '#252B5C', fontSize: 18, fontWeight: 'bold'}}>
+            Explore Nearby Estate
+          </Text>
+          <View style={styles.dataListContainer}>
+            <ExploreNearbyEstate />
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -259,11 +267,37 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   explore: {
-    color: '#234F68'
+    color: '#234F68',
   },
   topAgent: {
-    fontSize: 20, 
-    color: '#252B5C', 
-    fontWeight: '700'
+    fontSize: 20,
+    color: '#252B5C',
+    fontWeight: '700',
+  },
+  dataListContainer: {},
+  noOfList: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: responsiveScreenHeight(1),
+  },
+  noOfListText: {
+    alignItems: 'center',
+    color: '#252B5C',
+    fontSize: 18,
+    fontWeight: '700',
+  },
+  iconDataImg: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#F5F4F8',
+    borderRadius: 20,
+    paddingHorizontal: responsiveScreenWidth(3),
+    paddingVertical: responsiveScreenHeight(1),
+  },
+  horizonatal: {
+    paddingHorizontal: responsiveScreenWidth(2),
+    paddingVertical: responsiveScreenHeight(1),
+    backgroundColor: 'white',
+    borderRadius: 40,
   },
 });

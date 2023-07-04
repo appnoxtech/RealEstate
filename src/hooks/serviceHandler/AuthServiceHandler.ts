@@ -14,16 +14,14 @@ const useAuthServiceHandler = () => {
 
   const GenerateOtpServiceHandler = async (data: any) => {
     try {
-      // const res = await GenerateOTPService(data);
+      const res = await GenerateOTPService(data);
 
-      // const {result} = res.data;
+      const {result} = res.data;
 
-      // Alert.alert('OTP', result.generateOTP);
+      Alert.alert('OTP', result.generateOTP);
 
-      Navigation.navigate(
-        'RegisterWithOTP' as never,
-        {phoneNumber: data.phoneNumber} as never,
-      );
+      Navigation.navigate('RegisterWithOTP', { phoneNumber: data.phoneNumber } );
+
       
     } catch (error: any) {
       console.log('error', error.response.data.error.message);
@@ -34,16 +32,16 @@ const useAuthServiceHandler = () => {
 
   const VerifyOTPServiceHandler = async (data: any) => {
     try {
-      // const res = await VerifyOTPService(data);
-      // const {result} = res.data;
-      // if (typeof result === 'string') {
-      //   Navigation.navigate('Register' as never);
-      // } else {
-      //   dispatch(UpdateIsLoginState(true));
-      //   Navigation.navigate('HomePage' as never);
-      // }
-      dispatch(UpdateIsLoginState(true));
-      Navigation.navigate('HomePage' as never);
+      const res = await VerifyOTPService(data);
+      const {result} = res.data;
+      if (typeof result === 'string') {
+        Navigation.navigate('Register' as never);
+      } else {
+        dispatch(UpdateIsLoginState(true));
+        Navigation.navigate('HomePage' as never);
+      }
+      // dispatch(UpdateIsLoginState(true));
+      // Navigation.navigate('HomePage' as never);
     } catch (error: any) {
        console.log('error');
        

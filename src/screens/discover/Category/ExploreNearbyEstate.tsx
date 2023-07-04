@@ -18,13 +18,11 @@ import {
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 
-import FeaturedButton from '../../component/common/buttons/FeaturedButton'
-import heartImage from '../../../../assets/images/RedHeart.png'
-import starImage from '../../../../assets/images/Star.png'
-import locationImage from '../../../../assets/images/Location.png'
-const starImageUri = Image.resolveAssetSource(starImage).uri
-const heartImageUri = Image.resolveAssetSource(heartImage).uri
-const locationImageUri = Image.resolveAssetSource(locationImage).uri
+const FeaturedButton = require('../../component/common/buttons/FeaturedButton')
+const heartImage = require('../../../../assets/images/RedHeart.png')
+const starImage = require('../../../../assets/images/Star.png')
+const locationImage = require('../../../../assets/images/Location.png')
+
 
 
 const DATA = [
@@ -93,7 +91,7 @@ const Item = ({data} : any) => (
       <View style={styles.featuredCard}>
         <ImageBackground style={styles.imageContainer} source={data.image}>
           <TouchableOpacity style={styles.heartContainer}>
-          <Image style={styles.heart} source={{uri: heartImageUri}} />
+          <Image style={styles.heart} source={heartImage} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.button}>
             <Text style={styles.buttonText}>
@@ -109,12 +107,12 @@ const Item = ({data} : any) => (
             <View style={styles.ratingContainer}>
               <Image
                 style={styles.star}
-                source={{uri: starImageUri}}
+                source={starImage}
               />
               <Text style={{fontSize: 10}}>{data.rating}</Text>
               <Image
                 style={styles.star}
-                source={{uri:locationImageUri}}
+                source={locationImage}
               />
               <Text style={{fontSize: 10}}>{data.location}</Text>
             </View>

@@ -9,6 +9,7 @@ import Profile from '../screens/profile/Profile';
 import Search from '../screens/search/Search';
 import Villa from '../screens/discover/Category/Villa';
 import TopDicount from '../screens/homepage/TopDiscount'
+import LocationDetails from '../screens/discover/Category/LocationDetails';
 
 const Stack = createNativeStackNavigator();
 
@@ -60,6 +61,12 @@ export default function userRoutes() {
         component={Villa}
         options={{headerShown: false}}
       />
+      <Stack.Screen
+        name="LocationDetails"
+        component={LocationDetails}
+        options={{headerShown: false}}
+      />
+    
       
     </Stack.Navigator>
   );

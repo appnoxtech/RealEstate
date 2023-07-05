@@ -55,9 +55,7 @@ export default function FeaturedEstate() {
           </Text>
 
           <View style={styles.searchInput}>
-            <TouchableOpacity>
-              <Image source={serachImg} />
-            </TouchableOpacity>
+            
             <TextInput
               style={styles.input}
               placeholder="Full Search House, Apartment, etc"
@@ -69,12 +67,8 @@ export default function FeaturedEstate() {
               // }}
               // onFocus={() => setIsFocus(true)}
             />
-            <View style={styles.verticleLine}></View>
             <TouchableOpacity>
-              <Image
-                style={styles.mic}
-                source={micImg}
-              />
+              <Image source={serachImg} />
             </TouchableOpacity>
           </View>
           <View style={styles.dataListContainer}>

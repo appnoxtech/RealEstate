@@ -7,6 +7,7 @@ import Villa from '../screens/discover/Category/Villa';
 import TopLocation from '../screens/discover/Category/TopLocation';
 import TopEstateAgent from '../screens/discover/Category/TopEstateAgent';
 import TopLocationPage from '../screens/discover/Category/TopLocationPage'
+import LocationDetails from '../screens/discover/Category/LocationDetails'
 
 const Stack = createNativeStackNavigator();
 
@@ -46,6 +47,11 @@ const AuthRoute = () => {
       <Stack.Screen
         name="TopLocationPage"
         component={TopLocationPage}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="LocationDetails"
+        component={LocationDetails}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

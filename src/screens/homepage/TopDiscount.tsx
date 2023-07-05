@@ -78,7 +78,7 @@ const DATA = [
 const TopDiscount = () => {
   const Navigation = useNavigation();
 
-const Item = ({data}) => (
+const Item = ({data} :any) => (
   
   
   <TouchableOpacity onPress={() => Navigation.navigate('Villa' as never)}>

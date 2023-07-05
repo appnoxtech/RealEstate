@@ -102,7 +102,7 @@ const Item: React.FC<renderProp> = ({data}) => (
       <View style={styles.featuredCard}>
         <ImageBackground style={styles.imageContainer} source={data.image}>
           <TouchableOpacity style={styles.heartContainer}>
-            <Image style={styles.heart} source={imageConstant.heartImage} />
+            <Image style={styles.heart} source={imageConstant} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.button}>
             <Text style={styles.buttonText}>{data.buttonTitle}</Text>

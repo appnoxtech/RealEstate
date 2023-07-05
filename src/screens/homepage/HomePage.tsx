@@ -22,10 +22,7 @@ import {useNavigation} from '@react-navigation/native';
 import Category from './Category';
 import FeaturedCategories from './FeaturedCategories';
 import TopDiscount from '../homepage/TopDiscount';
-import ExploreNearbyEstate from '../../screens/discover/Category/ExploreNearbyEstate'
-
-
-
+import ExploreNearbyEstate from '../../screens/discover/Category/ExploreNearbyEstate';
 
 import TopLocation from '../discover/Category/TopLocation';
 import TopEstateAgent from '../discover/Category/TopEstateAgent';
@@ -33,12 +30,8 @@ import TopEstateAgent from '../discover/Category/TopEstateAgent';
 const downImg = require('../../../assets/images/Down.png');
 const locatinImg = require('../../../assets/images/Location.png');
 const notificationImg = require('../../../assets/images/Notification.png');
-const ellipseImg =  require('../../../assets/images/Ellipse.png');
+const ellipseImg = require('../../../assets/images/Ellipse.png');
 const searchImg = require('../../../assets/images/Search.png');
-const micImg =  require('../../../assets/images/Mic.png');
-
-
-
 
 
 const HomePage = () => {
@@ -50,31 +43,19 @@ const HomePage = () => {
           <View style={styles.header}>
             <View style={styles.headerItems}>
               <TouchableOpacity style={styles.location}>
-                <Image
-                  style={styles.locationImage}
-                  source={downImg}
-                />
+                <Image style={styles.locationImage} source={downImg} />
                 <Text>Jakarta, Indonesia</Text>
 
-                <Image
-                  style={styles.locationImage1}
-                  source={locatinImg}
-                />
+                <Image style={styles.locationImage1} source={locatinImg} />
               </TouchableOpacity>
 
               <View style={styles.profileContainer}>
                 <TouchableOpacity>
-                  <Image
-                    style={styles.notification}
-                    source={notificationImg}
-                  />
+                  <Image style={styles.notification} source={notificationImg} />
                 </TouchableOpacity>
 
                 <TouchableOpacity>
-                  <Image
-                    style={styles.profile}
-                    source={ellipseImg}
-                  />
+                  <Image style={styles.profile} source={ellipseImg} />
                 </TouchableOpacity>
               </View>
             </View>
@@ -87,9 +68,6 @@ const HomePage = () => {
           </Text>
 
           <View style={styles.serchContainer}>
-            <TouchableOpacity>
-              <Image source={searchImg} />
-            </TouchableOpacity>
             <TextInput
               style={styles.input}
               placeholder="Full Search House, Apartment, etc"
@@ -101,9 +79,8 @@ const HomePage = () => {
               // }}
               // onFocus={() => setIsFocus(true)}
             />
-            <View style={styles.verticleLine}></View>
             <TouchableOpacity>
-              <Image style={styles.mic} source={micImg} />
+              <Image source={searchImg} />
             </TouchableOpacity>
           </View>
           <Category />
@@ -115,7 +92,7 @@ const HomePage = () => {
                 Featured Estates
               </Text>
               <TouchableOpacity
-                onPress={() => navigation.navigate('FeaturedEstate' as never)}>
+                onPress={() => navigation.navigate('FeaturedEstate' )}>
                 <Text style={styles.textAll}>view all</Text>
               </TouchableOpacity>
             </View>
@@ -126,18 +103,11 @@ const HomePage = () => {
               Top Location
             </Text>
             <TouchableOpacity
-              onPress={() => navigation.navigate('TopLocationPage' as never)}>
+              onPress={() => navigation.navigate('TopLocationPage')}>
               <Text style={{color: '#234F68', fontSize: 14}}>explore</Text>
             </TouchableOpacity>
           </View>
           <TopLocation />
-          <View style={styles.topEstateAgent}>
-            <Text style={styles.topAgent}>Top Estate Agent</Text>
-            <TouchableOpacity>
-              <Text style={styles.explore}>explore</Text>
-            </TouchableOpacity>
-          </View>
-          <TopEstateAgent />
           <Text style={{color: '#252B5C', fontSize: 18, fontWeight: 'bold'}}>
             Explore Nearby Estate
           </Text>
@@ -234,16 +204,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 2,
   },
-  verticleLine: {
-    height: '50%',
-    width: 1,
-    backgroundColor: '#A1A5C1',
-  },
-  mic: {
-    paddingHorizontal: responsiveScreenWidth(1),
-    width: 20,
-    height: 20,
-  },
+ 
 
   featuredEstate: {},
   featuredEstateText: {

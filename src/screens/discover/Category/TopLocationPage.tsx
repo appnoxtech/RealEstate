@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ImageBackground,
   Image,
+  ScrollView
 } from 'react-native';
 import {
   responsiveFontSize,
@@ -18,6 +19,8 @@ import {
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import HeaderWithBackBtn from '../../../component/common/buttons/HeaderWithBackBtn';
+import { useNavigation } from '@react-navigation/native';
+import BackWithSetting from '../../../component/common/buttons/BackWithSetting';
 
 const DATA = [
   {
@@ -77,9 +80,10 @@ const DATA = [
 ];
 
 // type ItemProps = {image: string};
-
+const TopLocationPage = () => {
+const Navigation = useNavigation();
 const Item = ({data}) => (
-  <TouchableOpacity>
+  <TouchableOpacity onPress={() => Navigation.navigate('LocationDetails')}>
     <View style={styles.featuredCard}>
       <ImageBackground style={styles.imageContainer} source={data.image}>
         <TouchableOpacity style={styles.noContainer}>
@@ -91,15 +95,16 @@ const Item = ({data}) => (
   </TouchableOpacity>
 );
 
-const TopLocationPage = () => {
+
   return (
     <SafeAreaView >
+     <ScrollView>
      <View style={styles.container}>
-     <HeaderWithBackBtn />
-     <Text style={{marginTop: 40, fontSize: 25, fontWeight: 'bold', color: '#252B5C', paddingLeft: 10, paddingBottom: 10}}>
+     <BackWithSetting />
+     <Text style={{marginTop: 20, fontSize: 25, fontWeight: 'bold', color: '#252B5C', paddingLeft: 10, paddingBottom: 10}}>
         Top Location
      </Text>
-     <Text style={{marginBottom: 40, fontSize: 12, fontWeight: 'bold', color: '#252B5C', paddingLeft: 10,}}>
+     <Text style={{marginBottom: 20, fontSize: 12, fontWeight: 'bold', color: '#252B5C', paddingLeft: 10,}}>
      Find the best recommendations place to live
      </Text>
      
@@ -113,6 +118,7 @@ const TopLocationPage = () => {
         key={'_'}
       />
       </View>
+     </ScrollView>
     </SafeAreaView>
   );
 };
@@ -120,7 +126,8 @@ const TopLocationPage = () => {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: 'white',
-        paddingHorizontal: responsiveScreenWidth(2)
+        paddingHorizontal: responsiveScreenWidth(2),
+        paddingVertical: responsiveScreenHeight(2)
     },
   featuredCard: {
     width: responsiveWidth(44),

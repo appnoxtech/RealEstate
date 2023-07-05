@@ -78,7 +78,7 @@ const DATA = [
 
 // type ItemProps = {image: string};
 
-const Item = ({data}: any) => (
+const Item = ({data}) => (
   <TouchableOpacity>
     <View style={styles.featuredCard}>
       <ImageBackground style={styles.imageContainer} source={data.image}>

@@ -18,6 +18,15 @@ import {
 import FeaturedCategories from './FeaturedCategories';
 import CategoryEstate from './CategoryEstate';
 
+const image28 = require('../../../assets/images/image28.png')
+const image29 = require('../../../assets/images/image29.png')
+const image30 = require('../../../assets/images/image30.png')
+const serachImg = require('../../../assets/images/Search.png')
+const micImg = require('../../../assets/images/Mic.png')
+const showImg =  require('../../../assets/images/Show.png')
+const horizonatalImg =  require('../../../assets/images/HorizontalActive.png')
+
+
 export default function FeaturedEstate() {
   return (
     <SafeAreaView style={styles.conatiner}>
@@ -26,16 +35,16 @@ export default function FeaturedEstate() {
         <View style={styles.mainImgContainer}>
           <Image
             style={styles.mainImg}
-            source={require('../../../assets/images/image28.png')}
+            source={image28}
           />
           <View style={styles.secondImgContainer}>
             <Image
               style={styles.secondImg}
-              source={require('../../../assets/images/image29.png')}
+              source={image29}
             />
             <Image
               style={styles.secondImg}
-              source={require('../../../assets/images/image30.png')}
+              source={image30}
             />
           </View>
         </View>
@@ -47,7 +56,7 @@ export default function FeaturedEstate() {
 
           <View style={styles.searchInput}>
             <TouchableOpacity>
-              <Image source={require('../../../assets/images/Search.png')} />
+              <Image source={serachImg} />
             </TouchableOpacity>
             <TextInput
               style={styles.input}
@@ -64,7 +73,7 @@ export default function FeaturedEstate() {
             <TouchableOpacity>
               <Image
                 style={styles.mic}
-                source={require('../../../assets/images/Mic.png')}
+                source={micImg}
               />
             </TouchableOpacity>
           </View>
@@ -75,11 +84,11 @@ export default function FeaturedEstate() {
               </Text>
               <View style={styles.iconDataImg}>
                 <TouchableOpacity style={styles.vertical}>
-                  <Image source={require('../../../assets/images/Show.png')} />
+                  <Image source={showImg} />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.horizonatal}>
                   <Image
-                    source={require('../../../assets/images/HorizontalActive.png')}
+                    source={horizonatalImg}
                   />
                 </TouchableOpacity>
               </View>

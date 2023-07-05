@@ -19,14 +19,12 @@ import {
 } from 'react-native-responsive-dimensions';
 import FeaturedButton from '../../component/common/buttons/FeaturedButton';
 
-import locationImage from '../../../assets/images/Location.png';
-const locationImageUri = Image.resolveAssetSource(locationImage).uri
 
 
-const imageConstant = {
-  heartImage: require('../../../assets/images/Heart.png'),
-};
 
+const imageConstant = require('../../../assets/images/Heart.png');
+const starImg =  require('../../../assets/images/Star.png');
+const locationImg = require('../../../assets/images/Location.png')
 const DATA = [
   {
     id: '1',
@@ -115,13 +113,13 @@ const Item: React.FC<renderProp> = ({data}) => (
           <View style={styles.detailsHeader}>
             <Text style={styles.detailesHeadertext}>{data.title}</Text>
             <View style={styles.ratingContainer}>
-              <Image style={styles.star} source={require('../../../assets/images/Star.png')} />
+              <Image style={styles.star} source={starImg} />
               <Text>{data.rating}</Text>
             </View>
             <View style={styles.map}>
               <Image
                 style={styles.star}
-                source={{uri: locationImageUri}}
+                source={locationImg}
               />
               <Text style={{fontSize: 12}}>{data.location}</Text>
             </View>
@@ -142,6 +140,7 @@ const Item: React.FC<renderProp> = ({data}) => (
 const FeaturedCategories = () => {
   return (
     <SafeAreaView style={styles.container}>
+      
       <FlatList
         horizontal={true}
         showsHorizontalScrollIndicator={false}

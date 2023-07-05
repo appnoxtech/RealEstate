@@ -11,8 +11,6 @@ import {
 } from 'react-native';
 import React from 'react';
 
-import backGroundImg from '../../../../assets/images/image31.png';
-import BackWithSetting from '../../../component/common/buttons/BackWithSetting';
 import {
   responsiveHeight,
   responsiveScreenHeight,
@@ -21,8 +19,14 @@ import {
 } from 'react-native-responsive-dimensions';
 import FeaturedCategories from '../../homepage/FeaturedCategories';
 import CategoryEstate from '../../homepage/CategoryEstate';
+import BackWithSetting from '../../../component/common/buttons/BackWithSetting';
 
-const backGroundImgUri = Image.resolveAssetSource(backGroundImg).uri;
+
+const backGroundImg = require('../../../../assets/images/image31.png');
+const SearchImg = require('../../../../assets/images/Search.png');
+const mic = require('../../../../assets/images/Mic.png');
+const showImg = require('../../../../assets/images/Show.png');
+const horizontalImg = require('../../../../assets/images/HorizontalActive.png')
 
 export default function Villa() {
   return (
@@ -31,7 +35,7 @@ export default function Villa() {
         <ImageBackground
           style={styles.containerImage}
           imageStyle={styles.containerImage}
-          source={{uri: backGroundImgUri}}>
+          source={backGroundImg}>
           <BackWithSetting />
         </ImageBackground>
         <View style={styles.container}>
@@ -39,7 +43,7 @@ export default function Villa() {
           <FeaturedCategories />
           <View style={styles.searchInput}>
             <TouchableOpacity>
-              <Image source={require('../../../../assets/images/Search.png')} />
+              <Image source={SearchImg} />
             </TouchableOpacity>
             <TextInput
               style={styles.input}
@@ -56,7 +60,7 @@ export default function Villa() {
             <TouchableOpacity>
               <Image
                 style={styles.mic}
-                source={require('../../../../assets/images/Mic.png')}
+                source={mic}
               />
             </TouchableOpacity>
           </View>
@@ -68,12 +72,12 @@ export default function Villa() {
               <View style={styles.iconDataImg}>
                 <TouchableOpacity style={styles.vertical}>
                   <Image
-                    source={require('../../../../assets/images/Show.png')}
+                    source={showImg}
                   />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.horizonatal}>
                   <Image
-                    source={require('../../../../assets/images/HorizontalActive.png')}
+                    source={horizontalImg}
                   />
                 </TouchableOpacity>
               </View>
@@ -153,5 +157,8 @@ const styles = StyleSheet.create({
     paddingVertical: responsiveScreenHeight(1),
     backgroundColor: 'white',
     borderRadius: 40,
+  },
+  vertical: {
+
   },
 });

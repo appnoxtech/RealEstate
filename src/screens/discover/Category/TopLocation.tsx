@@ -53,9 +53,14 @@ const DATA = [
   },
 ];
 
-type ItemProps = {title: string};
+type ItemProps = 
+{
+  id: string,
+  location: string,
+  image: string
+};
 
-const Item = ({data} : ItemProps) => (
+const Item = ({data} : any) => (
   <TouchableOpacity>
     <View style={styles.item}>
         <Image style={styles.image1} source={data.image} />

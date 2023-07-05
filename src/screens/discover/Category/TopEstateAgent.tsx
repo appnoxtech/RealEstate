@@ -13,22 +13,22 @@ import { responsiveFontSize, responsiveHeight, responsiveScreenHeight, responsiv
 const DATA = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    location: 'Amanda',
+    location: 'Jakarta',
     image: require('../../../../assets/images/Agent.png'),
   },
   {
     id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    location: 'Anderson',
+    location: 'Bali',
     image: require('../../../../assets/images/Agent.png'),
   },
   {
     id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    location: 'Samantha',
+    location: 'Jakarta',
     image: require('../../../../assets/images/Agent.png')
   },
   {
     id: '58694a0f-3da1-471f-bd96-145571e29d71',
-    location: 'Andrew',
+    location: 'Bali',
     image: require('../../../../assets/images/Agent.png')
   },
   {
@@ -38,7 +38,7 @@ const DATA = [
   },
   {
     id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f6c',
-    location: 'Jakarta',
+    location: 'Bali',
     image: require('../../../../assets/images/Agent.png')
   },
   {
@@ -48,14 +48,14 @@ const DATA = [
   },
   {
     id: '58694a0f-3da1-471f-bd96-145571e29d7e',
-    location: 'Jakarta',
+    location: 'Bali',
     image: require('../../../../assets/images/Agent.png')
   },
 ];
 
 type ItemProps = {title: string};
 
-const Item = ({data} : ItemProps) => (
+const Item = ({data} : any) => (
   
     <View style={styles.item}>
         <TouchableOpacity>
@@ -68,7 +68,7 @@ const Item = ({data} : ItemProps) => (
 
 
 
-const TopEstateAgent = () => {
+const TopCitiesPage = () => {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
@@ -101,4 +101,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TopEstateAgent;
+export default TopCitiesPage;

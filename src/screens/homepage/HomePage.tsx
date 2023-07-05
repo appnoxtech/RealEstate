@@ -24,19 +24,22 @@ import FeaturedCategories from './FeaturedCategories';
 import TopDiscount from '../homepage/TopDiscount';
 import ExploreNearbyEstate from '../../screens/discover/Category/ExploreNearbyEstate'
 
-import locationImage from '../../../assets/images/Location.png';
-import downImage from '../../../assets/images/Down.png';
-import notification from '../../../assets/images/Notification.png';
-import profileImage from '../../../assets/images/Ellipse.png';
-import micImage from '../../../assets/images/Mic.png';
+
+
+
 import TopLocation from '../discover/Category/TopLocation';
 import TopEstateAgent from '../discover/Category/TopEstateAgent';
 
-const micImageUri = Image.resolveAssetSource(micImage).uri;
-const profileImageUri = Image.resolveAssetSource(profileImage).uri;
-const notificationUri = Image.resolveAssetSource(notification).uri;
-const locationImageUri = Image.resolveAssetSource(locationImage).uri;
-const downImageUri = Image.resolveAssetSource(downImage).uri;
+const downImg = require('../../../assets/images/Down.png');
+const locatinImg = require('../../../assets/images/Location.png');
+const notificationImg = require('../../../assets/images/Notification.png');
+const ellipseImg =  require('../../../assets/images/Ellipse.png');
+const searchImg = require('../../../assets/images/Search.png');
+const micImg =  require('../../../assets/images/Mic.png');
+
+
+
+
 
 const HomePage = () => {
   const navigation = useNavigation();
@@ -49,13 +52,13 @@ const HomePage = () => {
               <TouchableOpacity style={styles.location}>
                 <Image
                   style={styles.locationImage}
-                  source={{uri: downImageUri}}
+                  source={downImg}
                 />
                 <Text>Jakarta, Indonesia</Text>
 
                 <Image
                   style={styles.locationImage1}
-                  source={{uri: locationImageUri}}
+                  source={locatinImg}
                 />
               </TouchableOpacity>
 
@@ -63,14 +66,14 @@ const HomePage = () => {
                 <TouchableOpacity>
                   <Image
                     style={styles.notification}
-                    source={{uri: notificationUri}}
+                    source={notificationImg}
                   />
                 </TouchableOpacity>
 
                 <TouchableOpacity>
                   <Image
                     style={styles.profile}
-                    source={{uri: profileImageUri}}
+                    source={ellipseImg}
                   />
                 </TouchableOpacity>
               </View>
@@ -85,7 +88,7 @@ const HomePage = () => {
 
           <View style={styles.serchContainer}>
             <TouchableOpacity>
-              <Image source={require('../../../assets/images/Search.png')} />
+              <Image source={searchImg} />
             </TouchableOpacity>
             <TextInput
               style={styles.input}
@@ -100,7 +103,7 @@ const HomePage = () => {
             />
             <View style={styles.verticleLine}></View>
             <TouchableOpacity>
-              <Image style={styles.mic} source={{uri: micImageUri}} />
+              <Image style={styles.mic} source={micImg} />
             </TouchableOpacity>
           </View>
           <Category />

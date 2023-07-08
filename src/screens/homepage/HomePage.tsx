@@ -62,9 +62,9 @@ const HomePage = () => {
           </View>
 
           <Text style={styles.headerText}>
-            Hey,<Text style={styles.subText}> Jonathan! </Text>
+            Hey,<Text style={styles.subText}> John ! </Text>
             {'\n'}
-            Let's start exploring
+            Find your dream home
           </Text>
 
           <View style={styles.serchContainer}>

@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function Shortlisted() {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.safearea}>
       <View>
       <Text>Hey there I'm Shortlisted Page</Text>
     </View>
@@ -11,4 +11,9 @@ export default function Shortlisted() {
   )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  safearea: {
+    flex: 1,
+    backgroundColor: 'white',
+  },
+})

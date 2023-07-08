@@ -9,7 +9,7 @@ const StackNavigation = () => {
   const {isLogin} = useSelector((store: storeInterface) => store.user);
   console.log('isLogin', isLogin);
   
-  if(isLogin){
+  if(true){
     return <AuthRoute />
   }else {
     return <UnAuthRoutes />

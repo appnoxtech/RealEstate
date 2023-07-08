@@ -19,8 +19,8 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import HomePage from '../homepage/HomePage';
 import useAuthServiceHandler from '../../hooks/serviceHandler/AuthServiceHandler';
-import vector from '../../../assets/images/Vector1.png'
-const vectorUri = Image.resolveAssetSource(vector).uri
+
+const vectorImg = require('../../../assets/images/Vector1.png');
 
 // const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
 
@@ -82,7 +82,7 @@ export default function Login() {
           style={styles.containerImg}>
           <Image
             style={styles.image}
-            source={{uri: vectorUri}}
+            source={vectorImg}
           />
         </TouchableOpacity>
 

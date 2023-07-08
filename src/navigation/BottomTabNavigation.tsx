@@ -8,9 +8,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Homepage from '../screens/homepage/HomePage';
-import Search from '../screens/search/Search';
+import Research from '../screens/search/Research';
 import Profile from '../screens/profile/Profile';
-import Notification from '../screens/profile/Notification';
+import Shortlisted from '../screens/profile/Shortlisted';
 
 
 const Tab = createBottomTabNavigator();
@@ -54,7 +54,7 @@ const BottomNavigation = () => {
                 }
               />
             );
-          }else if (route.name === 'Notification') {
+          }else if (route.name === 'Shortlisted') {
             return (
               <Ionicons
                 style={(iconName = focused ? styles.iconFocused : styles.icon)}
@@ -102,7 +102,7 @@ const BottomNavigation = () => {
       />
       <Tab.Screen
         name="Search"
-        component={Search}
+        component={Research}
         listeners={({navigation, route}) => ({
           tabPress: e => {
             // Prevent default action
@@ -119,15 +119,15 @@ const BottomNavigation = () => {
         }}
       />
       <Tab.Screen
-        name="Notification"
-        component={Notification}
+        name="Shortlisted"
+        component={Shortlisted}
         listeners={({navigation, route}) => ({
           tabPress: e => {
             // Prevent default action
             e.preventDefault();
 
             // Do something with the `navigation` object
-            navigation.navigate('Notification');
+            navigation.navigate('Shortlisted');
           },
         })}
         options={{

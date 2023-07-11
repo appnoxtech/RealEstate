@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   SafeAreaView,
   View,
@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ImageBackground,
   Image,
+  Alert,
 } from 'react-native';
 import {
   responsiveFontSize,
@@ -19,77 +20,22 @@ import {
 } from 'react-native-responsive-dimensions';
 
 import FeaturedButton from '../../component/common/buttons/FeaturedButton';
+import { SearchPropertyService } from '../../services/properties';
 const heartImage = require('../../../assets/images/Heart.png')
 const starImage = require('../../../assets/images/Star.png')
-const locationImage = require('../../../assets/images/Location.png')
+const locationImage = require('../../../assets/images/Location.png');
+const mainImage =  require('../../../assets/images/image26.png');
 
 
 
-const DATA = [
 
-  {
-    id: '1',
-    title: 'Sky Dandelions Apartment',
-    rating: '4.9',
-    image: require('../../../assets/images/image26.png'),
-    price: '$ 226',
-    location: 'Jakarta, Indonesia',
-    buttonTitle: 'Apartment',
-  },
-  {
-    id: '2',
-    title: 'Sky Dandelions Apartment',
-    rating: '4.9',
-    image: require('../../../assets/images/image26.png'),
-    price: '$ 300',
-    location: 'Bali, Indonesia',
-    buttonTitle: 'Villa',
-  },
-  {
-    id: '3',
-    title: 'Sky Dandelions Apartment',
-    rating: '4.9',
-    image: require('../../../assets/images/image26.png'),
-    price: '$ 226',
-    location: 'Jakarta, Indonesia',
-    buttonTitle: 'Apartment',
-  },
-  {
-    id: '4',
-    title: 'Sky Dandelions Apartment',
-    rating: '4.9',
-    image: require('../../../assets/images/image26.png'),
-    price: '$ 300',
-    location: 'Bali, Indonesia',
-    buttonTitle: 'Villa',
-  },
-  {
-    id: '5',
-    title: 'Sky Dandelions Apartment',
-    rating: '4.9',
-    image: require('../../../assets/images/image26.png'),
-    price: '$ 226',
-    location: 'Jakarta, Indonesia',
-    buttonTitle: 'Apartment',
-  },
-  {
-    id: '6',
-    title: 'Sky Dandelions Apartment',
-    rating: '4.9',
-    image: require('../../../assets/images/image26.png'),
-    price: '$ 300',
-    location: 'Bali, Indonesia',
-    buttonTitle: 'Villa',
-  },
-];
+type ItemProps = {image: string};
 
-// type ItemProps = {image: string};
-
-const Item = ({data}) => (
+const Item = ({data} : any) => (
   <TouchableOpacity>
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container}>
       <View style={styles.featuredCard}>
-        <ImageBackground style={styles.imageContainer} source={data.image}>
+        <ImageBackground style={styles.imageContainer} source={mainImage}>
           <TouchableOpacity style={styles.heartContainer}>
           <Image style={styles.heart} source={heartImage} />
           </TouchableOpacity>
@@ -119,18 +65,38 @@ const Item = ({data}) => (
           </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   </TouchableOpacity>
 );
 
-const CategoryEstate = () => {
+const CategoryEstate:React.FC<any> = ({cityName}) => {
+  const [cityData, setCityData] = useState([]);
+  const GetPropertyData = async() => {
+     try {
+      const res = await SearchPropertyService(cityName);
+      const {result} = res.data;
+      if(result.rows){
+        setCityData(result.rows);
+      }else {
+        setCityData([]);
+      }
+     } catch (error) {
+       Alert.alert('', 'Error')
+     }
+  };
+
+  useEffect(() => {
+    GetPropertyData();
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
+        style={{flex: 1}}
         horizontal={false}
         numColumns={2}
-        showsHorizontalScrollIndicator={false}
-        data={DATA}
+        showsVerticalScrollIndicator={false}
+        data={cityData}
         renderItem={({item}) => <Item data={item} />}
         keyExtractor={item => item.id}
         key={'_'}
@@ -141,6 +107,7 @@ const CategoryEstate = () => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     padding: responsiveScreenWidth(1),
   },
 

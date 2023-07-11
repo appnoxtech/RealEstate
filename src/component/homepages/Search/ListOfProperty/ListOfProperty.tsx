@@ -1,4 +1,4 @@
-import { SafeAreaView,StyleSheet, Text, View} from 'react-native';
+import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {
   responsiveFontSize,
@@ -7,23 +7,23 @@ import {
 } from 'react-native-responsive-dimensions';
 
 import HeaderWithBackBtn from '../../../common/buttons/HeaderWithBackBtn';
+import CategoryEstate from '../../../../screens/homepage/CategoryEstate';
 
-
-const ListOfProperty = ({route} : any) => {
-
-
- 
-
-  
+const ListOfProperty = ({route}) => {
+  const {cityName} = route.params;
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.container}>
-        <HeaderWithBackBtn />
-        <Text style={styles.typeText}>
-          <Text style={styles.typeTitle}>{route.params.title}</Text> Properties in <Text style={styles.cityname}>{route.params.cityName}</Text>
-        </Text>
-      </View>
-      <View>
+        <View
+          style={styles.headerContainer}>
+          <HeaderWithBackBtn />
+          <Text style={styles.typeText}>
+            <Text style={styles.typeTitle}>{route.params.title} </Text>
+            Properties in
+            <Text style={styles.cityname}> {route.params.cityName}</Text>
+          </Text>
+        </View>
+        <CategoryEstate cityName={cityName} />
       </View>
     </SafeAreaView>
   );
@@ -33,11 +33,12 @@ export default ListOfProperty;
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: responsiveScreenWidth(2.5),
-    
+    flex: 1,
+    backgroundColor: 'white',
+    paddingHorizontal: responsiveScreenWidth(3),
   },
   typeText: {
-    marginTop: responsiveScreenHeight(8),
+    paddingTop: responsiveScreenHeight(1.5),
     fontSize: responsiveFontSize(3),
   },
   item: {
@@ -47,10 +48,19 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
   },
   typeTitle: {
-    color: '#8BC83F'
+    
   },
   title: {
     fontSize: 32,
   },
-  cityname: {},
+  cityname: {
+    color: '#8BC83F',
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingBottom: responsiveScreenHeight(2),
+    paddingRight: responsiveScreenWidth(18)
+  }
 });

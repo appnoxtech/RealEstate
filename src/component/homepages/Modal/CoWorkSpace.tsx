@@ -23,10 +23,27 @@ import { useNavigation } from '@react-navigation/native';
 const BuyPlotLand: React.FC<any> = ({setModalOpen}) => {
   const [cityName, setCityName] = useState('');
   const [title, setTitle] = useState('Co-working Space')
+  const [cityError, setCityError] = useState('');
   const Navigation = useNavigation();
-  const handleSubmit = () => {
-    console.log('Hello') 
+
+
+  const validation = () => {
+    if(cityName.length < 4) {
+      setCityError('Enter valid city name !')
+      return false;
+    } else {
+      setCityError('')
+      return true
+    }
   }
+
+  const handleSubmit = () => {
+    const isValid = validation();
+    if(isValid){
+    Navigation.navigate('ListOfProperty' as never, {cityName, title},), setModalOpen(false)
+    }
+  }
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.modalContainer}>
@@ -41,13 +58,14 @@ const BuyPlotLand: React.FC<any> = ({setModalOpen}) => {
 
         <View>
          
-          <TouchableOpacity style={styles.inputContainer}>
+          <View style={styles.inputContainer}>
            
             <TextInput placeholder="Search City / Locality / Projects / Landmarks...." onChangeText={(text) => setCityName(text)}/>
             <Image source={searchImg} />
-          </TouchableOpacity>
+          </View>
+          {cityError ?( <Text style={{color: 'red', textAlign: 'right'}}>{cityError}</Text>): null}
         </View>
-        <ExploreButton title="Continue" onPress={() => {Navigation.navigate('ListOfProperty' as never, {cityName , title}), setModalOpen(false)}} />
+        <ExploreButton title="Continue" onPress={() => handleSubmit()} />
       </View>
     </SafeAreaView>
   );

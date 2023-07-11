@@ -18,13 +18,14 @@ const searchImg = require('../../../../assets/images/Search.png');
 const vector1mg = require('../../../../assets/images/Vector1.png');
 import {useNavigation} from '@react-navigation/native';
 import SearchModal from './SearchModal';
+import { white } from '../../../../assets/Styles/GlobalTheme';
 
 const BuyModal: React.FC<any> = ({setModalOpen}) => {
   const [text, setText] = useState(false);
   const [title, setTitle] = useState('Buy');
   const [purposeOfBuying, setPurposeOfBuying] = useState('Residential use');
   const [cityName, setCityName] = useState('');
-  const [cityError, setCityError] = useState(false);
+  const [cityError, setCityError] = useState('');
   const Navigation = useNavigation();
 
   if (title === 'Buy') {

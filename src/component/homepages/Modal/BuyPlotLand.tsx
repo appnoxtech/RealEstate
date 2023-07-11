@@ -28,7 +28,7 @@ const BuyPlotLand:React.FC<any> = ({setModalOpen}) => {
   const handleSubmit = () => {
     const isValid = validation();
     if(isValid){
-    Navigation.navigate('ListOfProperty' as never, {cityName, title},), setModalOpen(false)
+    Navigation.navigate('ListOfProperty' as never, {cityName, title}), setModalOpen(false)
     }
   }
 

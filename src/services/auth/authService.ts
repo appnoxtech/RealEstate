@@ -1,7 +1,8 @@
 import axios from "axios";
+import {URL} from '@env';
 
 export const GenerateOTPService = async (data: any) => {
-    const url = `13.232.178.23/api/v1/login`;
+    const url = `${URL}login`;
     return axios.post(url, data, {
       headers: {
         'Content-Type': 'application/json',
@@ -11,7 +12,7 @@ export const GenerateOTPService = async (data: any) => {
 
   export const VerifyOTPService = async (data: any) => {
     console.log("------------>>>",data)
-    const url = `13.232.178.23/api/v1/verify-otp`;
+    const url = `${URL}verify-otp`;
     return axios.post(url, data, {
       headers: {
         'Content-Type': 'application/json',
@@ -21,7 +22,7 @@ export const GenerateOTPService = async (data: any) => {
 
 
   export const RegisterService = async (data: any) => {
-    const url = `13.232.178.23/api/v1/user/create`;
+    const url = `${URL}user/create`;
     return axios.post(url, data);
   };
   

@@ -2,7 +2,7 @@ import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
 import { responsiveScreenHeight } from 'react-native-responsive-dimensions';
 
-export default function ExploreButton({ title, onPress}) {
+export default function ExploreButton({ title, onPress} : any) {
   return (
     <View>
       <TouchableOpacity onPress={onPress} style={styles.button}>

@@ -24,7 +24,7 @@ import {
     const [title, setTitle] = useState('Lease');
     const [purposeOfBuying, setPurposeOfBuying] = useState('Commercial use');
     const [cityName, setCityName] = useState('');
-    const [cityError, setCityError] = useState(false);
+    const [cityError, setCityError] = useState('');
     const Navigation = useNavigation();
   
     if (title === 'Buy') {

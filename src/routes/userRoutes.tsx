@@ -10,6 +10,7 @@ import Search from '../screens/search/Search';
 import Villa from '../screens/discover/Category/Villa';
 import TopDicount from '../screens/homepage/TopDiscount'
 import LocationDetails from '../screens/discover/Category/LocationDetails';
+import SearchFilterPage from '../component/homepages/Search/SearchFilterPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -66,7 +67,11 @@ export default function userRoutes() {
         component={LocationDetails}
         options={{headerShown: false}}
       />
-    
+    <Stack.Screen 
+      name='SearchFilterPage'
+      component={SearchFilterPage}
+      options={{headerShown: false}}
+    />
       
     </Stack.Navigator>
   );

@@ -51,6 +51,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: responsiveHeight(2)
   },
+  profileContainer: {
+
+  },
+  profileImg: {
+    
+  },
   textAuth:{
     color: '#234F68',
     fontSize: responsiveFontSize(3)

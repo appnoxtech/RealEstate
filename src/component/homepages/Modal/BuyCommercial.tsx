@@ -24,7 +24,7 @@ import {
     const [title, setTitle] = useState('Buy');
     const [purposeOfBuying, setPurposeOfBuying] = useState('Commercial use');
     const [cityName, setCityName] = useState('');
-    const [cityNameError, setCityNameError] = useState(false);
+    const [cityNameError, setCityNameError] = useState('');
     const Navigation = useNavigation();
   
     if (title === 'Buy') {
@@ -43,9 +43,9 @@ import {
       styles.residential.borderColor = 'white';
     }
   
-    interface cityName {
-      cityName: String;
-    }
+    // interface cityName {
+    //   cityName: String;
+    // }
   
     const validation = () => {
       if (cityName.length < 4) {
@@ -55,12 +55,13 @@ import {
         setCityNameError('');
         return true;
       }
+
     };
   
     const handleSubmit = () => {
       const isValid = validation();
       if (isValid) {
-        Navigation.navigate('ListOfProperty' as never, {cityName, title}),
+        Navigation.navigate('ListOfProperty' as never, {cityName, title} ),
           setModalOpen(false);
       }
     };

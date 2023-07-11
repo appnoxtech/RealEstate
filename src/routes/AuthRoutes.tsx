@@ -9,6 +9,7 @@ import TopEstateAgent from '../screens/discover/Category/TopEstateAgent';
 import TopLocationPage from '../screens/discover/Category/TopLocationPage'
 import LocationDetails from '../screens/discover/Category/LocationDetails'
 import ListOfProperty from '../component/homepages/Search/ListOfProperty/ListOfProperty';
+import SearchFilterPage from '../component/homepages/Search/SearchFilterPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -60,6 +61,11 @@ const AuthRoute = () => {
         component={ListOfProperty}
         options={{headerShown: false}}
       />
+       <Stack.Screen 
+      name='SearchFilterPage'
+      component={SearchFilterPage}
+      options={{headerShown: false}}
+    />
     </Stack.Navigator>
   );
 };

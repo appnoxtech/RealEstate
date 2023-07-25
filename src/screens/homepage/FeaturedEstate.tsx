@@ -19,24 +19,22 @@ import FeaturedCategories from './FeaturedCategories';
 import CategoryEstate from './CategoryEstate';
 
 export default function FeaturedEstate() {
+  const image28 = require('../../../assets/images/image28.png');
+  const image29 = require('../../../assets/images/image29.png');
+  const image30 = require('../../../assets/images/image30.png');
+  const serachImg = require('../../../assets/images/Search.png');
+  const micImg = require('../../../assets/images/Mic.png');
+  const showImg = require('../../../assets/images/Show.png');
+  const horizonatalImg = require('../../../assets/images/HorizontalActive.png');
   return (
     <SafeAreaView style={styles.conatiner}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <BackWithSetting />
         <View style={styles.mainImgContainer}>
-          <Image
-            style={styles.mainImg}
-            source={require('../../../assets/images/image28.png')}
-          />
+          <Image style={styles.mainImg} source={image28} />
           <View style={styles.secondImgContainer}>
-            <Image
-              style={styles.secondImg}
-              source={require('../../../assets/images/image29.png')}
-            />
-            <Image
-              style={styles.secondImg}
-              source={require('../../../assets/images/image30.png')}
-            />
+            <Image style={styles.secondImg} source={image29} />
+            <Image style={styles.secondImg} source={image30} />
           </View>
         </View>
         <View style={styles.searchContainer}>
@@ -46,9 +44,6 @@ export default function FeaturedEstate() {
           </Text>
 
           <View style={styles.searchInput}>
-            <TouchableOpacity>
-              <Image source={require('../../../assets/images/Search.png')} />
-            </TouchableOpacity>
             <TextInput
               style={styles.input}
               placeholder="Full Search House, Apartment, etc"
@@ -60,12 +55,8 @@ export default function FeaturedEstate() {
               // }}
               // onFocus={() => setIsFocus(true)}
             />
-            <View style={styles.verticleLine}></View>
             <TouchableOpacity>
-              <Image
-                style={styles.mic}
-                source={require('../../../assets/images/Mic.png')}
-              />
+              <Image source={serachImg} />
             </TouchableOpacity>
           </View>
           <View style={styles.dataListContainer}>
@@ -75,12 +66,10 @@ export default function FeaturedEstate() {
               </Text>
               <View style={styles.iconDataImg}>
                 <TouchableOpacity style={styles.vertical}>
-                  <Image source={require('../../../assets/images/Show.png')} />
+                  <Image source={showImg} />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.horizonatal}>
-                  <Image
-                    source={require('../../../assets/images/HorizontalActive.png')}
-                  />
+                  <Image source={horizonatalImg} />
                 </TouchableOpacity>
               </View>
             </View>
@@ -175,6 +164,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: responsiveScreenWidth(3),
     paddingVertical: responsiveScreenHeight(1),
   },
+  vertical: {},
   horizonatal: {
     paddingHorizontal: responsiveScreenWidth(2),
     paddingVertical: responsiveScreenHeight(1),

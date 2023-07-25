@@ -5,6 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 
 export default function BackWithSkip() {
   const navigation = useNavigation();
+  const vector1Img = require('../../../../assets/images/Vector1.png')
 
   return (
     <SafeAreaView>
@@ -14,7 +15,7 @@ export default function BackWithSkip() {
           style={styles.containerImg}>
           <Image
             style={styles.image}
-            source={require('../../../../assets/images/Vector1.png')}
+            source={vector1Img}
           />
         </TouchableOpacity>
         <TouchableOpacity

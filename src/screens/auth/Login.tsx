@@ -17,15 +17,11 @@ import {
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import {useNavigation} from '@react-navigation/native';
-import HomePage from '../homepage/HomePage';
 import useAuthServiceHandler from '../../hooks/serviceHandler/AuthServiceHandler';
-import vector from '../../../assets/images/Vector1.png'
-const vectorUri = Image.resolveAssetSource(vector).uri
-
-// const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
 
 
 export default function Login() {
+  const vectorImg = require('../../../assets/images/Vector1.png');
   const navigation = useNavigation();
   const {GenerateOtpServiceHandler} = useAuthServiceHandler();
   
@@ -82,7 +78,7 @@ export default function Login() {
           style={styles.containerImg}>
           <Image
             style={styles.image}
-            source={{uri: vectorUri}}
+            source={vectorImg}
           />
         </TouchableOpacity>
 

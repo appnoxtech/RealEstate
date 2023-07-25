@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   SafeAreaView,
   View,
@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ImageBackground,
   Image,
+  Alert,
 } from 'react-native';
 import {
   responsiveFontSize,
@@ -17,122 +18,73 @@ import {
   responsiveScreenWidth,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
+import {SearchPropertyService} from '../../services/properties';
+import { useNavigation } from '@react-navigation/native';
 
-import FeaturedButton from '../../component/common/buttons/FeaturedButton';
-import heartImage from '../../../assets/images/Heart.png'
-import starImage from '../../../assets/images/Star.png'
-import locationImage from '../../../assets/images/Location.png'
-const starImageUri = Image.resolveAssetSource(starImage).uri
-const heartImageUri = Image.resolveAssetSource(heartImage).uri
-const locationImageUri = Image.resolveAssetSource(locationImage).uri
+const CategoryEstate: React.FC<any> = ({cityName}) => {
+  const heartImage = require('../../../assets/images/Heart.png');
+  const starImage = require('../../../assets/images/Star.png');
+  const locationImage = require('../../../assets/images/Location.png');
+  const mainImage = require('../../../assets/images/image26.png');
+  const [cityData, setCityData] = useState([]);
+  const navigation = useNavigation();
+  const GetPropertyData = async () => {
+    try {
+      const res = await SearchPropertyService(cityName);
+      const {result} = res.data;
+      if (result.rows) {
+        setCityData(result.rows);
+      } else {
+        setCityData([]);
+      }
+    } catch (error) {
+      Alert.alert('', 'Error');
+    }
+  };
 
+  useEffect(() => {
+    GetPropertyData();
+  }, []);
 
-const DATA = [
-  
-  {
-    id: '1',
-    title: 'Sky Dandelions Apartment',
-    rating: '4.9',
-    image: require('../../../assets/images/image26.png'),
-    price: '$ 226',
-    location: 'Jakarta, Indonesia',
-    buttonTitle: 'Apartment',
-  },
-  {
-    id: '2',
-    title: 'Sky Dandelions Apartment',
-    rating: '4.9',
-    image: require('../../../assets/images/image26.png'),
-    price: '$ 300',
-    location: 'Bali, Indonesia',
-    buttonTitle: 'Villa',
-  },
-  {
-    id: '3',
-    title: 'Sky Dandelions Apartment',
-    rating: '4.9',
-    image: require('../../../assets/images/image26.png'),
-    price: '$ 226',
-    location: 'Jakarta, Indonesia',
-    buttonTitle: 'Apartment',
-  },
-  {
-    id: '4',
-    title: 'Sky Dandelions Apartment',
-    rating: '4.9',
-    image: require('../../../assets/images/image26.png'),
-    price: '$ 300',
-    location: 'Bali, Indonesia',
-    buttonTitle: 'Villa',
-  },
-  {
-    id: '5',
-    title: 'Sky Dandelions Apartment',
-    rating: '4.9',
-    image: require('../../../assets/images/image26.png'),
-    price: '$ 226',
-    location: 'Jakarta, Indonesia',
-    buttonTitle: 'Apartment',
-  },
-  {
-    id: '6',
-    title: 'Sky Dandelions Apartment',
-    rating: '4.9',
-    image: require('../../../assets/images/image26.png'),
-    price: '$ 300',
-    location: 'Bali, Indonesia',
-    buttonTitle: 'Villa',
-  },
-];
+  type ItemProps = {image: string};
 
-// type ItemProps = {image: string};
+  const Item = ({data}: any) => (
+   
+      <TouchableOpacity onPress={() => navigation.navigate('DetailedPage' as never, {data})} style={styles.container}>
+        <View style={styles.featuredCard}>
+          <ImageBackground style={styles.imageContainer} source={mainImage}>
+            <TouchableOpacity style={styles.heartContainer}>
+              <Image style={styles.heart} source={heartImage} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button}>
+              <Text style={styles.buttonText}>
+                {data.price}
+                <Text style={{fontSize: 8}}>/Month</Text>
+              </Text>
+            </TouchableOpacity>
+          </ImageBackground>
 
-const Item = ({data}) => (
-  <TouchableOpacity>
-    <View style={styles.container}>
-      <View style={styles.featuredCard}>
-        <ImageBackground style={styles.imageContainer} source={data.image}>
-          <TouchableOpacity style={styles.heartContainer}>
-          <Image style={styles.heart} source={{uri: heartImageUri}} />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>
-              {data.price}
-              <Text style={{fontSize: 8}}>/Month</Text>
-            </Text>
-          </TouchableOpacity>
-        </ImageBackground>
-
-        <View style={styles.details}>
-          <View style={styles.detailsHeader}>
-            <Text style={styles.detailesHeadertext}>{data.title}</Text>
-            <View style={styles.ratingContainer}>
-              <Image
-                style={styles.star}
-                source={{uri: starImageUri}}
-              />
-              <Text style={{fontSize: 10}}>{data.rating}</Text>
-              <Image
-                style={styles.star}
-                source={{uri:locationImageUri}}
-              />
-              <Text style={{fontSize: 10}}>{data.location}</Text>
+          <View style={styles.details}>
+            <View style={styles.detailsHeader}>
+              <Text style={styles.detailesHeadertext}>{data.title}</Text>
+              <View style={styles.ratingContainer}>
+                <Image style={styles.star} source={starImage} />
+                <Text style={{fontSize: 10}}>{data.rating}</Text>
+                <Image style={styles.star} source={locationImage} />
+                <Text style={{fontSize: 10}}>{data.location}</Text>
+              </View>
             </View>
           </View>
         </View>
-      </View>
-    </View>
-  </TouchableOpacity>
-);
+      </TouchableOpacity>
+  );
 
-const CategoryEstate = () => {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        horizontal={false}
-        numColumns={2}
+        horizontal={true}
         showsHorizontalScrollIndicator={false}
-        data={DATA}
+        data={cityData}
         renderItem={({item}) => <Item data={item} />}
         keyExtractor={item => item.id}
         key={'_'}
@@ -143,6 +95,7 @@ const CategoryEstate = () => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     padding: responsiveScreenWidth(1),
   },
 
@@ -159,7 +112,7 @@ const styles = StyleSheet.create({
     height: responsiveHeight(20),
     gap: responsiveHeight(9.5),
     paddingRight: responsiveScreenWidth(1.5),
-    paddingTop: responsiveScreenHeight(1)
+    paddingTop: responsiveScreenHeight(1),
   },
   heartContainer: {
     alignItems: 'center',
@@ -175,10 +128,10 @@ const styles = StyleSheet.create({
   },
   button: {
     width: responsiveWidth(22),
-     padding: responsiveScreenWidth(2),
+    padding: responsiveScreenWidth(2),
     backgroundColor: '#234F68',
     borderRadius: 8,
-   
+
     // padding: responsiveHeight(2),
   },
   details: {

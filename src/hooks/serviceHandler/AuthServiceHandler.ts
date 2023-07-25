@@ -5,9 +5,12 @@ import {
   VerifyOTPService,
   RegisterService,
 } from '../../services/auth/authService';
+import { useDispatch } from 'react-redux';
+import { UpdateIsLoginState } from '../../redux/reducers/userReducer';
 
 const useAuthServiceHandler = () => {
   const Navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const GenerateOtpServiceHandler = async (data: any) => {
     try {
@@ -17,18 +20,12 @@ const useAuthServiceHandler = () => {
 
       Alert.alert('OTP', result.generateOTP);
 
-      console.log('data->>>>>>>>>', data, result.generateOTP);
+      Navigation.navigate('RegisterWithOTP', { phoneNumber: data.phoneNumber } );
 
-      Navigation.navigate(
-        'RegisterWithOTP' as never,
-        {phoneNumber: data.phoneNumber} as never,
-      );
       
     } catch (error: any) {
       console.log('error', error.response.data.error.message);
-
       Alert.alert('', 'User Not Register!');
-
       Navigation.navigate('Register' as never);
     }
   };
@@ -36,24 +33,23 @@ const useAuthServiceHandler = () => {
   const VerifyOTPServiceHandler = async (data: any) => {
     try {
       const res = await VerifyOTPService(data);
-      // console.log(res.status)
       const {result} = res.data;
       if (typeof result === 'string') {
         Navigation.navigate('Register' as never);
       } else {
+        dispatch(UpdateIsLoginState(true));
         Navigation.navigate('HomePage' as never);
       }
     } catch (error: any) {
-      console.log('error->>>>>', error.response.data.error.message);
-
-      Navigation.navigate('Register' as never);
+       console.log('error');
+       
     }
   };
 
   const handleRegisterService = async (data: any) => {
     try {
       const res = await RegisterService(data);
-      // dispatch(SetIsLoadingState(false));
+      dispatch(SetIsLoadingState(true));
       const {result} = res.data;
       console.log(result);
       Navigation.navigate('HomePage' as never);
@@ -70,3 +66,7 @@ const useAuthServiceHandler = () => {
 };
 
 export default useAuthServiceHandler;
+function SetIsLoadingState(arg0: boolean): any {
+  throw new Error('Function not implemented.');
+}
+

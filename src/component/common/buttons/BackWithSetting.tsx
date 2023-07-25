@@ -5,6 +5,8 @@ import {useNavigation} from '@react-navigation/native';
 
 export default function BackWithSetting() {
   const navigation = useNavigation();
+  const chevronDownImg = require('../../../../assets/images/ChevronDown.png');
+  const settingImg = require('../../../../assets/images/Setting.png');
 
   return (
     <SafeAreaView>
@@ -14,7 +16,7 @@ export default function BackWithSetting() {
           style={styles.containerImg}>
           <Image
             style={styles.image}
-            source={require('../../../../assets/images/ChevronDown.png')}
+            source={chevronDownImg}
           />
         </TouchableOpacity>
         <TouchableOpacity
@@ -22,7 +24,7 @@ export default function BackWithSetting() {
           style={styles.containerImg}>
           <Image
             style={styles.image}
-            source={require('../../../../assets/images/Setting.png')}
+            source={settingImg}
           />
         </TouchableOpacity>
     

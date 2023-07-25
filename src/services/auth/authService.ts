@@ -1,31 +1,26 @@
-import axios from "axios";
+import axios from 'axios';
+import {URL} from '@env';
 
 export const GenerateOTPService = async (data: any) => {
-    const url = `http://192.168.68.103:5000/api/v1/login`;
-    return axios.post(url, data, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  };
+  const url = `${URL}login`;
+  return axios.post(url, data, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+};
 
-  export const VerifyOTPService = async (data: any) => {
-    console.log("------------>>>",data)
-    const url = `http://192.168.68.103:5000/api/v1/verify-otp`;
-    return axios.post(url, data, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-  };
+export const VerifyOTPService = async (data: any) => {
+  console.log('------------>>>', data);
+  const url = `${URL}verify-otp`;
+  return axios.post(url, data, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+};
 
-
-  export const RegisterService = async (data: any) => {
-    const url = `http://192.168.68.103:5000/api/v1/user/create`;
-    return axios.post(url, data);
-  };
-  
-
-
-  
-  
+export const RegisterService = async (data: any) => {
+  const url = `${URL}user/create`;
+  return axios.post(url, data);
+};

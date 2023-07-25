@@ -8,17 +8,14 @@ import {
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 
-import maskgroup from '../../../../assets/images/Maskgroup.png';
-const maskgroupImageUri = Image.resolveAssetSource(maskgroup).uri;
-
 export default function TourHeader() {
   const navigation = useNavigation();
-
+  const maskgroupImageUri =  '../../../../assets/images/Maskgroup.png'
   return (
     <SafeAreaView style={styles.container}>
       <Image
         style={styles.tourHeaderImage}
-        source={{uri: maskgroupImageUri}}
+        source={require(maskgroupImageUri)}
       />
 
       <TouchableOpacity

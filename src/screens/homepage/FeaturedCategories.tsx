@@ -19,127 +19,119 @@ import {
 } from 'react-native-responsive-dimensions';
 import FeaturedButton from '../../component/common/buttons/FeaturedButton';
 
-import locationImage from '../../../assets/images/Location.png';
-const locationImageUri = Image.resolveAssetSource(locationImage).uri
+const FeaturedCategories = () => {
+  const imageConstant = require('../../../assets/images/Heart.png');
+  const starImg = require('../../../assets/images/Star.png');
+  const locationImg = require('../../../assets/images/Location.png');
+  const DATA = [
+    {
+      id: '1',
+      title: 'Sky Dandelions Apartment',
+      rating: '4.9',
+      image: require('../../../assets/images/image26.png'),
+      price: '$226',
+      location: 'Jakarta, Indonesia',
+      buttonTitle: 'Apartment',
+    },
+    {
+      id: '2',
+      title: 'The laurels Villa',
+      rating: '4.9',
+      image: require('../../../assets/images/image27.png'),
+      price: '$300',
+      location: 'Bali, Indonesia',
+      buttonTitle: 'Villa',
+    },
+    {
+      id: '3',
+      title: 'Sky Dandelions Apartment',
+      rating: '4.9',
+      image: require('../../../assets/images/image26.png'),
+      price: '$226',
+      location: 'Jakarta, Indonesia',
+      buttonTitle: 'Apartment',
+    },
+    {
+      id: '4',
+      title: 'The laurels Villa',
+      rating: '4.9',
+      image: require('../../../assets/images/image27.png'),
+      price: '$300',
+      location: 'Bali, Indonesia',
+      buttonTitle: 'Villa',
+    },
+    {
+      id: '5',
+      title: 'Sky Dandelions Apartment',
+      rating: '4.9',
+      image: require('../../../assets/images/image26.png'),
+      price: '$226',
+      location: 'Jakarta, Indonesia',
+      buttonTitle: 'Apartment',
+    },
+    {
+      id: '6',
+      title: 'The laurels Villa',
+      rating: '4.9',
+      image: require('../../../assets/images/image27.png'),
+      price: '$300',
+      location: 'Bali, Indonesia',
+      buttonTitle: 'Villa',
+    },
+  ];
 
+  interface renderProp {
+    data: {
+      id: string;
+      title: string;
+      rating: any;
+      image: any;
+      price: any;
+      location: string;
+      buttonTitle: string;
+    };
+  }
 
-const imageConstant = {
-  heartImage: require('../../../assets/images/Heart.png'),
-};
+  // type ItemProps = {image: string};
 
-const DATA = [
-  {
-    id: '1',
-    title: 'Sky Dandelions Apartment',
-    rating: '4.9',
-    image: require('../../../assets/images/image26.png'),
-    price: '$226',
-    location: 'Jakarta, Indonesia',
-    buttonTitle: 'Apartment',
-  },
-  {
-    id: '2',
-    title: 'The laurels Villa',
-    rating: '4.9',
-    image: require('../../../assets/images/image27.png'),
-    price: '$300',
-    location: 'Bali, Indonesia',
-    buttonTitle: 'Villa',
-  },
-  {
-    id: '3',
-    title: 'Sky Dandelions Apartment',
-    rating: '4.9',
-    image: require('../../../assets/images/image26.png'),
-    price: '$226',
-    location: 'Jakarta, Indonesia',
-    buttonTitle: 'Apartment',
-  },
-  {
-    id: '4',
-    title: 'The laurels Villa',
-    rating: '4.9',
-    image: require('../../../assets/images/image27.png'),
-    price: '$300',
-    location: 'Bali, Indonesia',
-    buttonTitle: 'Villa',
-  },
-  {
-    id: '5',
-    title: 'Sky Dandelions Apartment',
-    rating: '4.9',
-    image: require('../../../assets/images/image26.png'),
-    price: '$226',
-    location: 'Jakarta, Indonesia',
-    buttonTitle: 'Apartment',
-  },
-  {
-    id: '6',
-    title: 'The laurels Villa',
-    rating: '4.9',
-    image: require('../../../assets/images/image27.png'),
-    price: '$300',
-    location: 'Bali, Indonesia',
-    buttonTitle: 'Villa',
-  },
-];
+  const Item: React.FC<renderProp> = ({data}) => (
+    <TouchableOpacity>
+      <View style={styles.container}>
+        <View style={styles.featuredCard}>
+          <ImageBackground style={styles.imageContainer} source={data.image}>
+            <TouchableOpacity style={styles.heartContainer}>
+              <Image style={styles.heart} source={imageConstant} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button}>
+              <Text style={styles.buttonText}>{data.buttonTitle}</Text>
+            </TouchableOpacity>
+          </ImageBackground>
 
-interface renderProp {
-  data: {
-    id: string;
-    title: string;
-    rating: any;
-    image: any;
-    price: any;
-    location: string;
-    buttonTitle: string;
-  };
-}
+          <View style={styles.details}>
+            <View style={styles.detailsHeader}>
+              <Text style={styles.detailesHeadertext}>{data.title}</Text>
+              <View style={styles.ratingContainer}>
+                <Image style={styles.star} source={starImg} />
+                <Text>{data.rating}</Text>
+              </View>
+              <View style={styles.map}>
+                <Image style={styles.star} source={locationImg} />
+                <Text style={{fontSize: 12}}>{data.location}</Text>
+              </View>
 
-// type ItemProps = {image: string};
-
-const Item: React.FC<renderProp> = ({data}) => (
-  <TouchableOpacity>
-    <View style={styles.container}>
-      <View style={styles.featuredCard}>
-        <ImageBackground style={styles.imageContainer} source={data.image}>
-          <TouchableOpacity style={styles.heartContainer}>
-            <Image style={styles.heart} source={imageConstant.heartImage} />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>{data.buttonTitle}</Text>
-          </TouchableOpacity>
-        </ImageBackground>
-
-        <View style={styles.details}>
-          <View style={styles.detailsHeader}>
-            <Text style={styles.detailesHeadertext}>{data.title}</Text>
-            <View style={styles.ratingContainer}>
-              <Image style={styles.star} source={data.image} />
-              <Text>{data.rating}</Text>
-            </View>
-            <View style={styles.map}>
-              <Image
-                style={styles.star}
-                source={{uri: locationImageUri}}
-              />
-              <Text style={{fontSize: 12}}>{data.location}</Text>
-            </View>
-
-            <View style={styles.price}>
-              <Text style={{fontSize: 16}}>
-                {data.price}
-                <Text style={{fontSize: 8}}>/month</Text>
-              </Text>
+              <View style={styles.price}>
+                <Text style={{fontSize: 16}}>
+                  {data.price}
+                  <Text style={{fontSize: 8}}>/month</Text>
+                </Text>
+              </View>
             </View>
           </View>
         </View>
       </View>
-    </View>
-  </TouchableOpacity>
-);
+    </TouchableOpacity>
+  );
 
-const FeaturedCategories = () => {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { responsiveScreenHeight } from 'react-native-responsive-dimensions';
 import { responsiveScreenWidth } from 'react-native-responsive-dimensions';
 
-export default function TextInput(props) {
+export default function TextInput({props}: any) {
   const [focus, setFocus] = useState(props.focus);
 
   return (
@@ -15,7 +15,7 @@ export default function TextInput(props) {
       ]}>
       <TextInput
         setFocus={focus} 
-        onChangeText={text => props.onChangeText(text)}
+        onChangeText={(text: string) => props.onChangeText(text)}
         onFocus={() => setFocus(true)}
         onBlur={() => setFocus(false)}
         style={styles.textInput}
@@ -41,5 +41,7 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 12,
   },
-
+  focused: {},
+  notFocused: {},
+  textInput: {},
 })

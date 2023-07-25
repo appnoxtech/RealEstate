@@ -16,10 +16,6 @@ import {
 } from 'react-native-responsive-dimensions';
 import {useNavigation} from '@react-navigation/native';
 import useAuthServiceHandler from '../../hooks/serviceHandler/AuthServiceHandler';
-import maskgroup from '../../../assets/images/Maskgroup.png'
-const maskgroupImageUri = Image.resolveAssetSource(maskgroup).uri
-import profile from '../../../assets/images/Profile.png'
-const profileImageUri = Image.resolveAssetSource(profile).uri
 
 
 const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
@@ -32,7 +28,12 @@ export default function Register() {
   const [nameValidError, setNameValidError] = useState('');
   const [emailValidError, setEmailValidError] = useState('');
   const [phoneValidError, setPhoneValidError] = useState('');
-  const [isFocus, setIsFocus] = useState('');
+  const [isFocus, setIsFocus] = useState(false);
+  const vectorImg = require('../../../assets/images/Vector1.png');
+  const profile = '../../../assets/images/Profile.png';
+  const groupImg = require('../../../assets/images/Group.png');
+  const callImg = require('../../../assets/images/Call.png')
+
   const validation = () => {
     if (!name.length) {
       setNameValidError('Required !');
@@ -85,7 +86,7 @@ export default function Register() {
           style={styles.containerImg}>
           <Image
             style={styles.image}
-            source={{uri: maskgroupImageUri}}
+            source={vectorImg}
           />
         </TouchableOpacity>
 
@@ -110,7 +111,7 @@ export default function Register() {
                 setName(value);
               }}
               onFocus={() => setIsFocus(true)}></TextInput>
-            <Image source={{uri: profileImageUri}} />
+            <Image source={require(profile)} />
           </View>
           {nameValidError ? (
             <Text style={styles.errorText}>{nameValidError}</Text>
@@ -130,7 +131,7 @@ export default function Register() {
               }}
               onFocus={() => setIsFocus(true)}
             />
-            <Image source={require('../../../assets/images/Group.png')} />
+            <Image source={groupImg} />
           </View>
           {emailValidError ? (
             <Text style={styles.errorText}>{emailValidError}</Text>
@@ -152,7 +153,7 @@ export default function Register() {
             />
             <Image
               style={styles.imagePhone}
-              source={require('../../../assets/images/Call.png')}
+              source={callImg}
             />
           </View>
           {phoneValidError ? (

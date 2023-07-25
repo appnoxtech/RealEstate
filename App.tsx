@@ -1,21 +1,23 @@
+import {Platform, StyleSheet, Text} from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/integration/react';
+import {NavigationContainer} from '@react-navigation/native';
+import { store, persistor } from './src/redux/store/store';
+import StackNavigation from './src/navigation/StackNavigation';
 
-
-// import Login from './src/component/auth/Login';
-// import React from 'react'
-// import SplashScreen from './src/component/common/screens/OnBoarding/SplashScreen';
-import { NavigationContainer } from '@react-navigation/native';
-import UnAuthRoutes from './src/routes/unAuthRoutes';
-// import OnBoarding from './src/component/common/screens/OnBoarding/Onboarding';
 
 
 
 const App = () => {
   return (
-    // <SplashScreen />
-    <NavigationContainer>
-     <UnAuthRoutes />
-     
-    </NavigationContainer>
+    <Provider store={store}>
+      <PersistGate loading={<Text>Loading...</Text>} persistor={persistor}>
+        <NavigationContainer>
+          <StackNavigation />
+        </NavigationContainer>
+      </PersistGate>
+    </Provider>
   )
 }
 

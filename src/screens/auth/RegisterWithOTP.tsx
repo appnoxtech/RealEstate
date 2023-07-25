@@ -59,7 +59,7 @@ const labels = {
   verify: 'Verify',
 };
 
-const OTP: React.FC = ({route}) => {
+const OTP: React.FC<any> = ({route}) => {
   const {phoneNumber} = route.params;
   console.log(route.params);
   const {VerifyOTPServiceHandler} = useAuthServiceHandler();

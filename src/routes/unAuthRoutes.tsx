@@ -18,7 +18,6 @@ const Stack = createNativeStackNavigator();
 export default function UnAuthRoutes() {
   return (
     <Stack.Navigator>
-
       <Stack.Screen
         name="SplashScreen"
         component={SplashScreen}
@@ -59,26 +58,8 @@ export default function UnAuthRoutes() {
         component={RegisterWithOTP}
         options={{headerShown: false}}
       />
-      <Stack.Screen
-        name="HomePage"
-        component={HomePage}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="FeaturedEstate"
-        component={FeaturedEstate}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="TopDicount"
-        component={TopDicount}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="Villa"
-        component={Villa}
-        options={{headerShown: false}}
-      />
+      
+      
     </Stack.Navigator>
   );
 }

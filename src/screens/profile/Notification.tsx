@@ -17,6 +17,7 @@ import {
 } from 'react-native-responsive-dimensions';
 import SettingButton from '../../component/common/buttons/SettingButton';
 import NotificationCard from '../../component/common/Card/NotificationCard';
+import {white} from '../../../assets/Styles/GlobalTheme';
 
 export default function Notification() {
   const navigation = useNavigation();
@@ -65,11 +66,11 @@ export default function Notification() {
             onPress={() => navigation.navigate('CommunicationSetting' as never)}
           />
         </View>
-        
       </View>
-      
-      <View style={styles.notificationFeed}>
-      <ScrollView>
+      <View style={{flex: 1}}>
+        <ScrollView
+          style={{flex: 1}}
+          contentContainerStyle={{backgroundColor: white}}>
           {notificationData.map(item => (
             <NotificationCard
               key={item.id}
@@ -78,9 +79,8 @@ export default function Notification() {
               postingTime={item.postingTime}
             />
           ))}
-           </ScrollView>
-        </View>
-     
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }
@@ -100,6 +100,6 @@ const styles = StyleSheet.create({
   },
   notificationFeed: {
     flex: 1,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
 });

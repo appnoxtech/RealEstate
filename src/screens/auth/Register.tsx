@@ -13,12 +13,15 @@ import {
   responsiveScreenHeight,
   responsiveScreenWidth,
   responsiveFontSize,
+  responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import {useNavigation} from '@react-navigation/native';
 import useAuthServiceHandler from '../../hooks/serviceHandler/AuthServiceHandler';
+import HeaderWithBackBtn from '../../component/common/buttons/HeaderWithBackBtn';
 
 
 const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+
 export default function Register() {
   const navigation = useNavigation();
   const {handleRegisterService} = useAuthServiceHandler();
@@ -70,25 +73,65 @@ export default function Register() {
         name: name,
         email: email,
         phoneNumber: phone,
-        type: 'GENERATE',
+        profilePhoto: '',
+        role: 'tenant'
       };
       handleRegisterService(data);
       console.log(data);
-      Alert.alert('Success !');
     }
   };
+
+
+  function isValidFullName(fullName : string) {
+    const fullNamePattern = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
+    return fullNamePattern.test(fullName);
+  }
+
+  const OnHandleChangeNumber = (value: string | any[]) => {
+    if (!value.length) {
+      setPhoneValidError('Required')
+      return false;
+    } else if (value.length < 10 || value.length > 10){
+      setPhoneValidError('Enter valid number !');
+      return false;
+    } else {
+      setPhoneValidError('');
+      return true;
+    }
+  };
+  
+  const OnHandleChangeName = (value: string | any[]) => {
+    if (!value.length) {
+      setNameValidError('Required')
+      return false;
+    } else if (isValidFullName(value)){
+      setNameValidError('Enter valid Name !');
+      return false;
+    } else {
+      setNameValidError('');
+      return true;
+    }
+  };
+
+  const OnHandleChangeEmail = (value: string | any []) => {
+    if(!value.length) {
+      setEmailValidError('Required')
+      return false;
+    } else if (!EMAIL_REGEX.test(email)) {
+      setEmailValidError('Enter valid Email !');
+      return false;
+    } else {
+      setEmailValidError('');
+      return true;
+    }
+}
 
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View style={styles.container}>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={styles.containerImg}>
-          <Image
-            style={styles.image}
-            source={vectorImg}
-          />
-        </TouchableOpacity>
+       <View style={styles.headerBackButton}>
+       <HeaderWithBackBtn />
+       </View>
 
         <Text style={styles.textH}>
           Create your<Text style={{color: '#1F4C6B'}}> account</Text>
@@ -108,6 +151,7 @@ export default function Register() {
               autoCorrect={false}
               autoCapitalize="none"
               onChangeText={value => {
+                OnHandleChangeName(value);
                 setName(value);
               }}
               onFocus={() => setIsFocus(true)}></TextInput>
@@ -127,6 +171,7 @@ export default function Register() {
               autoCorrect={false}
               autoCapitalize="none"
               onChangeText={value => {
+                OnHandleChangeEmail(value)
                 setEmail(value);
               }}
               onFocus={() => setIsFocus(true)}
@@ -146,7 +191,7 @@ export default function Register() {
               value={phone}
               keyboardType="number-pad"
               onChangeText={value => {
-                // OnHandleChange(value);
+                OnHandleChangeNumber(value);
                 setPhone(value);
               }}
               onFocus={() => setIsFocus(true)}
@@ -184,24 +229,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     textAlign: 'center',
     paddingTop: 0,
-    padding: 20,
+    paddingHorizontal: responsiveScreenWidth(5)
   },
 
-  containerImg: {
-    borderWidth: 1,
-    borderRadius: responsiveScreenWidth(7),
-    backgroundColor: '#F5F4F8',
-    borderColor: '#F5F4F8',
-    width: responsiveScreenWidth(12),
-    height: responsiveScreenWidth(12),
-    alignItems: 'center',
-    justifyContent: 'center',
+  headerBackButton: {
+    marginVertical: responsiveScreenHeight(3),
+    marginBottom: responsiveScreenHeight(5)
   },
 
-  image: {
-    width: 5,
-    height: 10,
-  },
+  
   imagePhone: {
     width: 20,
     height: 20,

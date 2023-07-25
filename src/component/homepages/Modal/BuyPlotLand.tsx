@@ -22,9 +22,10 @@ const BuyPlotLand: React.FC<any> = ({setModalOpen}) => {
   const searchImg = require('../../../../assets/images/Search.png');
   const vectorImg = require('../../../../assets/images/Vector1.png');
   const [text, setText] = useState(false);
+  const [residential, setResidential] = useState(true);
+  const [commercial, setCommercial] = useState(false);
   const [cityName, setCityName] = useState('');
   const [cityError, setCityError] = useState('');
-  const [title, setTitle] = useState('Residential use');
   const Navigation = useNavigation();
 
   const validation = () => {
@@ -40,18 +41,11 @@ const BuyPlotLand: React.FC<any> = ({setModalOpen}) => {
   const handleSubmit = () => {
     const isValid = validation();
     if (isValid) {
-      Navigation.navigate('ListOfProperty' as never, {cityName, title});
+      Navigation.navigate('ListOfProperty' as never, {cityName});
       setModalOpen(false);
     }
   };
 
-  if (title === 'Residential use') {
-    styles.residential.borderColor = '#8BC83F';
-    styles.commercial.borderColor = 'white';
-  } else {
-    styles.commercial.borderColor = '#8BC83F';
-    styles.residential.borderColor = 'white';
-  }
   return (
     <SafeAreaView style={{flex: 1, justifyContent: 'flex-end'}}>
       <View style={styles.modalContainer}>
@@ -65,13 +59,25 @@ const BuyPlotLand: React.FC<any> = ({setModalOpen}) => {
           <Text style={styles.pb10}>Type of Plot/Land</Text>
           <View style={styles.purposeOfBuying}>
             <TouchableOpacity
-              onPress={() => setTitle('Residential use')}
-              style={styles.residential}>
+             onPress={() => {
+              setResidential(true), setCommercial(false);
+            }}
+            style={
+              residential
+                ? styles.yesresidentialcommercial
+                : styles.noresidentialcommercial
+            }>
               <Text>Residential use</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => setTitle('Commercial use')}
-              style={styles.commercial}>
+              onPress={() => {
+                setResidential(false), setCommercial(true);
+              }}
+              style={
+                commercial
+                  ? styles.yesresidentialcommercial
+                  : styles.noresidentialcommercial
+              }>
               <Text>Commercial use</Text>
             </TouchableOpacity>
           </View>
@@ -144,13 +150,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: responsiveScreenWidth(2),
   },
-  residential: {
+  yesresidentialcommercial: {
     borderWidth: 1,
     borderRadius: 18,
-    borderColor: 'white',
+    borderColor: '#8BC83F',
     padding: 8,
   },
-  commercial: {
+  noresidentialcommercial: {
     borderWidth: 1,
     borderRadius: 18,
     borderColor: 'white',

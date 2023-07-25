@@ -17,6 +17,7 @@ import ExploreButton from '../../common/buttons/ExploreButton';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {UpdateCityName} from '../../../redux/reducers/filterReducer';
+import { UpdateNewListing } from '../../../redux/reducers/postReducer';
 
 const AddCityName: React.FC<any> = ({route}) => {
   const dispatch = useDispatch();
@@ -27,6 +28,10 @@ const AddCityName: React.FC<any> = ({route}) => {
 
   const textChangeHandler = (text: string) => {
     dispatch(UpdateCityName(text));
+    dispatch(UpdateNewListing({
+      key: "location",
+      value: text
+    }))
   };
 
   return (

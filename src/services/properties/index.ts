@@ -6,3 +6,11 @@ export const SearchPropertyService = async (cityName: string) => {
   console.log('url', url);
   return axios.get(url);
 };
+export const CreatePropertyService = async (data : any) => {
+  const url = `${URL}property/create`;
+  return axios.post(url, data, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+}

@@ -100,6 +100,7 @@ const TopDiscount = () => {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
+        scrollEnabled={true}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         data={DATA}
@@ -125,19 +126,26 @@ const styles = StyleSheet.create({
     width: responsiveWidth(75),
     height: responsiveHeight(23),
     padding: responsiveScreenWidth(2),
-    gap: 20,
-    resizeMode: 'streatch',
+    resizeMode: 'cover',
   },
 
   buttonText: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontWeight: '600',
+    textShadowColor: 'rgba(0, 0, 0, 1)',
+    textShadowOffset: {width: 1, height: 1},
+    textShadowRadius: 3,
+    fontWeight: 'bold',
+    color: 'white',
+    fontSize: responsiveFontSize(4.6),
     paddingVertical: responsiveScreenHeight(2),
     paddingHorizontal: responsiveScreenWidth(2),
   },
   secondTitle: {
-    color: '#ffffff',
+    textShadowColor: 'rgba(0, 0, 0, 1)',
+    textShadowOffset: {width: 1, height: 1},
+    textShadowRadius: 3,
+    fontWeight: 'bold',
+    color: 'white',
+    fontSize: responsiveFontSize(2.6),
     paddingVertical: responsiveScreenHeight(2),
     paddingHorizontal: responsiveScreenWidth(2),
   },

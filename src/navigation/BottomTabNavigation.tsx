@@ -34,7 +34,7 @@ const BottomNavigation = () => {
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, color, size}) => {
           let iconName;
-          if (route.name === 'HomePage') {
+          if (route.name === 'Homepage') {
             return (
               <Ionicons
                 style={(iconName = focused ? styles.iconFocused : styles.icon)}

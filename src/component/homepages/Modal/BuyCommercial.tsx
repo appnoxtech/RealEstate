@@ -14,46 +14,32 @@ import {
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
 import ExploreButton from '../../common/buttons/ExploreButton';
-
 import {useNavigation} from '@react-navigation/native';
+import SearchModal from './SearchModal';
+import {white} from '../../../../assets/Styles/GlobalTheme';
 
 const BuyCommercial: React.FC<any> = ({setModalOpen}) => {
   const searchImg = require('../../../../assets/images/Search.png');
   const vector1mg = require('../../../../assets/images/Vector1.png');
-
   const [text, setText] = useState(false);
-  const [title, setTitle] = useState('Buy');
-  const [purposeOfBuying, setPurposeOfBuying] = useState('Commercial use');
+  const [buy, setBuy] = useState(true);
+  const [rent, setRent] = useState(false);
+  const [residential, setResidential] = useState(false);
+  const [commercial, setCommercial] = useState(true);
   const [cityName, setCityName] = useState('');
-  const [cityNameError, setCityNameError] = useState('');
+  const [cityError, setCityError] = useState('');
   const Navigation = useNavigation();
 
-  if (title === 'Buy') {
-    styles.buy.borderColor = '#8BC83F';
-    styles.rent.borderColor = 'white';
-  } else {
-    styles.rent.borderColor = '#8BC83F';
-    styles.buy.borderColor = 'white';
+  interface cityName {
+    cityName: String;
   }
-
-  if (purposeOfBuying === 'Residential use') {
-    styles.residential.borderColor = '#8BC83F';
-    styles.commercial.borderColor = 'white';
-  } else {
-    styles.commercial.borderColor = '#8BC83F';
-    styles.residential.borderColor = 'white';
-  }
-
-  // interface cityName {
-  //   cityName: String;
-  // }
 
   const validation = () => {
     if (cityName.length < 4) {
-      setCityNameError('Enter valid city name !');
+      setCityError('Enter valid city name !');
       return false;
     } else {
-      setCityNameError('');
+      setCityError('');
       return true;
     }
   };
@@ -61,7 +47,7 @@ const BuyCommercial: React.FC<any> = ({setModalOpen}) => {
   const handleSubmit = () => {
     const isValid = validation();
     if (isValid) {
-      Navigation.navigate('ListOfProperty' as never, {cityName, title}),
+      Navigation.navigate('ListOfProperty' as never, {cityName}),
         setModalOpen(false);
     }
   };
@@ -78,13 +64,17 @@ const BuyCommercial: React.FC<any> = ({setModalOpen}) => {
           <Text style={styles.pb10}>Looking to </Text>
           <View style={styles.lookingTo}>
             <TouchableOpacity
-              onPress={() => setTitle('Buy')}
-              style={styles.buy}>
+              onPress={() => {
+                setBuy(true), setRent(false);
+              }}
+              style={buy ? styles.yesbuyrent : styles.notbuyrent}>
               <Text>Buy</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => setTitle('Rent/Lease')}
-              style={styles.rent}>
+              onPress={() => {
+                setBuy(false), setRent(true);
+              }}
+              style={rent ? styles.yesbuyrent : styles.notbuyrent}>
               <Text>Rent/Lease</Text>
             </TouchableOpacity>
           </View>
@@ -93,13 +83,25 @@ const BuyCommercial: React.FC<any> = ({setModalOpen}) => {
           <Text style={styles.pb10}>Purpose of buying</Text>
           <View style={styles.purposeOfBuying}>
             <TouchableOpacity
-              onPress={() => setPurposeOfBuying('Residential use')}
-              style={styles.residential}>
+              onPress={() => {
+                setResidential(true), setCommercial(false);
+              }}
+              style={
+                residential
+                  ? styles.yesresidentialcommercial
+                  : styles.noresidentialcommercial
+              }>
               <Text>Residential use</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => setPurposeOfBuying('Commercial use')}
-              style={styles.commercial}>
+              onPress={() => {
+                setResidential(false), setCommercial(true);
+              }}
+              style={
+                commercial
+                  ? styles.yesresidentialcommercial
+                  : styles.noresidentialcommercial
+              }>
               <Text>Commercial use</Text>
             </TouchableOpacity>
           </View>
@@ -120,10 +122,8 @@ const BuyCommercial: React.FC<any> = ({setModalOpen}) => {
 
             <Image source={searchImg} />
           </TouchableOpacity>
-          {cityNameError ? (
-            <Text style={{color: 'red', textAlign: 'right'}}>
-              {cityNameError}
-            </Text>
+          {cityError ? (
+            <Text style={{color: 'red', textAlign: 'right'}}>{cityError}</Text>
           ) : null}
         </View>
         <ExploreButton title="Explore" onPress={() => handleSubmit()} />
@@ -174,29 +174,29 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: responsiveScreenWidth(2),
   },
-  buy: {
+  notbuyrent: {
     borderWidth: 1,
     borderRadius: 18,
     borderColor: 'white',
     padding: 8,
   },
-  rent: {
+  yesbuyrent: {
     borderWidth: 1,
     borderRadius: 18,
-    borderColor: 'white',
+    borderColor: '#8BC83F',
     padding: 8,
   },
   purposeOfBuying: {
     flexDirection: 'row',
     gap: responsiveScreenWidth(2),
   },
-  residential: {
+  yesresidentialcommercial: {
     borderWidth: 1,
     borderRadius: 18,
-    borderColor: 'white',
+    borderColor: '#8BC83F',
     padding: 8,
   },
-  commercial: {
+  noresidentialcommercial: {
     borderWidth: 1,
     borderRadius: 18,
     borderColor: 'white',

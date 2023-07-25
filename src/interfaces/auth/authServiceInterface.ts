@@ -31,7 +31,7 @@ export interface ssoData {
   }
   
   export interface generateOTP {
-    email: string;
+    phoneNumber: string;
     type: string;
   }
   

@@ -24,7 +24,9 @@ const SearchModal: React.FC<any> = ({setModalOpen}) => {
   const [title, setTitle] = useState('Co-working Space');
   const Navigation = useNavigation();
   const handleSubmit = () => {
-    console.log('Hello');
+    
+    Navigation.navigate('ListOfProperty' as never, {cityName, title}),
+      setModalOpen(false);
   };
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -44,13 +46,7 @@ const SearchModal: React.FC<any> = ({setModalOpen}) => {
             <Image source={searchImg} />
           </TouchableOpacity>
         </View>
-        <ExploreButton
-          title="Continue"
-          onPress={() => {
-            Navigation.navigate('ListOfProperty' as never, {cityName, title}),
-              setModalOpen(false);
-          }}
-        />
+        <ExploreButton title="Continue" onPress={() => handleSubmit} />
       </View>
     </SafeAreaView>
   );

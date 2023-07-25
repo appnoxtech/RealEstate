@@ -18,7 +18,7 @@ import {
   responsiveScreenWidth,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-import HeaderWithBackBtn from '../../../component/common/buttons/HeaderWithBackBtn';
+
 import {useNavigation} from '@react-navigation/native';
 import BackWithSetting from '../../../component/common/buttons/BackWithSetting';
 
@@ -29,7 +29,7 @@ const DATA = [
     rating: '4.9',
     image: require('../../../../assets/images/Jakarta.png'),
     price: '$ 226',
-    location: 'Jakarta',
+    location: 'Delhi',
     buttonTitle: 'Apartment',
   },
   {
@@ -38,7 +38,7 @@ const DATA = [
     rating: '4.9',
     image: require('../../../../assets/images/Bali.png'),
     price: '$ 300',
-    location: 'Bali',
+    location: 'Greater Noida',
     buttonTitle: 'Villa',
   },
   {
@@ -47,7 +47,7 @@ const DATA = [
     rating: '4.9',
     image: require('../../../../assets/images/Jakarta.png'),
     price: '$ 226',
-    location: 'Jakarta',
+    location: 'City xyz',
     buttonTitle: 'Apartment',
   },
   {
@@ -85,58 +85,55 @@ const TopLocationPage = () => {
 
   const Item: React.FC<any> = ({data}) => (
     <TouchableOpacity
-      onPress={() => Navigation.navigate('LocationDetails' as never)}>
-      <View style={styles.featuredCard}>
-        <ImageBackground style={styles.imageContainer} source={data.image}>
-          <TouchableOpacity style={styles.noContainer}>
-            <Text style={{color: 'white'}}>#{data.id}</Text>
-          </TouchableOpacity>
-        </ImageBackground>
-        <Text style={{fontSize: 10, fontWeight: 'bold', paddingLeft: 10}}>
-          {data.location}
-        </Text>
-      </View>
+      style={styles.featuredCard}
+      onPress={() => Navigation.navigate('LocationDetails' as never, {data : data.location})}>
+      <ImageBackground style={styles.imageContainer} source={data.image}>
+        <TouchableOpacity style={styles.noContainer}>
+          <Text style={{color: 'white'}}>#{data.id}</Text>
+        </TouchableOpacity>
+      </ImageBackground>
+      <Text style={{fontSize: 10, fontWeight: 'bold', paddingLeft: 10}}>
+        {data.location}
+      </Text>
     </TouchableOpacity>
   );
 
   return (
-    <SafeAreaView>
-      <ScrollView>
-        <View style={styles.container}>
-          <BackWithSetting />
-          <Text
-            style={{
-              marginTop: 20,
-              fontSize: 25,
-              fontWeight: 'bold',
-              color: '#252B5C',
-              paddingLeft: 10,
-              paddingBottom: 10,
-            }}>
-            Top Location
-          </Text>
-          <Text
-            style={{
-              marginBottom: 20,
-              fontSize: 12,
-              fontWeight: 'bold',
-              color: '#252B5C',
-              paddingLeft: 10,
-            }}>
-            Find the best recommendations place to live
-          </Text>
+    <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
+      <View style={styles.container}>
+        <BackWithSetting />
+        <Text
+          style={{
+            marginTop: 10,
+            fontSize: 25,
+            fontWeight: 'bold',
+            color: '#252B5C',
+            paddingLeft: 10,
+            paddingBottom: 10,
+          }}>
+          Top Location
+        </Text>
+        <Text
+          style={{
+            marginBottom: 10,
+            fontSize: 12,
+            fontWeight: 'bold',
+            color: '#252B5C',
+            paddingLeft: 10,
+          }}>
+          Find the best recommendations place to live
+        </Text>
 
-          <FlatList
-            horizontal={false}
-            numColumns={2}
-            showsHorizontalScrollIndicator={false}
-            data={DATA}
-            renderItem={({item}) => <Item data={item} />}
-            keyExtractor={item => item.id}
-            key={'_'}
-          />
-        </View>
-      </ScrollView>
+        <FlatList
+          horizontal={false}
+          numColumns={2}
+          showsHorizontalScrollIndicator={false}
+          data={DATA}
+          renderItem={({item}) => <Item data={item} />}
+          keyExtractor={item => item.id}
+          key={'_'}
+        />
+      </View>
     </SafeAreaView>
   );
 };

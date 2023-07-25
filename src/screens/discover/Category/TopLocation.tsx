@@ -92,6 +92,7 @@ const TopLocation = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'white'
   },
   item: {
     flexDirection: 'row',

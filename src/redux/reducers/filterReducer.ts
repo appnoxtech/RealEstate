@@ -1,5 +1,6 @@
 const initialState = {
-    cityName: ''
+    cityName: '',
+    
 }
 
 interface updateCityName {

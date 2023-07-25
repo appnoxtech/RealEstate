@@ -22,5 +22,12 @@ export const VerifyOTPService = async (data: any) => {
 
 export const RegisterService = async (data: any) => {
   const url = `${URL}user/create`;
+  console.log('url', url);
+  console.log('data', data);
+  return axios.post(url, data);
+};
+
+export const LogoutService = async (data: any) => {
+  const url = `${URL}user/logout`;
   return axios.post(url, data);
 };

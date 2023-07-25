@@ -30,6 +30,7 @@ import useKeyboardVisibleListener from '../../hooks/CommonHooks/isKeyboardVisibl
 import HeaderWithBackBtn from '../../component/common/buttons/HeaderWithBackBtn';
 import useAuthServiceHandler from '../../hooks/serviceHandler/AuthServiceHandler';
 
+
 type otpInterface = {
   [key: string]: string;
 };
@@ -61,8 +62,7 @@ const labels = {
 
 const OTP: React.FC<any> = ({route}) => {
   const {phoneNumber} = route.params;
-  console.log(route.params);
-  const {VerifyOTPServiceHandler} = useAuthServiceHandler();
+  const {VerifyOTPServiceHandler, GenerateOtpServiceHandler} = useAuthServiceHandler();
   const isKeyboardVisible = useKeyboardVisibleListener();
   const [loading, setLoading] = useState(false);
   const [timer, setTimer] = useState(59);
@@ -158,7 +158,7 @@ const OTP: React.FC<any> = ({route}) => {
       phoneNumber,
       type: 'GENERATE',
     };
-    // generateOTPService(data);
+    GenerateOtpServiceHandler(data);
   };
 
   useEffect(() => {
@@ -179,7 +179,9 @@ const OTP: React.FC<any> = ({route}) => {
 
   return (
     <View style={styles.mainContainer}>
+      <View style={{paddingHorizontal: responsiveScreenWidth(4)}}>
       <HeaderWithBackBtn />
+      </View>
       <View style={styles.body}>
         {
           <View style={styles.container}>

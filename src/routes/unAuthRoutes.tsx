@@ -11,14 +11,15 @@ import RegisterWithOTP from '../screens/auth/RegisterWithOTP';
 import HomePage from '../screens/homepage/HomePage';
 import FeaturedEstate from '../screens/homepage/FeaturedEstate';
 import Villa from '../screens/discover/Category/Villa';
-import TopDicount from '../screens/homepage/TopDiscount'
+import TopDicount from '../screens/homepage/TopDiscount';
+import SuccessPage from '../screens/auth/SuccessPage';
+
 
 const Stack = createNativeStackNavigator();
 
 export default function UnAuthRoutes() {
   return (
     <Stack.Navigator>
-
       <Stack.Screen
         name="SplashScreen"
         component={SplashScreen}
@@ -34,6 +35,12 @@ export default function UnAuthRoutes() {
         component={ProductTour02}
         options={{headerShown: false}}
       />
+      <Stack.Screen
+        name="SuccessPage"
+        component={SuccessPage}
+        options={{headerShown: false}}
+      />
+      
       <Stack.Screen
         name="ProductTour03"
         component={ProductTour03}
@@ -57,26 +64,6 @@ export default function UnAuthRoutes() {
       <Stack.Screen
         name="RegisterWithOTP"
         component={RegisterWithOTP}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="HomePage"
-        component={HomePage}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="FeaturedEstate"
-        component={FeaturedEstate}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="TopDicount"
-        component={TopDicount}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="Villa"
-        component={Villa}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

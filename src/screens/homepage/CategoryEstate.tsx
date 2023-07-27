@@ -1,14 +1,16 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   SafeAreaView,
   View,
-  FlatList,
+  VirtualizedList,
   StyleSheet,
   Text,
   StatusBar,
   TouchableOpacity,
   ImageBackground,
   Image,
+  Alert,
+  ScrollView,
 } from 'react-native';
 import {
   responsiveFontSize,
@@ -17,83 +19,46 @@ import {
   responsiveScreenWidth,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
+// import {SearchPropertyService} from '../../services/properties';
+import {useNavigation} from '@react-navigation/native';
 
-import FeaturedButton from '../../component/common/buttons/FeaturedButton';
-import heartImage from '../../../assets/images/Heart.png'
-import starImage from '../../../assets/images/Star.png'
-import locationImage from '../../../assets/images/Location.png'
-const starImageUri = Image.resolveAssetSource(starImage).uri
-const heartImageUri = Image.resolveAssetSource(heartImage).uri
-const locationImageUri = Image.resolveAssetSource(locationImage).uri
+interface props {
+  cityData: Array<any>
+};
+
+const CategoryEstate: React.FC<props> = ({cityData}) => {
+  console.log(cityData)
+  const heartImage = require('../../../assets/images/Heart.png');
+  const starImage = require('../../../assets/images/Star.png');
+  const locationImage = require('../../../assets/images/Location.png');
+  const mainImage = require('../../../assets/images/image26.png');
+
+  const navigation = useNavigation();
 
 
-const DATA = [
+  type ItemData = {
+    id: string;
+    title: string;
+  };
+
+  const getItem = (_data: unknown, index: number): ItemData => ({
+    id: Math.random().toString(12).substring(0),
+    title: `Item ${index + 1}`,
+  });
+
+  type ItemProps = {image: string};
+  const getItemCount = () => 1;
   
-  {
-    id: '1',
-    title: 'Sky Dandelions Apartment',
-    rating: '4.9',
-    image: require('../../../assets/images/image26.png'),
-    price: '$ 226',
-    location: 'Jakarta, Indonesia',
-    buttonTitle: 'Apartment',
-  },
-  {
-    id: '2',
-    title: 'Sky Dandelions Apartment',
-    rating: '4.9',
-    image: require('../../../assets/images/image26.png'),
-    price: '$ 300',
-    location: 'Bali, Indonesia',
-    buttonTitle: 'Villa',
-  },
-  {
-    id: '3',
-    title: 'Sky Dandelions Apartment',
-    rating: '4.9',
-    image: require('../../../assets/images/image26.png'),
-    price: '$ 226',
-    location: 'Jakarta, Indonesia',
-    buttonTitle: 'Apartment',
-  },
-  {
-    id: '4',
-    title: 'Sky Dandelions Apartment',
-    rating: '4.9',
-    image: require('../../../assets/images/image26.png'),
-    price: '$ 300',
-    location: 'Bali, Indonesia',
-    buttonTitle: 'Villa',
-  },
-  {
-    id: '5',
-    title: 'Sky Dandelions Apartment',
-    rating: '4.9',
-    image: require('../../../assets/images/image26.png'),
-    price: '$ 226',
-    location: 'Jakarta, Indonesia',
-    buttonTitle: 'Apartment',
-  },
-  {
-    id: '6',
-    title: 'Sky Dandelions Apartment',
-    rating: '4.9',
-    image: require('../../../assets/images/image26.png'),
-    price: '$ 300',
-    location: 'Bali, Indonesia',
-    buttonTitle: 'Villa',
-  },
-];
-
-// type ItemProps = {image: string};
-
-const Item = ({data}) => (
-  <TouchableOpacity>
-    <View style={styles.container}>
-      <View style={styles.featuredCard}>
-        <ImageBackground style={styles.imageContainer} source={data.image}>
+  const Item = ({data}: any) => (
+    <TouchableOpacity
+      onPress={() => navigation.navigate('DetailedPage' as never, {data :data})}
+      style={styles.itemContainer}>
+      <View style={styles.featuredCard} id={data.id}>
+      <Text style={styles.detailesHeadertext}>{data.title}</Text>
+    
+        <ImageBackground style={styles.imageContainer} source={mainImage}>
           <TouchableOpacity style={styles.heartContainer}>
-          <Image style={styles.heart} source={{uri: heartImageUri}} />
+            <Image style={styles.heart} source={heartImage} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.button}>
             <Text style={styles.buttonText}>
@@ -104,91 +69,82 @@ const Item = ({data}) => (
         </ImageBackground>
 
         <View style={styles.details}>
-          <View style={styles.detailsHeader}>
-            <Text style={styles.detailesHeadertext}>{data.title}</Text>
+        <Text style={styles.description}>{data.description}</Text>
+            
             <View style={styles.ratingContainer}>
-              <Image
-                style={styles.star}
-                source={{uri: starImageUri}}
-              />
-              <Text style={{fontSize: 10}}>{data.rating}</Text>
-              <Image
-                style={styles.star}
-                source={{uri:locationImageUri}}
-              />
-              <Text style={{fontSize: 10}}>{data.location}</Text>
+              
+              <Image style={styles.star} source={locationImage} />
+              <Text style={styles.location}>{data.location}</Text>
             </View>
           </View>
         </View>
-      </View>
-    </View>
-  </TouchableOpacity>
-);
+    </TouchableOpacity>
+  );
 
-const CategoryEstate = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <FlatList
-        horizontal={false}
-        numColumns={2}
-        showsHorizontalScrollIndicator={false}
-        data={DATA}
-        renderItem={({item}) => <Item data={item} />}
-        keyExtractor={item => item.id}
-        key={'_'}
-      />
+      <ScrollView contentContainerStyle={{alignItems: 'center'}} showsVerticalScrollIndicator={false} >
+        {
+          cityData?.map((item: any) => <Item key={item.id} data={item} />)
+        }
+      </ScrollView>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    padding: responsiveScreenWidth(1),
+    flex: 1,
+    backgroundColor: 'white',
   },
-
+  itemContainer: {
+    marginVertical: responsiveScreenHeight(1)
+  },
   featuredCard: {
-    width: responsiveWidth(44),
-    borderRadius: 40,
+    width: responsiveWidth(94),
+    borderRadius: responsiveWidth(10),
     backgroundColor: '#F5F4F8',
-    padding: responsiveScreenWidth(1.5),
     gap: responsiveScreenWidth(3),
   },
   imageContainer: {
     alignItems: 'flex-end',
-    width: responsiveWidth(40),
-    height: responsiveHeight(20),
-    gap: responsiveHeight(9.5),
-    paddingRight: responsiveScreenWidth(1.5),
-    paddingTop: responsiveScreenHeight(1)
+    justifyContent: 'space-between',
+    width: responsiveScreenWidth(83),
+    height: responsiveScreenHeight(20),
+    marginVertical: responsiveScreenHeight(4),
+    marginHorizontal: responsiveScreenWidth(6),
+    paddingHorizontal: responsiveScreenWidth(2),
+    paddingVertical: responsiveScreenHeight(1),
   },
   heartContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: responsiveWidth(8),
+    width: responsiveWidth(8.7),
     height: responsiveHeight(4),
-    borderRadius: 50,
+    borderRadius: responsiveScreenWidth(50),
     backgroundColor: '#8BC83F',
   },
   heart: {
     width: responsiveWidth(3),
     height: responsiveHeight(1.5),
   },
-  button: {
-    width: responsiveWidth(22),
-     padding: responsiveScreenWidth(2),
-    backgroundColor: '#234F68',
-    borderRadius: 8,
-   
-    // padding: responsiveHeight(2),
-  },
+
+
   details: {
-    padding: responsiveScreenWidth(2),
+    paddingHorizontal: responsiveScreenWidth(5),
+    paddingVertical: responsiveScreenHeight(2.4),
+    gap: responsiveHeight(2)
+  },
+  description: {
+    fontSize: responsiveFontSize(2),
+    
   },
 
   buttonText: {
     color: '#fff',
     textAlign: 'center',
-    fontSize: 10,
+    fontSize: responsiveFontSize(1.6),
+    fontWeight: 'bold'
   },
   ratingContainer: {
     flexDirection: 'row',
@@ -196,22 +152,27 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   star: {
-    width: 9,
-    height: 9,
+    width: responsiveWidth(5),
+    height: responsiveHeight(2.5)
   },
-  price: {},
-  detailsHeader: {
-    width: responsiveScreenWidth(30),
-    gap: responsiveHeight(1),
-    // marginHorizontal: responsiveScreenWidth(2),
-    // marginVertical: responsiveScreenHeight(1),
+  location: {
+    fontSize: responsiveFontSize(3)
   },
+ 
   detailesHeadertext: {
-    fontSize: 12,
+    marginTop: responsiveScreenHeight(3),
+    marginLeft: responsiveScreenWidth(6),
+    fontSize: responsiveFontSize(3),
   },
   map: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  button: {
+    backgroundColor: '#8BC83F',
+    borderRadius: responsiveWidth(10),
+    paddingHorizontal: responsiveScreenWidth(2),
+    paddingVertical: responsiveScreenHeight(1)
   },
 });
 

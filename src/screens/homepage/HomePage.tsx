@@ -7,9 +7,10 @@ import {
   ImageBackground,
   TouchableOpacity,
   TextInput,
-  ScrollView
+  ScrollView,
+  Modal,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 
 import {
   responsiveFontSize,
@@ -21,110 +22,98 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import Category from './Category';
 import FeaturedCategories from './FeaturedCategories';
-import TopDiscount from '../homepage/TopDiscount'
+import TopDiscount from '../homepage/TopDiscount';
+import ExploreNearbyEstate from '../../screens/discover/Category/ExploreNearbyEstate';
 
-import locationImage from '../../../assets/images/Location.png';
-import downImage from '../../../assets/images/Down.png';
-import notification from '../../../assets/images/Notification.png'
-import profileImage from '../../../assets/images/Ellipse.png'
-import searchImage from '../../../assets/images/Search.png'
-import micImage from '../../../assets/images/Mic.png'
-
-const micImageUri = Image.resolveAssetSource(micImage).uri
-const searchImageUri = Image.resolveAssetSource(searchImage).uri
-const profileImageUri = Image.resolveAssetSource(profileImage).uri
-const notificationUri = Image.resolveAssetSource(notification).uri
-const locationImageUri = Image.resolveAssetSource(locationImage).uri
-const downImageUri = Image.resolveAssetSource(downImage).uri
-
+import TopLocation from '../discover/Category/TopLocation';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const HomePage = () => {
+  const notificationImg = require('../../../assets/images/Notification.png');
+  const searchImg = require('../../../assets/images/Search.png');
+
   const navigation = useNavigation();
+
+  const [modalOpen, setModalOpen] = useState(false);
+
   return (
     <SafeAreaView style={styles.mainContainer}>
-    
-     <ScrollView showsVerticalScrollIndicator={false}>
-       
-       <View style={styles.container}>
-        <View style={styles.header}>
-          <View style={styles.headerItems}>
-            <TouchableOpacity style={styles.location}>
-              <Image
-                style={styles.locationImage}
-                source={{uri: downImageUri}}
-              />
-              <Text>Jakarta, Indonesia</Text>
+      <Modal visible={modalOpen} animationType="slide">
+        <View style={styles.hamBurgerMenu}>
+          <TouchableOpacity onPress={() => setModalOpen(false)}>
+            <Ionicons name="close" size={responsiveWidth(10)} />
+          </TouchableOpacity>
+          <Text>Hello Modal</Text>
+        </View>
+      </Modal>
+      <View style={styles.headerItems}>
+        <TouchableOpacity onPress={() => setModalOpen(true)}>
+          <Ionicons name="menu" size={responsiveWidth(10)} />
+        </TouchableOpacity>
 
-              <Image
-                style={styles.locationImage1}
-                source={{uri: locationImageUri}}
-              />
-            </TouchableOpacity>
+        <View style={styles.profileContainer}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('PostProperty' as never)}
+            style={styles.postProperty}>
+            <Text style={styles.postPropertyText}>Post property</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Notification' as never)}>
+            <Image style={styles.notification} source={notificationImg} />
+          </TouchableOpacity>
+        </View>
+      </View>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.container}>
+          <Text style={styles.headerText}>
+            Hey,<Text style={styles.subText}> John ! </Text>
+            {'\n'}
+            Find your dream home
+          </Text>
 
-            <View style={styles.profileContainer}>
-              <TouchableOpacity>
-                <Image
-                  style={styles.notification}
-                  source={{uri: notificationUri}}
-                />
-              </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('SearchFilterPage' as never)}
+            style={styles.serchContainer}>
+            <Text>
+              <Text style={{fontWeight: 'bold'}}>Search :   </Text>City, Locality,
+              Project, Landmark
+            </Text>
+            <Image source={searchImg} />
+          </TouchableOpacity>
 
-              <TouchableOpacity>
-                <Image
-                  style={styles.profile}
-                  source={{uri: profileImageUri}}
-                />
+          <Category />
+          <TopDiscount />
+
+          <View style={styles.featuredEstate}>
+            <View style={styles.featuredEstateText}>
+              <Text style={styles.featuredEstateHeaderText}>
+                Featured Estates
+              </Text>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('FeaturedEstate' as never)}>
+                <Text style={styles.textAll}>view all</Text>
               </TouchableOpacity>
             </View>
           </View>
-        </View>
-
-        <Text style={styles.headerText}>
-          Hey,<Text style={styles.subText}> Jonathan! </Text>
-          {'\n'}
-          Let's start exploring
-        </Text>
-
-        <View style={styles.serchContainer}>
-          <TouchableOpacity>
-            <Image source={{uri: searchImageUri}} />
-          </TouchableOpacity>
-          <TextInput
-            style={styles.input}
-            placeholder="Full Search House, Apartment, etc"
-            // value={value}
-            autoCorrect={true}
-            autoCapitalize="none"
-            // onChangeText={value => {
-            //   setValue(value);
-            // }}
-            // onFocus={() => setIsFocus(true)}
-          />
-          <View style={styles.verticleLine}></View>
-          <TouchableOpacity>
-            <Image
-              style={styles.mic}
-              source={{uri: micImageUri}}
-            />
-          </TouchableOpacity>
-          
-        </View>
-        <Category />
-        <TopDiscount />
-
-        <View style={styles.featuredEstate}>
-          <View style={styles.featuredEstateText}>
+          <FeaturedCategories />
+          <View style={styles.toplocation}>
             <Text style={styles.featuredEstateHeaderText}>
-              Featured Estates
+              Top Location
             </Text>
-            <TouchableOpacity onPress={() => navigation.navigate('FeaturedEstate' as never)}>
-            <Text style={styles.textAll}>view all</Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('TopLocationPage' as never)}>
+              <Text style={styles.textAll}>explore</Text>
             </TouchableOpacity>
           </View>
+          <TopLocation />
+          <Text style={styles.featuredEstateHeaderText}>
+            Explore Nearby Estate
+          </Text>
+          <View style={styles.dataListContainer}>
+            <ExploreNearbyEstate />
+          </View>
         </View>
-      <FeaturedCategories />
-      </View>
-     </ScrollView>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -142,9 +131,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
+  hamBurgerMenu: {
+    flex: 1,
+    marginTop: responsiveScreenWidth(10),
+    // borderWidth: responsiveWidth(0.1),
+  },
 
   container: {
-    paddingHorizontal: responsiveScreenWidth(4),
+    paddingHorizontal: responsiveScreenWidth(5),
+    paddingVertical: responsiveScreenHeight(1.8),
     gap: responsiveHeight(4),
   },
   header: {
@@ -153,31 +148,25 @@ const styles = StyleSheet.create({
   headerItems: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
     gap: responsiveScreenWidth(10),
-  },
-
-  location: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 17,
-    gap: 5,
-    borderWidth: 1,
-    borderRadius: 34,
-    borderColor: '#DFDFDF',
-  },
-
-  locationImage: {
-    width: 20,
-    height: 20,
-  },
-  locationImage1: {
-    width: 15,
-    height: 15,
+    paddingHorizontal: responsiveScreenWidth(5),
+    paddingVertical: responsiveScreenHeight(2),
   },
 
   profileContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
     gap: responsiveScreenWidth(3),
+  },
+  postProperty: {
+    backgroundColor: '#234F68',
+    padding: responsiveHeight(1.6),
+    borderRadius: responsiveWidth(10),
+  },
+  postPropertyText: {
+    fontSize: responsiveFontSize(2),
+    color: 'white',
   },
 
   notification: {
@@ -192,6 +181,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: responsiveFontSize(4),
+    paddingHorizontal: responsiveScreenWidth(1.23),
   },
   subText: {
     color: '#234F68',
@@ -199,32 +189,24 @@ const styles = StyleSheet.create({
   serchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     height: responsiveScreenHeight(7),
     width: responsiveScreenWidth(90),
     borderWidth: 0,
     backgroundColor: '#F5F4F8',
     borderColor: '#F5F4F8',
     borderRadius: 10,
-    paddingHorizontal: responsiveScreenWidth(3),
+    paddingHorizontal: responsiveScreenWidth(1.9),
     gap: responsiveScreenWidth(2),
-    fontSize: 12,
+    fontSize: responsiveFontSize(2),
   },
   input: {
     flex: 2,
   },
-  verticleLine: {
-    height: '50%',
-    width: 1,
-    backgroundColor: '#A1A5C1',
-  },
-  mic: {
-    paddingHorizontal: responsiveScreenWidth(1),
-    width: 20,
-    height: 20,
-  },
 
-  featuredEstate: {},
+  featuredEstate: {
+    marginHorizontal: responsiveScreenWidth(2),
+  },
   featuredEstateText: {
     flexDirection: 'row',
     alignItems: 'flex-end',
@@ -237,5 +219,49 @@ const styles = StyleSheet.create({
   },
   textAll: {
     color: '#252B5C',
+  },
+  toplocation: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  topEstateAgent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  explore: {
+    color: '#234F68',
+  },
+  topAgent: {
+    fontSize: 20,
+    color: '#252B5C',
+    fontWeight: '700',
+  },
+  dataListContainer: {},
+  noOfList: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: responsiveScreenHeight(1),
+  },
+  noOfListText: {
+    alignItems: 'center',
+    color: '#252B5C',
+    fontSize: 18,
+    fontWeight: '700',
+  },
+  iconDataImg: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#F5F4F8',
+    borderRadius: 20,
+    paddingHorizontal: responsiveScreenWidth(3),
+    paddingVertical: responsiveScreenHeight(1),
+  },
+  horizonatal: {
+    paddingHorizontal: responsiveScreenWidth(2),
+    paddingVertical: responsiveScreenHeight(1),
+    backgroundColor: 'white',
+    borderRadius: 40,
   },
 });

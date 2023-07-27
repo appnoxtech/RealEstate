@@ -10,7 +10,7 @@ interface setIsLoading {
 type action = setIsLoading;
   
 
-const CommonReducer = (action: action, state=initialState) => {
+const CommonReducer = (state=initialState, action: action) => {
    switch (action.type) {
     case 'SET_IS_LOADING_STATE':{
         return {

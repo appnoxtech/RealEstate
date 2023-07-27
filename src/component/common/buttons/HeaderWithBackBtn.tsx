@@ -4,7 +4,10 @@ import { useNavigation } from '@react-navigation/native';
 import { responsiveScreenWidth } from 'react-native-responsive-dimensions';
 
 export default function HeaderWithBackBtn() {
+
+  
     const navigation = useNavigation();
+    const vector1Img = require('../../../../assets/images/Vector1.png')
   return (
    <SafeAreaView>
      <View style={styles.container}>
@@ -13,7 +16,7 @@ export default function HeaderWithBackBtn() {
           style={styles.containerImg}>
           <Image
             style={styles.image}
-            source={require('../../../../assets/images/Vector1.png')}
+            source={vector1Img}
           />
         </TouchableOpacity>
     </View>
@@ -24,7 +27,6 @@ export default function HeaderWithBackBtn() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: responsiveScreenWidth(4)
     },
 
   containerImg: {

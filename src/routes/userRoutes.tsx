@@ -6,8 +6,10 @@ import FeaturedEstate from '../screens/homepage/FeaturedEstate';
 import HomePage from '../screens/homepage/HomePage';
 import Notification from '../screens/profile/Notification';
 import Profile from '../screens/profile/Profile';
-import Search from '../screens/search/Search';
 import Villa from '../screens/discover/Category/Villa';
+import TopDicount from '../screens/homepage/TopDiscount'
+import LocationDetails from '../screens/discover/Category/LocationDetails';
+import SearchFilterPage from '../component/homepages/Search/SearchFilterPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,14 +26,10 @@ export default function userRoutes() {
         component={RegisterWithOTP}
         options={{headerShown: false}}
       />
+      
       <Stack.Screen
         name="HomePage"
         component={HomePage}
-        options={{headerShown: false, animation: 'slide_from_bottom'}}
-      />
-      <Stack.Screen
-        name="Search"
-        component={Search}
         options={{headerShown: false, animation: 'slide_from_bottom'}}
       />
       <Stack.Screen
@@ -49,11 +47,26 @@ export default function userRoutes() {
         component={FeaturedEstate}
         options={{headerShown: false}}
       />
+       <Stack.Screen
+        name="TopDicount"
+        component={TopDicount}
+        options={{headerShown: false}}
+      />
       <Stack.Screen
         name="Villa"
         component={Villa}
         options={{headerShown: false}}
       />
+      <Stack.Screen
+        name="LocationDetails"
+        component={LocationDetails}
+        options={{headerShown: false}}
+      />
+    <Stack.Screen 
+      name='SearchFilterPage'
+      component={SearchFilterPage}
+      options={{headerShown: false}}
+    />
       
     </Stack.Navigator>
   );

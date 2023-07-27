@@ -17,26 +17,25 @@ import {
 } from 'react-native-responsive-dimensions';
 import FeaturedCategories from './FeaturedCategories';
 import CategoryEstate from './CategoryEstate';
+import { useNavigation } from '@react-navigation/native';
 
 export default function FeaturedEstate() {
+  const image28 = require('../../../assets/images/image28.png');
+  const image29 = require('../../../assets/images/image29.png');
+  const image30 = require('../../../assets/images/image30.png');
+  const searchImg = require('../../../assets/images/Search.png');
+  const showImg = require('../../../assets/images/Show.png');
+  const horizonatalImg = require('../../../assets/images/HorizontalActive.png');
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.conatiner}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <BackWithSetting />
         <View style={styles.mainImgContainer}>
-          <Image
-            style={styles.mainImg}
-            source={require('../../../assets/images/image28.png')}
-          />
+          <Image style={styles.mainImg} source={image28} />
           <View style={styles.secondImgContainer}>
-            <Image
-              style={styles.secondImg}
-              source={require('../../../assets/images/image29.png')}
-            />
-            <Image
-              style={styles.secondImg}
-              source={require('../../../assets/images/image30.png')}
-            />
+            <Image style={styles.secondImg} source={image29} />
+            <Image style={styles.secondImg} source={image30} />
           </View>
         </View>
         <View style={styles.searchContainer}>
@@ -45,29 +44,15 @@ export default function FeaturedEstate() {
             Our recommended real estates exclusive for you.
           </Text>
 
-          <View style={styles.searchInput}>
-            <TouchableOpacity>
-              <Image source={require('../../../assets/images/Search.png')} />
-            </TouchableOpacity>
-            <TextInput
-              style={styles.input}
-              placeholder="Full Search House, Apartment, etc"
-              // value={value}
-              autoCorrect={true}
-              autoCapitalize="none"
-              // onChangeText={value => {
-              //   setValue(value);
-              // }}
-              // onFocus={() => setIsFocus(true)}
-            />
-            <View style={styles.verticleLine}></View>
-            <TouchableOpacity>
-              <Image
-                style={styles.mic}
-                source={require('../../../assets/images/Mic.png')}
-              />
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('SearchFilterPage' as never)}
+            style={styles.serchContainer}>
+            <Text>
+              <Text style={{fontWeight: 'bold'}}>Search </Text>City, Locality,
+              Project, Landmark
+            </Text>
+            <Image source={searchImg} />
+          </TouchableOpacity>
           <View style={styles.dataListContainer}>
             <View style={styles.noOfList}>
               <Text style={styles.noOfListText}>
@@ -75,12 +60,10 @@ export default function FeaturedEstate() {
               </Text>
               <View style={styles.iconDataImg}>
                 <TouchableOpacity style={styles.vertical}>
-                  <Image source={require('../../../assets/images/Show.png')} />
+                  <Image source={showImg} />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.horizonatal}>
-                  <Image
-                    source={require('../../../assets/images/HorizontalActive.png')}
-                  />
+                  <Image source={horizonatalImg} />
                 </TouchableOpacity>
               </View>
             </View>
@@ -119,7 +102,7 @@ const styles = StyleSheet.create({
   searchContainer: {
     marginTop: responsiveScreenHeight(2.5),
     paddingHorizontal: responsiveScreenWidth(5),
-    gap: responsiveScreenHeight(1),
+    gap: responsiveScreenHeight(2.6),
   },
   realestateText: {
     color: '#252B5C',
@@ -128,33 +111,20 @@ const styles = StyleSheet.create({
   text1: {
     fontSize: responsiveFontSize(1.5),
   },
-  searchInput: {
+  serchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-    height: responsiveScreenHeight(8),
+    height: responsiveScreenHeight(7),
     width: responsiveScreenWidth(90),
     borderWidth: 0,
     backgroundColor: '#F5F4F8',
     borderColor: '#F5F4F8',
     borderRadius: 10,
-    paddingHorizontal: responsiveScreenWidth(3),
-    marginTop: responsiveScreenHeight(2),
+    paddingHorizontal: responsiveScreenWidth(4),
+    marginHorizontal: responsiveScreenWidth(1),
     gap: responsiveScreenWidth(2),
     fontSize: 12,
-  },
-  input: {
-    flex: 2,
-  },
-  verticleLine: {
-    height: '50%',
-    width: 1,
-    backgroundColor: '#A1A5C1',
-  },
-  mic: {
-    paddingHorizontal: responsiveScreenWidth(1),
-    width: 20,
-    height: 20,
   },
   dataListContainer: {},
   noOfList: {
@@ -175,6 +145,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: responsiveScreenWidth(3),
     paddingVertical: responsiveScreenHeight(1),
   },
+  vertical: {},
   horizonatal: {
     paddingHorizontal: responsiveScreenWidth(2),
     paddingVertical: responsiveScreenHeight(1),

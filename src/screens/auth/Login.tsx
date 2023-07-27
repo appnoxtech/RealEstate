@@ -8,7 +8,7 @@ import {
   TextInput,
   Alert,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -17,26 +17,23 @@ import {
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import {useNavigation} from '@react-navigation/native';
-import HomePage from '../homepage/HomePage';
 import useAuthServiceHandler from '../../hooks/serviceHandler/AuthServiceHandler';
-import vector from '../../../assets/images/Vector1.png'
-const vectorUri = Image.resolveAssetSource(vector).uri
-
-// const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
 
 
 export default function Login() {
+  const vectorImg = require('../../../assets/images/Vector1.png');
   const navigation = useNavigation();
   const {GenerateOtpServiceHandler} = useAuthServiceHandler();
   
   const [phone, setPhone] = useState('');
 
   const [phoneValidError, setPhoneValidError] = useState('');
-  const [isValid, setIsValid] = useState('');
+
   
 
   const [isFocus, setIsFocus] = useState(false);
-  const [onBlur, setOnBlur] = useState(true);
+  
+
 
   const Validation = () => {
     if (phone.length < 10) {
@@ -73,7 +70,7 @@ export default function Login() {
       return true;
     }
   };
-
+ 
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View style={styles.container}>
@@ -82,7 +79,7 @@ export default function Login() {
           style={styles.containerImg}>
           <Image
             style={styles.image}
-            source={{uri: vectorUri}}
+            source={vectorImg}
           />
         </TouchableOpacity>
 
@@ -103,11 +100,13 @@ export default function Login() {
             placeholder="Phone "
             value={phone}
             keyboardType="number-pad"
+            
             onChangeText={value => {
               OnHandleChange(value);
               setPhone(value);
             }}
             onFocus={() => setIsFocus(true)}
+            
           />
         </View>
         {phoneValidError ? (

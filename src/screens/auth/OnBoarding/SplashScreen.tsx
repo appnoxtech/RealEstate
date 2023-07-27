@@ -9,20 +9,17 @@ import {
 
 import React from 'react';
 import {responsiveHeight} from 'react-native-responsive-dimensions';
-
 import {useNavigation} from '@react-navigation/native';
-
-import maskgroup from '../../../../assets/images/Maskgroup.png';
-const maskgroupImageUri = Image.resolveAssetSource(maskgroup).uri;
 
 export default function SplashScreen() {
   const navigation = useNavigation();
+  const maskgroupImageUri =  '../../../../assets/images/Maskgroup.png'
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.imageContainer}>
         <Image
           style={styles.image}
-          source={{uri: maskgroupImageUri}}
+          source={require(maskgroupImageUri)}
         />
         <Text style={styles.containerText}>Rise {'\n'}Real Estate</Text>
       </View>

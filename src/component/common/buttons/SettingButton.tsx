@@ -1,0 +1,41 @@
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
+import React from 'react';
+import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
+import {useNavigation} from '@react-navigation/native';
+
+export default function SettingButton({onPress}: any) {
+  const navigation = useNavigation();
+  const settingImg = require('../../../../assets/images/Setting.png');
+
+  return (
+    <SafeAreaView>
+      <TouchableOpacity onPress={onPress} style={styles.containerImg}>
+        <Image style={styles.image} source={settingImg} />
+      </TouchableOpacity>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  containerImg: {
+    borderRadius: responsiveScreenWidth(7),
+    backgroundColor: '#F5F4F8',
+    borderColor: '#F5F4F8',
+    width: responsiveScreenWidth(12),
+    height: responsiveScreenWidth(12),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  image: {
+    width: 20,
+    height: 20,
+  },
+});

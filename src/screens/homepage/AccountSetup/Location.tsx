@@ -1,4 +1,11 @@
-import {SafeAreaView, StyleSheet, Text, View, Image,ImageBackground} from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ImageBackground,
+} from 'react-native';
 import React from 'react';
 import BackWithSkip from '../../../component/common/buttons/BackWithSkip';
 import {
@@ -8,7 +15,9 @@ import {
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 
+
 const Location = () => {
+  const mapsicalImg = require('../../../../assets/images/MapsicleMap.png')
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View style={styles.container}>
@@ -21,9 +30,8 @@ const Location = () => {
         </Text>
         <ImageBackground
           style={styles.backGroundImage}
-          source={require('../../../../assets/images/MapsicleMap.png')}
+          source={mapsicalImg}
           resizeMode="cover"></ImageBackground>
-       
       </View>
     </SafeAreaView>
   );
@@ -49,7 +57,7 @@ const styles = StyleSheet.create({
   },
   text1: {
     fontSize: 12,
-    marginBottom: responsiveScreenHeight(2)
+    marginBottom: responsiveScreenHeight(2),
   },
   backGroundImage: {
     width: responsiveScreenWidth(91),
@@ -57,7 +65,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-end',
     paddingVertical: responsiveScreenHeight(2),
-    
   },
   image: {
     width: responsiveWidth(93),

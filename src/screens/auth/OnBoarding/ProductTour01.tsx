@@ -15,17 +15,15 @@ import {
   useResponsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
 import {useNavigation} from '@react-navigation/native';
-import image1 from '../../../../assets/images/Rectangle6.png'
-import vector from '../../../../assets/images/Vector.png'
-
-const image1Uri = Image.resolveAssetSource(image1).uri
-const vectorUri = Image.resolveAssetSource(vector).uri
 
 
 export default function ProductTour01() {
   const navigation = useNavigation();
+  const image1 = '../../../../assets/images/Rectangle6.png';
+  const vector = '../../../../assets/images/Vector.png';
+
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
       <View style={styles.container}>
         <TourHeader />
 
@@ -42,7 +40,7 @@ export default function ProductTour01() {
         <View>
           <ImageBackground
             style={styles.backGroundImage}
-            source={{uri: image1Uri}}
+            source={require(image1)}
             resizeMode="cover">
             <View style={styles.backGroundImageButton}>
               <TouchableOpacity
@@ -50,7 +48,7 @@ export default function ProductTour01() {
                 onPress={() => navigation.goBack()}>
                 <Image
                   style={styles.pressBackImg}
-                  source={{uri: vectorUri}}
+                  source={require(vector)}
                 />
               </TouchableOpacity>
               <TouchableOpacity

@@ -13,8 +13,16 @@ import {
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
+import { useDispatch } from 'react-redux';
+import { UpdateLogout } from '../../redux/reducers/userReducer';
+
+
 
 export default function Profile() {
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(UpdateLogout())
+  }
   const profileImg = require('../../../assets/images/Ellipse.png');
   return (
     <SafeAreaView style={styles.safearea}>
@@ -27,7 +35,7 @@ export default function Profile() {
             Welcome,<Text style={styles.subText}> John ! </Text>
           </Text>
         <View style={styles.button__}>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity onPress={handleLogout} style={styles.button}>
             <Text style={styles.btnText}>Logout</Text>
           </TouchableOpacity>
         </View>

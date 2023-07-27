@@ -17,6 +17,7 @@ import ExploreButton from '../../common/buttons/ExploreButton';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {UpdateCityName} from '../../../redux/reducers/filterReducer';
+import { UpdateNewListing } from '../../../redux/reducers/postReducer';
 
 const AddCityName: React.FC<any> = ({route}) => {
   const dispatch = useDispatch();
@@ -27,6 +28,10 @@ const AddCityName: React.FC<any> = ({route}) => {
 
   const textChangeHandler = (text: string) => {
     dispatch(UpdateCityName(text));
+    dispatch(UpdateNewListing({
+      key: "location",
+      value: text
+    }))
   };
 
   return (
@@ -82,22 +87,19 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingHorizontal: responsiveScreenWidth(6),
+    marginVertical: responsiveScreenHeight(2),
     gap: responsiveScreenHeight(3),
   },
 
-  commercial: {
-    borderWidth: 1,
-    borderRadius: 18,
-    borderColor: '#8BC83F',
-    padding: 8,
-  },
+
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     borderWidth: 1,
     borderColor: '#8BC83F',
-    padding: responsiveScreenHeight(2),
-    width: responsiveScreenWidth(90),
+    padding: responsiveScreenWidth(4),
+    paddingVertical: responsiveScreenHeight(1.5),
+    width: responsiveScreenWidth(88),
   },
 });

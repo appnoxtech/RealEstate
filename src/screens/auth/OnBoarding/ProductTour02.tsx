@@ -22,7 +22,7 @@ export default function ProductTour02() {
   const vector = '../../../../assets/images/Vector.png';
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
       <View style={styles.container}>
         <TourHeader />
 

@@ -8,18 +8,43 @@ import {
   TextInput,
   ScrollView,
   ImageBackground,
+  Alert,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import HeaderWithBackBtn from '../../../component/common/buttons/HeaderWithBackBtn';
 import {
   responsiveFontSize,
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
-import FeaturedCategories from '../../homepage/FeaturedCategories';
-import SettingButton from '../../../component/common/buttons/SettingButton';
 
-export default function LocationDetails() {
+import SettingButton from '../../../component/common/buttons/SettingButton';
+import { SearchPropertyService } from '../../../services/properties';
+import CategoryEstate from '../../homepage/CategoryEstate';
+
+
+export default function LocationDetails( {route} : any) {
+  const {data} = route.params;
+  console.log(data);
+    const [cityData, setCityData] = useState([]);
+  
+    const GetPropertyData = async () => {
+      try {
+        const res = await SearchPropertyService(data);
+        const {result} = res.data;
+        if (result.rows) {
+          setCityData(result.rows);
+        } else {
+          setCityData([]);
+        }
+      } catch (error) {
+        Alert.alert('', 'Error');
+      }
+    };
+  
+    useEffect(() => {
+      GetPropertyData();
+    }, []);
   const image28 = require('../../../../assets/images/Bali.png');
   const image29 = require('../../../../assets/images/Bali1.png');
   const image30 = require('../../../../assets/images/Bali2.png');
@@ -44,7 +69,7 @@ export default function LocationDetails() {
           </View>
         </View>
         <View style={styles.searchContainer}>
-          <Text style={styles.realestateText}>Bali</Text>
+          <Text style={styles.realestateText}>{data}</Text>
           <Text style={styles.text1}>Our recommended real estates in Bali</Text>
 
           <View style={styles.searchInput}>
@@ -66,7 +91,7 @@ export default function LocationDetails() {
           <View style={styles.dataListContainer}>
             <View style={styles.noOfList}>
               <Text style={styles.noOfListText}>
-                Found 120 <Text style={{fontWeight: '200'}}> estates</Text>
+                Found 1 <Text style={{fontWeight: '200'}}> estates</Text>
               </Text>
               <View style={styles.iconDataImg}>
                 <TouchableOpacity style={styles.vertical}>
@@ -77,7 +102,7 @@ export default function LocationDetails() {
                 </TouchableOpacity>
               </View>
             </View>
-            <FeaturedCategories />
+           <CategoryEstate cityData={cityData} />
           </View>
         </View>
       </ScrollView>

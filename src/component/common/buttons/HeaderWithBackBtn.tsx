@@ -4,6 +4,8 @@ import { useNavigation } from '@react-navigation/native';
 import { responsiveScreenWidth } from 'react-native-responsive-dimensions';
 
 export default function HeaderWithBackBtn() {
+
+  
     const navigation = useNavigation();
     const vector1Img = require('../../../../assets/images/Vector1.png')
   return (
@@ -25,7 +27,6 @@ export default function HeaderWithBackBtn() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: responsiveScreenWidth(1)
     },
 
   containerImg: {

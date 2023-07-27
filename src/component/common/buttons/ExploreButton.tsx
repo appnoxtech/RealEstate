@@ -1,12 +1,12 @@
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
-import { responsiveScreenHeight } from 'react-native-responsive-dimensions';
+import { responsiveFontSize, responsiveScreenHeight } from 'react-native-responsive-dimensions';
 
 export default function ExploreButton({ title, onPress} : any) {
   return (
     <View>
       <TouchableOpacity onPress={onPress} style={styles.button}>
-        <Text style={{color: 'white'}}>{title}</Text>
+        <Text style={{color: 'white', fontSize: responsiveFontSize(3)}}>{title}</Text>
       </TouchableOpacity>
     </View>
   );

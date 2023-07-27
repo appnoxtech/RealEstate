@@ -20,16 +20,18 @@ import {
 import FeaturedCategories from '../../homepage/FeaturedCategories';
 import CategoryEstate from '../../homepage/CategoryEstate';
 import BackWithSetting from '../../../component/common/buttons/BackWithSetting';
+import AddCityName from '../../../component/homepages/Modal/AddCityName';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Villa() {
   const backGroundImg = require('../../../../assets/images/image31.png');
-  const SearchImg = require('../../../../assets/images/Search.png');
-  const mic = require('../../../../assets/images/Mic.png');
+  const searchImg = require('../../../../assets/images/Search.png');
   const showImg = require('../../../../assets/images/Show.png');
   const horizontalImg = require('../../../../assets/images/HorizontalActive.png');
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <ImageBackground
           style={styles.containerImage}
           imageStyle={styles.containerImage}
@@ -39,26 +41,15 @@ export default function Villa() {
         <View style={styles.container}>
           <Text style={{fontSize: 18, color: '#252B5C'}}>Top Villa</Text>
           <FeaturedCategories />
-          <View style={styles.searchInput}>
-            <TouchableOpacity>
-              <Image source={SearchImg} />
-            </TouchableOpacity>
-            <TextInput
-              style={styles.input}
-              placeholder="Full Search House, Apartment, etc"
-              // value={value}
-              autoCorrect={true}
-              autoCapitalize="none"
-              // onChangeText={value => {
-              //   setValue(value);
-              // }}
-              // onFocus={() => setIsFocus(true)}
-            />
-            <View style={styles.verticleLine}></View>
-            <TouchableOpacity>
-              <Image style={styles.mic} source={mic} />
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('SearchFilterPage' as never)}
+            style={styles.serchContainer}>
+            <Text>
+              <Text style={{fontWeight: 'bold'}}>Search </Text>City, Locality,
+              Project, Landmark
+            </Text>
+            <Image source={searchImg} />
+          </TouchableOpacity>
           <View style={styles.dataListContainer}>
             <View style={styles.noOfList}>
               <Text style={styles.noOfListText}>
@@ -73,7 +64,7 @@ export default function Villa() {
                 </TouchableOpacity>
               </View>
             </View>
-            <CategoryEstate />
+            <CategoryEstate cityName={AddCityName} />
           </View>
         </View>
       </ScrollView>
@@ -85,14 +76,13 @@ const styles = StyleSheet.create({
   containerImage: {
     width: responsiveWidth(100),
     height: responsiveHeight(40),
-    borderTopLeftRadius: 35,
-    borderTopRightRadius: 35,
     paddingHorizontal: responsiveWidth(3),
     paddingVertical: responsiveHeight(3),
   },
   container: {
     paddingTop: responsiveScreenHeight(2),
     paddingHorizontal: responsiveWidth(4),
+    gap: responsiveHeight(3)
   },
   searchInput: {
     flexDirection: 'row',
@@ -110,18 +100,20 @@ const styles = StyleSheet.create({
     gap: responsiveScreenWidth(2),
     fontSize: 12,
   },
-  input: {
-    flex: 2,
-  },
-  verticleLine: {
-    height: '50%',
-    width: 1,
-    backgroundColor: '#A1A5C1',
-  },
-  mic: {
-    paddingHorizontal: responsiveScreenWidth(1),
-    width: 20,
-    height: 20,
+  serchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    height: responsiveScreenHeight(7),
+    width: responsiveScreenWidth(90),
+    borderWidth: 0,
+    backgroundColor: '#F5F4F8',
+    borderColor: '#F5F4F8',
+    borderRadius: 10,
+    paddingHorizontal: responsiveScreenWidth(4),
+    marginHorizontal: responsiveScreenWidth(1),
+    gap: responsiveScreenWidth(2),
+    fontSize: 12,
   },
   dataListContainer: {},
   noOfList: {

@@ -1,5 +1,5 @@
-import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import {Alert, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import React, { useEffect, useState } from 'react';
 import {
   responsiveFontSize,
   responsiveScreenHeight,
@@ -8,9 +8,33 @@ import {
 
 import HeaderWithBackBtn from '../../../common/buttons/HeaderWithBackBtn';
 import CategoryEstate from '../../../../screens/homepage/CategoryEstate';
+import { SearchPropertyService } from '../../../../services/properties';
 
 const ListOfProperty:React.FC<any> = ({route}) => {
   const {cityName} = route.params;
+  const [cityData, setCityData] = useState([]);
+
+  const GetPropertyData = async () => {
+    try {
+      const res = await SearchPropertyService(cityName);
+      const {result} = res.data;
+      if (result.rows) {
+        setCityData(result.rows);
+      } else {
+        setCityData([]);
+      }
+    } catch (error) {
+      Alert.alert('', 'Error');
+    }
+  };
+
+  useEffect(() => {
+    GetPropertyData();
+  }, []);
+
+  console.log('cityData', cityData);
+  
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.container}>
@@ -23,7 +47,7 @@ const ListOfProperty:React.FC<any> = ({route}) => {
             <Text style={styles.cityname}> {route.params.cityName}</Text>
           </Text>
         </View>
-        <CategoryEstate cityName={cityName} />
+        <CategoryEstate cityData={cityData} />
       </View>
     </SafeAreaView>
   );

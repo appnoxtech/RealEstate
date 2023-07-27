@@ -127,8 +127,8 @@ const CategoryEstate = () => {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        horizontal={false}
-        numColumns={2}
+        horizontal={true}
+        numColumns={1}
         showsHorizontalScrollIndicator={false}
         data={DATA}
         renderItem={({item}) => <Item data={item} />}

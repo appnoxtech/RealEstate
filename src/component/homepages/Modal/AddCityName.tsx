@@ -87,22 +87,19 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingHorizontal: responsiveScreenWidth(6),
+    marginVertical: responsiveScreenHeight(2),
     gap: responsiveScreenHeight(3),
   },
 
-  commercial: {
-    borderWidth: 1,
-    borderRadius: 18,
-    borderColor: '#8BC83F',
-    padding: 8,
-  },
+
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     borderWidth: 1,
     borderColor: '#8BC83F',
-    padding: responsiveScreenHeight(2),
-    width: responsiveScreenWidth(90),
+    padding: responsiveScreenWidth(4),
+    paddingVertical: responsiveScreenHeight(1.5),
+    width: responsiveScreenWidth(88),
   },
 });

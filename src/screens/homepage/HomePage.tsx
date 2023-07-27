@@ -27,6 +27,7 @@ import ExploreNearbyEstate from '../../screens/discover/Category/ExploreNearbyEs
 
 import TopLocation from '../discover/Category/TopLocation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import HamBurgerModal from '../../component/homepages/Modal/HamBurgerModal';
 
 const HomePage = () => {
   const notificationImg = require('../../../assets/images/Notification.png');
@@ -43,7 +44,7 @@ const HomePage = () => {
           <TouchableOpacity onPress={() => setModalOpen(false)}>
             <Ionicons name="close" size={responsiveWidth(10)} />
           </TouchableOpacity>
-          <Text>Hello Modal</Text>
+          <HamBurgerModal />
         </View>
       </Modal>
       <View style={styles.headerItems}>
@@ -132,7 +133,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   hamBurgerMenu: {
-    flex: 1,
     marginTop: responsiveScreenWidth(10),
     // borderWidth: responsiveWidth(0.1),
   },

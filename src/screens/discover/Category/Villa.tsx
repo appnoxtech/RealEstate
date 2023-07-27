@@ -76,8 +76,6 @@ const styles = StyleSheet.create({
   containerImage: {
     width: responsiveWidth(100),
     height: responsiveHeight(40),
-    borderTopLeftRadius: 35,
-    borderTopRightRadius: 35,
     paddingHorizontal: responsiveWidth(3),
     paddingVertical: responsiveHeight(3),
   },

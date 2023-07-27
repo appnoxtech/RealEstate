@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
  
   shadowProp: {
     shadowOffset: {width: -2, height: 4},
+    elevation: 10,
     shadowOpacity: 0.2,
   },
   title: {

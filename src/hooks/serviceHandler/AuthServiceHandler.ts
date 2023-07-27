@@ -8,6 +8,7 @@ import {
 } from '../../services/auth/authService';
 import {useDispatch} from 'react-redux';
 import {UpdateIsLoginState} from '../../redux/reducers/userReducer';
+import { useEffect } from 'react';
 
 const useAuthServiceHandler = () => {
   const Navigation = useNavigation();
@@ -43,6 +44,22 @@ const useAuthServiceHandler = () => {
       Alert.alert('Wrong OTP');
     }
   };
+
+  const getFCMToken = async () => {
+    try {
+      const token = await messaging().getToken();
+      Alert.alert(token);
+      console.log(token);
+      
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+  
+  useEffect(() => {
+    getFCMToken();
+  }, []);
 
   const handleRegisterService = async (data: any) => {
     try {

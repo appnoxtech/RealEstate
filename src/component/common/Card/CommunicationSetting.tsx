@@ -8,6 +8,7 @@ import {
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import HeaderWithBackBtn from '../buttons/HeaderWithBackBtn';
+import CustomSwitchBtn from '../buttons/CustomSwitchBtn';
 
 const CommunicationSetting = () => {
   const [isEnabled, setIsEnabled] = useState(false);
@@ -28,7 +29,7 @@ const CommunicationSetting = () => {
               <Text>Curated properties based on your interests</Text>
             </View>
             <View style={styles.switchContainer1}>
-              <Switch
+              <CustomSwitchBtn
                 trackColor={{false: '#F5F4F8', true: '#3F9F98'}}
                 thumbColor={isEnabled ? '#8BC83F' : '#f4f3f4'}
                 // ios_backgroundColor="#3e3e3e"
@@ -43,7 +44,7 @@ const CommunicationSetting = () => {
               <Text>Curated projects based on your interests</Text>
             </View>
             <View style={styles.switchContainer2}>
-              <Switch 
+              <CustomSwitchBtn 
                 trackColor={{false: '#F5F4F8', true: '#3F9F98'}}
                 thumbColor={isEnabled ? '#8BC83F' : '#f4f3f4'}
                 // ios_backgroundColor="#3e3e3e"

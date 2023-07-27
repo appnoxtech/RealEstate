@@ -11,21 +11,21 @@ import messaging from "@react-native-firebase/messaging";
 const App = () => {
   
 
-const getFCMToken = async () => {
-  try {
-    const token = await messaging().getToken();
-    Alert.alert(token);
-    console.log(token);
+// const getFCMToken = async () => {
+//   try {
+//     const token = await messaging().getToken();
+//     Alert.alert(token);
+//     console.log(token);
     
-  } catch (error) {
-    console.log(error);
-  }
-};
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
 
-useEffect(() => {
-  getFCMToken();
-}, []);
+// useEffect(() => {
+//   getFCMToken();
+// }, []);
   return (
     <Provider store={store}>
       <PersistGate

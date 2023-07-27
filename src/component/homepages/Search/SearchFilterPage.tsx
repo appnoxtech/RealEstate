@@ -299,7 +299,6 @@ const styles = StyleSheet.create({
   propertyTYpe: {
     flexDirection: 'row',
     gap: responsiveScreenWidth(7),
-    borderBottomWidth: responsiveWidth(0.1),
   },
   residential: {
     borderBottomWidth: 0,

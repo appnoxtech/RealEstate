@@ -19,8 +19,26 @@ const PropertyFeatures = () => {
   const [latitude, setLatitude] = useState('');
   const {createPropertyHandler} = usePropertyHook()
   const {newListing} = useSelector((store: any) => store.post);
+  const {id} = useSelector((state: any) => state.user.userDetails);
+  const {phoneNumber} = useSelector((state: any) => state.user.userDetails);
+  const {name} = useSelector((state: any) => state.user.userDetails);
   const dispatch = useDispatch();
   const handelPost = () => {
+    dispatch(
+      UpdateNewListing({
+        key: 'userId', value: id
+      }),
+    );
+    dispatch(
+      UpdateNewListing({
+        key: 'ownerPhoneNumber', value: phoneNumber
+      }),
+    );
+    dispatch(
+      UpdateNewListing({
+        key: 'owner_name' ,value: name
+      }),
+    );
     createPropertyHandler(newListing)
   }
 

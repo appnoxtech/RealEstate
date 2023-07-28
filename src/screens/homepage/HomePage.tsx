@@ -27,6 +27,8 @@ import ExploreNearbyEstate from '../../screens/discover/Category/ExploreNearbyEs
 
 import TopLocation from '../discover/Category/TopLocation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import HamBurgerModal from '../../component/homepages/Modal/HamBurgerModal';
+import PropertyListCard from '../../component/common/Card/PropertyListCard';
 
 const HomePage = () => {
   const notificationImg = require('../../../assets/images/Notification.png');
@@ -43,7 +45,7 @@ const HomePage = () => {
           <TouchableOpacity onPress={() => setModalOpen(false)}>
             <Ionicons name="close" size={responsiveWidth(10)} />
           </TouchableOpacity>
-          <Text>Hello Modal</Text>
+          <HamBurgerModal />
         </View>
       </Modal>
       <View style={styles.headerItems}>
@@ -75,13 +77,22 @@ const HomePage = () => {
             onPress={() => navigation.navigate('SearchFilterPage' as never)}
             style={styles.serchContainer}>
             <Text>
-              <Text style={{fontWeight: 'bold'}}>Search :   </Text>City, Locality,
+              <Text style={{fontWeight: 'bold'}}>Search : </Text>City, Locality,
               Project, Landmark
             </Text>
             <Image source={searchImg} />
           </TouchableOpacity>
 
           <Category />
+          <View style={styles.yourListingHeader}>
+            <Text style={styles.featuredEstateHeaderText}>Your Listings</Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('PropertyListings' as never)}>
+              <Text style={styles.textAll}>View all</Text>
+            </TouchableOpacity>
+          </View>
+          <PropertyListCard />
+
           <TopDiscount />
 
           <View style={styles.featuredEstate}>
@@ -91,18 +102,16 @@ const HomePage = () => {
               </Text>
               <TouchableOpacity
                 onPress={() => navigation.navigate('FeaturedEstate' as never)}>
-                <Text style={styles.textAll}>view all</Text>
+                <Text style={styles.textAll}>View all</Text>
               </TouchableOpacity>
             </View>
           </View>
           <FeaturedCategories />
           <View style={styles.toplocation}>
-            <Text style={styles.featuredEstateHeaderText}>
-              Top Location
-            </Text>
+            <Text style={styles.featuredEstateHeaderText}>Top Location</Text>
             <TouchableOpacity
               onPress={() => navigation.navigate('TopLocationPage' as never)}>
-              <Text style={styles.textAll}>explore</Text>
+              <Text style={styles.textAll}>Explore</Text>
             </TouchableOpacity>
           </View>
           <TopLocation />
@@ -134,7 +143,6 @@ const styles = StyleSheet.create({
   hamBurgerMenu: {
     flex: 1,
     marginTop: responsiveScreenWidth(10),
-    // borderWidth: responsiveWidth(0.1),
   },
 
   container: {
@@ -207,6 +215,12 @@ const styles = StyleSheet.create({
   featuredEstate: {
     marginHorizontal: responsiveScreenWidth(2),
   },
+  yourListingHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+
   featuredEstateText: {
     flexDirection: 'row',
     alignItems: 'flex-end',

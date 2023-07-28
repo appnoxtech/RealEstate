@@ -26,9 +26,10 @@ import TopDiscount from '../homepage/TopDiscount';
 import ExploreNearbyEstate from '../../screens/discover/Category/ExploreNearbyEstate';
 
 import TopLocation from '../discover/Category/TopLocation';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import HamBurgerModal from '../../component/homepages/Modal/HamBurgerModal';
+
+
 import PropertyListCard from '../../component/common/Card/PropertyListCard';
+import ModalScreen from '../Modals/ModalScreen';
 
 const HomePage = () => {
   const notificationImg = require('../../../assets/images/Notification.png');
@@ -40,18 +41,13 @@ const HomePage = () => {
 
   return (
     <SafeAreaView style={styles.mainContainer}>
-      <Modal visible={modalOpen} animationType="slide">
-        <View style={styles.hamBurgerMenu}>
-          <TouchableOpacity onPress={() => setModalOpen(false)}>
-            <Ionicons name="close" size={responsiveWidth(10)} />
-          </TouchableOpacity>
-          <HamBurgerModal />
-        </View>
-      </Modal>
+      
+          
+    
+
+
       <View style={styles.headerItems}>
-        <TouchableOpacity onPress={() => setModalOpen(true)}>
-          <Ionicons name="menu" size={responsiveWidth(10)} />
-        </TouchableOpacity>
+      <View><ModalScreen  /></View>
 
         <View style={styles.profileContainer}>
           <TouchableOpacity
@@ -142,7 +138,9 @@ const styles = StyleSheet.create({
   },
   hamBurgerMenu: {
     flex: 1,
+    backgroundColor: 'red',
     marginTop: responsiveScreenWidth(10),
+    
   },
 
   container: {

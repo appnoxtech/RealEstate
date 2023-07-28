@@ -15,14 +15,14 @@ import {
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import {useNavigation} from '@react-navigation/native';
+import HeaderWithBackBtn from '../buttons/HeaderWithBackBtn';
 
-const PropertyListCard = ({title, propertyType, price} : any ) => {
+const PropertyListCard = ({title, propertyType, price}: any) => {
   const imgSrc = require('../../../../assets/images/image28.png');
   const navigation = useNavigation();
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.yourListing}>
-        
         <View style={[styles.listingContainer, styles.shadowProp]}>
           <View style={styles.yourListingsBody}>
             <Image
@@ -36,7 +36,10 @@ const PropertyListCard = ({title, propertyType, price} : any ) => {
             <View>
               <Text>PROPERTY ID: R70134128 </Text>
               <View style={{marginVertical: responsiveScreenHeight(1.4)}}>
-                <Text style={{fontWeight: 'bold', fontSize: responsiveFontSize(2)}}>{propertyType}</Text>
+                <Text
+                  style={{fontWeight: 'bold', fontSize: responsiveFontSize(2)}}>
+                  {propertyType}
+                </Text>
                 <Text>{title}</Text>
               </View>
               <Text>Posted 2 Weeks ago</Text>
@@ -67,7 +70,7 @@ const styles = StyleSheet.create({
     shadowOffset: {width: -2, height: 4},
     shadowOpacity: 0.2,
   },
- 
+
   featuredEstateHeaderText: {
     fontSize: responsiveFontSize(3),
     fontWeight: 'bold',

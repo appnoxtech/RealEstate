@@ -8,7 +8,6 @@ import {
     TouchableOpacity,
     TextInput,
     Image,
-    Modal,
     Alert,
     Pressable,
   } from 'react-native';
@@ -17,37 +16,22 @@ import {
   import {
     responsiveScreenHeight,
     responsiveScreenWidth,
+    responsiveWidth,
   } from 'react-native-responsive-dimensions';
   
   const HamBurgerModal: React.FC<any> = ({title, modalOpen, setTitle, children}) => {
   
-      const [modalVisible, setModalVisible] = useState(false);
     return (
       <View style={styles.centeredView}>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            Alert.alert('Modal has been closed.');
-            setModalVisible(!modalVisible);
-          }}>
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Text style={styles.modalText}>Hello World!</Text>
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => setModalVisible(!modalVisible)}>
-                <Text style={styles.textStyle}>Hide Modal</Text>
-              </Pressable>
-            </View>
+        <View style={styles.headerContainer}>
+          <View style={styles.firstChar}>
+            <Text>G</Text>
           </View>
-        </Modal>
-        <Pressable
-          style={[styles.button, styles.buttonOpen]}
-          onPress={() => setModalVisible(true)}>
-          <Text style={styles.textStyle}>Show Modal</Text>
-        </Pressable>
+          <View style={styles.userName}>
+            <Text>Govind</Text>
+            <Text>Owener Profile<TouchableOpacity><Text>Manage Profile</Text></TouchableOpacity></Text>
+          </View>
+        </View>
       </View>
     );
   };
@@ -58,45 +42,27 @@ import {
     const styles = StyleSheet.create({
         centeredView: {
           flex: 1,
-          justifyContent: 'center',
           alignItems: 'center',
           marginTop: 22,
+          backgroundColor: '#fff'
         },
-        modalView: {
-          margin: 20,
-          backgroundColor: 'white',
-          borderRadius: 20,
-          padding: 35,
+        headerContainer: {
+          flexDirection: 'row'
+          
+        },
+        firstChar: {
           alignItems: 'center',
-          shadowColor: '#000',
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 0.25,
-          shadowRadius: 4,
-          elevation: 5,
+          justifyContent: 'center',
+          backgroundColor: 'white',
+          width: responsiveScreenWidth(10),
+          height: responsiveScreenHeight(5),
+          borderWidth: responsiveWidth(0.1),
+          borderRadius: responsiveWidth(5),
         },
-        button: {
-          borderRadius: 20,
-          padding: 10,
-          elevation: 2,
+        userName: {
+
         },
-        buttonOpen: {
-          backgroundColor: '#F194FF',
-        },
-        buttonClose: {
-          backgroundColor: '#2196F3',
-        },
-        textStyle: {
-          color: 'white',
-          fontWeight: 'bold',
-          textAlign: 'center',
-        },
-        modalText: {
-          marginBottom: 15,
-          textAlign: 'center',
-        },
+
       });
    
 

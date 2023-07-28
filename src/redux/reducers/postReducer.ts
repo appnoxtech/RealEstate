@@ -10,11 +10,13 @@ const initialState = {
     bedrooms: '',
     bathrooms: '',
     amenities: '',
-    owner_identity: '',
     status: '',
     lookingTo: '',
     readyToMove: '',
     propertyType: '',
+    ownerPhoneNumber: '',
+    owner_name: '',
+    userId: '',
   },
 };
 interface newListingData {
@@ -29,14 +31,15 @@ interface newListingData {
     | 'bedrooms'
     | 'bathrooms'
     | 'amenities'
-    | 'owner_identity'
     | 'status'
     | 'lookingTo'
     | 'readyToMove'
     | 'propertyType'
-    | 'owner_identity'
+    | 'owner_name'
     | 'latitude'
-    | 'longitude';
+    | 'longitude'
+    | 'ownerPhoneNumber'
+    | 'userId';
   value: string;
 }
 

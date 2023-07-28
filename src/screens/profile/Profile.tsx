@@ -13,16 +13,23 @@ import {
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
-import { useDispatch } from 'react-redux';
-import { UpdateLogout } from '../../redux/reducers/userReducer';
-
-
+import {useDispatch, useSelector} from 'react-redux';
+import {UpdateLogout} from '../../redux/reducers/userReducer';
 
 export default function Profile() {
   const dispatch = useDispatch();
   const handleLogout = () => {
-    dispatch(UpdateLogout())
-  }
+    dispatch(UpdateLogout());
+  };
+  
+
+  const {name} = useSelector((state: any) => state.user.userDetails);
+  const {phoneNumber} = useSelector((state: any) => state.user.userDetails);
+  const {id} = useSelector((state: any) => state.user.userDetails);
+  
+
+  
+  const userName = name.toUpperCase();
   const profileImg = require('../../../assets/images/Ellipse.png');
   return (
     <SafeAreaView style={styles.safearea}>
@@ -30,10 +37,12 @@ export default function Profile() {
         <TouchableOpacity style={styles.profileContainer}>
           <Image style={styles.profileImg} source={profileImg} />
         </TouchableOpacity>
-        
+
         <Text style={styles.headerText}>
-            Welcome,<Text style={styles.subText}> John ! </Text>
-          </Text>
+          Welcome,<Text style={styles.subText}> {userName} </Text>
+        </Text>
+        <Text>{phoneNumber}</Text>
+        <Text>{id}</Text>
         <View style={styles.button__}>
           <TouchableOpacity onPress={handleLogout} style={styles.button}>
             <Text style={styles.btnText}>Logout</Text>

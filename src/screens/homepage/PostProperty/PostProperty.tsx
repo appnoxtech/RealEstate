@@ -19,58 +19,67 @@ import {
 import ExploreButton from '../../../component/common/buttons/ExploreButton';
 import {useNavigation} from '@react-navigation/native';
 import OptionBtn from '../../../component/common/buttons/OptionBtn';
-import { useDispatch, useSelector } from 'react-redux';
-import { UpdateNewListing } from '../../../redux/reducers/postReducer';
+import {useDispatch, useSelector} from 'react-redux';
+import {UpdateNewListing} from '../../../redux/reducers/postReducer';
+import ModalScreen from '../../Modals/ModalScreen';
+import HeaderWithBackBtn from '../../../component/common/buttons/HeaderWithBackBtn';
 
 const PostProperty = () => {
   const dispatch = useDispatch();
   const [modalOpen, setModalOpen] = useState(false);
-  const [areaType, setAreaType] = useState<string>('residential');
+  const [areaType, setAreaType] = useState<string>('Residential');
   const {newListing} = useSelector((store: any) => store.post);
   const [lookingTo, setLookingTo] = useState<string>('Sell');
   const [propertyType, setPropertyType] = useState<string>('');
   const [errorProperty, setErrorProperty] = useState<string>('');
 
-  const setLookingBtnHandler = (params : string) => {
+  const setLookingBtnHandler = (params: string) => {
     setLookingTo(params);
-    dispatch(UpdateNewListing({
-      key: "lookingTo" , value: params
-    }))
-  }
+    dispatch(
+      UpdateNewListing({
+        key: 'lookingTo',
+        value: params,
+      }),
+    );
+  };
   const setWhatKindPropertyHandler = (params: string) => {
     setAreaType(params);
-    dispatch(UpdateNewListing({
-      key: "type" , value: params
-    }))
-  }
+    dispatch(
+      UpdateNewListing({
+        key: 'type',
+        value: params,
+      }),
+    );
+  };
   const setPropertyTypeHandler = (params: string) => {
     setPropertyType(params);
-    dispatch(UpdateNewListing({
-      key: "propertyType" , value: params
-    }))
-  }
- 
- 
+    dispatch(
+      UpdateNewListing({
+        key: 'propertyType',
+        value: params,
+      }),
+    );
+  };
+
   const navigation = useNavigation();
 
   const validate = () => {
-      if(!propertyType) {
-        setErrorProperty('Please select property');
-        return false
-      } else {
-        setErrorProperty('');
-        return true;
-      }
-  }
+    if (!propertyType) {
+      setErrorProperty('Please select property');
+      return false;
+    } else {
+      setErrorProperty('');
+      return true;
+    }
+  };
   const handleNext = () => {
     const isValid = validate();
-    if(isValid) {
+    if (isValid) {
       navigation.navigate('PostPropertySecond' as never);
     }
-    
   };
   const LookingOption = ['Sell', 'Rent / Lease'];
-  const WhatKindOfProperty = ['residential', 'commercial'];
+  const WhatKindOfProperty = ['Residential', 'Commercial'];
   const selectProperty = [
     'Apartment',
     'Independent House/Villa',
@@ -80,22 +89,15 @@ const PostProperty = () => {
   ];
 
   console.log('newListing', newListing);
-  
+
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
-      <Modal visible={modalOpen} animationType="slide">
-        <View style={styles.hamBurgerMenu}>
-          <TouchableOpacity onPress={() => setModalOpen(false)}>
-            <Ionicons name="close" size={responsiveWidth(10)} />
-          </TouchableOpacity>
-        </View>
-      </Modal>
+      <View style={styles.hamBurgerMenu}>
+        <HeaderWithBackBtn />
+        <ModalScreen />
+      </View>
+
       <View style={styles.headerItems}>
-        <View style={styles.hamBurger}>
-          <TouchableOpacity onPress={() => setModalOpen(true)}>
-            <Ionicons name="menu" size={responsiveWidth(10)} />
-          </TouchableOpacity>
-        </View>
         <View style={styles.basicDetails}>
           <View style={{gap: responsiveScreenHeight(1)}}>
             <Text style={styles.steps}>Step 1 of 3</Text>
@@ -118,7 +120,7 @@ const PostProperty = () => {
                 />
               ))}
             </View>
-            <Text>What King Of Property ?</Text>
+            <Text>What Kind Of Property ?</Text>
             <View style={styles.propertyTYpe}>
               {WhatKindOfProperty?.map(option => (
                 <OptionBtn
@@ -147,12 +149,13 @@ const PostProperty = () => {
               ))}
             </View>
           </View>
-         {errorProperty ? <Text style={{color: 'red'}}>{errorProperty}</Text> : null}
-         
+          {errorProperty ? (
+            <Text style={{color: 'red'}}>{errorProperty}</Text>
+          ) : null}
         </View>
-        
+
         <View style={styles.bottomBtn}>
-        <ExploreButton onPress={() => handleNext()} title="Next" />
+          <ExploreButton onPress={() => handleNext()} title="Next" />
         </View>
       </View>
     </SafeAreaView>
@@ -163,8 +166,11 @@ export default PostProperty;
 
 const styles = StyleSheet.create({
   hamBurgerMenu: {
-    flex: 1,
-    marginTop: responsiveScreenWidth(10),
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: responsiveScreenHeight(1),
+    paddingHorizontal: responsiveScreenWidth(4),
   },
   hamBurger: {
     paddingHorizontal: responsiveScreenWidth(3.5),
@@ -192,7 +198,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: responsiveScreenHeight(2),
     paddingBottom: responsiveScreenWidth(7),
-    gap: responsiveScreenWidth(7),
+    gap: responsiveScreenWidth(3),
   },
   residential: {
     borderWidth: responsiveWidth(0.1),
@@ -245,6 +251,6 @@ const styles = StyleSheet.create({
   },
   bottomBtn: {
     paddingHorizontal: responsiveScreenWidth(5),
-    paddingVertical: responsiveScreenHeight(2)
-  }
+    paddingVertical: responsiveScreenHeight(2),
+  },
 });

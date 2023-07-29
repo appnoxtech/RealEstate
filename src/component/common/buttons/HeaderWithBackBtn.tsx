@@ -26,7 +26,7 @@ export default function HeaderWithBackBtn() {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        // flex: 1,
     },
 
   containerImg: {

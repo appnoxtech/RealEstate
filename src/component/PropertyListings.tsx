@@ -5,7 +5,12 @@ import { useSelector } from 'react-redux';
 import PropertyListCard from './common/Card/PropertyListCard';
 import HeaderWithBackBtn from './common/buttons/HeaderWithBackBtn';
 import { responsiveScreenHeight } from 'react-native-responsive-dimensions';
-
+// interface props {
+//   id: string;
+//   title: string;
+//   propertyType: string;
+//   price: number;
+// }
 const PropertyListings: React.FC<any> = () => {
   const { id } = useSelector((state: any) => state.user.userDetails);
   const [userListingsData, setUserListingsData] = useState([]);
@@ -30,6 +35,8 @@ const PropertyListings: React.FC<any> = () => {
   useEffect(() => {
     GetPropertyData();
   }, []);
+
+
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>

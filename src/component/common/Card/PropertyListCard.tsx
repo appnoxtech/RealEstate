@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, { FC } from 'react';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -17,7 +17,14 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import HeaderWithBackBtn from '../buttons/HeaderWithBackBtn';
 
-const PropertyListCard = ({title, propertyType, price}: any) => {
+
+interface props{
+  title: string;
+  propertyType: string;
+  price: number;
+}
+
+const PropertyListCard: FC<props> = ({title, propertyType, price}: any) => {
   const imgSrc = require('../../../../assets/images/image28.png');
   const navigation = useNavigation();
   return (

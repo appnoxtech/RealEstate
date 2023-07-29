@@ -19,12 +19,13 @@ import HeaderWithBackBtn from '../buttons/HeaderWithBackBtn';
 
 
 interface props{
+  id: string;
   title: string;
   propertyType: string;
-  price: number;
+  price: number
 }
 
-const PropertyListCard: FC<props> = ({title, propertyType, price}: any) => {
+const PropertyListCard:FC<props> = ({title, propertyType, price}) => {
   const imgSrc = require('../../../../assets/images/image28.png');
   const navigation = useNavigation();
   return (

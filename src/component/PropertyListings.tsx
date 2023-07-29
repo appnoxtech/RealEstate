@@ -5,16 +5,19 @@ import { useSelector } from 'react-redux';
 import PropertyListCard from './common/Card/PropertyListCard';
 import HeaderWithBackBtn from './common/buttons/HeaderWithBackBtn';
 import { responsiveScreenHeight } from 'react-native-responsive-dimensions';
-// interface props {
-//   id: string;
-//   title: string;
-//   propertyType: string;
-//   price: number;
-// }
-const PropertyListings: React.FC<any> = () => {
+
+interface userListingsData {
+  id: string;
+  title: string;
+  propertyType: string;
+  price: number;
+
+}
+
+const PropertyListings: React.FC = () => {
   const { id } = useSelector((state: any) => state.user.userDetails);
-  const [userListingsData, setUserListingsData] = useState([]);
-  // console.log(userListingsData);
+  const [userListingsData, setUserListingsData] = useState<Array<userListingsData>>([]);
+  console.log(userListingsData);
 
   const GetPropertyData = async () => {
     try {
@@ -44,7 +47,7 @@ const PropertyListings: React.FC<any> = () => {
       <HeaderWithBackBtn />
       </View>
       <View>
-        {userListingsData.map((item) => {
+        {userListingsData.map((item: userListingsData)  => {
           return <PropertyListCard id={item.id} title={item.title}  propertyType={item.propertyType} price={item.price}/>
         })}
       </View>

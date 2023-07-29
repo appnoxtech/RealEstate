@@ -22,9 +22,11 @@ import {
 
 import BurgerCard from '../../component/common/Card/BurgerCard';
 import MenuCard from '../../component/common/Card/MenuCard';
+import { useSelector } from 'react-redux';
 
 const ModalScreen = () => {
   const [visible, setVisible] = useState(false);
+  const {name} = useSelector((state: any) => state.user.userDetails);
 
   return (
     <View style={styles.container}>
@@ -36,7 +38,7 @@ const ModalScreen = () => {
             </TouchableOpacity>
 
             <View>
-              <Text style={styles.headerName}>Govind</Text>
+              <Text style={styles.headerName}>{name}</Text>
               <View style={{flexDirection: 'row'}}>
                 <Text style={{color: 'white', fontSize: responsiveFontSize(2)}}>
                   Owner Profile

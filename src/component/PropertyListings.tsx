@@ -6,7 +6,7 @@ import PropertyListCard from './common/Card/PropertyListCard';
 import HeaderWithBackBtn from './common/buttons/HeaderWithBackBtn';
 import { responsiveScreenHeight } from 'react-native-responsive-dimensions';
 
-const PropertyListings: React.FC<any> = () => {
+const PropertyListings: React.FC = () => {
   const { id } = useSelector((state: any) => state.user.userDetails);
   const [userListingsData, setUserListingsData] = useState([]);
   // console.log(userListingsData);
@@ -32,7 +32,7 @@ const PropertyListings: React.FC<any> = () => {
   }, []);
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
+    <SafeAreaView style={styles.safearea}>
       <View style={{paddingBottom: responsiveScreenHeight(8)}}>
       <HeaderWithBackBtn />
       </View>
@@ -47,4 +47,6 @@ const PropertyListings: React.FC<any> = () => {
 
 export default PropertyListings;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  safearea: {flex: 1, backgroundColor: 'white'}
+});

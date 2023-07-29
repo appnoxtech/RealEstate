@@ -17,7 +17,9 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import HeaderWithBackBtn from '../buttons/HeaderWithBackBtn';
 
-interface props {
+
+interface props{
+  id: string;
   title: string;
   propertyType: string;
   price: number

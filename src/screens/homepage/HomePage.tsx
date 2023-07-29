@@ -27,7 +27,6 @@ import ExploreNearbyEstate from '../../screens/discover/Category/ExploreNearbyEs
 
 import TopLocation from '../discover/Category/TopLocation';
 
-
 import PropertyListCard from '../../component/common/Card/PropertyListCard';
 import ModalScreen from '../Modals/ModalScreen';
 
@@ -41,13 +40,10 @@ const HomePage = () => {
 
   return (
     <SafeAreaView style={styles.mainContainer}>
-      
-          
-    
-
-
       <View style={styles.headerItems}>
-      <View><ModalScreen  /></View>
+        <View>
+          <ModalScreen />
+        </View>
 
         <View style={styles.profileContainer}>
           <TouchableOpacity
@@ -87,8 +83,12 @@ const HomePage = () => {
               <Text style={styles.textAll}>View all</Text>
             </TouchableOpacity>
           </View>
-          <PropertyListCard />
-
+          <PropertyListCard
+            title="Flat in Greater Noida"
+            propertyType="Independent House/Villa"
+            id={''}
+            price={0}
+          />
           <TopDiscount />
 
           <View style={styles.featuredEstate}>
@@ -140,7 +140,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'red',
     marginTop: responsiveScreenWidth(10),
-    
   },
 
   container: {

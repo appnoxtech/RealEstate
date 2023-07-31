@@ -28,12 +28,10 @@ export default function Profile() {
     dispatch(UpdateLogout());
   };
 
-  const {name} = useSelector((state: any) => state.user.userDetails);
-  const {phoneNumber} = useSelector((state: any) => state.user.userDetails);
-  const {email} = useSelector((state: any) => state.user.userDetails);
+  const {userDetails} = useSelector((state: any) => state.user);
   const navigation = useNavigation();
 
-  const userName = name.toUpperCase();
+  const userName = userDetails?.name.toUpperCase();
   const handelCommunePress = () => {
     navigation.navigate('CommunicationSetting' as never);
   };
@@ -60,8 +58,8 @@ export default function Profile() {
           <Text style={styles.userName}>
             Welcome,<Text style={styles.subText}> {userName} </Text>
           </Text>
-          <Text style={styles.emailText}>{email}</Text>
-          <Text style={styles.emailText}>{phoneNumber}</Text>
+          <Text style={styles.emailText}>{userDetails?.email}</Text>
+          <Text style={styles.emailText}>{userDetails?.phoneNumber}</Text>
         </View>
         <TouchableOpacity>
           <Text style={styles.editYourProfile}>

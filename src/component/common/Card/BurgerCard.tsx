@@ -14,7 +14,6 @@ interface props {
 
 const BurgerCard: FC<props> = ({title, description, iconName, pageName, setVisible}) => {
     const navigation = useNavigation();
-    console.log(pageName);
     
   return (
     <TouchableOpacity onPress={() => {

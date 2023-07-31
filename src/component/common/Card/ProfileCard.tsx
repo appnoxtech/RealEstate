@@ -8,7 +8,7 @@ interface props {
     title: string;
     iconName1: string;
     iconName2: string;
-    onPress(): () => void;
+    onPress(): () => () => () => void;
   }
 const ProfileCard: FC<props> =({title, iconName1, iconName2, onPress}) => {
   return (

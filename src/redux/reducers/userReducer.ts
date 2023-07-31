@@ -1,7 +1,8 @@
 const initialState = {
 
   isLogin: false,
-  userDetails: {},
+  userDetails: {
+  },
 };
 interface user {
   isLogin: boolean,

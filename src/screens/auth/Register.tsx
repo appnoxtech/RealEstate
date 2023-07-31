@@ -33,7 +33,7 @@ export default function Register() {
   const [phoneValidError, setPhoneValidError] = useState('');
   const [isFocus, setIsFocus] = useState(false);
   const vectorImg = require('../../../assets/images/Vector1.png');
-  const profile = '../../../assets/images/Profile.png';
+  const profile = '../../../assets/images/profile.png';
   const groupImg = require('../../../assets/images/Group.png');
   const callImg = require('../../../assets/images/Call.png')
 

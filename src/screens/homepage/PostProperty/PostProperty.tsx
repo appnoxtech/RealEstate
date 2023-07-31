@@ -88,7 +88,7 @@ const PostProperty = () => {
     '1 RK/ Studio Aprtment',
   ];
 
-  console.log('newListing', newListing);
+
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>

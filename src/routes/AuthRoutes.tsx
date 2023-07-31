@@ -24,6 +24,7 @@ import PropertyDetail from '../screens/homepage/PostProperty/PropertyFeatures';
 import PropertyFeatures from '../screens/homepage/PostProperty/PropertyFeatures';
 import CommunicationSetting from '../component/common/Card/CommunicationSetting';
 import PropertyListings from '../component/PropertyListings';
+import UserType from '../screens/auth/UserType';
 
 const Stack = createNativeStackNavigator();
 
@@ -142,6 +143,12 @@ const AuthRoute = () => {
         component={DetailedPage}
         options={{headerShown: false}}
       />
+      <Stack.Screen
+        name="UserType"
+        component={UserType}
+        options={{headerShown: false}}
+      />
+
     </Stack.Navigator>
   );
 };

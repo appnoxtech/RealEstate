@@ -10,6 +10,9 @@ import {useDispatch} from 'react-redux';
 
 import {updateUserDetails} from '../../redux/reducers/userReducer';
 
+interface navigationParams {
+  SuccessPage : {title: string}
+}
 
 const useAuthServiceHandler = () => {
   const Navigation = useNavigation();
@@ -20,11 +23,11 @@ const useAuthServiceHandler = () => {
       const res = await GenerateOTPService(data);
       const {result} = res.data;
       Alert.alert('OTP', result.generateOTP);
-      Navigation.navigate('RegisterWithOTP', {phoneNumber: data.phoneNumber});
+      Navigation.navigate('RegisterWithOTP' as never, {phoneNumber: data.phoneNumber});
     } catch (error: any) {
       const ErrorMsg = error.response.data.error.message;
       if (ErrorMsg === 'Phone number is not verified') {
-        Navigation.navigate('RegisterWithOTP', {phoneNumber: data.phoneNumber});
+        Navigation.navigate('RegisterWithOTP' as never, {phoneNumber: data.phoneNumber});
       } else {
         Alert.alert('', 'User Not Register!');
         Navigation.navigate('Register' as never);
@@ -54,7 +57,7 @@ const useAuthServiceHandler = () => {
       const res = await RegisterService(data);
       const {result} = res.data;
       Alert.alert('OTP', result.generateOTP);
-      Navigation.navigate('RegisterWithOTP', {phoneNumber: data.phoneNumber});
+      Navigation.navigate('RegisterWithOTP' as never, {phoneNumber: data.phoneNumber});
     } catch (error: any) {
       Alert.alert('Error', error.response.data.error.message);
     }

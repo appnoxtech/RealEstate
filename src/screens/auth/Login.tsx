@@ -18,6 +18,8 @@ import {
 } from 'react-native-responsive-dimensions';
 import {useNavigation} from '@react-navigation/native';
 import useAuthServiceHandler from '../../hooks/serviceHandler/AuthServiceHandler';
+import { useDispatch } from 'react-redux';
+import { UpdateRegisterUserDetails, updateUserDetails } from '../../redux/reducers/userReducer';
 
 
 export default function Login() {
@@ -32,6 +34,7 @@ export default function Login() {
   
 
   const [isFocus, setIsFocus] = useState(false);
+  const dispatch = useDispatch();
   
 
 
@@ -52,10 +55,15 @@ export default function Login() {
         phoneNumber: phone,
         type: 'GENERATE',
       };
+      dispatch(UpdateRegisterUserDetails(data))
       GenerateOtpServiceHandler(data);
-      console.log(data)
+      
     }
+   
+    
   };
+ 
+  
 
   
   const OnHandleChange = (value: string | any[]) => {

@@ -17,13 +17,12 @@ interface userListingsData {
 const PropertyListings: React.FC = () => {
   const { id } = useSelector((state: any) => state.user.userDetails);
   const [userListingsData, setUserListingsData] = useState<Array<userListingsData>>([]);
-  console.log(userListingsData);
+  
 
   const GetPropertyData = async () => {
     try {
       const res = await GetPropertyByUserIdService(id);
       const { result } = res.data;
-      console.log(result);
       
       if (result) {
         setUserListingsData(result);

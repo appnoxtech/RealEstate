@@ -22,14 +22,12 @@ import {
 
 import BurgerCard from '../../component/common/Card/BurgerCard';
 import MenuCard from '../../component/common/Card/MenuCard';
-import { useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
+import {useSelector} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 
 const ModalScreen = () => {
   const [visible, setVisible] = useState(false);
   const {userDetails} = useSelector((state: any) => state.user);
-  // const navigation = useNavigation();
-  
 
   return (
     <View style={styles.container}>
@@ -80,13 +78,15 @@ const ModalScreen = () => {
               pageName="PostProperty"
               setVisible={setVisible}
             />
-            <BurgerCard
-              setVisible={setVisible}
-              title="Search Properties"
-              description="Explore Residential and Commercial Properties"
-              iconName="search"
-              pageName="SearchFilterPage"
-            />
+            {userDetails?.role === 'tenant' ? (
+              <BurgerCard
+                setVisible={setVisible}
+                title="Search Properties"
+                description="Explore Residential and Commercial Properties"
+                iconName="search"
+                pageName="SearchFilterPage"
+              />
+            ) : null}
             <Text style={styles.manageProperty}>MANAGE YOUR PROPERTY</Text>
             <View>
               <MenuCard

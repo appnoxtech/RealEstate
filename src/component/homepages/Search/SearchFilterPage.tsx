@@ -64,19 +64,18 @@ const SearchFilterPage = ({route}: any) => {
     try {
       const searchString = `search?location=${cityName}&type=${areaType === 'residential' ? "Residential-property" : "Commercial-property"}&lookingTo=${lookingTo === 'Buy' ? 'Buy' : 'Rent/Lease'}&bedrooms=${selectedId}&readyToMove=${readyToMove === 'Yes' ? 'Yes' : 'No'}&price=${sliderValue}`;
       const url = `${URL}${searchString}`;
-      console.log(searchString)
-      console.log('url', url);
+     
       
       const res = await axios.get(url);
-      // console.log('res', res);
+     
       const {result} = res.data;
-      // console.log('result', result);
+     
       Navigation.navigate('RenderSearchResult' as never, {cityData: result, cityName});
     } catch (error : any) {
       const sendMessage = error.response.data.error.message;
-      // console.log(sendMessage)
+    
       Navigation.navigate('FallBackSearch' as never , {sendMessage })
-      // console.log('Error', error.response.data.error.message);
+      
     }
   }
 

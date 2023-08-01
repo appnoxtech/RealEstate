@@ -121,8 +121,6 @@ const OTP: React.FC<any> = () => {
         otp: userOTP,
       };
       VerifyOTPServiceHandler(data);
-
-
     } else {
       return;
     }

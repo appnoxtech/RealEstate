@@ -11,11 +11,13 @@ import Homepage from '../screens/homepage/HomePage';
 import Research from '../screens/search/Research';
 import Profile from '../screens/profile/Profile';
 import Shortlisted from '../screens/profile/Shortlisted';
+import HomePage from '../screens/agent/HomePage';
 
 
 const Tab = createBottomTabNavigator();
 
 const BottomNavigation = () => {
+  const {userDetails} = useSelector((state : any ) => state.user);
   // const dispatch = useDispatch();
   // const [userData, setUserData] = useState<any>({});
 
@@ -28,6 +30,8 @@ const BottomNavigation = () => {
   //   getUserDetails();
   // }, []);
 
+
+  
   return (
     <Tab.Navigator
       //@ts-ignore
@@ -82,9 +86,10 @@ const BottomNavigation = () => {
           letterSpacing: 0.8,
         },
       })}>
+
       <Tab.Screen
         name="Homepage"
-        component={Homepage}
+        component={userDetails?.role === 'agent' ? HomePage : Homepage}
         listeners={({navigation, route}) => ({
           tabPress: e => {
             // Prevent default action

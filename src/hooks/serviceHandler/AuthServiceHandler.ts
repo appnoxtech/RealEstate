@@ -55,7 +55,6 @@ const useAuthServiceHandler = () => {
     } catch (error: any) {
       Alert.alert('Wrong OTP' , );
       console.log("ewrererwe", error);
-      
     }
   };
 

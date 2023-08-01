@@ -18,6 +18,8 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import useAuthServiceHandler from '../../hooks/serviceHandler/AuthServiceHandler';
 import HeaderWithBackBtn from '../../component/common/buttons/HeaderWithBackBtn';
+import { useDispatch } from 'react-redux';
+import { UpdateRegisterUserDetails } from '../../redux/reducers/userReducer';
 
 
 const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
@@ -33,9 +35,11 @@ export default function Register() {
   const [phoneValidError, setPhoneValidError] = useState('');
   const [isFocus, setIsFocus] = useState(false);
   const vectorImg = require('../../../assets/images/Vector1.png');
-  const profile = '../../../assets/images/profile.png';
+  const profile = '../../../assets/images/Profilecopy.png';
   const groupImg = require('../../../assets/images/Group.png');
-  const callImg = require('../../../assets/images/Call.png')
+  const callImg = require('../../../assets/images/Call.png');
+  const dispatch = useDispatch();
+
 
   const validation = () => {
     if (!name.length) {
@@ -76,8 +80,9 @@ export default function Register() {
         profilePhoto: '',
         role: 'tenant'
       };
-      handleRegisterService(data);
-      console.log(data);
+      dispatch(UpdateRegisterUserDetails({...data}))
+      navigation.navigate('SelectUserType' as never);
+      // console.log(data);
     }
   };
 
@@ -155,7 +160,7 @@ export default function Register() {
                 setName(value);
               }}
               onFocus={() => setIsFocus(true)}></TextInput>
-            <Image source={require(profile)} />
+            <Image source={require(profile)} style={styles.profileImage}/>
           </View>
           {nameValidError ? (
             <Text style={styles.errorText}>{nameValidError}</Text>
@@ -176,7 +181,7 @@ export default function Register() {
               }}
               onFocus={() => setIsFocus(true)}
             />
-            <Image source={groupImg} />
+            <Image style={styles.emailImage} source={groupImg} />
           </View>
           {emailValidError ? (
             <Text style={styles.errorText}>{emailValidError}</Text>
@@ -237,10 +242,19 @@ const styles = StyleSheet.create({
     marginBottom: responsiveScreenHeight(5)
   },
 
+  profileImage: {
+    width: responsiveScreenWidth(6),
+    height: responsiveScreenHeight(3)
+  },
+
+  emailImage: {
+    width: responsiveScreenWidth(5),
+    height: responsiveScreenHeight(2)
+  },
   
   imagePhone: {
-    width: 20,
-    height: 20,
+    width: responsiveScreenWidth(5),
+    height: responsiveScreenHeight(2)
   },
 
   textH: {

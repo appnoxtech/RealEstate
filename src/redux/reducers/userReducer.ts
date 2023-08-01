@@ -3,6 +3,7 @@ const initialState = {
   isLogin: false,
   userDetails: {
   },
+  registerUserDetails: {}
 };
 interface user {
   isLogin: boolean,
@@ -22,7 +23,12 @@ interface updateUserDetails {
   payload: user
 }
 
-type action = setIsLogin | setIsLogout | updateUserDetails
+interface registerUserDetails {
+  payload: any;
+  type: 'REGISTER_USER_DETAILS'
+}
+
+type action = setIsLogin | setIsLogout | updateUserDetails | registerUserDetails
 
 const UserReducer = (state = initialState, action: action) => {
   switch (action.type) {
@@ -43,6 +49,12 @@ const UserReducer = (state = initialState, action: action) => {
       return {
         ...state,
         userDetails: {...action.payload}
+      }
+    }
+    case 'REGISTER_USER_DETAILS': {
+      return {
+        ...state,
+        registerUserDetails: {...action.payload}
       }
     }
     default:
@@ -71,3 +83,10 @@ export const updateUserDetails = (data: any): updateUserDetails => {
     payload: data,
   }
 }
+
+export const UpdateRegisterUserDetails = (data: any): registerUserDetails => {
+  return {
+    type: 'REGISTER_USER_DETAILS',
+    payload: data,
+  };
+};

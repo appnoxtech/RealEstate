@@ -4,16 +4,15 @@ import { useNavigation } from '@react-navigation/native';
 import { responsiveFontSize, responsiveScreenWidth, responsiveWidth } from 'react-native-responsive-dimensions';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-export default function NextBtn() {
+export default function NextBtn({onPress} : any) {
 
-  
     const navigation = useNavigation();
     
   return (
    <SafeAreaView>
      <View style={styles.container}>
        <TouchableOpacity
-          onPress={() => navigation.navigate()}
+          onPress={onPress}
           style={styles.containerImg}>
           <FontAwesome name='check' size={responsiveWidth(6)} color={'#3fc888'}/>
         </TouchableOpacity>

@@ -17,19 +17,38 @@ import {
 import HeaderWithBackBtn from '../../component/common/buttons/HeaderWithBackBtn';
 import UserTypeBtn from '../../component/common/buttons/UserTypeBtn';
 import NextBtn from '../../component/common/buttons/NextBtn';
+import {useDispatch, useSelector} from 'react-redux';
+import {UpdateRegisterUserDetails} from '../../redux/reducers/userReducer';
+import {useNavigation} from '@react-navigation/native';
+import useAuthServiceHandler from '../../hooks/serviceHandler/AuthServiceHandler';
 
 
 const UserType = () => {
-  const [userType, setUserType] = useState<string>('');
-  const imageAgentUrl = require('../../../assets/Animation/animationUser.json')
+  const dispatch = useDispatch();
+  const imageAgentUrl = require('../../../assets/Animation/animationUser.json');
   const imageUserUrl = require('../../../assets/Animation/animationAgent.json');
   const imageOwnerUrl = require('../../../assets/Animation/animationOwner.json');
+  const {registerUserDetails} = useSelector((state: any) => state.user);
+  const {handleRegisterService} = useAuthServiceHandler();
+  console.log(registerUserDetails);
 
   const SelectUserType = [
-    {type: 'Agent', img: imageAgentUrl},
-    {type: 'User', img: imageUserUrl},
-    {type: 'Owner', img: imageOwnerUrl},
+    {type: 'Agent', img: imageAgentUrl, id: 'agent'},
+    {type: 'User', img: imageUserUrl, id: 'tenant'},
+    {type: 'Owner', img: imageOwnerUrl, id: 'owner'},
   ];
+
+  const setUserType = (userType: string) => {
+    dispatch(
+      UpdateRegisterUserDetails({...registerUserDetails, role: userType}),
+    );
+   
+  };
+  const handelPress = () => {
+    handleRegisterService(registerUserDetails);
+  }
+  
+
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
       <View style={styles.headerBtn}>
@@ -40,11 +59,12 @@ const UserType = () => {
         {SelectUserType.map(option => {
           return (
             <UserTypeBtn
-              key={option.type}
+              key={option.id}
               label={option.type}
+              id={option.id}
               btnPressHandler={setUserType}
               style={
-                userType === option.type
+                registerUserDetails?.role === option?.id
                   ? styles.selectedUser
                   : styles.unSelectedUser
               }
@@ -52,7 +72,7 @@ const UserType = () => {
             />
           );
         })}
-         <NextBtn />
+        <NextBtn onPress={handelPress}/>
       </View>
     </SafeAreaView>
   );
@@ -72,19 +92,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#3fc888',
     paddingVertical: responsiveScreenHeight(2),
     borderRadius: responsiveScreenHeight(4),
-    paddingHorizontal: responsiveScreenWidth(3)
+    paddingHorizontal: responsiveScreenWidth(3),
   },
   unSelectedUser: {
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#F5F4F8', 
+    backgroundColor: '#F5F4F8',
     paddingHorizontal: responsiveScreenWidth(3),
     paddingVertical: responsiveScreenHeight(2),
     borderRadius: responsiveScreenHeight(4),
-    marginBottom: responsiveScreenHeight(1)
-    
+    marginBottom: responsiveScreenHeight(1),
   },
   textUserType: {
     fontSize: responsiveFontSize(4),
@@ -97,7 +116,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     gap: responsiveHeight(1),
-    paddingHorizontal: responsiveScreenWidth(4)
+    paddingHorizontal: responsiveScreenWidth(4),
   },
   btn: {
     alignItems: 'center',
@@ -113,3 +132,4 @@ const styles = StyleSheet.create({
     fontSize: responsiveFontSize(4),
   },
 });
+

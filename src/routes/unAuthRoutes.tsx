@@ -13,6 +13,7 @@ import FeaturedEstate from '../screens/homepage/FeaturedEstate';
 import Villa from '../screens/discover/Category/Villa';
 import TopDicount from '../screens/homepage/TopDiscount';
 import SuccessPage from '../screens/auth/SuccessPage';
+import UserType from '../screens/auth/UserType';
 
 
 const Stack = createNativeStackNavigator();
@@ -64,6 +65,11 @@ export default function UnAuthRoutes() {
       <Stack.Screen
         name="RegisterWithOTP"
         component={RegisterWithOTP}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="SelectUserType"
+        component={UserType}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

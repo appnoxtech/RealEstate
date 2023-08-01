@@ -18,13 +18,14 @@ interface props {
   label: string;
   style: StyleProp<ViewStyle>;
   imageUrl: any;
+  id: string
 }
 
-const UserTypeBtn: FC<props> = ({btnPressHandler, label, style, imageUrl}) => {
+const UserTypeBtn: FC<props> = ({btnPressHandler, label, style, imageUrl, id}) => {
   const [isActive, setIsActive] = useState();
 
   return (
-    <TouchableOpacity onPress={() => btnPressHandler(label)} style={style}>
+    <TouchableOpacity onPress={() => btnPressHandler(id)} style={style}>
       <View style={styles.animContainer}>
         <Lottie resizeMode='contain' style={styles.image} source={imageUrl} autoPlay loop/>
       </View>

@@ -29,6 +29,7 @@ import ButtonPrimary from '../../component/common/buttons/ButtonPrimary';
 import useKeyboardVisibleListener from '../../hooks/CommonHooks/isKeyboardVisibleHook';
 import HeaderWithBackBtn from '../../component/common/buttons/HeaderWithBackBtn';
 import useAuthServiceHandler from '../../hooks/serviceHandler/AuthServiceHandler';
+import { useSelector } from 'react-redux';
 
 
 type otpInterface = {
@@ -60,8 +61,10 @@ const labels = {
   verify: 'Verify',
 };
 
-const OTP: React.FC<any> = ({route}) => {
-  const {phoneNumber} = route.params;
+const OTP: React.FC<any> = () => {
+  const {registerUserDetails} = useSelector((state: any) => state.user);
+  console.log("->>>>>>",registerUserDetails?.phoneNumber);
+  
   const {VerifyOTPServiceHandler, GenerateOtpServiceHandler} = useAuthServiceHandler();
   const isKeyboardVisible = useKeyboardVisibleListener();
   const [loading, setLoading] = useState(false);
@@ -114,7 +117,7 @@ const OTP: React.FC<any> = ({route}) => {
     }, '');
     if (userOTP.length === 4) {
       const data = {
-        phoneNumber,
+        phoneNumber: registerUserDetails?.phoneNumber,
         otp: userOTP,
       };
       VerifyOTPServiceHandler(data);

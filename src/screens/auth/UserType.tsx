@@ -30,7 +30,6 @@ const UserType = () => {
   const imageOwnerUrl = require('../../../assets/Animation/animationOwner.json');
   const {registerUserDetails} = useSelector((state: any) => state.user);
   const {handleRegisterService} = useAuthServiceHandler();
-  console.log(registerUserDetails);
 
   const SelectUserType = [
     {type: 'Agent', img: imageAgentUrl, id: 'agent'},

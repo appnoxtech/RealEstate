@@ -11,7 +11,7 @@ export const GenerateOTPService = async (data: any) => {
 };
 
 export const VerifyOTPService = async (data: any) => {
-  console.log('------------>>>', data);
+  
   const url = `${URL}verify-otp`;
   return axios.post(url, data, {
     headers: {
@@ -22,8 +22,6 @@ export const VerifyOTPService = async (data: any) => {
 
 export const RegisterService = async (data: any) => {
   const url = `${URL}user/create`;
-  console.log('url', url);
-  console.log('data', data);
   return axios.post(url, data);
 };
 

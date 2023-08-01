@@ -8,7 +8,7 @@ const appReducer = combineReducers({
   user: UserReducer,
   common: CommonReducer,
   filter: FilterReducer,
-  post: PostReducer
+  post: PostReducer,
 });
 
 export const rootReducers = (state: any, action: any) => {

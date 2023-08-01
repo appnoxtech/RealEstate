@@ -28,7 +28,7 @@ import { useNavigation } from '@react-navigation/native';
 const ModalScreen = () => {
   const [visible, setVisible] = useState(false);
   const {userDetails} = useSelector((state: any) => state.user);
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
   
 
   return (
@@ -64,7 +64,7 @@ const ModalScreen = () => {
             </TouchableOpacity>
           </View>
           <View>
-            <TouchableOpacity onPress={() => navigation.navigate('UserType' as never)} style={styles.button}>
+            <TouchableOpacity style={styles.button}>
               <Text style={{color: 'green', fontSize: responsiveFontSize(2.5)}}>
                 Switch to Searching Properties
               </Text>

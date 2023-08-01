@@ -13,6 +13,9 @@ import {updateUserDetails} from '../../redux/reducers/userReducer';
 interface navigationParams {
   SuccessPage : {title: string}
 }
+interface phoneNumberType {
+  phoneNumber: number;
+}
 
 const useAuthServiceHandler = () => {
   const Navigation = useNavigation();
@@ -23,11 +26,11 @@ const useAuthServiceHandler = () => {
       const res = await GenerateOTPService(data);
       const {result} = res.data;
       Alert.alert('OTP', result.generateOTP);
-      Navigation.navigate('RegisterWithOTP' as never, {phoneNumber: data.phoneNumber});
+      Navigation.navigate('RegisterWithOTP' as never, {phoneNumber: data?.phoneNumber});
     } catch (error: any) {
       const ErrorMsg = error.response.data.error.message;
       if (ErrorMsg === 'Phone number is not verified') {
-        Navigation.navigate('RegisterWithOTP' as never, {phoneNumber: data.phoneNumber});
+        Navigation.navigate('RegisterWithOTP' as never, {phoneNumber: data?.phoneNumber});
       } else {
         Alert.alert('', 'User Not Register!');
         Navigation.navigate('Register' as never);
@@ -39,7 +42,9 @@ const useAuthServiceHandler = () => {
     try {
       const res = await VerifyOTPService(data);
       const {result} = res.data;
+
       console.log('----------->', result);
+
       if (typeof result === 'string') {
         Navigation.navigate('Register' as never);
       } else {
@@ -48,16 +53,21 @@ const useAuthServiceHandler = () => {
         Navigation.navigate('SuccessPage' as never, {title: 'Login'});
       }
     } catch (error: any) {
-      Alert.alert('Wrong OTP');
+      Alert.alert('Wrong OTP' , );
+      console.log("ewrererwe", error);
+      
     }
   };
 
   const handleRegisterService = async (data: any) => {
     try {
       const res = await RegisterService(data);
+      
       const {result} = res.data;
+      console.log(result.phoneNumber);
+      
       Alert.alert('OTP', result.generateOTP);
-      Navigation.navigate('RegisterWithOTP' as never, {phoneNumber: data.phoneNumber});
+      Navigation.navigate('RegisterWithOTP' as never,{phoneNumber: result.phoneNumber});
     } catch (error: any) {
       Alert.alert('Error', error.response.data.error.message);
     }

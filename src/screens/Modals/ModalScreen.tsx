@@ -23,10 +23,12 @@ import {
 import BurgerCard from '../../component/common/Card/BurgerCard';
 import MenuCard from '../../component/common/Card/MenuCard';
 import { useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 
 const ModalScreen = () => {
   const [visible, setVisible] = useState(false);
   const {userDetails} = useSelector((state: any) => state.user);
+  const navigation = useNavigation();
   
 
   return (
@@ -62,7 +64,7 @@ const ModalScreen = () => {
             </TouchableOpacity>
           </View>
           <View>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity onPress={() => navigation.navigate('UserType' as never)} style={styles.button}>
               <Text style={{color: 'green', fontSize: responsiveFontSize(2.5)}}>
                 Switch to Searching Properties
               </Text>

@@ -169,15 +169,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginVertical: responsiveScreenHeight(1),
-    paddingHorizontal: responsiveScreenWidth(4),
+    paddingHorizontal: responsiveScreenWidth(3),
+    gap: responsiveScreenWidth(70),
   },
   hamBurger: {
     paddingHorizontal: responsiveScreenWidth(3.5),
   },
   headerItems: {
     flex: 1,
-    gap: responsiveHeight(2),
+    // gap: responsiveHeight(2),
   },
   steps: {
     fontSize: responsiveScreenFontSize(1.9),
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
   basicDetails: {
     flex: 1,
     paddingHorizontal: responsiveScreenWidth(5),
-    gap: responsiveHeight(4),
+    // gap: responsiveHeight(4),
   },
   basicDetailsText: {
     fontSize: responsiveFontSize(3.8),

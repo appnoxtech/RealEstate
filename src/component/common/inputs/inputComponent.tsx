@@ -42,5 +42,7 @@ const styles = StyleSheet.create({
   },
   focused: {},
   notFocused: {},
-  textInput: {},
+  textInput: {
+    flex: 1,
+  },
 })

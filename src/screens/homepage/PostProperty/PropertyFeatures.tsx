@@ -59,7 +59,7 @@ const PropertyFeatures = () => {
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
       <View style={styles.container}>
-        <View style={styles.backButtonHeader}>
+        <View>
           <HeaderWithBackBtn />
         </View>
        
@@ -98,9 +98,7 @@ const styles = StyleSheet.create({
     marginVertical: responsiveScreenHeight(2),
     gap: responsiveScreenHeight(2),
   },
-  backButtonHeader: {
-    marginBottom: responsiveScreenHeight(5),
-  },
+ 
   textHeader: {
     fontSize: responsiveWidth(7),
   },

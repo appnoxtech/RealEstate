@@ -82,7 +82,6 @@ export default function Register() {
       };
       dispatch(UpdateRegisterUserDetails({...data}))
       navigation.navigate('SelectUserType' as never);
-      // console.log(data);
     }
   };
 

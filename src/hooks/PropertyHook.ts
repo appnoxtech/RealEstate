@@ -10,7 +10,7 @@ const usePropertyHook = () => {
   const createPropertyHandler = async (data: any) => {
     try {
       const res = await CreatePropertyService(data);
-      console.log(res,'res');
+  
       Alert.alert("Property posted successfully")
       
     } catch (error: any) {

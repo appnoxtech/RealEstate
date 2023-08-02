@@ -38,7 +38,7 @@ const PostPropertyThird = () => {
   const dispatch = useDispatch();
   
   const validate = () => {
-    if(!text.length) {
+    if(!price.length) {
       setPriceError('Required!');
       return false;
     } else if (!REGEX_NUMBER.test(price)) {
@@ -102,7 +102,7 @@ const PostPropertyThird = () => {
               value={price}
               placeholder="Enter expected price"
             />
-            {priceError ? <Text style={{color: 'red'}}>{priceError}</Text> : null}
+            {priceError ? <Text style={styles.errorText}>{priceError}</Text> : null}
           </View>
           <View style={styles.inputContainer1}>
             <Text>Title</Text>
@@ -132,7 +132,6 @@ const styles = StyleSheet.create({
   },
   btnBack: {
     marginVertical: responsiveScreenHeight(1),
-    paddingBottom: responsiveScreenHeight(6),
   },
   headerText: {
     gap: responsiveHeight(2),
@@ -157,7 +156,7 @@ const styles = StyleSheet.create({
     borderRadius: responsiveWidth(4),
     backgroundColor: '#DFDFDF',
     width: responsiveWidth(93),
-    height: responsiveScreenHeight(30),
+    height: responsiveScreenHeight(20),
   },
   addPhotoText: {
     fontSize: responsiveFontSize(3),
@@ -165,6 +164,10 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
 
+  },
+  errorText: {
+    textAlign: 'right',
+    color: 'red'
   },
   inputContainer1: {
     marginBottom: responsiveScreenHeight(3),

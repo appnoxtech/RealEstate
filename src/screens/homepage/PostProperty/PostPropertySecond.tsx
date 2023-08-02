@@ -28,14 +28,13 @@ const PostPropertySecond = () => {
   const [noOfBathRooms, setNoOfBathRooms] = useState('');
 
   const {newListing} = useSelector((store: any) => store.post);
-  const [noOfBedroomsError, setNoOfBedroomsError] = useState('');
-  const [noOfBathroomsError, setNoOfBathroomsError] = useState('');
   const [readyToMove, setReadyToMove] = useState('');
   const [propertyStatus, setStatus] = useState('');
   const dispatch = useDispatch();
 
   const navigation = useNavigation();
   const {cityName} = useSelector((store: any) => store.filter);
+  const [cityError, setCityError] = useState('');
   const handleCityName = () => {
     dispatch(UpdateCityName(''));
   };
@@ -46,17 +45,11 @@ const PostPropertySecond = () => {
   const status = ['available', 'rented', 'booked'];
 
   const validate = () => {
-    if (!noOfRooms) {
-      setNoOfBedroomsError('Please select bedrooms !');
-      setNoOfBathroomsError('');
-      return false;
-    } else if (!noOfBathRooms) {
-      setNoOfBedroomsError('');
-      setNoOfBathroomsError('Please select bathrooms !');
+    if (!cityName) {
+      setCityError('Please select city name !');
       return false;
     } else {
-      setNoOfBedroomsError('');
-      setNoOfBathroomsError('');
+      setCityError('');
       return true;
     }
   };
@@ -139,13 +132,11 @@ const PostPropertySecond = () => {
               </View>
             ) : null}
           </View>
+          {cityError? <Text style={styles.errorCity}>{cityError} !</Text> : null}
         </View>
         <View>
           <Text style={styles.locatedText}>Add Rooms Details</Text>
           <Text style={styles.noOfBedroomsText}>No. of bedrooms ?</Text>
-          {noOfBedroomsError ? (
-            <Text style={{color: 'red'}}>{noOfBedroomsError}</Text>
-          ) : null}
           <View style={styles.noOfBedrooms}>
             {NoOfRooms.map(option => (
               <OptionBtn
@@ -159,9 +150,6 @@ const PostPropertySecond = () => {
             ))}
           </View>
           <Text style={styles.noOfBedroomsText}>No. of Bathrooms ?</Text>
-          {noOfBathroomsError ? (
-            <Text style={{color: 'red'}}>{noOfBathroomsError}</Text>
-          ) : null}
           <View style={styles.noOfBedrooms}>
             {NoOfBathRooms.map(option => (
               <OptionBtn
@@ -229,7 +217,7 @@ const styles = StyleSheet.create({
     
   },
   buttonBack: {
-    marginBottom: responsiveScreenHeight(6),
+    
   },
   steps: {
     fontSize: responsiveScreenFontSize(1.9),
@@ -238,6 +226,10 @@ const styles = StyleSheet.create({
   basicDetailsText: {
     fontSize: responsiveFontSize(3.8),
     fontWeight: 'bold',
+  },
+  errorCity: {
+    color: 'red',
+    textAlign: 'right',
   },
   locatedText: {
     marginTop: responsiveHeight(3),

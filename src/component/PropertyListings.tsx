@@ -17,6 +17,8 @@ interface userListingsData {
 const PropertyListings: React.FC = () => {
   const { id } = useSelector((state: any) => state.user.userDetails);
   const [userListingsData, setUserListingsData] = useState<Array<userListingsData>>([]);
+  console.log(userListingsData);
+  
   
 
   const GetPropertyData = async () => {
@@ -30,7 +32,7 @@ const PropertyListings: React.FC = () => {
         setUserListingsData([]);
       }
     } catch (error) {
-      // Alert.alert('', 'Error');
+      Alert.alert('', 'Error');
     }
   };
 

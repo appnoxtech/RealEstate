@@ -76,7 +76,6 @@ const BottomNavigation = () => {
              
             );
           } 
-          
         },
         tabBarActiveTintColor: colorPrimary,
         tabBarInactiveTintColor: 'gray',

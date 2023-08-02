@@ -19,24 +19,22 @@ const PropertyFeatures = () => {
   const [latitude, setLatitude] = useState('');
   const {createPropertyHandler} = usePropertyHook()
   const {newListing} = useSelector((store: any) => store.post);
-  const {id} = useSelector((state: any) => state.user.userDetails);
-  const {phoneNumber} = useSelector((state: any) => state.user.userDetails);
-  const {name} = useSelector((state: any) => state.user.userDetails);
+  const {userDetails} = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
   const handelPost = () => {
     dispatch(
       UpdateNewListing({
-        key: 'userId', value: id
+        key: 'userId', value: userDetails?.id
       }),
     );
     dispatch(
       UpdateNewListing({
-        key: 'ownerPhoneNumber', value: phoneNumber
+        key: 'ownerPhoneNumber', value: userDetails?.phoneNumber
       }),
     );
     dispatch(
       UpdateNewListing({
-        key: 'owner_name' ,value: name
+        key: 'owner_name' ,value: userDetails?.name
       }),
     );
     createPropertyHandler(newListing)
@@ -61,7 +59,7 @@ const PropertyFeatures = () => {
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
       <View style={styles.container}>
-        <View style={styles.backButtonHeader}>
+        <View>
           <HeaderWithBackBtn />
         </View>
        
@@ -100,9 +98,7 @@ const styles = StyleSheet.create({
     marginVertical: responsiveScreenHeight(2),
     gap: responsiveScreenHeight(2),
   },
-  backButtonHeader: {
-    marginBottom: responsiveScreenHeight(5),
-  },
+ 
   textHeader: {
     fontSize: responsiveWidth(7),
   },

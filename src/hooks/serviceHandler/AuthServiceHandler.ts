@@ -43,8 +43,6 @@ const useAuthServiceHandler = () => {
       const res = await VerifyOTPService(data);
       const {result} = res.data;
 
-      console.log('----------->', result);
-
       if (typeof result === 'string') {
         Navigation.navigate('Register' as never);
       } else {
@@ -54,7 +52,6 @@ const useAuthServiceHandler = () => {
       }
     } catch (error: any) {
       Alert.alert('Wrong OTP' , );
-      console.log("ewrererwe", error);
     }
   };
 
@@ -63,7 +60,6 @@ const useAuthServiceHandler = () => {
       const res = await RegisterService(data);
       
       const {result} = res.data;
-      console.log(result.phoneNumber);
       
       Alert.alert('OTP', result.generateOTP);
       Navigation.navigate('RegisterWithOTP' as never,{phoneNumber: result.phoneNumber});

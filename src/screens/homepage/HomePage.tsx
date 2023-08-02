@@ -29,6 +29,7 @@ import TopLocation from '../discover/Category/TopLocation';
 
 import PropertyListCard from '../../component/common/Card/PropertyListCard';
 import ModalScreen from '../Modals/ModalScreen';
+import { useSelector } from 'react-redux';
 
 const HomePage = () => {
   const notificationImg = require('../../../assets/images/Notification.png');
@@ -37,6 +38,7 @@ const HomePage = () => {
   const navigation = useNavigation();
 
   const [modalOpen, setModalOpen] = useState(false);
+  const {userDetails} = useSelector((state: any) => state.user);
 
   return (
     <SafeAreaView style={styles.mainContainer}>
@@ -60,7 +62,7 @@ const HomePage = () => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <Text style={styles.headerText}>
-            Hey,<Text style={styles.subText}> John ! </Text>
+            Hey,<Text style={styles.subText}> {userDetails?.name.toUpperCase()}! </Text>
             {'\n'}
             Find your dream home
           </Text>

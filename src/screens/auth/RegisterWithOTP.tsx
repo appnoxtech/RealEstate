@@ -63,7 +63,7 @@ const labels = {
 
 const OTP: React.FC<any> = () => {
   const {registerUserDetails} = useSelector((state: any) => state.user);
-  console.log("->>>>>>",registerUserDetails?.phoneNumber);
+ 
   
   const {VerifyOTPServiceHandler, GenerateOtpServiceHandler} = useAuthServiceHandler();
   const isKeyboardVisible = useKeyboardVisibleListener();

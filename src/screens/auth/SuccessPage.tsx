@@ -9,7 +9,6 @@ import { UpdateIsLoginState } from '../../redux/reducers/userReducer';
 
 const SuccessPage = ({route} : any) => {
   const { title } = route.params;
-  console.log(title)
     const dispatch = useDispatch();
     const logo = require('../../../assets/images/Maskgroup.png');
     const animationSuccess = require('../../../assets/Animation/Animation_1689673992744.json');

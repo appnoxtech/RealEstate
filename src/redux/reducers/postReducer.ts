@@ -3,7 +3,7 @@ const initialState = {
     title: '',
     type: '',
     description: '',
-    images: '',
+    images: {},
     location: '',
     area: '',
     price: '',
@@ -40,7 +40,8 @@ interface newListingData {
     | 'longitude'
     | 'ownerPhoneNumber'
     | 'userId';
-  value: string;
+  value: string | Array<string>
+
 }
 
 interface updateNewListing {

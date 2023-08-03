@@ -29,6 +29,7 @@ import PropertyListings from '../component/PropertyListings';
 const Stack = createNativeStackNavigator();
 
 const AuthRoute = () => {
+
   return (
     <Stack.Navigator>
       <Stack.Screen

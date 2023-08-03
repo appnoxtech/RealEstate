@@ -39,13 +39,13 @@ const HomePage = () => {
 
   const navigation = useNavigation();
 
-  const [modalOpen, setModalOpen] = useState(false);
   const {userDetails} = useSelector((state: any) => state.user);
 
   const [property, setProperty] = useState('Listings');
+  const [agentDataa, setAgentData] = useState('Listings');
 
   const handelPress = (params: string) => {
-    setProperty(params);
+    setAgentData(params);
   };
 
   const data = [
@@ -67,7 +67,6 @@ const HomePage = () => {
   ];
 
   const agentData = ['Listings', 'Sold', 'Responses'];
-  
 
   return (
     <SafeAreaView style={styles.mainContainer}>
@@ -96,7 +95,7 @@ const HomePage = () => {
             {userDetails?.role === 'agent' ? null : 'Find your dream home'}
           </Text>
           {userDetails?.role === 'agent' ? (
-            <View>
+            <>
               <View style={styles.yourListingHeader}>
                 <Text style={styles.featuredEstateHeaderText}>
                   Your Listings
@@ -114,37 +113,59 @@ const HomePage = () => {
                 id={''}
                 price={0}
               />
-              
+
               <View style={styles.box}>
-              {data.map(item => {
-                return (
-                  <BoxBtn number={item.number} title={item.title} page={item.page}/>
-                )
-              })}
+                {data.map(item => {
+                  return (
+                    <BoxBtn
+                      key={item.number}
+                      number={item.number}
+                      title={item.title}
+                      page={item.page}
+                    />
+                  );
+                })}
               </View>
 
               <View style={styles.agentBtn}>
-              {agentData.map(item => {
-                return (
-                  <AgentBtn title={item} style={styles.agentSection} btnPressHandler={function (title: string) {
-                    throw new Error('Function not implemented.');
-                  } } />
-                )
-              })}
+                {agentData.map(item => {
+                  return (
+                    <AgentBtn
+                      key={item}
+                      title={item}
+                      style={[
+                        styles.agentSection,
+                        agentDataa === item ? styles.responseBoxBgColor : null,
+                      ]}
+                      btnPressHandler={() => handelPress(item)}
+                    />
+                  );
+                })}
               </View>
-            </View>
+            </>
           ) : null}
-          <TouchableOpacity
-            onPress={() => navigation.navigate('SearchFilterPage' as never)}
-            style={styles.serchContainer}>
-            <Text>
-              <Text style={{fontWeight: 'bold'}}>Search : </Text>City, Locality,
-              Project, Landmark
-            </Text>
-            <Image source={searchImg} />
-          </TouchableOpacity>
+          {agentDataa === 'Listings' ? (
+            <Text style={styles.textListings}>1 Listings</Text>
+          ) : agentDataa === 'Sold' ? (
+            <Text style={styles.textListings}>3 Sold Properties</Text>
+          ) : (
+            <Text style={styles.textListings}>13 Responses</Text>
+          )}
+          {userDetails?.role === 'agent' ? null : (
+            <>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('SearchFilterPage' as never)}
+                style={styles.serchContainer}>
+                <Text>
+                  <Text style={{fontWeight: 'bold'}}>Search : </Text>City,
+                  Locality, Project, Landmark
+                </Text>
+                <Image source={searchImg} />
+              </TouchableOpacity>
 
-          <Category />
+              <Category />
+            </>
+          )}
 
           {userDetails?.role === 'agent'
             ? null
@@ -246,11 +267,6 @@ const styles = StyleSheet.create({
     height: responsiveWidth(13),
     borderRadius: responsiveWidth(7.5),
   },
-  profile: {
-    width: responsiveWidth(13),
-    height: responsiveWidth(13),
-    borderRadius: responsiveWidth(7.5),
-  },
   headerText: {
     fontSize: responsiveFontSize(4),
     paddingHorizontal: responsiveScreenWidth(1.23),
@@ -260,18 +276,22 @@ const styles = StyleSheet.create({
   },
   box: {
     flexDirection: 'row',
-    gap: responsiveScreenWidth(2.5)
+    gap: responsiveScreenWidth(2.5),
+    marginBottom: responsiveScreenHeight(2),
   },
   agentBtn: {
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: '#F5F4F8',
     borderRadius: responsiveWidth(10),
-    paddingHorizontal: responsiveScreenWidth(6.5),
-    paddingVertical: responsiveScreenHeight(2),
+    paddingHorizontal: responsiveScreenWidth(2),
+    paddingVertical: responsiveScreenHeight(1),
   },
- 
+  agentSection: {
+    borderRadius: responsiveWidth(8),
+    paddingHorizontal: responsiveScreenWidth(7),
+    paddingVertical: responsiveScreenHeight(1.4),
+  },
 
   responseBoxBgColor: {
     backgroundColor: 'white',
@@ -280,6 +300,10 @@ const styles = StyleSheet.create({
   button__: {
     alignItems: 'center',
     marginVertical: responsiveScreenHeight(5),
+  },
+
+  textListings: {
+    fontSize: responsiveFontSize(3)
   },
 
   serchContainer: {

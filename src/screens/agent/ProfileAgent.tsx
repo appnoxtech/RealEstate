@@ -19,11 +19,7 @@ import {UpdateLogout} from '../../redux/reducers/userReducer';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 
 import {useNavigation} from '@react-navigation/native';
-import BoxBtn from '../../component/common/buttons/BoxBtn';
-import AgentBtn from '../../component/common/buttons/AgentBtn';
-import PropertyListings from '../../component/PropertyListings';
-import PropertyResponses from '../../component/PropertyResponses';
-import PropertyListCard from '../../component/common/Card/PropertyListCard';
+
 
 export default function ProfileAgent() {
   const dispatch = useDispatch();
@@ -32,6 +28,8 @@ export default function ProfileAgent() {
   };
 
   const {userDetails} = useSelector((state: any) => state.user);
+  console.log(userDetails);
+  
   const navigation = useNavigation();
 
   const [property, setProperty] = useState('Listings');

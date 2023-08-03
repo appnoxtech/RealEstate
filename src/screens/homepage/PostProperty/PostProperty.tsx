@@ -29,7 +29,7 @@ const PostProperty = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [areaType, setAreaType] = useState<string>('Residential');
   const {newListing} = useSelector((store: any) => store.post);
-  const [lookingTo, setLookingTo] = useState<string>('Sell');
+  const [lookingTo, setLookingTo] = useState<string>('Buy');
   const [propertyType, setPropertyType] = useState<string>('');
   const [errorProperty, setErrorProperty] = useState<string>('');
 
@@ -78,7 +78,7 @@ const PostProperty = () => {
       navigation.navigate('PostPropertySecond' as never);
     }
   };
-  const LookingOption = ['Sell', 'Rent / Lease'];
+  const LookingOption = ['Buy', 'Rent / Lease'];
   const WhatKindOfProperty = ['Residential', 'Commercial'];
   const selectProperty = [
     'Apartment',

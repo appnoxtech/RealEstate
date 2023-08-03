@@ -16,6 +16,7 @@ import usePropertyHook from '../../../hooks/PropertyHook';
 const PropertyFeatures = () => {
   const [longitude, setLongitude] = useState('');
   const [latitude, setLatitude] = useState('');
+  const [discription, setDiscription] = useState('')
   const {createPropertyHandler} = usePropertyHook();
   const {newListing} = useSelector((store: any) => store.post);
   const {userDetails} = useSelector((state: any) => state.user);
@@ -61,6 +62,17 @@ const PropertyFeatures = () => {
       }),
     );
   };
+  const discriptionHandel = (params: any) => {
+    setDiscription(params);
+    dispatch(
+      UpdateNewListing({
+        key: 'description',
+        value: params
+      }),
+    );
+  };
+
+  
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
@@ -83,6 +95,14 @@ const PropertyFeatures = () => {
             onChangeText={longitudeHandel}
             value={longitude}
             placeholder="longitude"
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <Text>discription</Text>
+          <CustomTextInput
+            onChangeText={discriptionHandel}
+            value={discription}
+            placeholder="discription"
           />
         </View>
         <View>

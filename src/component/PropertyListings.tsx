@@ -31,8 +31,8 @@ const PropertyListings: React.FC = () => {
       } else {
         setUserListingsData([]);
       }
-    } catch (error) {
-      Alert.alert('', 'Error');
+    } catch (error : any) {
+      Alert.alert('Error', error);
     }
   };
 
@@ -44,9 +44,9 @@ const PropertyListings: React.FC = () => {
 
   return (
     <SafeAreaView style={styles.safearea}>
-      <View style={{paddingBottom: responsiveScreenHeight(8)}}>
+    <View>
       <HeaderWithBackBtn />
-      </View>
+    </View>
       <View>
         {userListingsData.map((item: userListingsData)  => {
           return <PropertyListCard id={item.id} title={item.title}  propertyType={item.propertyType} price={item.price}/>

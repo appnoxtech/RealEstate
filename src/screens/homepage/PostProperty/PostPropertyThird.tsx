@@ -1,4 +1,5 @@
 import {
+  Alert,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -21,10 +22,43 @@ import CustomTextInput from '../../../component/common/inputs/inputComponent';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
 import { UpdateNewListing } from '../../../redux/reducers/postReducer';
+import * as ImagePicker from 'react-native-image-picker';
+import { ImageUploadService } from '../../../services/common/ImagePicker';
 
 
 
 const PostPropertyThird = () => {
+  const [imaUrl, setImgUrl] = useState('');
+  const handlePickerPress = async () => {
+    await ImagePicker.launchImageLibrary({mediaType: 'photo'}, response => {
+      const image = response.assets;
+      if (image?.length) {
+        const data = new FormData();
+        data.append('file', {
+          uri: image[0].uri,
+          type: image[0].type,
+          name: image[0].fileName,
+        });
+        console.log('image Data', data);
+        handleImageUpdload(data);
+      }
+    });
+  };
+
+  const handleImageUpdload = async (image: any) => {
+    try {
+      const res = await ImageUploadService(image);
+      console.log('res', res.data);
+      const {data} = res.data;
+      console.log('data', data);
+      
+      const imageUrl = data.baseUrl + data.imagePath;
+      // dispatch(UpdateNewBookDetails({key: id, value: imageUrl}))
+      setImgUrl(imageUrl);
+    } catch (error: any) {
+      Alert.alert('Error', error.response.data.msg);
+    }
+  };
 
 
 
@@ -87,7 +121,7 @@ const PostPropertyThird = () => {
             <Text style={styles.basicDetailsText}>Photos & Pricing</Text>
           </View>
           <Text style={styles.textPropertyPhoto}>Add property photos</Text>
-          <TouchableOpacity style={styles.uploadPhoto}>
+          <TouchableOpacity onPress={handlePickerPress} style={styles.uploadPhoto}>
             <Ionicons
               name="image"
               size={responsiveWidth(18)}

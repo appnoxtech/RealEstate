@@ -32,43 +32,17 @@ const ModalScreen = () => {
   return (
     <View style={styles.container}>
       <ModalLayout visible={visible}>
-        <View style={styles.header}>
-          <View style={styles.headerInner}>
-            <TouchableOpacity style={styles.capitalLetter}>
-              <Text>G</Text>
-            </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.header}
+          onPress={() => setVisible(false)}>
+          <Ionicons
+            name="close"
+            style={{height: 30, width: 30}}
+            size={24}
+            color="white"
+          />
+        </TouchableOpacity>
 
-            <View>
-              <Text style={styles.headerName}>{userDetails?.name}</Text>
-              <View style={{flexDirection: 'row'}}>
-                <Text style={{color: 'white', fontSize: responsiveFontSize(2)}}>
-                  Owner Profile
-                </Text>
-                <Text style={{color: 'white', fontSize: responsiveFontSize(2)}}>
-                  {' '}
-                  Mange Profile
-                </Text>
-              </View>
-            </View>
-            <TouchableOpacity
-              style={{paddingLeft: responsiveScreenWidth(13)}}
-              onPress={() => setVisible(false)}>
-              <Ionicons
-                name="close"
-                style={{height: 30, width: 30}}
-                size={24}
-                color="white"
-              />
-            </TouchableOpacity>
-          </View>
-          <View>
-            <TouchableOpacity style={styles.button}>
-              <Text style={{color: 'green', fontSize: responsiveFontSize(2.5)}}>
-                Switch to Searching Properties
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.body}>
             <BurgerCard
@@ -183,19 +157,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   header: {
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
     paddingHorizontal: responsiveScreenWidth(3),
-    paddingVertical: responsiveScreenHeight(3),
-    gap: responsiveHeight(3),
+    paddingVertical: responsiveScreenHeight(5),
     backgroundColor: 'green',
     width: '100%',
-    height: '23%',
+    height: '2%',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
   },
-  headerInner: {
-    flexDirection: 'row',
-    gap: responsiveScreenWidth(3),
-  },
+
   capitalLetter: {
     alignSelf: 'flex-start',
     backgroundColor: 'white',
@@ -207,15 +179,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: responsiveFontSize(3),
   },
-  button: {
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: 'white',
-    borderRadius: 5,
-    backgroundColor: 'white',
-    paddingHorizontal: responsiveScreenHeight(3),
-    paddingVertical: responsiveScreenHeight(1.5),
-  },
+
   body: {},
   manageProperty: {
     paddingHorizontal: responsiveScreenWidth(2),

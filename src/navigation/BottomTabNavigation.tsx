@@ -10,6 +10,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Homepage from '../screens/homepage/HomePage';
 import Research from '../screens/search/Research';
 import Profile from '../screens/profile/Profile';
+import ProfileAgent from '../screens/agent/ProfileAgent';
 import Shortlisted from '../screens/profile/Shortlisted';
 import HomePage from '../screens/agent/HomePage';
 
@@ -18,6 +19,7 @@ const Tab = createBottomTabNavigator();
 
 const BottomNavigation = () => {
   const {userDetails} = useSelector((state : any ) => state.user);
+
   // const dispatch = useDispatch();
   // const [userData, setUserData] = useState<any>({});
 
@@ -88,7 +90,7 @@ const BottomNavigation = () => {
 
       <Tab.Screen
         name="Homepage"
-        component={userDetails?.role === 'agent' ? HomePage : Homepage}
+        component={Homepage}
         listeners={({navigation, route}) => ({
           tabPress: e => {
             // Prevent default action
@@ -142,7 +144,7 @@ const BottomNavigation = () => {
       />
        <Tab.Screen
         name="Profile"
-        component={Profile}
+        component={userDetails?.role === 'tenant' ? Profile : ProfileAgent}
         listeners={({navigation, route}) => ({
           tabPress: e => {
             // Prevent default action

@@ -29,7 +29,9 @@ import TopLocation from '../discover/Category/TopLocation';
 
 import PropertyListCard from '../../component/common/Card/PropertyListCard';
 import ModalScreen from '../Modals/ModalScreen';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
+import BoxBtn from '../../component/common/buttons/BoxBtn';
+import AgentBtn from '../../component/common/buttons/AgentBtn';
 
 const HomePage = () => {
   const notificationImg = require('../../../assets/images/Notification.png');
@@ -39,6 +41,33 @@ const HomePage = () => {
 
   const [modalOpen, setModalOpen] = useState(false);
   const {userDetails} = useSelector((state: any) => state.user);
+
+  const [property, setProperty] = useState('Listings');
+
+  const handelPress = (params: string) => {
+    setProperty(params);
+  };
+
+  const data = [
+    {
+      number: 20,
+      title: 'Listings',
+      page: 'PropertyListings',
+    },
+    {
+      number: 5,
+      title: 'Reviews',
+      page: 'Reviews',
+    },
+    {
+      number: 10,
+      title: 'Responses',
+      page: 'Responses',
+    },
+  ];
+
+  const agentData = ['Listings', 'Sold', 'Responses'];
+  
 
   return (
     <SafeAreaView style={styles.mainContainer}>
@@ -62,11 +91,49 @@ const HomePage = () => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <Text style={styles.headerText}>
-            Hey,<Text style={styles.subText}> {userDetails?.name.toUpperCase()}! </Text>
+            Hey,<Text style={styles.subText}> {userDetails?.name}! </Text>
             {'\n'}
-            Find your dream home
+            {userDetails?.role === 'agent' ? null : 'Find your dream home'}
           </Text>
+          {userDetails?.role === 'agent' ? (
+            <View>
+              <View style={styles.yourListingHeader}>
+                <Text style={styles.featuredEstateHeaderText}>
+                  Your Listings
+                </Text>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('PropertyListings' as never)
+                  }>
+                  <Text style={styles.textAll}>View all</Text>
+                </TouchableOpacity>
+              </View>
+              <PropertyListCard
+                title="Flat in Greater Noida"
+                propertyType="Independent House/Villa"
+                id={''}
+                price={0}
+              />
+              
+              <View style={styles.box}>
+              {data.map(item => {
+                return (
+                  <BoxBtn number={item.number} title={item.title} page={item.page}/>
+                )
+              })}
+              </View>
 
+              <View style={styles.agentBtn}>
+              {agentData.map(item => {
+                return (
+                  <AgentBtn title={item} style={styles.agentSection} btnPressHandler={function (title: string) {
+                    throw new Error('Function not implemented.');
+                  } } />
+                )
+              })}
+              </View>
+            </View>
+          ) : null}
           <TouchableOpacity
             onPress={() => navigation.navigate('SearchFilterPage' as never)}
             style={styles.serchContainer}>
@@ -78,47 +145,45 @@ const HomePage = () => {
           </TouchableOpacity>
 
           <Category />
-          <View style={styles.yourListingHeader}>
-            <Text style={styles.featuredEstateHeaderText}>Your Listings</Text>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('PropertyListings' as never)}>
-              <Text style={styles.textAll}>View all</Text>
-            </TouchableOpacity>
-          </View>
-          <PropertyListCard
-            title="Flat in Greater Noida"
-            propertyType="Independent House/Villa"
-            id={''}
-            price={0}
-          />
-          <TopDiscount />
 
-          <View style={styles.featuredEstate}>
-            <View style={styles.featuredEstateText}>
-              <Text style={styles.featuredEstateHeaderText}>
-                Featured Estates
-              </Text>
-              <TouchableOpacity
-                onPress={() => navigation.navigate('FeaturedEstate' as never)}>
-                <Text style={styles.textAll}>View all</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-          <FeaturedCategories />
-          <View style={styles.toplocation}>
-            <Text style={styles.featuredEstateHeaderText}>Top Location</Text>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('TopLocationPage' as never)}>
-              <Text style={styles.textAll}>Explore</Text>
-            </TouchableOpacity>
-          </View>
-          <TopLocation />
-          <Text style={styles.featuredEstateHeaderText}>
-            Explore Nearby Estate
-          </Text>
-          <View style={styles.dataListContainer}>
-            <ExploreNearbyEstate />
-          </View>
+          {userDetails?.role === 'agent'
+            ? null
+            : <TopDiscount /> && (
+                <>
+                  <View style={styles.featuredEstate}>
+                    <View style={styles.featuredEstateText}>
+                      <Text style={styles.featuredEstateHeaderText}>
+                        Featured Estates
+                      </Text>
+                      <TouchableOpacity
+                        onPress={() =>
+                          navigation.navigate('FeaturedEstate' as never)
+                        }>
+                        <Text style={styles.textAll}>View all</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                  <FeaturedCategories />
+                  <View style={styles.toplocation}>
+                    <Text style={styles.featuredEstateHeaderText}>
+                      Top Location
+                    </Text>
+                    <TouchableOpacity
+                      onPress={() =>
+                        navigation.navigate('TopLocationPage' as never)
+                      }>
+                      <Text style={styles.textAll}>Explore</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <TopLocation />
+                  <Text style={styles.featuredEstateHeaderText}>
+                    Explore Nearby Estate
+                  </Text>
+                  <View style={styles.dataListContainer}>
+                    <ExploreNearbyEstate />
+                  </View>
+                </>
+              )}
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -147,7 +212,7 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: responsiveScreenWidth(5),
     paddingVertical: responsiveScreenHeight(1.8),
-    gap: responsiveHeight(4),
+    gap: responsiveHeight(2),
   },
   header: {
     flexDirection: 'row',
@@ -193,6 +258,30 @@ const styles = StyleSheet.create({
   subText: {
     color: '#234F68',
   },
+  box: {
+    flexDirection: 'row',
+    gap: responsiveScreenWidth(2.5)
+  },
+  agentBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#F5F4F8',
+    borderRadius: responsiveWidth(10),
+    paddingHorizontal: responsiveScreenWidth(6.5),
+    paddingVertical: responsiveScreenHeight(2),
+  },
+ 
+
+  responseBoxBgColor: {
+    backgroundColor: 'white',
+  },
+
+  button__: {
+    alignItems: 'center',
+    marginVertical: responsiveScreenHeight(5),
+  },
+
   serchContainer: {
     flexDirection: 'row',
     alignItems: 'center',

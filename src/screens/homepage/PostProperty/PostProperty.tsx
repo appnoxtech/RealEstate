@@ -5,8 +5,11 @@ import {
   View,
   Modal,
   TouchableOpacity,
+  Alert,
+  ScrollView,
+  TextInput,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
   responsiveFontSize,
@@ -23,15 +26,34 @@ import {useDispatch, useSelector} from 'react-redux';
 import {UpdateNewListing} from '../../../redux/reducers/postReducer';
 import ModalScreen from '../../Modals/ModalScreen';
 import HeaderWithBackBtn from '../../../component/common/buttons/HeaderWithBackBtn';
+import {GetPropertyType} from '../../../services/properties';
+import CustomTextInput from '../../../component/common/inputs/inputComponent';
 
 const PostProperty = () => {
   const dispatch = useDispatch();
-  const [modalOpen, setModalOpen] = useState(false);
-  const [areaType, setAreaType] = useState<string>('Residential');
-  const {newListing} = useSelector((store: any) => store.post);
+  const [areaType, setAreaType] = useState<string>('Residential-property');
+  const {userDetails} = useSelector((state: any) => state.user);
   const [lookingTo, setLookingTo] = useState<string>('Buy');
-  const [propertyType, setPropertyType] = useState<string>('');
+  const [propertyType, setPropertyType] = useState<Array<{name: string}>>([]);
+  const [ownerName, setOwnerName] = useState('');
+  const [ownerPhoneNumber, setOwnerPhoneNumber] = useState('');
+
   const [errorProperty, setErrorProperty] = useState<string>('');
+
+  const GetPropertyTypeData = async (params: string) => {
+    try {
+      const res = await GetPropertyType(params);
+      const {result} = res.data;
+
+      if (result?.length) {
+        setPropertyType([...result]);
+      } else {
+        setPropertyType([]);
+      }
+    } catch (error: any) {
+      Alert.alert('Error', error);
+    }
+  };
 
   const setLookingBtnHandler = (params: string) => {
     setLookingTo(params);
@@ -42,17 +64,19 @@ const PostProperty = () => {
       }),
     );
   };
-  const setWhatKindPropertyHandler = (params: string) => {
-    setAreaType(params);
-    dispatch(
-      UpdateNewListing({
-        key: 'type',
-        value: params,
-      }),
-    );
+  const setWhatKindPropertyHandler = async (params: string) => {
+    try {
+      setAreaType(params);
+      await GetPropertyTypeData(params);
+      dispatch(
+        UpdateNewListing({
+          key: 'type',
+          value: params,
+        }),
+      );
+    } catch (error) {}
   };
   const setPropertyTypeHandler = (params: string) => {
-    setPropertyType(params);
     dispatch(
       UpdateNewListing({
         key: 'propertyType',
@@ -78,17 +102,30 @@ const PostProperty = () => {
       navigation.navigate('PostPropertySecond' as never);
     }
   };
-  const LookingOption = ['Buy', 'Rent / Lease'];
-  const WhatKindOfProperty = ['Residential', 'Commercial'];
-  const selectProperty = [
-    'Apartment',
-    'Independent House/Villa',
-    'Independent/Builder Floor',
-    'Plot/Land',
-    '1 RK/ Studio Aprtment',
+  const LookingOption = ['Buy', 'Rent / Lease', 'PG'];
+  const WhatKindOfProperty = [
+    {key: 'Residential-property', value: 'Residential'},
+    {key: 'Commercial-property', value: 'Commercial'},
   ];
 
-
+  useEffect(() => {
+    GetPropertyTypeData(areaType);
+    setOwnerName(userDetails?.name);
+    setOwnerPhoneNumber(userDetails?.phoneNumber);
+    dispatch(
+      UpdateNewListing({
+        key: 'ownerName',
+        value: ownerName,
+      }),
+    );
+    dispatch(
+      UpdateNewListing({
+        key: 'ownerPhoneNumber',
+        value: ownerPhoneNumber,
+      }),
+    );
+    
+  }, []);
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
@@ -97,67 +134,88 @@ const PostProperty = () => {
         <ModalScreen />
       </View>
 
-      <View style={styles.headerItems}>
-        <View style={styles.basicDetails}>
-          <View style={{gap: responsiveScreenHeight(1)}}>
-            <Text style={styles.steps}>Step 1 of 3</Text>
-            <Text style={styles.basicDetailsText}>Add Basic Details</Text>
-            <Text>Your Intent, Property type & Contact details</Text>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.headerItems}>
+          <View style={styles.basicDetails}>
+            <View style={{gap: responsiveScreenHeight(1)}}>
+              <Text style={styles.steps}>Step 1 of 3</Text>
+              <Text style={styles.basicDetailsText}>Add Basic Details</Text>
+              <Text>Your Intent, Property type & Contact details</Text>
+            </View>
+            <View style={styles.main}>
+              <Text style={styles.pb10}>You're Looking to ? </Text>
+              <View style={styles.lookingTo}>
+                {LookingOption?.map(option => (
+                  <OptionBtn
+                    id={option}
+                    key={option}
+                    label={option}
+                    btnPressHandler={setLookingBtnHandler}
+                    style={
+                      lookingTo === option
+                        ? styles.pressedSellrent
+                        : styles.Sellrent
+                    }
+                  />
+                ))}
+              </View>
+              <Text>What Kind Of Property ?</Text>
+              <View style={styles.propertyTYpe}>
+                {WhatKindOfProperty?.map((option, index) => (
+                  <OptionBtn
+                    id={option.key}
+                    key={index}
+                    label={option.value}
+                    btnPressHandler={setWhatKindPropertyHandler}
+                    style={
+                      areaType === option.key
+                        ? styles.typeColor
+                        : styles.residential
+                    }
+                  />
+                ))}
+              </View>
+              <Text>Select Property Type</Text>
+              {propertyType?.length ? (
+                <View style={styles.typeOfProperty}>
+                  {propertyType?.map((option, index) => (
+                    <OptionBtn
+                      key={index}
+                      id={option.name}
+                      label={option.name}
+                      btnPressHandler={setPropertyTypeHandler}
+                      style={
+                        option.name ? styles.typeColor : styles.noTypeColor
+                      }
+                    />
+                  ))}
+                </View>
+              ) : null}
+            </View>
+            {errorProperty ? (
+              <Text style={{color: 'red'}}>{errorProperty}</Text>
+            ) : null}
+            <View style={styles.inputContainer}>
+              <Text>Owner Name</Text>
+              <TextInput
+                editable={false}
+                value={ownerName}
+                style={styles.inputStyling}
+              />
+              <Text>Owner Contact</Text>
+              <TextInput
+                editable={false}
+                value={ownerPhoneNumber}
+                style={styles.inputStyling}
+              />
+            </View>
           </View>
-          <View style={styles.main}>
-            <Text style={styles.pb10}>You're Looking to ? </Text>
-            <View style={styles.lookingTo}>
-              {LookingOption?.map(option => (
-                <OptionBtn
-                  key={option}
-                  label={option}
-                  btnPressHandler={setLookingBtnHandler}
-                  style={
-                    lookingTo === option
-                      ? styles.pressedSellrent
-                      : styles.Sellrent
-                  }
-                />
-              ))}
-            </View>
-            <Text>What Kind Of Property ?</Text>
-            <View style={styles.propertyTYpe}>
-              {WhatKindOfProperty?.map(option => (
-                <OptionBtn
-                  key={option}
-                  label={option}
-                  btnPressHandler={setWhatKindPropertyHandler}
-                  style={
-                    areaType === option ? styles.typeColor : styles.residential
-                  }
-                />
-              ))}
-            </View>
-            <Text>Select Property Type</Text>
-            <View style={styles.typeOfProperty}>
-              {selectProperty?.map(option => (
-                <OptionBtn
-                  key={option}
-                  label={option}
-                  btnPressHandler={setPropertyTypeHandler}
-                  style={
-                    propertyType === option
-                      ? styles.typeColor
-                      : styles.noTypeColor
-                  }
-                />
-              ))}
-            </View>
-          </View>
-          {errorProperty ? (
-            <Text style={{color: 'red'}}>{errorProperty}</Text>
-          ) : null}
-        </View>
 
-        <View style={styles.bottomBtn}>
-          <ExploreButton onPress={() => handleNext()} title="Next" />
+          <View style={styles.bottomBtn}>
+            <ExploreButton onPress={() => handleNext()} title="Next" />
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -249,8 +307,24 @@ const styles = StyleSheet.create({
     marginTop: responsiveScreenHeight(2),
     gap: responsiveHeight(1),
   },
+  inputContainer: {
+    marginTop: responsiveScreenHeight(2)
+  },
   bottomBtn: {
     paddingHorizontal: responsiveScreenWidth(5),
     paddingVertical: responsiveScreenHeight(2),
+  },
+  inputStyling: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    height: responsiveScreenHeight(7),
+    width: responsiveScreenWidth(90),
+    marginVertical: responsiveScreenHeight(1),
+    borderWidth: 0,
+    backgroundColor: '#DFDFDF',
+    borderRadius: 3,
+    padding: 10,
+    fontSize: responsiveFontSize(3),
   },
 });

@@ -15,6 +15,12 @@ export const GetPropertyByUserIdService = async (userId: string) => {
   return axios.get(url);
   
 }
+export const GetPropertyType = async (propertyType: string) => {
+  const url = `${URL}propertyType/${propertyType}`;
+  console.log('url', url);
+  return axios.get(url);
+  
+}
 
 export const CreatePropertyService = async (data : any) => {
   const url = `${URL}property/create`;

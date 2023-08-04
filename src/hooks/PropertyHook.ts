@@ -13,6 +13,8 @@ const usePropertyHook = () => {
       const res = await CreatePropertyService(data);
   
       Alert.alert("Property posted successfully");
+
+      // dispatch(UpdateNewListing())
       
       
     } catch (error: any) {

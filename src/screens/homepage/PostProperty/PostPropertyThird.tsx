@@ -153,6 +153,14 @@ const PostPropertyThird = () => {
               );
             })}
           </View>
+          <View style={styles.inputContainer1}>
+            <Text>Title</Text>
+            <CustomTextInput
+              onChangeText={setTitleHandel}
+              value={text}
+              placeholder="title"
+            />
+          </View>
           <View style={styles.inputContainer}>
             <Text>Pricing Details</Text>
             <CustomTextInput
@@ -164,14 +172,7 @@ const PostPropertyThird = () => {
               <Text style={styles.errorText}>{priceError}</Text>
             ) : null}
           </View>
-          <View style={styles.inputContainer1}>
-            <Text>Title</Text>
-            <CustomTextInput
-              onChangeText={setTitleHandel}
-              value={text}
-              placeholder="title"
-            />
-          </View>
+          
         </View>
         <View style={styles.bottomBtn}>
           <ExploreButton onPress={() => handleNext()} title="Next" />

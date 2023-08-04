@@ -1,55 +1,60 @@
 const initialState = {
   newListing: {
+    id: '',
     title: '',
     type: '',
     description: '',
-    images: {},
+    bhk: '',
+    furnishedStatus: '',
+    images: [],
     location: '',
     area: '',
     price: '',
-    bedrooms: '',
-    bathrooms: '',
+    propertyOnFloor: '',
+    totalFloor: '',
     amenities: '',
     status: '',
     lookingTo: '',
-    readyToMove: '',
-    propertyType: '',
+    propertyType: [],
     ownerPhoneNumber: '',
-    owner_name: '',
+    ownerName: '',
+    parking: '',
     userId: '',
   },
 };
 interface newListingData {
   key:
+    | 'id'
     | 'title'
     | 'type'
     | 'description'
+    | 'bhk'
+    | 'furnishedStatus'
     | 'images'
     | 'location'
     | 'area'
     | 'price'
-    | 'bedrooms'
-    | 'bathrooms'
+    | 'propertyOnFloor'
+    | 'totalFloor'
     | 'amenities'
     | 'status'
     | 'lookingTo'
-    | 'readyToMove'
     | 'propertyType'
-    | 'owner_name'
-    | 'latitude'
-    | 'longitude'
+    | 'ownerName'
     | 'ownerPhoneNumber'
+    | 'parking'
     | 'userId';
-  value: string | Array<string>
-
+  value: string | Array<string>;
 }
 
 interface updateNewListing {
   type: 'UPDATE_NEW_LISTING';
   payload: newListingData;
 }
-
-type action = updateNewListing;
+interface resetNewListing {
+  type: 'RESET_NEW_LISTING';
+}
+type action = updateNewListing | resetNewListing;;
 
 const PostReducer = (state = initialState, action: action) => {
   switch (action.type) {
@@ -60,6 +65,12 @@ const PostReducer = (state = initialState, action: action) => {
           ...state.newListing,
           [action.payload.key]: action.payload.value,
         },
+      };
+    }
+    case 'RESET_NEW_LISTING': {
+      return {
+        ...state,
+        newListing: initialState.newListing, // Reset newListing to initial empty state
       };
     }
 
@@ -74,5 +85,11 @@ export const UpdateNewListing = (data: newListingData): updateNewListing => {
   return {
     type: 'UPDATE_NEW_LISTING',
     payload: data,
+  };
+};
+
+export const ResetNewListing = (): resetNewListing => {
+  return {
+    type: 'RESET_NEW_LISTING',
   };
 };

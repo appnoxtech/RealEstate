@@ -112,6 +112,7 @@ const HomePage = () => {
                 propertyType="Independent House/Villa"
                 id={''}
                 price={0}
+                images={[]}
               />
 
               <View style={styles.box}>
@@ -303,7 +304,7 @@ const styles = StyleSheet.create({
   },
 
   textListings: {
-    fontSize: responsiveFontSize(3)
+    fontSize: responsiveFontSize(3),
   },
 
   serchContainer: {

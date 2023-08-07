@@ -27,7 +27,6 @@ import {UpdateNewListing} from '../../../redux/reducers/postReducer';
 import ModalScreen from '../../Modals/ModalScreen';
 import HeaderWithBackBtn from '../../../component/common/buttons/HeaderWithBackBtn';
 import {GetPropertyType} from '../../../services/properties';
-import CustomTextInput from '../../../component/common/inputs/inputComponent';
 
 const PostProperty = () => {
   const dispatch = useDispatch();
@@ -37,6 +36,10 @@ const PostProperty = () => {
   const [propertyType, setPropertyType] = useState<Array<{name: string}>>([]);
   const [ownerName, setOwnerName] = useState('');
   const [ownerPhoneNumber, setOwnerPhoneNumber] = useState('');
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const {newListing} = useSelector((store: any) => store.post);
+  console.log(newListing);
+  
 
   const [errorProperty, setErrorProperty] = useState<string>('');
 
@@ -76,11 +79,18 @@ const PostProperty = () => {
       );
     } catch (error) {}
   };
-  const setPropertyTypeHandler = (params: string) => {
+  const setPropertyTypeHandler = (id: string, isSelected: boolean) => {
+    if (isSelected) {
+      setSelectedItems(prevSelectedItems => [...prevSelectedItems, id]);
+    } else {
+      setSelectedItems(prevSelectedItems =>
+        prevSelectedItems.filter(item => item !== id),
+      );
+    }
     dispatch(
       UpdateNewListing({
         key: 'propertyType',
-        value: params,
+        value: selectedItems,
       }),
     );
   };
@@ -102,7 +112,7 @@ const PostProperty = () => {
       navigation.navigate('PostPropertySecond' as never);
     }
   };
-  const LookingOption = ['Buy', 'Rent / Lease', 'PG'];
+  const LookingOption = ['Buy', 'Rent/Lease', 'PG'];
   const WhatKindOfProperty = [
     {key: 'Residential-property', value: 'Residential'},
     {key: 'Commercial-property', value: 'Commercial'},
@@ -124,7 +134,6 @@ const PostProperty = () => {
         value: ownerPhoneNumber,
       }),
     );
-    
   }, []);
 
   return (
@@ -156,6 +165,7 @@ const PostProperty = () => {
                         ? styles.pressedSellrent
                         : styles.Sellrent
                     }
+                    isSelected={false}
                   />
                 ))}
               </View>
@@ -172,6 +182,7 @@ const PostProperty = () => {
                         ? styles.typeColor
                         : styles.residential
                     }
+                    isSelected={false}
                   />
                 ))}
               </View>
@@ -185,8 +196,11 @@ const PostProperty = () => {
                       label={option.name}
                       btnPressHandler={setPropertyTypeHandler}
                       style={
-                        option.name ? styles.typeColor : styles.noTypeColor
+                        selectedItems.includes(option.name)
+                          ? styles.typeColor
+                          : styles.noTypeColor
                       }
+                      isSelected={selectedItems.includes(option.name)}
                     />
                   ))}
                 </View>
@@ -308,7 +322,7 @@ const styles = StyleSheet.create({
     gap: responsiveHeight(1),
   },
   inputContainer: {
-    marginTop: responsiveScreenHeight(2)
+    marginTop: responsiveScreenHeight(2),
   },
   bottomBtn: {
     paddingHorizontal: responsiveScreenWidth(5),

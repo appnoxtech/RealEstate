@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, { FC } from 'react';
+import React, {FC} from 'react';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -17,15 +17,14 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import HeaderWithBackBtn from '../buttons/HeaderWithBackBtn';
 
-
-interface props{
+interface props {
   id: string;
   title: string;
   propertyType: string;
-  price: number
+  price: number;
 }
 
-const PropertyListCard:FC<props> = ({title, propertyType, price}) => {
+const PropertyListCard: FC<props> = ({title, propertyType, price}) => {
   const imgSrc = require('../../../../assets/images/image28.png');
   const navigation = useNavigation();
   return (
@@ -53,14 +52,6 @@ const PropertyListCard:FC<props> = ({title, propertyType, price}) => {
               <Text>Posted 2 Weeks ago</Text>
             </View>
           </View>
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.buttonManage}>
-              <Text style={styles.textManage}>Manage</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonActivation}>
-              <Text style={styles.textActivation}>1-tap Reactivation</Text>
-            </TouchableOpacity>
-          </View>
         </View>
       </View>
     </SafeAreaView>
@@ -71,7 +62,7 @@ export default PropertyListCard;
 
 const styles = StyleSheet.create({
   yourListing: {
-    height: responsiveScreenHeight(24),
+    height: responsiveScreenHeight(20),
   },
   shadowProp: {
     borderRadius: responsiveWidth(3),

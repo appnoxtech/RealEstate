@@ -10,7 +10,7 @@ import CustomTextInput from '../../../component/common/inputs/inputComponent';
 import ExploreButton from '../../../component/common/buttons/ExploreButton';
 import HeaderWithBackBtn from '../../../component/common/buttons/HeaderWithBackBtn';
 import {useDispatch, useSelector} from 'react-redux';
-import {ResetNewListing, UpdateNewListing} from '../../../redux/reducers/postReducer';
+import { ResetNewListing, UpdateNewListing} from '../../../redux/reducers/postReducer';
 import usePropertyHook from '../../../hooks/PropertyHook';
 
 const PropertyFeatures = () => {
@@ -24,9 +24,9 @@ const PropertyFeatures = () => {
   const {userDetails} = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
   const handelPost = () => {
-   
+
     createPropertyHandler(newListing);
-    // dispatch(ResetNewListing())
+    
   };
 
   
@@ -90,7 +90,7 @@ const PropertyFeatures = () => {
           <CustomTextInput
             onChangeText={areaHandel}
             value={area}
-            placeholder="area"
+            placeholder="sq.ft"
           />
         </View>
         <View style={styles.inputContainer}>

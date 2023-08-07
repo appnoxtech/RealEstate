@@ -28,7 +28,6 @@ import {ImageUploadService} from '../../../services/common/ImagePicker';
 
 const PostPropertyThird = () => {
   const [imgUrls, setImgUrls] = useState<Array<string>>([]);
-  console.log(imgUrls);
   
   
 
@@ -53,7 +52,6 @@ const PostPropertyThird = () => {
       const res = await ImageUploadService(image);
       // console.log('res', res.data);
       const {result} = res.data;
-      console.log('data', result);
 
       const imageUrl = result.baseUrl + result.imagePath;
       

@@ -45,7 +45,7 @@ const PostPropertySecond = () => {
   };
 
   const NoOfRooms = ['1BHK', '2BHK', '3BHK', '4BHK', '5BHK', '5BHK+'];
-  const FurnishedStatus = ['Unfurnished', 'Semi-Furnished', 'Furnished'];
+  const FurnishedStatus = ['unfurnished', 'semi-furnished', 'furnished'];
   const Parking = ['Yes', 'No'];
   const status = ['readyToMove', 'underConstruction'];
   const ageOfProperty = ['0-'];

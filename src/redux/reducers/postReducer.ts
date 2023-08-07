@@ -1,6 +1,5 @@
 const initialState = {
   newListing: {
-    id: '',
     title: '',
     type: '',
     description: '',
@@ -24,7 +23,6 @@ const initialState = {
 };
 interface newListingData {
   key:
-    | 'id'
     | 'title'
     | 'type'
     | 'description'

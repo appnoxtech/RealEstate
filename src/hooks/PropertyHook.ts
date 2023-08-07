@@ -1,7 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import {Alert} from 'react-native';
 import {useDispatch} from 'react-redux';
-import { UpdateNewListing } from '../redux/reducers/postReducer';
+import { ResetNewListing, UpdateNewListing } from '../redux/reducers/postReducer';
 import { CreatePropertyService } from '../services/properties';
 
 const usePropertyHook = () => {
@@ -14,7 +14,7 @@ const usePropertyHook = () => {
   
       Alert.alert("Property posted successfully");
 
-      // dispatch(UpdateNewListing())
+      dispatch(dispatch(ResetNewListing()))
       
       
     } catch (error: any) {

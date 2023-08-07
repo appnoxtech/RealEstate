@@ -25,7 +25,7 @@ import {
     return (
       <SafeAreaView>
         <TouchableOpacity onPress={() => btnPressHandler(title)} style={style}>
-          <Text>{title}</Text>
+          <Text style={styles.title}>{title}</Text>
         </TouchableOpacity>
       </SafeAreaView>
     );
@@ -34,6 +34,8 @@ import {
   export default AgentBtn;
   
   const styles = StyleSheet.create({
-   
+    title: {
+      fontSize: responsiveFontSize(1.5)
+    }
   });
   

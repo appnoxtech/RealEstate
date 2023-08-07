@@ -32,8 +32,6 @@ const BottomNavigation = () => {
   //   getUserDetails();
   // }, []);
 
-
-  
   return (
     <Tab.Navigator
       //@ts-ignore

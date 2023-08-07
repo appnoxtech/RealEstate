@@ -4,7 +4,7 @@ import axios from 'axios';
 
 
 export const ImageUploadService = async (data: any) => {
-   const url = `${URL}upload/image-book-upload`;
+   const url = `${URL}document-upload`;
 
    
    return axios.post(url, data, {

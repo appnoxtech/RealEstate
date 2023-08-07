@@ -12,6 +12,7 @@ import {
   responsiveScreenWidth,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
+import {useNavigation} from '@react-navigation/native';
 
 interface props {
     number: number;
@@ -20,8 +21,9 @@ interface props {
 }
 
 const BoxBtn:FC <props> = ({number, title, page}) => {
+  const navigation = useNavigation();
     const handelPress = () => {
-        
+      navigation.navigate(page as never)
     }
   return (
     <SafeAreaView>

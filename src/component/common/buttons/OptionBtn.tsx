@@ -4,13 +4,14 @@ import React, { FC } from 'react';
 interface props {
     btnPressHandler(label: string): any,
     label: string;
-    style: StyleProp<ViewStyle>
+    style: StyleProp<ViewStyle>,
+    id: string
 };
 
-const OptionBtn:FC<props> = ({btnPressHandler, label, style}) => {
+const OptionBtn:FC<props> = ({btnPressHandler, label, style, id}) => {
   return (
     <TouchableOpacity
-      onPress={() => btnPressHandler(label)}
+      onPress={() => btnPressHandler(id)}
       style={style}>
       <Text>{label}</Text>
     </TouchableOpacity>

@@ -12,8 +12,16 @@ const StackNavigation = () => {
 
   
   const {isLogin} = useSelector((store: storeInterface) => store.user);
- 
+  // console.log(userDetails?.role);
+  
 
+ 
+  // console.log('yello');
+  // if(true) {
+  //   <AuthRoute />
+  // } else {
+  //   <UnAuthRoutes />
+  // }
   if (isLogin) {
     if (userDetails?.role === 'tenant') {
       return <AuthRoute />;

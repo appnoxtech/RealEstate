@@ -74,7 +74,7 @@ const useAuthServiceHandler = () => {
       const res = await LogoutService(data);
       dispatch(SetIsLoadingState(false));
       const {result} = res.data;
-      Navigation.navigate('SplashScreen' as never);
+      Navigation.navigate('Login' as never);
     } catch (error: any) {
       dispatch(SetIsLoadingState(false));
       Alert.alert('Error', error.response.data.error.message);

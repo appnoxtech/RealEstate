@@ -36,7 +36,7 @@ const PropertyListings: React.FC = () => {
         setUserListingsData([]);
       }
     } catch (error: any) {
-      Alert.alert('Error', error);
+      Alert.alert('Error', error.message);
     }
   };
 

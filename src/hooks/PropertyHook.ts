@@ -14,7 +14,7 @@ const usePropertyHook = () => {
   
       Alert.alert("Property posted successfully");
 
-      dispatch(dispatch(ResetNewListing()))
+      (dispatch(ResetNewListing()))
       
       
     } catch (error: any) {

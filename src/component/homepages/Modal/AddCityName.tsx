@@ -1,115 +1,9 @@
-// import {
-//   SafeAreaView,
-//   StyleSheet,
-//   Text,
-//   View,
-//   TextInput,
-//   Image,
-//   TouchableOpacity,
-// } from 'react-native';
-// import React, {useState} from 'react';
-// import {
-//   responsiveScreenHeight,
-//   responsiveScreenWidth,
-// } from 'react-native-responsive-dimensions';
-// import ExploreButton from '../../common/buttons/ExploreButton';
 
-// import {useNavigation} from '@react-navigation/native';
-// import {useDispatch, useSelector} from 'react-redux';
-// import {UpdateCityName} from '../../../redux/reducers/filterReducer';
-// import { UpdateNewListing } from '../../../redux/reducers/postReducer';
-
-// const AddCityName: React.FC<any> = ({route}) => {
-//   const dispatch = useDispatch();
-//   const {cityName} = useSelector((store: any) => store.filter);
-//   const searchImg = require('../../../../assets/images/Search.png');
-//   const vector1mg = require('../../../../assets/images/Vector1.png');
-//   const navigation = useNavigation();
-
-//   const textChangeHandler = (text: string) => {
-//     dispatch(UpdateCityName(text));
-//     dispatch(UpdateNewListing({
-//       key: "location",
-//       value: text
-//     }))
-//   };
-
-//   return (
-//     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
-//       <View style={styles.modalContainer}>
-//         <TouchableOpacity
-//           style={styles.containerImg}
-//           onPress={() => navigation.goBack()}>
-//           <Image style={styles.image} source={vector1mg} />
-//         </TouchableOpacity>
-
-//         <View style={styles.inputContainer}>
-//           <TextInput
-//             placeholder="Search City / Locality / Projects / Landmarks...."
-//             onChangeText={text => textChangeHandler(text)}
-//             value={cityName}
-//           />
-//           <Image source={searchImg} />
-//         </View>
-//         <ExploreButton title="Continue" onPress={() => navigation.goBack()} />
-//       </View>
-//     </SafeAreaView>
-//   );
-// };
-
-// export default AddCityName;
-
-// const styles = StyleSheet.create({
-//   containerImg: {
-//     borderWidth: 1,
-//     borderRadius: responsiveScreenWidth(7),
-//     backgroundColor: '#F5F4F8',
-//     borderColor: '#F5F4F8',
-//     width: responsiveScreenWidth(12),
-//     height: responsiveScreenWidth(12),
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-//   image: {
-//     width: 5,
-//     height: 10,
-//   },
-//   pb10: {paddingBottom: 10},
-//   modalOpen: {},
-//   modal: {
-//     borderWidth: 1,
-//     borderTopLeftRadius: 20,
-//     height: responsiveScreenHeight(80),
-//   },
-//   modalContainer: {
-//     flex: 1,
-//     backgroundColor: 'white',
-//     borderTopLeftRadius: 30,
-//     borderTopRightRadius: 30,
-//     paddingHorizontal: responsiveScreenWidth(6),
-//     gap: responsiveScreenHeight(3),
-//   },
-
-//   commercial: {
-//     borderWidth: 1,
-//     borderRadius: 18,
-//     borderColor: '#8BC83F',
-//     padding: 8,
-//   },
-//   inputContainer: {
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     justifyContent: 'space-between',
-//     borderWidth: 1,
-//     borderColor: '#8BC83F',
-//     padding: responsiveScreenHeight(2),
-//     width: responsiveScreenWidth(90),
-//   },
-// });
 
 import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
+import CustomTextInput from '../../common/inputs/inputComponent';
 
 
 const data = [
@@ -123,20 +17,31 @@ const data = [
   { label: 'Switzerland', value: 'CH' },
 ];
 
+
 const DropdownComponent = () => {
-  const [value, setValue] = useState(null);
+  const [countryValue, setCountryValue] = useState(null);
+  const [stateValue, setStateValue] = useState(null)
   const [isFocus, setIsFocus] = useState(false);
+  const [isFocus1, setIsFocus1] = useState(false)
 
   const renderLabel = () => {
-    if (value || isFocus) {
+    if (countryValue || isFocus) {
       return (
         <Text style={[styles.label, isFocus && { color: 'blue' }]}>
           Select Country
         </Text>
       );
-    }
+    } 
     return null;
   };
+  const renderLabel1 = () => {
+    if( stateValue || isFocus1) {
+      return(
+        <Text style={[styles.label, isFocus1 && { color: 'blue' }]}>Select State</Text>
+      );
+    }
+    return null;
+  }
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
@@ -155,19 +60,19 @@ const DropdownComponent = () => {
         valueField="value"
         placeholder={!isFocus ? 'Select Country' : '...'}
         searchPlaceholder="Search..."
-        value={value}
+        value={countryValue}
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
         onChange={item => {
-          setValue(item.value);
+          setCountryValue(item.value);
           setIsFocus(false);
         }}
       />
     </View>
     <View style={styles.container}>
-      {renderLabel()}
+      {renderLabel1()}
       <Dropdown
-        style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+        style={[styles.dropdown, isFocus1 && { borderColor: 'blue' }]}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
         inputSearchStyle={styles.inputSearchStyle}
@@ -177,14 +82,14 @@ const DropdownComponent = () => {
         maxHeight={300}
         labelField="label"
         valueField="value"
-        placeholder={!isFocus ? 'Select Country' : '...'}
+        placeholder={!isFocus1 ? 'Select State' : '...'}
         searchPlaceholder="Search..."
-        value={value}
-        onFocus={() => setIsFocus(true)}
-        onBlur={() => setIsFocus(false)}
+        value={stateValue}
+        onFocus={() => setIsFocus1(true)}
+        onBlur={() => setIsFocus1(false)}
         onChange={item => {
-          setValue(item.value);
-          setIsFocus(false);
+          setStateValue(item.value);
+          setIsFocus1(false);
         }}
       />
     </View>

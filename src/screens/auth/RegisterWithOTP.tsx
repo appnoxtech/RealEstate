@@ -61,9 +61,9 @@ const labels = {
   verify: 'Verify',
 };
 
-const OTP: React.FC<any> = () => {
+const OTP: React.FC<any> = ({route}) => {
   const {registerUserDetails} = useSelector((state: any) => state.user);
- 
+ const {type} = route?.params;
   
   const {VerifyOTPServiceHandler, GenerateOtpServiceHandler} = useAuthServiceHandler();
   const isKeyboardVisible = useKeyboardVisibleListener();
@@ -74,6 +74,7 @@ const OTP: React.FC<any> = () => {
   const [isActiveBtn, setIsActiveBtn] = useState(false);
   const [error, setError] = useState(false);
   const [otp, setOtp] = useState(initialState);
+  const [otpError, setOtpError] = useState('')
   const navigation = useNavigation();
 
   const pin1Ref = React.createRef<TextInput>();
@@ -119,9 +120,11 @@ const OTP: React.FC<any> = () => {
       const data = {
         phoneNumber: registerUserDetails?.phoneNumber,
         otp: userOTP,
+        type,
       };
       VerifyOTPServiceHandler(data);
     } else {
+      setOtpError("Enter Valid OTP !");
       return;
     }
   };
@@ -152,6 +155,8 @@ const OTP: React.FC<any> = () => {
     }
   }, [otp]);
 
+  
+  
   const clickHandler = async () => {
     setShow(false);
     setTimer(59);
@@ -333,6 +338,7 @@ const OTP: React.FC<any> = () => {
                 />
               </View>
             </View>
+            {otpError? <Text style={styles.errorOtp}>{otpError}</Text>: null}
             <View style={styles.btnContainer}>
               <ButtonPrimary
                 isActive={isActiveBtn}
@@ -397,6 +403,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  errorOtp:{
+    color: 'red',
+    textAlign: 'right'
   },
   btnContainer: {
     marginTop: responsiveScreenHeight(5),

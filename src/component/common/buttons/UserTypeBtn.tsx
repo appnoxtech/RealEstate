@@ -10,8 +10,6 @@ import {
 import React, {FC, useState} from 'react';
 import {responsiveFontSize, responsiveScreenHeight, responsiveScreenWidth} from 'react-native-responsive-dimensions';
 import Lottie from 'lottie-react-native';
-import NextBtn from './NextBtn';
-// import NextBtn from './NextBtn';
 
 interface props {
   btnPressHandler(label: string): any;
@@ -25,11 +23,10 @@ const UserTypeBtn: FC<props> = ({btnPressHandler, label, style, imageUrl, id}) =
   const [isActive, setIsActive] = useState();
 
   return (
-    <TouchableOpacity onPress={() => btnPressHandler(id)} style={style}>
+    <TouchableOpacity onPress={() =>{ btnPressHandler(id); setIsActive}} style={style}>
       <View style={styles.animContainer}>
         <Lottie resizeMode='contain' style={styles.image} source={imageUrl} autoPlay loop/>
       </View>
-     { isActive ? <View style={styles.checkBtn}><NextBtn /></View> : null}
       <View style={{width: responsiveScreenWidth(25)}}>
          <Text  style={styles.textLabel}>{label}</Text>
       </View>
@@ -50,6 +47,10 @@ const styles = StyleSheet.create({
   animContainer: {
     width: responsiveScreenWidth(15),
     height: responsiveScreenHeight(15),
+  },
+  buttonContainer:{
+    paddingTop: responsiveScreenHeight(10), 
+    paddingLeft: responsiveScreenWidth(10)
   },
   checkBtn: {
     marginTop: responsiveScreenHeight(3)

@@ -48,7 +48,7 @@ const PostPropertySecond = () => {
   const FurnishedStatus = ['unfurnished', 'semi-furnished', 'furnished'];
   const Parking = ['Yes', 'No'];
   const status = ['readyToMove', 'underConstruction'];
-  const ageOfProperty = ['0-'];
+  const ageOfProperty = ['0-1'];
 
   const validate = () => {
     if (!cityName) {
@@ -119,16 +119,16 @@ const PostPropertySecond = () => {
 
 
   const handleNext = () => {
-    const isValid = validate();
+    // const isValid = validate();
     dispatch(
       UpdateNewListing({
         key: 'location',
-        value: cityName,
+        value: 'Delhi',
       }),
     );
-    if (isValid) {
+    // if (isValid) {
       navigation.navigate('PostPropertyThird' as never);
-    }
+    // }
   };
 
   return (
@@ -184,8 +184,7 @@ const PostPropertySecond = () => {
                       styles.notColored,
                       noOfRooms === option ? styles.colored : null,
                     ]}
-                    id={option}
-                  />
+                    id={option} isSelected={false}                  />
                 ))}
               </View>
             </ScrollView>
@@ -203,8 +202,7 @@ const PostPropertySecond = () => {
                     style={[
                       styles.notColored,
                       furnishedStatus === option ? styles.colored : null,
-                    ]}
-                  />
+                    ]} isSelected={false}                  />
                 ))}
               </View>
             </ScrollView>
@@ -223,8 +221,7 @@ const PostPropertySecond = () => {
                       styles.notColored,
                       propertyStatus === option ? styles.colored : null,
                     ]}
-                    id={option}
-                  />
+                    id={option} isSelected={false}                  />
                 ))}
               </View>
             </View>
@@ -241,8 +238,7 @@ const PostPropertySecond = () => {
                       styles.notColored,
                       parking === option ? styles.colored : null,
                     ]}
-                    id={option}
-                  />
+                    id={option} isSelected={false}                  />
                 ))}
               </View>
               <View style={styles.inputContainer}>

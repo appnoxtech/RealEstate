@@ -22,13 +22,11 @@ const PropertyListings: React.FC = () => {
   const [userListingsData, setUserListingsData] = useState<
     Array<userListingsData>
   >([]);
-  console.log(userListingsData);
 
   const GetPropertyData = async () => {
     try {
       const res = await GetPropertyByUserIdService(id);
       const {result} = res.data;
-      console.log(result);
 
       if (result) {
         setUserListingsData(result);
@@ -36,7 +34,8 @@ const PropertyListings: React.FC = () => {
         setUserListingsData([]);
       }
     } catch (error: any) {
-      Alert.alert('Error', error.message);
+      // Alert.alert('Error', error.response.data.error.message);
+      
     }
   };
 
@@ -51,10 +50,10 @@ const PropertyListings: React.FC = () => {
         <Text style={styles.textz}> Your Listings </Text>
       </View>
       <View style={styles.listings}>
-        {userListingsData.map((item: userListingsData, index) => {
+        {userListingsData?.map((item: userListingsData, index) => {
           return (
             <PropertyListCard
-            key={index}
+              key={index}
               id={item.id}
               title={item.title}
               propertyType={item.propertyType}
@@ -86,6 +85,7 @@ const styles = StyleSheet.create({
     paddingVertical: responsiveScreenHeight(2),
   },
   listings: {
-    // paddingHorizontal: responsiveScreenWidth(3),
+    paddingHorizontal: responsiveScreenWidth(3),
+    flex: 1,
   },
 });

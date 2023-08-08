@@ -61,7 +61,7 @@ const UserType = () => {
               key={option.id}
               label={option.type}
               id={option.id}
-              btnPressHandler={setUserType}
+              btnPressHandler={() => {setUserType; handelPress();}}
               style={
                 registerUserDetails?.role === option?.id
                   ? styles.selectedUser
@@ -71,7 +71,6 @@ const UserType = () => {
             />
           );
         })}
-        <NextBtn onPress={handelPress}/>
       </View>
     </SafeAreaView>
   );
@@ -89,7 +88,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: '#3fc888',
-    paddingVertical: responsiveScreenHeight(2),
+    paddingVertical: responsiveScreenHeight(4.5),
     borderRadius: responsiveScreenHeight(4),
     paddingHorizontal: responsiveScreenWidth(3),
   },
@@ -100,7 +99,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     backgroundColor: '#F5F4F8',
     paddingHorizontal: responsiveScreenWidth(3),
-    paddingVertical: responsiveScreenHeight(2),
+    paddingVertical: responsiveScreenHeight(4.5),
     borderRadius: responsiveScreenHeight(4),
     marginBottom: responsiveScreenHeight(1),
   },

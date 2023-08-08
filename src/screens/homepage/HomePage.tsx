@@ -9,8 +9,9 @@ import {
   TextInput,
   ScrollView,
   Modal,
+  Alert,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {
   responsiveFontSize,
@@ -32,6 +33,7 @@ import ModalScreen from '../Modals/ModalScreen';
 import {useSelector} from 'react-redux';
 import BoxBtn from '../../component/common/buttons/BoxBtn';
 import AgentBtn from '../../component/common/buttons/AgentBtn';
+import { GetPropertyByUserIdService } from '../../services/properties';
 
 const HomePage = () => {
   const notificationImg = require('../../../assets/images/Notification.png');
@@ -43,14 +45,35 @@ const HomePage = () => {
 
   const [property, setProperty] = useState('Listings');
   const [agentDataa, setAgentData] = useState('Listings');
+  const [propertyListings, setPropertyListings] = useState();
 
   const handelPress = (params: string) => {
     setAgentData(params);
   };
 
+  const GetPropertyData = async () => {
+    try {
+      const res = await GetPropertyByUserIdService(userDetails?.id);
+      const {result} = res.data;
+
+      if (result?.length) {
+        setPropertyListings(result?.length);
+      }
+    } catch (error: any) {
+      // Alert.alert('Error', error.response.data.error.message);
+      if(error.response.data.error.message = 'Property not found for this userId') {
+        setPropertyListings(0);
+      }
+    }
+  };
+
+  useEffect(() => {
+    GetPropertyData();
+  }, []);
+
   const data = [
     {
-      number: 20,
+      number: propertyListings,
       title: 'Listings',
       page: 'PropertyListings',
     },
@@ -146,7 +169,7 @@ const HomePage = () => {
             </>
           ) : null}
           {agentDataa === 'Listings' ? (
-            <Text style={styles.textListings}>1 Listings</Text>
+            <Text style={styles.textListings}>{propertyListings} Listings</Text>
           ) : agentDataa === 'Sold' ? (
             <Text style={styles.textListings}>3 Sold Properties</Text>
           ) : (

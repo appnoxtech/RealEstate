@@ -12,7 +12,7 @@ const usePropertyHook = () => {
     try {
       const res = await CreatePropertyService(data);
   
-      Alert.alert("Property posted successfully");
+      Navigation.navigate('Homepage' as never);
 
       (dispatch(ResetNewListing()))
       

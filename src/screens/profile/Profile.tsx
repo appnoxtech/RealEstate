@@ -5,8 +5,9 @@ import {
   View,
   Image,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -19,10 +20,21 @@ import {UpdateLogout} from '../../redux/reducers/userReducer';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 
 import ModalScreen from '../Modals/ModalScreen';
+import UpdateProfileModal from '../../component/homepages/Modal/UpdateProfileModal';
 import ProfileCard from '../../component/common/Card/ProfileCard';
 import {useNavigation} from '@react-navigation/native';
+import {useProfileHooks} from '../../hooks/ProfileHooks';
 
 export default function Profile() {
+  const { updatePofileHandler } = useProfileHooks();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [profileData, setProfileData] = useState({
+    name: '',
+    email: '',
+    phoneNumber: '',
+    // Add more profile data fields as needed
+  });
+
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(UpdateLogout());
@@ -31,12 +43,28 @@ export default function Profile() {
   const {userDetails} = useSelector((state: any) => state.user);
   const navigation = useNavigation();
 
-  const userName = userDetails?.name.toUpperCase();
+  const userName = userDetails?.name;
   const handelCommunePress = () => {
     navigation.navigate('CommunicationSetting' as never);
   };
   const handelFeedBackPress = () => {
     navigation.navigate('ShareFeed' as never);
+  };
+
+  const handleSaveProfile = async (
+    updatedProfile: React.SetStateAction<{
+      name: string;
+      email: string;
+      phoneNumber: string;
+    }>,
+  ) => {
+    setProfileData(updatedProfile);
+    try {
+      const res = await updatePofileHandler(updatedProfile, userDetails);
+    } catch (error: any) {
+      Alert.alert('Error',error.message);
+    }
+    
   };
   return (
     <SafeAreaView style={styles.safearea}>
@@ -61,10 +89,14 @@ export default function Profile() {
           <Text style={styles.emailText}>{userDetails?.email}</Text>
           <Text style={styles.emailText}>{userDetails?.phoneNumber}</Text>
         </View>
-        <TouchableOpacity>
-          <Text style={styles.editYourProfile}>
-            Edit Your Profile
-          </Text>
+        <TouchableOpacity onPress={() => setIsModalVisible(true)}>
+          <Text style={styles.editYourProfile}>Edit Your Profile</Text>
+          <UpdateProfileModal
+            isVisible={isModalVisible}
+            onClose={() => setIsModalVisible(false)}
+            onSave={handleSaveProfile}
+            profileData={profileData}
+          />
         </TouchableOpacity>
         <ProfileCard
           onPress={handelCommunePress}
@@ -165,3 +197,12 @@ const styles = StyleSheet.create({
     color: '#234F68',
   },
 });
+function updatePofileHandler(
+  updatedProfile: React.SetStateAction<{
+    name: string;
+    email: string;
+    phoneNumber: string;
+  }>,
+) {
+  throw new Error('Function not implemented.');
+}

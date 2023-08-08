@@ -3,6 +3,8 @@ import {URL} from '@env';
 
 export const GenerateOTPService = async (data: any) => {
   const url = `${URL}login`;
+  console.log('url', url);
+  
   return axios.post(url, data, {
     headers: {
       'Content-Type': 'application/json',

@@ -8,7 +8,7 @@ import {
   TextInput,
   Alert,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
@@ -18,28 +18,31 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import useAuthServiceHandler from '../../hooks/serviceHandler/AuthServiceHandler';
 import HeaderWithBackBtn from '../../component/common/buttons/HeaderWithBackBtn';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { UpdateRegisterUserDetails } from '../../redux/reducers/userReducer';
 
 
 const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
 
 export default function Register() {
+  const {userDetails} = useSelector((state: any) => state?.user);
   const navigation = useNavigation();
   const {handleRegisterService} = useAuthServiceHandler();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
+  const [phone, setPhone] = useState(userDetails?.phoneNumber);
   const [nameValidError, setNameValidError] = useState('');
   const [emailValidError, setEmailValidError] = useState('');
   const [phoneValidError, setPhoneValidError] = useState('');
   const [isFocus, setIsFocus] = useState(false);
-  const vectorImg = require('../../../assets/images/Vector1.png');
   const profile = '../../../assets/images/Profilecopy.png';
   const groupImg = require('../../../assets/images/Group.png');
   const callImg = require('../../../assets/images/Call.png');
   const dispatch = useDispatch();
-
+  
+  
+  
+  
 
   const validation = () => {
     if (!name.length) {
@@ -191,7 +194,7 @@ export default function Register() {
             }>
             <TextInput
               style={styles.input}
-              placeholder="Phone "
+              placeholder="Phone"
               value={phone}
               keyboardType="number-pad"
               onChangeText={value => {
@@ -200,6 +203,7 @@ export default function Register() {
               }}
               onFocus={() => setIsFocus(true)}
             />
+           
             <Image
               style={styles.imagePhone}
               source={callImg}

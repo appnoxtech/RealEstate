@@ -67,7 +67,7 @@ const ModalScreen = () => {
                 setVisible={setVisible}
                 title="Manage/Edit your listings"
                 iconName="business-outline"
-                pageName="PropertiesListings"
+                pageName="PropertyListings"
               />
             </View>
             <MenuCard
@@ -140,9 +140,6 @@ const ModalScreen = () => {
             pageName=""
             iconName="feed"
           />
-          <Text style={{fontSize: responsiveFontSize(4), textAlign: 'center'}}>
-            Real Estate
-          </Text>
         </ScrollView>
       </ModalLayout>
       <Button title="Show Modal" onPress={() => setVisible(true)} />

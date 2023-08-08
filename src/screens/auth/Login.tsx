@@ -18,25 +18,23 @@ import {
 } from 'react-native-responsive-dimensions';
 import {useNavigation} from '@react-navigation/native';
 import useAuthServiceHandler from '../../hooks/serviceHandler/AuthServiceHandler';
-import { useDispatch } from 'react-redux';
-import { UpdateRegisterUserDetails, updateUserDetails } from '../../redux/reducers/userReducer';
-
+import {useDispatch} from 'react-redux';
+import {
+  UpdateRegisterUserDetails,
+  updateUserDetails,
+} from '../../redux/reducers/userReducer';
 
 export default function Login() {
   const vectorImg = require('../../../assets/images/Vector1.png');
   const navigation = useNavigation();
   const {GenerateOtpServiceHandler} = useAuthServiceHandler();
-  
+
   const [phone, setPhone] = useState('');
 
   const [phoneValidError, setPhoneValidError] = useState('');
 
-  
-
   const [isFocus, setIsFocus] = useState(false);
   const dispatch = useDispatch();
-  
-
 
   const Validation = () => {
     if (phone.length < 10) {
@@ -50,27 +48,23 @@ export default function Login() {
 
   const handleSubmit = () => {
     const isValid = Validation();
+
     if (isValid) {
       const data = {
         phoneNumber: phone,
         type: 'GENERATE',
       };
-      dispatch(UpdateRegisterUserDetails(data))
+      dispatch(updateUserDetails(data));
+      dispatch(UpdateRegisterUserDetails(data));
       GenerateOtpServiceHandler(data);
-      
     }
-   
-    
   };
- 
-  
 
-  
   const OnHandleChange = (value: string | any[]) => {
     if (!value.length) {
-      setPhoneValidError('Required')
+      setPhoneValidError('Required');
       return false;
-    } else if (value.length < 10 || value.length > 10){
+    } else if (value.length < 10 || value.length > 10) {
       setPhoneValidError('Enter valid number !');
       return false;
     } else {
@@ -78,17 +72,14 @@ export default function Login() {
       return true;
     }
   };
- 
+
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View style={styles.container}>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={styles.containerImg}>
-          <Image
-            style={styles.image}
-            source={vectorImg}
-          />
+          <Image style={styles.image} source={vectorImg} />
         </TouchableOpacity>
 
         <View style={styles.textContainer}>
@@ -108,13 +99,11 @@ export default function Login() {
             placeholder="Phone "
             value={phone}
             keyboardType="number-pad"
-            
             onChangeText={value => {
               OnHandleChange(value);
               setPhone(value);
             }}
             onFocus={() => setIsFocus(true)}
-            
           />
         </View>
         {phoneValidError ? (

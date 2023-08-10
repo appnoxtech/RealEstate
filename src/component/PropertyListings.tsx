@@ -34,7 +34,7 @@ const PropertyListings: React.FC = () => {
         setUserListingsData([]);
       }
     } catch (error: any) {
-      // Alert.alert('Error', error.response.data.error.message);
+      Alert.alert('Error', error.response.data.error.message);
       
     }
   };
@@ -58,6 +58,7 @@ const PropertyListings: React.FC = () => {
               title={item.title}
               propertyType={item.propertyType}
               price={item.price}
+              propertyId={item.id}
             />
           );
         })}
@@ -85,7 +86,8 @@ const styles = StyleSheet.create({
     paddingVertical: responsiveScreenHeight(2),
   },
   listings: {
-    paddingHorizontal: responsiveScreenWidth(3),
     flex: 1,
+    paddingHorizontal: responsiveScreenWidth(3),
+    gap: responsiveScreenHeight(3)
   },
 });

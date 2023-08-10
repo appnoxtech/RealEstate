@@ -16,10 +16,10 @@ const UpdateProfileModal: FC<props> = ({
 }) => {
   const [name, setName] = useState(profileData.name);
   const [email, setEmail] = useState(profileData.email);
-  const [phoneNumber, setPhoneNumber] = useState(profileData.phoneNumber);
+  // const [phoneNumber, setPhoneNumber] = useState(profileData.phoneNumber);
 
   const handleSave = () => {
-    onSave({name, email, phoneNumber});
+    onSave({name, email});
     onClose();
   };
   // console.log(profileData);
@@ -31,7 +31,7 @@ const UpdateProfileModal: FC<props> = ({
       onRequestClose={onClose}
       backdropOpacity={0.5}
      >
-      <View style={{height: "40%",backgroundColor: 'white', padding: 20}}>
+      <View style={{height: "25%",backgroundColor: 'white', padding: 20}}>
         <Text style={{fontSize: 18, fontWeight: 'bold', marginBottom: 10}}>
           Update Profile
         </Text>
@@ -57,7 +57,7 @@ const UpdateProfileModal: FC<props> = ({
           value={email}
           onChangeText={text => setEmail(text)}
         />
-         <TextInput
+         {/* <TextInput
           style={{
             marginBottom: 10,
             padding: 10,
@@ -67,7 +67,7 @@ const UpdateProfileModal: FC<props> = ({
           placeholder="Contact Details"
           value={phoneNumber}
           onChangeText={text => setPhoneNumber(text)}
-        />
+        /> */}
         <TouchableOpacity
           onPress={handleSave}
           style={{

@@ -32,14 +32,12 @@ const PostProperty = () => {
   const dispatch = useDispatch();
   const [areaType, setAreaType] = useState<string>('Residential-property');
   const {userDetails} = useSelector((state: any) => state.user);
-  const [lookingTo, setLookingTo] = useState<string>('Buy');
+  const [lookingTo, setLookingTo] = useState<string>('Sell');
   const [propertyType, setPropertyType] = useState<Array<{name: string}>>([]);
   const [ownerName, setOwnerName] = useState('');
   const [ownerPhoneNumber, setOwnerPhoneNumber] = useState('');
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const {newListing} = useSelector((store: any) => store.post);
   console.log(newListing);
-  
 
   const [errorProperty, setErrorProperty] = useState<string>('');
 
@@ -79,18 +77,12 @@ const PostProperty = () => {
       );
     } catch (error) {}
   };
-  const setPropertyTypeHandler = (id: string, isSelected: boolean) => {
-    if (isSelected) {
-      setSelectedItems(prevSelectedItems => [...prevSelectedItems, id]);
-    } else {
-      setSelectedItems(prevSelectedItems =>
-        prevSelectedItems.filter(item => item !== id),
-      );
-    }
+  const setPropertyTypeHandler = (id: string) => {
+   
     dispatch(
       UpdateNewListing({
         key: 'propertyType',
-        value: selectedItems,
+        value: id,
       }),
     );
   };
@@ -112,7 +104,7 @@ const PostProperty = () => {
       navigation.navigate('PostPropertySecond' as never);
     }
   };
-  const LookingOption = ['Buy', 'Rent/Lease', 'PG'];
+  const LookingOption = ['Sell', 'Rent/Lease', 'PG'];
   const WhatKindOfProperty = [
     {key: 'Residential-property', value: 'Residential'},
     {key: 'Commercial-property', value: 'Commercial'},
@@ -165,7 +157,6 @@ const PostProperty = () => {
                         ? styles.pressedSellrent
                         : styles.Sellrent
                     }
-                    isSelected={false}
                   />
                 ))}
               </View>
@@ -182,7 +173,7 @@ const PostProperty = () => {
                         ? styles.typeColor
                         : styles.residential
                     }
-                    isSelected={false}
+                    
                   />
                 ))}
               </View>
@@ -196,11 +187,10 @@ const PostProperty = () => {
                       label={option.name}
                       btnPressHandler={setPropertyTypeHandler}
                       style={
-                        selectedItems.includes(option.name)
+                        propertyType.name === option.name
                           ? styles.typeColor
                           : styles.noTypeColor
                       }
-                      isSelected={selectedItems.includes(option.name)}
                     />
                   ))}
                 </View>

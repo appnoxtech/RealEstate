@@ -2,19 +2,18 @@ import {StyleProp, StyleSheet, Text, TouchableOpacity, View, ViewStyle} from 're
 import React, { FC } from 'react';
 
 interface props {
-  btnPressHandler(label: string, isSelected: boolean): void;
+  btnPressHandler(label: string): void;
     label: string;
     style: StyleProp<ViewStyle>,
     id: string;
-    isSelected: boolean;
 };
 
-const OptionBtn:FC<props> = ({ btnPressHandler, label, style, id, isSelected }) => {
+const OptionBtn:FC<props> = ({ btnPressHandler, label, style, id }) => {
  
   
   return (
     <TouchableOpacity
-    onPress={() => btnPressHandler(id, !isSelected)} style={style}>
+    onPress={() => btnPressHandler(id)} style={style}>
       <Text>{label}</Text>
     </TouchableOpacity>
   );

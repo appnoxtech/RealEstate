@@ -24,6 +24,7 @@ import {UpdateCityName} from '../../../redux/reducers/filterReducer';
 import OptionBtn from '../../../component/common/buttons/OptionBtn';
 import ExploreButton from '../../../component/common/buttons/ExploreButton';
 import CustomTextInput from '../../../component/common/inputs/inputComponent';
+import LocationBtn from '../../../component/common/buttons/LocationBtn';
 
 const PostPropertySecond = () => {
   const [noOfRooms, setNoOfRooms] = useState('1BHK');
@@ -31,24 +32,26 @@ const PostPropertySecond = () => {
   const [parking, setParking] = useState('');
 
   const {newListing} = useSelector((store: any) => store.post);
+
+
   const [readyToMove, setReadyToMove] = useState('');
   const [propertyStatus, setStatus] = useState('');
   const [totalFloor, setTotalFloor] = useState('');
   const [propertyOnFloor, setProperyOnFloor] = useState('');
+  console.log(totalFloor, propertyOnFloor);
+  
+  const [floorError, setFloorError] = useState('')
   const dispatch = useDispatch();
 
   const navigation = useNavigation();
   const {cityName} = useSelector((store: any) => store.filter);
   const [cityError, setCityError] = useState('');
-  const handleCityName = () => {
-    dispatch(UpdateCityName(''));
-  };
 
   const NoOfRooms = ['1BHK', '2BHK', '3BHK', '4BHK', '5BHK', '5BHK+'];
   const FurnishedStatus = ['unfurnished', 'semi-furnished', 'furnished'];
   const Parking = ['Yes', 'No'];
   const status = ['readyToMove', 'underConstruction'];
-  const ageOfProperty = ['0-1'];
+  // const ageOfProperty = ['0-1', '1-2'];
 
   const validate = () => {
     if (!cityName) {
@@ -98,6 +101,16 @@ const PostPropertySecond = () => {
       }),
     );
   };
+
+  const validateOnFloor = () => {
+    if(propertyOnFloor > totalFloor) {
+      setFloorError("Enter valid floor !");
+      return false;
+    } else {
+      setFloorError("");
+      return true;
+    }
+  }
   const setTotalFloorHandel = (params: string) => {
     setTotalFloor(params);
     dispatch(
@@ -117,18 +130,17 @@ const PostPropertySecond = () => {
     );
   };
 
-
   const handleNext = () => {
-    // const isValid = validate();
+    const isValid = validateOnFloor();
     dispatch(
       UpdateNewListing({
         key: 'location',
-        value: 'Delhi',
+        value: newListing?.location,
       }),
     );
-    // if (isValid) {
-      navigation.navigate('PostPropertyThird' as never);
-    // }
+    if (isValid) {
+    navigation.navigate('PostPropertyThird' as never);
+    }
   };
 
   return (
@@ -146,23 +158,24 @@ const PostPropertySecond = () => {
 
             <Text style={styles.locatedText}>Where is it located ?</Text>
             <View style={styles.addCityNameContainer}>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('AddCityName' as never);
-                }}
-                style={styles.addCityName}>
-                <Text>City</Text>
-                <Ionicons style={styles.addFont} name={'add'} />
-              </TouchableOpacity>
-
-              {cityName ? (
-                <View style={styles.showCityName}>
-                  <Text>{cityName}</Text>
-                  <TouchableOpacity onPress={() => handleCityName()}>
-                    <Ionicons style={styles.removeFont} name={'close'} />
-                  </TouchableOpacity>
+              <ScrollView
+                showsHorizontalScrollIndicator={false}
+                horizontal={true}>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate('AddCityName' as never);
+                  }}
+                  style={styles.addCityName}>
+                  <Text>City</Text>
+                  <Ionicons style={styles.addFont} name={'add'} />
+                </TouchableOpacity>
+                <View style={styles.locationDetails}>
+                  {Array.isArray(newListing?.location) &&
+                    newListing.location.map((option: string) => (
+                      <LocationBtn key={option} label={option} />
+                    ))}
                 </View>
-              ) : null}
+              </ScrollView>
             </View>
             {cityError ? (
               <Text style={styles.errorCity}>{cityError} !</Text>
@@ -184,7 +197,8 @@ const PostPropertySecond = () => {
                       styles.notColored,
                       noOfRooms === option ? styles.colored : null,
                     ]}
-                    id={option} isSelected={false}                  />
+                    id={option}
+                  />
                 ))}
               </View>
             </ScrollView>
@@ -202,7 +216,8 @@ const PostPropertySecond = () => {
                     style={[
                       styles.notColored,
                       furnishedStatus === option ? styles.colored : null,
-                    ]} isSelected={false}                  />
+                    ]}
+                  />
                 ))}
               </View>
             </ScrollView>
@@ -221,7 +236,8 @@ const PostPropertySecond = () => {
                       styles.notColored,
                       propertyStatus === option ? styles.colored : null,
                     ]}
-                    id={option} isSelected={false}                  />
+                    id={option}
+                  />
                 ))}
               </View>
             </View>
@@ -238,7 +254,8 @@ const PostPropertySecond = () => {
                       styles.notColored,
                       parking === option ? styles.colored : null,
                     ]}
-                    id={option} isSelected={false}                  />
+                    id={option}
+                  />
                 ))}
               </View>
               <View style={styles.inputContainer}>
@@ -257,6 +274,7 @@ const PostPropertySecond = () => {
                   placeholder="Property On Floor"
                 />
               </View>
+              {floorError? <Text style={{color: 'red', textAlign: 'right'}}>{floorError}</Text>: null}
             </View>
             <View style={styles.bottomBtn}>
               <ExploreButton onPress={() => handleNext()} title="Next" />
@@ -289,6 +307,10 @@ const styles = StyleSheet.create({
   errorCity: {
     color: 'red',
     textAlign: 'right',
+  },
+  locationDetails: {
+    flexDirection: 'row',
+    paddingHorizontal: responsiveScreenWidth(3)
   },
   locatedText: {
     marginTop: responsiveHeight(3),
@@ -347,7 +369,7 @@ const styles = StyleSheet.create({
     gap: responsiveWidth(3),
   },
   inputContainer: {
-    marginTop: responsiveScreenHeight(1)
+    marginTop: responsiveScreenHeight(1),
   },
   inputContainer1: {
     // marginBottom: responsiveScreenHeight(1.7),

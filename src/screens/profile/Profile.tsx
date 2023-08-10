@@ -62,7 +62,7 @@ export default function Profile() {
     try {
       const res = await updatePofileHandler(updatedProfile, userDetails);
     } catch (error: any) {
-      Alert.alert('Error',error.message);
+      Alert.alert('Error -------1111111',error);
     }
     
   };

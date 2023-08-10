@@ -142,7 +142,7 @@ const BottomNavigation = () => {
       />
        <Tab.Screen
         name="Profile"
-        component={userDetails?.role === 'tenant' ? Profile : ProfileAgent}
+        component={Profile}
         listeners={({navigation, route}) => ({
           tabPress: e => {
             // Prevent default action

@@ -52,7 +52,7 @@ interface updateNewListing {
 interface resetNewListing {
   type: 'RESET_NEW_LISTING';
 }
-type action = updateNewListing | resetNewListing;;
+type action = updateNewListing | resetNewListing;
 
 const PostReducer = (state = initialState, action: action) => {
   switch (action.type) {

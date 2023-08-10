@@ -1,4 +1,5 @@
 import {
+  Alert,
   Image,
   SafeAreaView,
   StyleSheet,
@@ -6,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {FC} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -16,19 +17,68 @@ import {
 } from 'react-native-responsive-dimensions';
 import {useNavigation} from '@react-navigation/native';
 import HeaderWithBackBtn from '../buttons/HeaderWithBackBtn';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { DeletePropertyByIdService } from '../../../services/properties';
+import { useSelector } from 'react-redux';
 
 interface props {
   id: string;
   title: string;
   propertyType: string;
   price: number;
+  propertyId: string;
 }
 
-const PropertyListCard: FC<props> = ({title, propertyType, price}) => {
+interface userListingsData {
+  id: string;
+  title: string;
+  propertyType: string;
+  price: number;
+}
+
+
+const PropertyListCard: FC<props> = ({
+  title,
+  propertyType,
+  price,
+  propertyId,
+}) => {
   const imgSrc = require('../../../../assets/images/image28.png');
+  const [userListingsData, setUserListingsData] = useState<
+  Array<userListingsData>
+>([]);
+
+
+  const {id} = useSelector((state: any) => state.user.userDetails);
+
+  const DeleteProperty = async (propertyId: string) => {
+    try {
+      const res = await DeletePropertyByIdService(propertyId);
+      const {result} = res.data;
+      console.log(result);
+      
+
+      // if (result) {
+      //   setUserListingsData(result);
+      // } else {
+      //   setUserListingsData([]);
+      // }
+    } catch (error: any) {
+      // Alert.alert('Error', error.response.data.error.message);
+      
+    }
+  };
+
+
+  const handelDelete = (propertyId: string) => {
+    DeleteProperty(propertyId)
+    // const updateUserListings = userListingsData.filter((item) => item.id !== propertyId);
+    // setUserListingsData(updateUserListings);
+  }
+
   const navigation = useNavigation();
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView>
       <View style={styles.yourListing}>
         <View style={[styles.listingContainer, styles.shadowProp]}>
           <View style={styles.yourListingsBody}>
@@ -41,8 +91,8 @@ const PropertyListCard: FC<props> = ({title, propertyType, price}) => {
               source={imgSrc}
             />
             <View>
-              <Text>PROPERTY ID: R70134128 </Text>
-              <View style={{marginVertical: responsiveScreenHeight(1.4)}}>
+              {/* <Text numberOfLines={2}> Property ID: {propertyID} </Text> */}
+              <View>
                 <Text
                   style={{fontWeight: 'bold', fontSize: responsiveFontSize(2)}}>
                   {propertyType}
@@ -51,6 +101,10 @@ const PropertyListCard: FC<props> = ({title, propertyType, price}) => {
               </View>
               <Text>Posted 2 Weeks ago</Text>
             </View>
+
+         
+          <Ionicons onPress={() => handelDelete(propertyId)} name="trash-outline" size={responsiveScreenWidth(7)} />
+         
           </View>
         </View>
       </View>
@@ -62,7 +116,7 @@ export default PropertyListCard;
 
 const styles = StyleSheet.create({
   yourListing: {
-    height: responsiveScreenHeight(20),
+    height: responsiveScreenHeight(15),
   },
   shadowProp: {
     borderRadius: responsiveWidth(3),
@@ -93,20 +147,6 @@ const styles = StyleSheet.create({
     fontSize: responsiveFontSize(2.5),
   },
 
-  buttonActivation: {
-    flex: 1,
-    alignItems: 'center',
-    backgroundColor: '#234F68',
-    borderWidth: responsiveWidth(0.3),
-    borderRadius: responsiveWidth(2),
-    paddingHorizontal: responsiveScreenWidth(2),
-    paddingVertical: responsiveScreenHeight(1),
-    borderColor: '#252B5C',
-  },
-  textActivation: {
-    color: 'white',
-    fontSize: responsiveFontSize(2.5),
-  },
   featuredEstate: {
     marginHorizontal: responsiveScreenWidth(2),
   },
@@ -124,6 +164,7 @@ const styles = StyleSheet.create({
   yourListingsBody: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: responsiveScreenWidth(3),
+    justifyContent: 'space-between',
+    gap: responsiveScreenWidth(4),
   },
 });

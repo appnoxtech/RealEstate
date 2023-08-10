@@ -16,17 +16,18 @@ import {
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import {useNavigation} from '@react-navigation/native';
-import HeaderWithBackBtn from '../buttons/HeaderWithBackBtn';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { DeletePropertyByIdService } from '../../../services/properties';
-import { useSelector } from 'react-redux';
+import {DeletePropertyByIdService} from '../../../services/properties';
+import {useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux'
+import { UpdatePostProperty } from '../../../redux/reducers/postReducer';
 
 interface props {
   id: string;
   title: string;
   propertyType: string;
   price: number;
-  propertyId: string;
+  property: any;
 }
 
 interface userListingsData {
@@ -36,44 +37,45 @@ interface userListingsData {
   price: number;
 }
 
-
 const PropertyListCard: FC<props> = ({
   title,
   propertyType,
   price,
-  propertyId,
+  property,
 }) => {
   const imgSrc = require('../../../../assets/images/image28.png');
   const [userListingsData, setUserListingsData] = useState<
-  Array<userListingsData>
->([]);
-
+    Array<userListingsData>
+  >([]);
+  const dispatch = useDispatch();
 
   const {id} = useSelector((state: any) => state.user.userDetails);
 
   const DeleteProperty = async (propertyId: string) => {
     try {
       const res = await DeletePropertyByIdService(propertyId);
+      console.log(propertyId);
+
       const {result} = res.data;
       console.log(result);
-      
-
-      // if (result) {
-      //   setUserListingsData(result);
-      // } else {
-      //   setUserListingsData([]);
-      // }
     } catch (error: any) {
-      // Alert.alert('Error', error.response.data.error.message);
-      
+      Alert.alert('Error', error.response.data.error.message);
     }
   };
 
+  const handelDelete = () => {
+    DeleteProperty(property?.id);
+    const updateUserListings = userListingsData.filter(
+      item => item.id !== property?.id,
+    );
+    GetPropertyData();
+    setUserListingsData(updateUserListings);
+    
+  };
 
-  const handelDelete = (propertyId: string) => {
-    DeleteProperty(propertyId)
-    // const updateUserListings = userListingsData.filter((item) => item.id !== propertyId);
-    // setUserListingsData(updateUserListings);
+  const handelEdit = () => { 
+    dispatch(UpdatePostProperty(property))
+    navigation.navigate('PostProperty' as never)
   }
 
   const navigation = useNavigation();
@@ -90,8 +92,8 @@ const PropertyListCard: FC<props> = ({
               }}
               source={imgSrc}
             />
-            <View>
-              {/* <Text numberOfLines={2}> Property ID: {propertyID} </Text> */}
+             
+            <View style={styles.yourListingsBodyText}>
               <View>
                 <Text
                   style={{fontWeight: 'bold', fontSize: responsiveFontSize(2)}}>
@@ -101,10 +103,20 @@ const PropertyListCard: FC<props> = ({
               </View>
               <Text>Posted 2 Weeks ago</Text>
             </View>
-
-         
-          <Ionicons onPress={() => handelDelete(propertyId)} name="trash-outline" size={responsiveScreenWidth(7)} />
-         
+           <View style={styles.buttonsContainer}>
+           <Ionicons
+              style={styles.editButton}
+              onPress={() => handelEdit()}
+              name="create-outline"
+              size={responsiveScreenWidth(7)}
+            />
+            <Ionicons
+              style={styles.deleteButton}
+              onPress={() => handelDelete()}
+              name="trash-outline"
+              size={responsiveScreenWidth(7)}
+            />
+           </View>
           </View>
         </View>
       </View>
@@ -134,6 +146,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: responsiveScreenWidth(2),
   },
+  buttonsContainer: {
+   justifyContent: 'space-evenly'
+  },
   buttonManage: {
     alignSelf: 'flex-start',
     borderWidth: responsiveWidth(0.3),
@@ -154,17 +169,32 @@ const styles = StyleSheet.create({
     color: '#252B5C',
   },
   listingContainer: {
+    flex: 1,
     backgroundColor: '#F5F4F8',
     borderColor: '#F5F4F8',
     paddingHorizontal: responsiveScreenWidth(2),
     paddingVertical: responsiveScreenHeight(1.5),
     gap: responsiveScreenHeight(2),
   },
-
+  yourListingsBodyText: {
+    paddingHorizontal: responsiveScreenWidth(2),
+    gap: responsiveHeight(4.5)
+  },
   yourListingsBody: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    gap: responsiveScreenWidth(4),
+    padding: responsiveScreenWidth(2),
   },
+  deleteButton: {
+    paddingTop: responsiveScreenHeight(5),
+    alignSelf: 'flex-end',
+  },
+  editButton: {
+    alignSelf: 'flex-start'
+  }
 });
+function GetPropertyData() {
+  throw new Error('Function not implemented.');
+}
+

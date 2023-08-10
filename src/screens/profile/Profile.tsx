@@ -41,6 +41,8 @@ export default function Profile() {
   };
 
   const {userDetails} = useSelector((state: any) => state.user);
+  console.log(userDetails.id);
+  
   const navigation = useNavigation();
 
   const userName = userDetails?.name;

@@ -8,6 +8,7 @@ export const SearchPropertyService = async (cityName: string) => {
 
 export const GetPropertyByUserIdService = async (userId: string) => {
   const url = `${URL}PropertyByUsersId/${userId}`;
+  console.log('url', url);
   return axios.get(url);
 };
 
@@ -27,9 +28,6 @@ export const CreatePropertyService = async (data: any) => {
 
 export const EditUserDetails = async (profileData: any, userDetails: any) => {
   const url = `${URL}user/update/${userDetails?.id}`;
-  console.log('url', url);
-  console.log('profileData', profileData);
-  console.log('token', userDetails?.token);
 
   return axios.patch(url, profileData, {
     headers: {
@@ -56,5 +54,16 @@ export const GetCityDataService = async (
 
 export const DeletePropertyByIdService = async (id: string) => {
   const url = `${URL}property/delete/${id}`;
-  return axios.get(url);
+  return axios.delete(url);
 };
+
+export const UpdatePropertyData = async (newListing: any) => {
+  const url = `${URL}property/update/${newListing?.id}`;
+
+  return axios.patch(url, newListing, {
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  });
+};
+

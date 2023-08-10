@@ -8,7 +8,6 @@ export function useProfileHooks() {
     try {
       const res = await EditUserDetails(updateProfile, userDetails);
       const {result} = res.data;
-      console.log(result);
       
       dispatch(updateUserDetails(result))
     } catch (error: any) {

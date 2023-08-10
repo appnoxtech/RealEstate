@@ -1,10 +1,9 @@
-const initialState = {
-  newListing: {
+const initialNewListingData = {
     title: '',
-    type: '',
+    type: 'Residential-property',
     description: '',
-    bhk: '',
-    furnishedStatus: '',
+    bhk: '1BHK',
+    furnishedStatus: 'Unfurnished',
     images: [],
     location: '',
     area: '',
@@ -13,13 +12,15 @@ const initialState = {
     totalFloor: '',
     amenities: '',
     status: '',
-    lookingTo: '',
+    lookingTo: 'Sell',
     propertyType: [],
     ownerPhoneNumber: '',
     ownerName: '',
     parking: '',
     userId: '',
-  },
+}
+const initialState = {
+  newListing: {...initialNewListingData},
 };
 interface newListingData {
   key:
@@ -49,10 +50,16 @@ interface updateNewListing {
   type: 'UPDATE_NEW_LISTING';
   payload: newListingData;
 }
+
 interface resetNewListing {
   type: 'RESET_NEW_LISTING';
 }
-type action = updateNewListing | resetNewListing;
+
+interface updatePostProperty {
+  type: 'UPDATE_POST_PROPERTY',
+  payload: any
+}
+type action = updateNewListing | resetNewListing | updatePostProperty;
 
 const PostReducer = (state = initialState, action: action) => {
   switch (action.type) {
@@ -65,11 +72,23 @@ const PostReducer = (state = initialState, action: action) => {
         },
       };
     }
+
     case 'RESET_NEW_LISTING': {
       return {
         ...state,
-        newListing: initialState.newListing, // Reset newListing to initial empty state
+        newListing: {
+          ...initialNewListingData
+        }
       };
+    }
+
+    case 'UPDATE_POST_PROPERTY': {
+      return {
+        ...state,
+        newListing: {
+          ...action.payload
+        }
+      }
     }
 
     default:
@@ -91,3 +110,10 @@ export const ResetNewListing = (): resetNewListing => {
     type: 'RESET_NEW_LISTING',
   };
 };
+
+export const UpdatePostProperty = ( data : any) => {
+  return {
+    type: 'UPDATE_POST_PROPERTY',
+    payload: data
+  }
+}

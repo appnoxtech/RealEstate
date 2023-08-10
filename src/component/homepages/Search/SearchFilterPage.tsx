@@ -39,7 +39,7 @@ const SearchFilterPage = ({route}: any) => {
   const [bgColor2, setbgColor2] = useState(false);
   const [sliderValue, setSliderValue] = useState(10);
   const [onPress, setOnPress] = useState(true);
-  const [selectedId, setSelectedId] = useState(1);
+  const [selectedId, setSelectedId] = useState(1);7
   const [bedrooms, setBedrooms] = useState(false);
   const Navigation = useNavigation();
   const {newListing} = useSelector((store: any) => store.post);

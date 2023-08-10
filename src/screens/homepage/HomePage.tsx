@@ -33,7 +33,7 @@ import ModalScreen from '../Modals/ModalScreen';
 import {useSelector} from 'react-redux';
 import BoxBtn from '../../component/common/buttons/BoxBtn';
 import AgentBtn from '../../component/common/buttons/AgentBtn';
-import { GetPropertyByUserIdService } from '../../services/properties';
+import {GetPropertyByUserIdService} from '../../services/properties';
 
 const HomePage = () => {
   const notificationImg = require('../../../assets/images/Notification.png');
@@ -61,7 +61,10 @@ const HomePage = () => {
       }
     } catch (error: any) {
       // Alert.alert('Error', error.response.data.error.message);
-      if(error.response.data.error.message = 'Property not found for this userId') {
+      if (
+        (error.response.data.error.message =
+          'Property not found for this userId')
+      ) {
         setPropertyListings(0);
       }
     }
@@ -115,59 +118,52 @@ const HomePage = () => {
           <Text style={styles.headerText}>
             Hey,<Text style={styles.subText}> {userDetails?.name}! </Text>
             {'\n'}
-            {userDetails?.role === 'agent' ? null : 'Find your dream home'}
           </Text>
-          {userDetails?.role === 'agent' ? (
-            <>
-              <View style={styles.yourListingHeader}>
-                <Text style={styles.featuredEstateHeaderText}>
-                  Your Listings
-                </Text>
-                <TouchableOpacity
-                  onPress={() =>
-                    navigation.navigate('PropertyListings' as never)
-                  }>
-                  <Text style={styles.textAll}>View all</Text>
-                </TouchableOpacity>
-              </View>
-              <PropertyListCard
-                title="Flat in Greater Noida"
-                propertyType="Independent House/Villa"
-                id={''}
-                price={0}
-                images={[]}
-              />
 
-              <View style={styles.box}>
-                {data.map(item => {
-                  return (
-                    <BoxBtn
-                      key={item.number}
-                      number={item.number}
-                      title={item.title}
-                      page={item.page}
-                    />
-                  );
-                })}
-              </View>
+          <View style={styles.yourListingHeader}>
+            <Text style={styles.featuredEstateHeaderText}>Your Listings</Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('PropertyListings' as never)}>
+              <Text style={styles.textAll}>View all</Text>
+            </TouchableOpacity>
+          </View>
+          <PropertyListCard
+            title="Flat in Greater Noida"
+            propertyType="Independent House/Villa"
+            id={''}
+            price={0}
+            images={[]}
+          />
 
-              <View style={styles.agentBtn}>
-                {agentData.map(item => {
-                  return (
-                    <AgentBtn
-                      key={item}
-                      title={item}
-                      style={[
-                        styles.agentSection,
-                        agentDataa === item ? styles.responseBoxBgColor : null,
-                      ]}
-                      btnPressHandler={() => handelPress(item)}
-                    />
-                  );
-                })}
-              </View>
-            </>
-          ) : null}
+          <View style={styles.box}>
+            {data.map((item, index) => {
+              return (
+                <BoxBtn
+                  key={index}
+                  number={item.number}
+                  title={item.title}
+                  page={item.page}
+                />
+              );
+            })}
+          </View>
+
+          <View style={styles.agentBtn}>
+            {agentData.map((item, index) => {
+              return (
+                <AgentBtn
+                  key={index}
+                  title={item}
+                  style={[
+                    styles.agentSection,
+                    agentDataa === item ? styles.responseBoxBgColor : null,
+                  ]}
+                  btnPressHandler={() => handelPress(item)}
+                />
+              );
+            })}
+          </View>
+
           {agentDataa === 'Listings' ? (
             <Text style={styles.textListings}>{propertyListings} Listings</Text>
           ) : agentDataa === 'Sold' ? (

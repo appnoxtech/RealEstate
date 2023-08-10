@@ -1,4 +1,4 @@
-import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {Alert, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
@@ -12,9 +12,11 @@ import HeaderWithBackBtn from '../../../component/common/buttons/HeaderWithBackB
 import {useDispatch, useSelector} from 'react-redux';
 import { ResetNewListing, UpdateNewListing} from '../../../redux/reducers/postReducer';
 import usePropertyHook from '../../../hooks/PropertyHook';
+import { useNavigation } from '@react-navigation/native';
+import { GetPropertyByUserIdService, UpdatePropertyData } from '../../../services/properties';
 
 const PropertyFeatures = () => {
- 
+ const Navigation = useNavigation();
   const [discription, setDiscription] = useState('')
   const [area, setArea] = useState('');
   const {createPropertyHandler} = usePropertyHook();
@@ -23,13 +25,12 @@ const PropertyFeatures = () => {
   
   const {userDetails} = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
+  
   const handelPost = () => {
 
     createPropertyHandler(newListing);
     
   };
-
-  
   const discriptionHandel = (params: any) => {
     setDiscription(params);
     dispatch(
@@ -72,6 +73,14 @@ const PropertyFeatures = () => {
     );
   }
 
+  const handleUpdatePost = async () => {
+    await UpdatePropertyData(newListing);
+    await GetPropertyByUserIdService(userDetails?.id)
+    dispatch(ResetNewListing());
+    Alert.alert('Property Updated Successfully !');
+    Navigation.navigate('PropertyListings' as never);
+  }
+
   useEffect(() => {
     handelUseEffect()
     console.log(newListing);
@@ -89,7 +98,7 @@ const PropertyFeatures = () => {
           <Text>Area</Text>
           <CustomTextInput
             onChangeText={areaHandel}
-            value={area}
+            value={newListing?.area}
             placeholder="sq.ft"
           />
         </View>
@@ -97,15 +106,15 @@ const PropertyFeatures = () => {
           <Text>discription</Text>
           <CustomTextInput
             onChangeText={discriptionHandel}
-            value={discription}
+            value={newListing?.description}
             placeholder="discription"
           />
         </View>
        
         <View>
           <ExploreButton
-            onPress={() => handelPost()}
-            title="Confirm and post property"
+            onPress={() => newListing?.id ? handleUpdatePost() : handelPost()}
+            title={newListing?.id ? "Confirm and update property" : "Confirm and post property"}
           />
         </View>
       </View>

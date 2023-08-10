@@ -29,6 +29,7 @@ import HeaderWithBackBtn from '../../../component/common/buttons/HeaderWithBackB
 import {GetPropertyType} from '../../../services/properties';
 
 const PostProperty = () => {
+  const navigation = useNavigation();
   const dispatch = useDispatch();
   const [areaType, setAreaType] = useState<string>('Residential-property');
   const {userDetails} = useSelector((state: any) => state.user);
@@ -38,6 +39,7 @@ const PostProperty = () => {
   const [ownerPhoneNumber, setOwnerPhoneNumber] = useState('');
   const {newListing} = useSelector((store: any) => store.post);
   console.log(newListing);
+  
 
   const [errorProperty, setErrorProperty] = useState<string>('');
 
@@ -87,7 +89,9 @@ const PostProperty = () => {
     );
   };
 
-  const navigation = useNavigation();
+  
+
+  
 
   const validate = () => {
     if (!propertyType) {
@@ -105,13 +109,14 @@ const PostProperty = () => {
     }
   };
   const LookingOption = ['Sell', 'Rent/Lease', 'PG'];
+
   const WhatKindOfProperty = [
     {key: 'Residential-property', value: 'Residential'},
     {key: 'Commercial-property', value: 'Commercial'},
   ];
 
   useEffect(() => {
-    GetPropertyTypeData(areaType);
+    GetPropertyTypeData(newListing?.type);
     setOwnerName(userDetails?.name);
     setOwnerPhoneNumber(userDetails?.phoneNumber);
     dispatch(
@@ -153,7 +158,7 @@ const PostProperty = () => {
                     label={option}
                     btnPressHandler={setLookingBtnHandler}
                     style={
-                      lookingTo === option
+                      newListing?.lookingTo === option
                         ? styles.pressedSellrent
                         : styles.Sellrent
                     }
@@ -169,7 +174,7 @@ const PostProperty = () => {
                     label={option.value}
                     btnPressHandler={setWhatKindPropertyHandler}
                     style={
-                      areaType === option.key
+                      newListing?.type === option.key
                         ? styles.typeColor
                         : styles.residential
                     }
@@ -187,7 +192,7 @@ const PostProperty = () => {
                       label={option.name}
                       btnPressHandler={setPropertyTypeHandler}
                       style={
-                        propertyType.name === option.name
+                        newListing?.propertyType === option.name
                           ? styles.typeColor
                           : styles.noTypeColor
                       }

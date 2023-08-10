@@ -50,14 +50,13 @@ const PostPropertyThird = () => {
   const handleImageUpdload = async (image: any) => {
     try {
       const res = await ImageUploadService(image);
-      // console.log('res', res.data);
       const {result} = res.data;
 
       const imageUrl = result.baseUrl + result.imagePath;
       
       setImgUrls([...imgUrls, imageUrl]);
     } catch (error: any) {
-      Alert.alert('Error', error.response.data.msg);
+      Alert.alert('Error', error.message);
     }
   };
 
@@ -71,10 +70,10 @@ const PostPropertyThird = () => {
   const dispatch = useDispatch(); 
 
   const validate = () => {
-    if (!price.length) {
+    if (!newListing?.price) {
       setPriceError('Required!');
       return false;
-    } else if (!REGEX_NUMBER.test(price)) {
+    } else if (!REGEX_NUMBER.test(newListing?.price)) {
       setPriceError('Enter valid number!');
       return false;
     } else {
@@ -140,11 +139,11 @@ const PostPropertyThird = () => {
           </TouchableOpacity>
           <View style={styles.imageSelected}>
 
-            {imgUrls.map(option => {
+            {imgUrls?.map((option: string, index : any) => {
               return (
                 <Image
                   style={styles.images}
-                  key={option}
+                  key={index}
                   source={{uri: option}}
                   alt="img"
                 />
@@ -155,7 +154,7 @@ const PostPropertyThird = () => {
             <Text>Title</Text>
             <CustomTextInput
               onChangeText={setTitleHandel}
-              value={text}
+              value={newListing?.title}
               placeholder="title"
             />
           </View>
@@ -163,10 +162,10 @@ const PostPropertyThird = () => {
             <Text>Pricing Details</Text>
             <CustomTextInput
               onChangeText={setPriceHandel}
-              value={price}
+              value={newListing?.price}
               placeholder="Enter expected price"
             />
-            {priceError ? (
+            {!newListing?.price ? (
               <Text style={styles.errorText}>{priceError}</Text>
             ) : null}
           </View>

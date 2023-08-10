@@ -138,7 +138,7 @@ const ModalScreen = () => {
             setVisible={setVisible}
             title="Share Feedback"
             pageName=""
-            iconName="feed"
+            iconName="newspaper-outline"
           />
         </ScrollView>
       </ModalLayout>

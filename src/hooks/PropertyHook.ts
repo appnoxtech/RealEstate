@@ -11,12 +11,8 @@ const usePropertyHook = () => {
   const createPropertyHandler = async (data: any) => {
     try {
       const res = await CreatePropertyService(data);
-  
       Navigation.navigate('Homepage' as never);
-
-      (dispatch(ResetNewListing()))
-      
-      
+      dispatch(ResetNewListing())
     } catch (error: any) {
       const ErrorMsg = error.response.data;
       console.log("Error",ErrorMsg);

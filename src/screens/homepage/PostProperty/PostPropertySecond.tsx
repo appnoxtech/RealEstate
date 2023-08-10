@@ -38,7 +38,6 @@ const PostPropertySecond = () => {
   const [propertyStatus, setStatus] = useState('');
   const [totalFloor, setTotalFloor] = useState('');
   const [propertyOnFloor, setProperyOnFloor] = useState('');
-  console.log(totalFloor, propertyOnFloor);
   
   const [floorError, setFloorError] = useState('')
   const dispatch = useDispatch();
@@ -54,7 +53,7 @@ const PostPropertySecond = () => {
   // const ageOfProperty = ['0-1', '1-2'];
 
   const validate = () => {
-    if (!cityName) {
+    if (!newListing?.location) {
       setCityError('Please select city name !');
       return false;
     } else {
@@ -105,10 +104,8 @@ const PostPropertySecond = () => {
   const validateOnFloor = () => {
     if(propertyOnFloor > totalFloor) {
       setFloorError("Enter valid floor !");
-      return false;
     } else {
       setFloorError("");
-      return true;
     }
   }
   const setTotalFloorHandel = (params: string) => {
@@ -131,7 +128,7 @@ const PostPropertySecond = () => {
   };
 
   const handleNext = () => {
-    const isValid = validateOnFloor();
+    const isValid = validate();
     dispatch(
       UpdateNewListing({
         key: 'location',
@@ -171,8 +168,8 @@ const PostPropertySecond = () => {
                 </TouchableOpacity>
                 <View style={styles.locationDetails}>
                   {Array.isArray(newListing?.location) &&
-                    newListing.location.map((option: string) => (
-                      <LocationBtn key={option} label={option} />
+                    newListing.location.map((option: string, index : string) => (
+                      <LocationBtn key={index} label={option} />
                     ))}
                 </View>
               </ScrollView>
@@ -195,7 +192,7 @@ const PostPropertySecond = () => {
                     btnPressHandler={setNoOfRoomsHandel}
                     style={[
                       styles.notColored,
-                      noOfRooms === option ? styles.colored : null,
+                      newListing?.bhk === option ? styles.colored : null,
                     ]}
                     id={option}
                   />
@@ -215,7 +212,7 @@ const PostPropertySecond = () => {
                     btnPressHandler={setFurnishedStatusHandel}
                     style={[
                       styles.notColored,
-                      furnishedStatus === option ? styles.colored : null,
+                      newListing?.furnishedStatus === option ? styles.colored : null,
                     ]}
                   />
                 ))}
@@ -234,7 +231,7 @@ const PostPropertySecond = () => {
                     btnPressHandler={setPropertyStatusHandel}
                     style={[
                       styles.notColored,
-                      propertyStatus === option ? styles.colored : null,
+                      newListing?.status === option ? styles.colored : null,
                     ]}
                     id={option}
                   />
@@ -252,7 +249,7 @@ const PostPropertySecond = () => {
                     btnPressHandler={setParkingHandel}
                     style={[
                       styles.notColored,
-                      parking === option ? styles.colored : null,
+                      newListing?.parking === option ? styles.colored : null,
                     ]}
                     id={option}
                   />
@@ -262,7 +259,7 @@ const PostPropertySecond = () => {
                 <Text>Total Number Of Number Floor</Text>
                 <CustomTextInput
                   onChangeText={setTotalFloorHandel}
-                  value={totalFloor}
+                  value={newListing?.totalFloor}
                   placeholder="No Of Floor"
                 />
               </View>
@@ -270,7 +267,7 @@ const PostPropertySecond = () => {
                 <Text>Property on Floor</Text>
                 <CustomTextInput
                   onChangeText={setPropertyOnFloorHandel}
-                  value={propertyOnFloor}
+                  value={newListing?.propertyOnFloor}
                   placeholder="Property On Floor"
                 />
               </View>

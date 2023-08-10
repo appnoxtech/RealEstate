@@ -10,6 +10,8 @@ import ExploreButton from '../../common/buttons/ExploreButton';
 import { UpdateNewListing } from '../../../redux/reducers/postReducer';
 import { useDispatch } from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
+import HeaderWithBackBtn from '../../common/buttons/HeaderWithBackBtn';
+import { responsiveHeight, responsiveScreenHeight } from 'react-native-responsive-dimensions';
 
 const DropdownComponent: FC = () => {
   const [countryValue, setCountryValue] = useState('');
@@ -32,9 +34,6 @@ const DropdownComponent: FC = () => {
   const navigation = useNavigation();
 
   const dispatch = useDispatch();
-
-  
-  // console.log(countryValue,"<------>",countryLabel, stateValue,"<------>",stateLabel, cityValue, "<----->",cityLabel);
   
 
   useEffect(() => {
@@ -137,6 +136,9 @@ const DropdownComponent: FC = () => {
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
       <View style={styles.container}>
+        <View style={{paddingBottom: responsiveScreenHeight(3)}}>
+        <HeaderWithBackBtn />
+        </View>
         {renderLabel()}
         <Dropdown
           style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
@@ -203,7 +205,7 @@ const DropdownComponent: FC = () => {
           maxHeight={300}
           placeholder={!isFocus2 ? 'Select City' : '...'}
           searchPlaceholder="Search..."
-          value={cityData}
+          value={cityValue}
           onFocus={() => setIsFocus2(true)}
           onBlur={() => setIsFocus2(false)}
           onChange={item => {

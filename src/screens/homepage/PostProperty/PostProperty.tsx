@@ -38,7 +38,7 @@ const PostProperty = () => {
   const [ownerName, setOwnerName] = useState('');
   const [ownerPhoneNumber, setOwnerPhoneNumber] = useState('');
   const {newListing} = useSelector((store: any) => store.post);
-  console.log(newListing);
+  // console.log(newListing);
   
 
   const [errorProperty, setErrorProperty] = useState<string>('');
@@ -88,13 +88,9 @@ const PostProperty = () => {
       }),
     );
   };
-
   
-
-  
-
   const validate = () => {
-    if (!propertyType) {
+    if(!newListing?.propertyType[0]) {
       setErrorProperty('Please select property');
       return false;
     } else {
@@ -178,7 +174,6 @@ const PostProperty = () => {
                         ? styles.typeColor
                         : styles.residential
                     }
-                    
                   />
                 ))}
               </View>

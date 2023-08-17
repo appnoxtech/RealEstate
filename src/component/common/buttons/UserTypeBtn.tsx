@@ -10,6 +10,7 @@ import {
 import React, {FC, useState} from 'react';
 import {responsiveFontSize, responsiveScreenHeight, responsiveScreenWidth} from 'react-native-responsive-dimensions';
 import Lottie from 'lottie-react-native';
+import { dark } from '../../../../assets/Styles/GlobalTheme';
 
 interface props {
   btnPressHandler(label: string): any;
@@ -42,6 +43,7 @@ const styles = StyleSheet.create({
     height: '100%',
 },
   textLabel: {
+    color: dark,
     fontSize: responsiveFontSize(4),
   },
   animContainer: {

@@ -32,16 +32,15 @@ const ModalScreen = () => {
   return (
     <View style={styles.container}>
       <ModalLayout visible={visible}>
-        <TouchableOpacity
-          style={styles.header}
-          onPress={() => setVisible(false)}>
+        <View style={styles.header}>
           <Ionicons
+            onPress={() => setVisible(false)}
             name="close"
             style={{height: 30, width: 30}}
             size={24}
             color="white"
           />
-        </TouchableOpacity>
+        </View>
 
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.body}>
@@ -156,11 +155,9 @@ const styles = StyleSheet.create({
   header: {
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
-    paddingHorizontal: responsiveScreenWidth(3),
-    paddingVertical: responsiveScreenHeight(5),
-    backgroundColor: 'green',
+    paddingHorizontal: responsiveScreenWidth(1),
+    backgroundColor: '#234F68', 
     width: '100%',
-    height: '2%',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
   },

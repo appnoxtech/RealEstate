@@ -21,6 +21,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {UpdateRegisterUserDetails} from '../../redux/reducers/userReducer';
 import {useNavigation} from '@react-navigation/native';
 import useAuthServiceHandler from '../../hooks/serviceHandler/AuthServiceHandler';
+import { dark } from '../../../assets/Styles/GlobalTheme';
 
 
 const UserType = () => {
@@ -104,6 +105,7 @@ const styles = StyleSheet.create({
     marginBottom: responsiveScreenHeight(1),
   },
   textUserType: {
+    color: dark,
     fontSize: responsiveFontSize(4),
   },
   agentImage: {

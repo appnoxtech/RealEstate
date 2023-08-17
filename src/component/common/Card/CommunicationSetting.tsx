@@ -17,7 +17,7 @@ const CommunicationSetting = () => {
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
       <View style={styles.container}>
         <View style={styles.headerContainer}>
-          <View style={{paddingBottom: responsiveScreenHeight(5)}}>
+          <View>
             <HeaderWithBackBtn />
           </View>
           <Text style={styles.notificationText}>Communication Setting</Text>

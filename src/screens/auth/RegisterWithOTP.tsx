@@ -441,6 +441,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   otpInput: {
+    color: '#000000',
     fontSize: responsiveFontSize(2.5),
   },
   otpInputHiglight: {},
@@ -454,6 +455,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   message: {
+    color: '#000000',
     fontSize: responsiveFontSize(2),
   },
   linkMessage: {

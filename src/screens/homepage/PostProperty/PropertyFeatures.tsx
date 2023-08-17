@@ -25,6 +25,25 @@ const PropertyFeatures = () => {
   
   const {userDetails} = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
+  const [areaError, setAreaError] = useState('');
+  const [descriptionError, setDescriptionError] = useState('')
+
+
+  const validate = () => {
+    if (!newListing?.area) {
+      setAreaError('Please enter area !');
+      setDescriptionError('');  
+      return false;
+    } else if(!newListing?.description){
+      setAreaError('');
+      setDescriptionError('Please add description!');
+      return false;
+    } else {
+      setAreaError('');
+      setDescriptionError('');
+      return true;
+    }
+  }
   
   const handelPost = () => {
 
@@ -74,8 +93,10 @@ const PropertyFeatures = () => {
   }
 
   const handleUpdatePost = async () => {
+    const isValid = validate();
     await UpdatePropertyData(newListing);
     await GetPropertyByUserIdService(userDetails?.id)
+    dispatch(UpdateNewListing(newListing))
     dispatch(ResetNewListing());
     Alert.alert('Property Updated Successfully !');
     Navigation.navigate('PropertyListings' as never);
@@ -103,7 +124,7 @@ const PropertyFeatures = () => {
           />
         </View>
         <View style={styles.inputContainer}>
-          <Text>discription</Text>
+          <Text>Description</Text>
           <CustomTextInput
             onChangeText={discriptionHandel}
             value={newListing?.description}

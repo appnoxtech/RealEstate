@@ -189,6 +189,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     textAlign: 'center',
     fontSize: 8,
+    fontWeight: 'bold'
   },
   ratingContainer: {
     flexDirection: 'row',

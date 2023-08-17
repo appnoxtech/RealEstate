@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import { colorPrimary } from '../../assets/Styles/GlobalTheme';
+import { colorPrimary, dark } from '../../assets/Styles/GlobalTheme';
 import {responsiveFontSize} from 'react-native-responsive-dimensions';
 import {useDispatch, useSelector} from 'react-redux';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -171,6 +171,7 @@ const styles = StyleSheet.create({
     color: '#234F68',
   },
   icon: {
+    color: dark,
     fontSize: 25,
     fontWeight: 'bold',
   },

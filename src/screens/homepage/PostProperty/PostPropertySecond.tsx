@@ -33,18 +33,23 @@ const PostPropertySecond = () => {
 
   const {newListing} = useSelector((store: any) => store.post);
 
-
   const [readyToMove, setReadyToMove] = useState('');
   const [propertyStatus, setStatus] = useState('');
   const [totalFloor, setTotalFloor] = useState('');
   const [propertyOnFloor, setProperyOnFloor] = useState('');
-  
-  const [floorError, setFloorError] = useState('')
+
+ 
   const dispatch = useDispatch();
 
   const navigation = useNavigation();
   const {cityName} = useSelector((store: any) => store.filter);
+  
   const [cityError, setCityError] = useState('');
+  const [furnishedError, setFurnishedError] = useState('');
+  const [propertyError, setPropertyError] = useState('');
+  const [parkingError, setParkingError] = useState('');
+  const [totalFloorError, setTotalFloorError] = useState('')
+  const [floorError, setFloorError] = useState('');
 
   const NoOfRooms = ['1BHK', '2BHK', '3BHK', '4BHK', '5BHK', '5BHK+'];
   const FurnishedStatus = ['unfurnished', 'semi-furnished', 'furnished'];
@@ -54,10 +59,64 @@ const PostPropertySecond = () => {
 
   const validate = () => {
     if (!newListing?.location) {
-      setCityError('Please select city name !');
+      setCityError('Please add city name !');
+      setFurnishedError('');
+      setPropertyError('')
+      setParkingError('')
+      setTotalFloorError('')
+      setFloorError('');   
+      return false;
+    }  else if(!newListing?.furnishedStatus){
+      setCityError('');
+      setFurnishedError('Please select furnished status!');
+      setPropertyError('')
+      setParkingError('')
+      setTotalFloorError('')
+      setFloorError('');   
+      return false;
+    } 
+    else if (!newListing?.status) {
+      setCityError('');
+      setFurnishedError('');
+      setPropertyError('Please select property status !')
+      setParkingError('')
+      setTotalFloorError('')
+      setFloorError('');  
+      return false;
+    }
+    else if (!newListing?.parking) {
+      setCityError('');
+      setFurnishedError('');
+      setPropertyError('')
+      setParkingError('Please select parking !')
+      setTotalFloorError('')
+      setFloorError('');  
+      return false;
+    }
+    else if (!newListing?.totalFloor) {
+      setCityError('');
+      setFurnishedError('');
+      setPropertyError('')
+      setParkingError('')
+      setTotalFloorError('Please select total floor !')
+      setFloorError('');  
+      return false;
+    }
+    else if (!newListing?.propertyOnFloor) {
+      setCityError('');
+      setFurnishedError('');
+      setPropertyError('')
+      setParkingError('')
+      setTotalFloorError('')
+      setFloorError('Please select property on floor !');
       return false;
     } else {
       setCityError('');
+      setFurnishedError('');
+      setPropertyError('')
+      setParkingError('')
+      setTotalFloorError('')
+      setFloorError('');  
       return true;
     }
   };
@@ -101,13 +160,6 @@ const PostPropertySecond = () => {
     );
   };
 
-  const validateOnFloor = () => {
-    if(propertyOnFloor > totalFloor) {
-      setFloorError("Enter valid floor !");
-    } else {
-      setFloorError("");
-    }
-  }
   const setTotalFloorHandel = (params: string) => {
     setTotalFloor(params);
     dispatch(
@@ -127,6 +179,8 @@ const PostPropertySecond = () => {
     );
   };
 
+
+ 
   const handleNext = () => {
     const isValid = validate();
     dispatch(
@@ -136,7 +190,7 @@ const PostPropertySecond = () => {
       }),
     );
     if (isValid) {
-    navigation.navigate('PostPropertyThird' as never);
+      navigation.navigate('PostPropertyThird' as never);
     }
   };
 
@@ -168,7 +222,7 @@ const PostPropertySecond = () => {
                 </TouchableOpacity>
                 <View style={styles.locationDetails}>
                   {Array.isArray(newListing?.location) &&
-                    newListing.location.map((option: string, index : string) => (
+                    newListing.location.map((option: string, index: string) => (
                       <LocationBtn key={index} label={option} />
                     ))}
                 </View>
@@ -212,12 +266,18 @@ const PostPropertySecond = () => {
                     btnPressHandler={setFurnishedStatusHandel}
                     style={[
                       styles.notColored,
-                      newListing?.furnishedStatus === option ? styles.colored : null,
+                      newListing?.furnishedStatus === option
+                        ? styles.colored
+                        : null,
                     ]}
                   />
                 ))}
               </View>
+            
             </ScrollView>
+            {furnishedError ? (
+              <Text style={styles.errorCity}>{furnishedError}</Text>
+            ) : null}
 
             <View style={styles.status}>
               <Text style={{marginBottom: responsiveScreenHeight(1)}}>
@@ -237,6 +297,9 @@ const PostPropertySecond = () => {
                   />
                 ))}
               </View>
+              {propertyError ? (
+              <Text style={styles.errorCity}>{propertyError}</Text>
+            ) : null}
             </View>
 
             <View style={styles.readyToMove}>
@@ -255,14 +318,20 @@ const PostPropertySecond = () => {
                   />
                 ))}
               </View>
+              {parkingError ? (
+              <Text style={styles.errorCity}>{parkingError}</Text>
+            ) : null}
               <View style={styles.inputContainer}>
-                <Text>Total Number Of Number Floor</Text>
+                <Text>Total Of Number Floor</Text>
                 <CustomTextInput
                   onChangeText={setTotalFloorHandel}
                   value={newListing?.totalFloor}
                   placeholder="No Of Floor"
                 />
               </View>
+              {totalFloorError ? (
+              <Text style={styles.errorCity}>{totalFloorError}</Text>
+            ) : null}
               <View style={styles.inputContainer1}>
                 <Text>Property on Floor</Text>
                 <CustomTextInput
@@ -270,8 +339,12 @@ const PostPropertySecond = () => {
                   value={newListing?.propertyOnFloor}
                   placeholder="Property On Floor"
                 />
+                {floorError ? (
+                  <Text style={{color: 'red', textAlign: 'right'}}>
+                    {floorError}
+                  </Text>
+                ) : null}
               </View>
-              {floorError? <Text style={{color: 'red', textAlign: 'right'}}>{floorError}</Text>: null}
             </View>
             <View style={styles.bottomBtn}>
               <ExploreButton onPress={() => handleNext()} title="Next" />
@@ -307,7 +380,7 @@ const styles = StyleSheet.create({
   },
   locationDetails: {
     flexDirection: 'row',
-    paddingHorizontal: responsiveScreenWidth(3)
+    paddingHorizontal: responsiveScreenWidth(3),
   },
   locatedText: {
     marginTop: responsiveHeight(3),

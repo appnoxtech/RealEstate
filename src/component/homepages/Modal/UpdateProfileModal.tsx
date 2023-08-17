@@ -1,6 +1,8 @@
 import React, {FC, useState} from 'react';
 import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 import Modal from 'react-native-modal';
+import {responsiveScreenHeight, responsiveScreenWidth, responsiveWidth} from 'react-native-responsive-dimensions';
+import useKeyboardVisibleListener from '../../../hooks/CommonHooks/isKeyboardVisibleHook';
 
 interface props {
   isVisible: any;
@@ -17,21 +19,28 @@ const UpdateProfileModal: FC<props> = ({
   const [name, setName] = useState(profileData.name);
   const [email, setEmail] = useState(profileData.email);
   // const [phoneNumber, setPhoneNumber] = useState(profileData.phoneNumber);
+  const isKeyboardVisible = useKeyboardVisibleListener();
+  
 
   const handleSave = () => {
     onSave({name, email});
     onClose();
   };
   // console.log(profileData);
-  
 
   return (
     <Modal
       isVisible={isVisible}
       onRequestClose={onClose}
       backdropOpacity={0.5}
-     >
-      <View style={{height: "25%",backgroundColor: 'white', padding: 20}}>
+      onBackdropPress={() => onClose()}>
+      <View
+        style={{
+          height: '28%',
+          backgroundColor: 'white',
+          padding: 20,
+          borderRadius: responsiveWidth(5),
+        }}>
         <Text style={{fontSize: 18, fontWeight: 'bold', marginBottom: 10}}>
           Update Profile
         </Text>
@@ -41,6 +50,7 @@ const UpdateProfileModal: FC<props> = ({
             padding: 10,
             borderColor: 'gray',
             borderWidth: 1,
+            borderRadius: responsiveWidth(5),
           }}
           placeholder="Name"
           value={name}
@@ -52,27 +62,18 @@ const UpdateProfileModal: FC<props> = ({
             padding: 10,
             borderColor: 'gray',
             borderWidth: 1,
+            borderRadius: responsiveWidth(5),
           }}
           placeholder="Email"
           value={email}
           onChangeText={text => setEmail(text)}
         />
-         {/* <TextInput
-          style={{
-            marginBottom: 10,
-            padding: 10,
-            borderColor: 'gray',
-            borderWidth: 1,
-          }}
-          placeholder="Contact Details"
-          value={phoneNumber}
-          onChangeText={text => setPhoneNumber(text)}
-        /> */}
         <TouchableOpacity
           onPress={handleSave}
           style={{
             backgroundColor: '#8BC83F',
-            padding: 10,
+            paddingHorizontal: responsiveScreenWidth(10),
+            paddingVertical: responsiveScreenHeight(2),
             borderRadius: 5,
             alignSelf: 'center',
           }}>

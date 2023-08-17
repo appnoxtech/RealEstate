@@ -1,4 +1,4 @@
-import {Alert, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {Alert, SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {DeletePropertyByIdService, GetPropertyByUserIdService} from '../services/properties';
 import {useSelector} from 'react-redux';
@@ -82,7 +82,8 @@ const PropertyListings: React.FC = () => {
         <Text style={styles.textz}> Your Listings </Text>
       </View>
       <Text style={styles.textMessage}>{message}</Text>
-      <View style={styles.listings}>
+     <ScrollView showsVerticalScrollIndicator={false}>
+     <View style={styles.listings}>
         {userListingsData?.map((item: userListingsData, index) => {
           return (
             <PropertyListCard
@@ -96,6 +97,7 @@ const PropertyListings: React.FC = () => {
           );
         })}
       </View>
+     </ScrollView>
     </SafeAreaView>
   );
 };

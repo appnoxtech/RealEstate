@@ -23,6 +23,7 @@ import {
   UpdateRegisterUserDetails,
   updateUserDetails,
 } from '../../redux/reducers/userReducer';
+import { dark } from '../../../assets/Styles/GlobalTheme';
 
 export default function Login() {
   const vectorImg = require('../../../assets/images/Vector1.png');
@@ -96,7 +97,8 @@ export default function Login() {
           }>
           <TextInput
             style={styles.input}
-            placeholder="Phone "
+            placeholder="Phone"
+            placeholderTextColor={'#000000'}
             value={phone}
             keyboardType="number-pad"
             onChangeText={value => {
@@ -164,11 +166,13 @@ const styles = StyleSheet.create({
   },
 
   textH: {
+    color: '#000000',
     marginVertical: responsiveScreenHeight(2),
     fontSize: 25,
   },
 
   textP: {
+    color: '#000000',
     marginBottom: responsiveScreenHeight(1.2),
     fontSize: 12,
   },
@@ -189,7 +193,9 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   input: {
+    
     flex: 3,
+    color: dark,
   },
 
   inputContainer1: {

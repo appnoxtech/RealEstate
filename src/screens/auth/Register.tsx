@@ -20,6 +20,7 @@ import useAuthServiceHandler from '../../hooks/serviceHandler/AuthServiceHandler
 import HeaderWithBackBtn from '../../component/common/buttons/HeaderWithBackBtn';
 import { useDispatch, useSelector } from 'react-redux';
 import { UpdateRegisterUserDetails } from '../../redux/reducers/userReducer';
+import { dark } from '../../../assets/Styles/GlobalTheme';
 
 
 const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
@@ -154,6 +155,7 @@ export default function Register() {
             <TextInput
               style={styles.input}
               placeholder="Full Name"
+              placeholderTextColor={dark}
               value={name}
               autoCorrect={false}
               autoCapitalize="none"
@@ -174,6 +176,7 @@ export default function Register() {
             <TextInput
               style={styles.input}
               placeholder="Email"
+              placeholderTextColor={dark}
               value={email}
               autoCorrect={false}
               autoCapitalize="none"
@@ -195,6 +198,7 @@ export default function Register() {
             <TextInput
               style={styles.input}
               placeholder="Phone"
+              placeholderTextColor={dark}
               value={phone}
               keyboardType="number-pad"
               onChangeText={value => {
@@ -261,11 +265,13 @@ const styles = StyleSheet.create({
   },
 
   textH: {
+    color: dark,
     marginVertical: responsiveScreenHeight(2),
     fontSize: 25,
   },
 
   textP: {
+    color: dark,
     marginBottom: responsiveScreenHeight(1.2),
     fontSize: 12,
   },
@@ -310,6 +316,7 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 3,
+    color: dark,
   },
   passwordFS: {
     flexDirection: 'row',

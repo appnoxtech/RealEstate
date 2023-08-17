@@ -30,14 +30,16 @@ import TopLocation from '../discover/Category/TopLocation';
 
 import PropertyListCard from '../../component/common/Card/PropertyListCard';
 import ModalScreen from '../Modals/ModalScreen';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import BoxBtn from '../../component/common/buttons/BoxBtn';
 import AgentBtn from '../../component/common/buttons/AgentBtn';
 import {GetPropertyByUserIdService} from '../../services/properties';
+import { ResetNewListing } from '../../redux/reducers/postReducer';
 
 const HomePage = () => {
   const notificationImg = require('../../../assets/images/Notification.png');
   const searchImg = require('../../../assets/images/Search.png');
+  const dispatch = useDispatch();
 
   const navigation = useNavigation();
 
@@ -45,7 +47,8 @@ const HomePage = () => {
 
   const [property, setProperty] = useState('Listings');
   const [agentDataa, setAgentData] = useState('Listings');
-  const [propertyListings, setPropertyListings] = useState();
+  const [propertyListings, setPropertyListings] = useState<number>();
+  const [item, setItem] = useState([]);
 
   const handelPress = (params: string) => {
     setAgentData(params);
@@ -55,7 +58,7 @@ const HomePage = () => {
     try {
       const res = await GetPropertyByUserIdService(userDetails?.id);
       const {result} = res.data;
-
+      setItem(result[0]);
       if (result?.length) {
         setPropertyListings(result?.length);
       }
@@ -71,8 +74,14 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    GetPropertyData();
-  }, []);
+    const unsubscribe = navigation.addListener('focus', () => {
+      GetPropertyData();
+      dispatch(ResetNewListing());
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
 
   const data = [
     {
@@ -86,7 +95,7 @@ const HomePage = () => {
       page: 'Reviews',
     },
     {
-      number: 10,
+      number: 13,
       title: 'Responses',
       page: 'Responses',
     },
@@ -127,13 +136,15 @@ const HomePage = () => {
               <Text style={styles.textAll}>View all</Text>
             </TouchableOpacity>
           </View>
-          <PropertyListCard
-            title="Flat in Greater Noida"
-            propertyType="Independent House/Villa"
-            id={''}
-            price={0}
-            images={[]}
-          />
+          {!propertyListings ? null : (
+            <PropertyListCard
+              title={item.title}
+              propertyType={item.propertyType}
+              id={item.id}
+              price={0}
+              property={item}
+            />
+          )}
 
           <View style={styles.box}>
             {data.map((item, index) => {

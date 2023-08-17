@@ -68,15 +68,15 @@ const PropertyListCard: FC<props> = ({
     const updateUserListings = userListingsData.filter(
       item => item.id !== property?.id,
     );
-    GetPropertyData();
     setUserListingsData(updateUserListings);
-    
   };
 
   const handelEdit = () => { 
     dispatch(UpdatePostProperty(property))
     navigation.navigate('PostProperty' as never)
   }
+
+ 
 
   const navigation = useNavigation();
   return (
@@ -194,7 +194,4 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start'
   }
 });
-function GetPropertyData() {
-  throw new Error('Function not implemented.');
-}
 

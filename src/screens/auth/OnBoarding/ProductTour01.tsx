@@ -15,19 +15,25 @@ import {
   useResponsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
 import {useNavigation} from '@react-navigation/native';
+import { Appearance } from 'react-native';
+
 
 
 export default function ProductTour01() {
   const navigation = useNavigation();
   const image1 = '../../../../assets/images/Rectangle6.png';
   const vector = '../../../../assets/images/Vector.png';
+  
+
+
+
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
+    <SafeAreaView style={[{flex: 1, backgroundColor: 'white'}]}>
       <View style={styles.container}>
         <TourHeader />
 
-        <Text style={styles.containerText}>
+        <Text style={[styles.containerText]}>
           Find best place {'\n'}
           <Text style={styles.containerTextInner}>
             to stay in good price
@@ -72,6 +78,7 @@ const styles = StyleSheet.create({
     paddingTop: 0,
   },
   containerText: {
+    color: '#000000',
     marginVertical: responsiveScreenHeight(5),
     fontSize: 25,
   },
@@ -79,6 +86,7 @@ const styles = StyleSheet.create({
     color: '#204D6C',
   },
   containerText1: {
+    color: '#000000',
     fontSize: 12,
     marginBottom: 20,
   },

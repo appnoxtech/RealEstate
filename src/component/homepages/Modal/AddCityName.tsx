@@ -135,10 +135,10 @@ const DropdownComponent: FC = () => {
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
-      <View style={styles.container}>
-        <View style={{paddingBottom: responsiveScreenHeight(3)}}>
+      <View style={styles.headerButton}>
         <HeaderWithBackBtn />
         </View>
+      <View style={styles.container}>
         {renderLabel()}
         <Dropdown
           style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
@@ -227,6 +227,9 @@ const DropdownComponent: FC = () => {
 export default DropdownComponent;
 
 const styles = StyleSheet.create({
+  headerButton: {
+    padding: responsiveScreenHeight(1.8)
+  },
   container: {
     backgroundColor: 'white',
     padding: 16,

@@ -24,15 +24,17 @@ import UpdateProfileModal from '../../component/homepages/Modal/UpdateProfileMod
 import ProfileCard from '../../component/common/Card/ProfileCard';
 import {useNavigation} from '@react-navigation/native';
 import {useProfileHooks} from '../../hooks/ProfileHooks';
+import useKeyboardVisibleListener from '../../hooks/CommonHooks/isKeyboardVisibleHook';
 
 export default function Profile() {
+  const isKeyboardVisible = useKeyboardVisibleListener();
+
   const { updatePofileHandler } = useProfileHooks();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [profileData, setProfileData] = useState({
     name: '',
     email: '',
     phoneNumber: '',
-    // Add more profile data fields as needed
   });
 
   const dispatch = useDispatch();
@@ -41,7 +43,6 @@ export default function Profile() {
   };
 
   const {userDetails} = useSelector((state: any) => state.user);
-  console.log(userDetails.id);
   
   const navigation = useNavigation();
 
@@ -84,7 +85,19 @@ export default function Profile() {
           <View style={styles.userIcon}>
             <Fontisto name="person" size={responsiveWidth(18)} />
           </View>
-
+         {isKeyboardVisible ? <View style={{paddingBottom: responsiveScreenHeight(20)}}>
+          <UpdateProfileModal
+            isVisible={isModalVisible}
+            onClose={() => setIsModalVisible(false)}
+            onSave={handleSaveProfile}
+            profileData={profileData}
+          />
+         </View> :  <UpdateProfileModal
+            isVisible={isModalVisible}
+            onClose={() => setIsModalVisible(false)}
+            onSave={handleSaveProfile}
+            profileData={profileData}
+          />}
           <Text style={styles.userName}>
             Welcome,<Text style={styles.subText}> {userName} </Text>
           </Text>
@@ -93,12 +106,7 @@ export default function Profile() {
         </View>
         <TouchableOpacity onPress={() => setIsModalVisible(true)}>
           <Text style={styles.editYourProfile}>Edit Your Profile</Text>
-          <UpdateProfileModal
-            isVisible={isModalVisible}
-            onClose={() => setIsModalVisible(false)}
-            onSave={handleSaveProfile}
-            profileData={profileData}
-          />
+          
         </TouchableOpacity>
         <ProfileCard
           onPress={handelCommunePress}

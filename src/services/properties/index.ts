@@ -8,7 +8,6 @@ export const SearchPropertyService = async (cityName: string) => {
 
 export const GetPropertyByUserIdService = async (userId: string) => {
   const url = `${URL}PropertyByUsersId/${userId}`;
-  console.log('url', url);
   return axios.get(url);
 };
 

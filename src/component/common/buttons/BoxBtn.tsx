@@ -13,6 +13,7 @@ import {
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import {useNavigation} from '@react-navigation/native';
+import { dark } from '../../../../assets/Styles/GlobalTheme';
 
 interface props {
     number: number;
@@ -47,6 +48,7 @@ const styles = StyleSheet.create({
     paddingVertical: responsiveScreenHeight(1.8),
   },
   boxText: {
+    color: dark,
     fontSize: responsiveFontSize(2),
     fontWeight: '400'
   },

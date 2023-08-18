@@ -35,6 +35,7 @@ import BoxBtn from '../../component/common/buttons/BoxBtn';
 import AgentBtn from '../../component/common/buttons/AgentBtn';
 import {GetPropertyByUserIdService} from '../../services/properties';
 import { ResetNewListing } from '../../redux/reducers/postReducer';
+import { dark } from '../../../assets/Styles/GlobalTheme';
 
 const HomePage = () => {
   const notificationImg = require('../../../assets/images/Notification.png');
@@ -90,12 +91,12 @@ const HomePage = () => {
       page: 'PropertyListings',
     },
     {
-      number: 5,
+      number: 0,
       title: 'Reviews',
       page: 'Reviews',
     },
     {
-      number: 13,
+      number: 0,
       title: 'Responses',
       page: 'Responses',
     },
@@ -178,17 +179,17 @@ const HomePage = () => {
           {agentDataa === 'Listings' ? (
             <Text style={styles.textListings}>{propertyListings} Listings</Text>
           ) : agentDataa === 'Sold' ? (
-            <Text style={styles.textListings}>3 Sold Properties</Text>
+            <Text style={styles.textListings}>0 Sold Properties</Text>
           ) : (
-            <Text style={styles.textListings}>13 Responses</Text>
+            <Text style={styles.textListings}>0 Responses</Text>
           )}
           {userDetails?.role === 'agent' ? null : (
             <>
               <TouchableOpacity
                 onPress={() => navigation.navigate('SearchFilterPage' as never)}
                 style={styles.serchContainer}>
-                <Text>
-                  <Text style={{fontWeight: 'bold'}}>Search : </Text>City,
+                <Text style={{color: dark}}>
+                  <Text style={{fontWeight: 'bold', color: dark}}>Search : </Text>City,
                   Locality, Project, Landmark
                 </Text>
                 <Image source={searchImg} />
@@ -299,6 +300,7 @@ const styles = StyleSheet.create({
     borderRadius: responsiveWidth(7.5),
   },
   headerText: {
+    color: dark,
     fontSize: responsiveFontSize(4),
     paddingHorizontal: responsiveScreenWidth(1.23),
   },
@@ -334,6 +336,7 @@ const styles = StyleSheet.create({
   },
 
   textListings: {
+    color: dark,
     fontSize: responsiveFontSize(3),
   },
 

@@ -21,6 +21,7 @@ import {DeletePropertyByIdService} from '../../../services/properties';
 import {useSelector} from 'react-redux';
 import {useDispatch} from 'react-redux'
 import { UpdatePostProperty } from '../../../redux/reducers/postReducer';
+import { dark } from '../../../../assets/Styles/GlobalTheme';
 
 interface props {
   id: string;
@@ -96,12 +97,12 @@ const PropertyListCard: FC<props> = ({
             <View style={styles.yourListingsBodyText}>
               <View>
                 <Text
-                  style={{fontWeight: 'bold', fontSize: responsiveFontSize(2)}}>
+                  style={{fontWeight: 'bold', fontSize: responsiveFontSize(2), color: dark}}>
                   {propertyType}
                 </Text>
-                <Text>{title}</Text>
+                <Text style={{color: dark}}>{title}</Text>
               </View>
-              <Text>Posted 2 Weeks ago</Text>
+              <Text style={{color: dark}}>Posted 2 Weeks ago</Text>
             </View>
            <View style={styles.buttonsContainer}>
            <Ionicons
@@ -109,12 +110,14 @@ const PropertyListCard: FC<props> = ({
               onPress={() => handelEdit()}
               name="create-outline"
               size={responsiveScreenWidth(7)}
+              color={dark}
             />
             <Ionicons
               style={styles.deleteButton}
               onPress={() => handelDelete()}
               name="trash-outline"
               size={responsiveScreenWidth(7)}
+              color={dark}
             />
            </View>
           </View>

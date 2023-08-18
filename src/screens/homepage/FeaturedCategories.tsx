@@ -17,6 +17,7 @@ import {
   responsiveScreenWidth,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
+import { dark } from '../../../assets/Styles/GlobalTheme';
 import FeaturedButton from '../../component/common/buttons/FeaturedButton';
 
 const FeaturedCategories = () => {
@@ -112,15 +113,15 @@ const FeaturedCategories = () => {
               <Text style={styles.detailesHeadertext}>{data.title}</Text>
               <View style={styles.ratingContainer}>
                 <Image style={styles.star} source={starImg} />
-                <Text>{data.rating}</Text>
+                <Text style={{color: dark}}>{data.rating}</Text>
               </View>
               <View style={styles.map}>
                 <Image style={styles.star} source={locationImg} />
-                <Text style={{fontSize: 12}}>{data.location}</Text>
+                <Text style={{fontSize: 12, color: dark}}>{data.location}</Text>
               </View>
 
               <View style={styles.price}>
-                <Text style={{fontSize: 16}}>
+                <Text style={{fontSize: 16, color: dark}}>
                   {data.price}
                   <Text style={{fontSize: 8}}>/month</Text>
                 </Text>
@@ -180,7 +181,7 @@ const styles = StyleSheet.create({
     width: responsiveWidth(24),
     backgroundColor: '#234F68',
     borderRadius: 17,
-    padding: responsiveScreenWidth(5),
+    padding: responsiveScreenWidth(3),
     // padding: responsiveHeight(2),
   },
   details: {},
@@ -188,7 +189,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     textAlign: 'center',
-    fontSize: 8,
+    fontSize: 13,
     fontWeight: 'bold'
   },
   ratingContainer: {
@@ -208,6 +209,7 @@ const styles = StyleSheet.create({
     // marginVertical: responsiveScreenHeight(1),
   },
   detailesHeadertext: {
+    color: dark,
     fontSize: 17,
   },
   map: {

@@ -11,6 +11,7 @@ import {
   responsiveScreenWidth,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
+import { dark } from '../../../../assets/Styles/GlobalTheme';
 
 
 
@@ -22,7 +23,7 @@ const LocationBtn: FC<props> = ({label}) => {
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
       <View style={styles.showCityName}>
-        <Text>{label}</Text>
+        <Text style={{color: dark}}>{label}</Text>
       </View>
     </SafeAreaView>
   );

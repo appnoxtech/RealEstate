@@ -1,7 +1,8 @@
 import React, {FC, useState} from 'react';
-import {View, Text, TextInput, TouchableOpacity} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity, SafeAreaView} from 'react-native';
 import Modal from 'react-native-modal';
 import {responsiveScreenHeight, responsiveScreenWidth, responsiveWidth} from 'react-native-responsive-dimensions';
+import { dark } from '../../../../assets/Styles/GlobalTheme';
 import useKeyboardVisibleListener from '../../../hooks/CommonHooks/isKeyboardVisibleHook';
 
 interface props {
@@ -18,8 +19,6 @@ const UpdateProfileModal: FC<props> = ({
 }) => {
   const [name, setName] = useState(profileData.name);
   const [email, setEmail] = useState(profileData.email);
-  // const [phoneNumber, setPhoneNumber] = useState(profileData.phoneNumber);
-  const isKeyboardVisible = useKeyboardVisibleListener();
   
 
   const handleSave = () => {
@@ -29,19 +28,24 @@ const UpdateProfileModal: FC<props> = ({
   // console.log(profileData);
 
   return (
-    <Modal
+    <SafeAreaView>
+      <Modal
       isVisible={isVisible}
       onRequestClose={onClose}
       backdropOpacity={0.5}
       onBackdropPress={() => onClose()}>
       <View
         style={{
-          height: '28%',
+          flex: 1,
           backgroundColor: 'white',
           padding: 20,
+          paddingVertical: responsiveScreenHeight(5),
+          marginTop: responsiveScreenHeight(5),
+          marginBottom: responsiveScreenHeight(50),
+          gap: responsiveScreenHeight(2),
           borderRadius: responsiveWidth(5),
         }}>
-        <Text style={{fontSize: 18, fontWeight: 'bold', marginBottom: 10}}>
+        <Text style={{fontSize: 18, fontWeight: 'bold', marginBottom: 10, color: dark}}>
           Update Profile
         </Text>
         <TextInput
@@ -51,6 +55,7 @@ const UpdateProfileModal: FC<props> = ({
             borderColor: 'gray',
             borderWidth: 1,
             borderRadius: responsiveWidth(5),
+            color: dark
           }}
           placeholder="Name"
           value={name}
@@ -63,6 +68,7 @@ const UpdateProfileModal: FC<props> = ({
             borderColor: 'gray',
             borderWidth: 1,
             borderRadius: responsiveWidth(5),
+            color: dark
           }}
           placeholder="Email"
           value={email}
@@ -72,15 +78,18 @@ const UpdateProfileModal: FC<props> = ({
           onPress={handleSave}
           style={{
             backgroundColor: '#8BC83F',
+            width: '100%',
             paddingHorizontal: responsiveScreenWidth(10),
             paddingVertical: responsiveScreenHeight(2),
             borderRadius: 5,
+            alignItems: 'center',
             alignSelf: 'center',
           }}>
           <Text style={{color: 'white', fontWeight: 'bold'}}>Save</Text>
         </TouchableOpacity>
       </View>
     </Modal>
+    </SafeAreaView>
   );
 };
 

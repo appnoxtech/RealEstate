@@ -31,7 +31,7 @@ export default function Login() {
   const {GenerateOtpServiceHandler} = useAuthServiceHandler();
 
   const [phone, setPhone] = useState('');
-
+  // const reg = /^(\+91[\-\s]?)?[0]?(91)?[789]\d{9}$/;
   const [phoneValidError, setPhoneValidError] = useState('');
 
   const [isFocus, setIsFocus] = useState(false);
@@ -122,7 +122,7 @@ export default function Login() {
         <View style={styles.footerText}>
           <Text style={styles.registerText}>
             By continuing, you agree to Real Estate {'\n'}
-            <Text style={styles.text}>Privacy Policy</Text> and{' '}
+            <Text style={styles.text}>Privacy Policy</Text> and{''}
             <Text style={styles.text}>Terms and Conditions</Text>
           </Text>
         </View>

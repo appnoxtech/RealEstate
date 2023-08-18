@@ -14,6 +14,7 @@ import {
     responsiveScreenWidth,
     responsiveWidth,
   } from 'react-native-responsive-dimensions';
+import { dark } from '../../../../assets/Styles/GlobalTheme';
   
   interface props {
       title: string;
@@ -35,6 +36,7 @@ import {
   
   const styles = StyleSheet.create({
     title: {
+      color: dark,
       fontSize: responsiveFontSize(1.5)
     }
   });

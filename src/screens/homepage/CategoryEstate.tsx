@@ -21,6 +21,7 @@ import {
 } from 'react-native-responsive-dimensions';
 // import {SearchPropertyService} from '../../services/properties';
 import {useNavigation} from '@react-navigation/native';
+import { dark } from '../../../assets/Styles/GlobalTheme';
 
 interface props {
   cityData: Array<any>
@@ -136,6 +137,7 @@ const styles = StyleSheet.create({
     gap: responsiveHeight(2)
   },
   description: {
+    color: dark,
     fontSize: responsiveFontSize(2),
     
   },
@@ -156,10 +158,12 @@ const styles = StyleSheet.create({
     height: responsiveHeight(2.5)
   },
   location: {
+    color: dark,
     fontSize: responsiveFontSize(3)
   },
  
   detailesHeadertext: {
+    color: dark,
     marginTop: responsiveScreenHeight(3),
     marginLeft: responsiveScreenWidth(6),
     fontSize: responsiveFontSize(3),

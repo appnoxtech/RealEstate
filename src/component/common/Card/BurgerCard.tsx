@@ -1,8 +1,9 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {FC} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { responsiveWidth } from 'react-native-responsive-dimensions';
+import { responsiveScreenWidth, responsiveWidth } from 'react-native-responsive-dimensions';
 import {useNavigation} from '@react-navigation/native';
+import { dark } from '../../../../assets/Styles/GlobalTheme';
 
 interface props {
   title: string;
@@ -37,6 +38,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: responsiveWidth(5),
+    paddingHorizontal: responsiveScreenWidth(2),
     margin: responsiveWidth(2),
     gap: responsiveWidth(3),
     backgroundColor: '#fff',
@@ -48,11 +50,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
   },
   title: {
+    color: dark,
     fontSize: responsiveWidth(4),
     fontWeight: 'bold',
   },
   description: {
-    
+    color: dark
   },
   postTime: {
     alignSelf: 'flex-end'

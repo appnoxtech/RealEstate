@@ -1,8 +1,9 @@
-import { StyleSheet,View } from 'react-native';
+import { StyleSheet,View,Platform } from 'react-native';
 import { useState } from 'react';
 import { responsiveScreenHeight } from 'react-native-responsive-dimensions';
 import { responsiveScreenWidth } from 'react-native-responsive-dimensions';
 import { TextInput } from 'react-native';
+import { dark } from '../../../../assets/Styles/GlobalTheme';
 
 export default function CustomTextInput(props: any) {
   const [focus, setFocus] = useState(false);
@@ -19,6 +20,7 @@ export default function CustomTextInput(props: any) {
         onBlur={() => setFocus(false)}
         style={styles.textInput}
         placeholder={props?.placeholder}
+        placeholderTextColor={Platform.OS === 'ios' ? null : dark}
       />
       
     </View>
@@ -43,6 +45,7 @@ const styles = StyleSheet.create({
   focused: {},
   notFocused: {},
   textInput: {
+    color: dark,
     flex: 1,
   },
 })

@@ -15,6 +15,7 @@ import {
 } from 'react-native-responsive-dimensions';
 import ExploreButton from '../../common/buttons/ExploreButton';
 import {useNavigation} from '@react-navigation/native';
+import { dark } from '../../../../assets/Styles/GlobalTheme';
 
 const BuyModal: React.FC<any> = ({setModalOpen}) => {
   const searchImg = require('../../../../assets/images/Search.png');
@@ -66,14 +67,14 @@ const BuyModal: React.FC<any> = ({setModalOpen}) => {
                 setBuy(true), setRent(false);
               }}
               style={buy ? styles.yesbuyrent : styles.notbuyrent}>
-              <Text>Buy</Text>
+              <Text style={{color: dark}}>Buy</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
                 setBuy(false), setRent(true);
               }}
               style={rent ? styles.yesbuyrent : styles.notbuyrent}>
-              <Text>Rent/Lease</Text>
+              <Text style={{color: dark}}>Rent/Lease</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -89,7 +90,7 @@ const BuyModal: React.FC<any> = ({setModalOpen}) => {
                   ? styles.yesresidentialcommercial
                   : styles.noresidentialcommercial
               }>
-              <Text>Residential use</Text>
+              <Text style={{color: dark}}>Residential use</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
@@ -100,7 +101,7 @@ const BuyModal: React.FC<any> = ({setModalOpen}) => {
                   ? styles.yesresidentialcommercial
                   : styles.noresidentialcommercial
               }>
-              <Text>Commercial use</Text>
+              <Text style={{color: dark}}>Commercial use</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -109,8 +110,10 @@ const BuyModal: React.FC<any> = ({setModalOpen}) => {
 
           <View style={styles.inputCityName}>
             <TextInput
+            style={{flex: 1,color: dark}}
               placeholder="Enter City Name"
               onChangeText={text => setCityName(text)}
+              placeholderTextColor={dark}
             />
 
             <Image source={searchImg} />
@@ -143,7 +146,9 @@ const styles = StyleSheet.create({
     width: 5,
     height: 10,
   },
-  pb10: {paddingBottom: 10},
+  pb10: {paddingBottom: 10,
+    color: dark,
+  },
   inputCityName: {
     flexDirection: 'row',
     alignItems: 'center',

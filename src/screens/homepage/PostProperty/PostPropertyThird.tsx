@@ -26,6 +26,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {UpdateNewListing} from '../../../redux/reducers/postReducer';
 import * as ImagePicker from 'react-native-image-picker';
 import {ImageUploadService} from '../../../services/common/ImagePicker';
+import {dark} from '../../../../assets/Styles/GlobalTheme';
 
 const PostPropertyThird = () => {
   const [imgUrls, setImgUrls] = useState<Array<string>>([]);
@@ -76,17 +77,17 @@ const PostPropertyThird = () => {
   const dispatch = useDispatch();
 
   const validate = () => {
-    if (!newListing?.price) {
+    if (!newListing?.title) {
+      setPriceError('');
+      setTextError('Required!');
+      return false;
+    } else if (!newListing?.price) {
       setPriceError('Required!');
       setTextError('');
       return false;
     } else if (!REGEX_NUMBER.test(newListing?.price)) {
       setPriceError('Enter valid number!');
       setTextError('');
-      return false;
-    } else if (!newListing?.title) {
-      setPriceError('');
-      setTextError('Required!');
       return false;
     } else {
       setPriceError('');
@@ -163,7 +164,7 @@ const PostPropertyThird = () => {
                     />
                     <Ionicons
                       onPress={() => handleDeleteImage(index)}
-                      style={{position: 'absolute', top: -7, right: -7 }}
+                      style={{position: 'absolute', top: -7, right: -7}}
                       size={responsiveScreenWidth(5)}
                       color="gray"
                       name="close-circle-sharp"
@@ -174,11 +175,11 @@ const PostPropertyThird = () => {
             </ScrollView>
 
             <View style={styles.inputContainer1}>
-              <Text>Title</Text>
+              <Text style={{color: dark}}>Title</Text>
               <CustomTextInput
                 onChangeText={setTitleHandel}
                 value={newListing?.title}
-                placeholder="title"
+                placeholder="Title"
               />
               {textError ? (
                 <Text style={{color: 'red', alignSelf: 'flex-end'}}>
@@ -187,7 +188,7 @@ const PostPropertyThird = () => {
               ) : null}
             </View>
             <View style={styles.inputContainer}>
-              <Text>Pricing Details</Text>
+              <Text style={{color: dark}}>Pricing Details</Text>
               <CustomTextInput
                 onChangeText={setPriceHandel}
                 value={newListing?.price}
@@ -200,7 +201,9 @@ const PostPropertyThird = () => {
           </View>
           <View
             style={
-              !imgUrls[0] ?{ paddingVertical: responsiveScreenHeight(8)} : {paddingVertical: responsiveScreenHeight(2)}
+              !imgUrls[0]
+                ? {paddingVertical: responsiveScreenHeight(8)}
+                : {paddingVertical: responsiveScreenHeight(2)}
             }>
             <ExploreButton onPress={() => handleNext()} title="Next" />
           </View>
@@ -224,14 +227,17 @@ const styles = StyleSheet.create({
     gap: responsiveHeight(2),
   },
   steps: {
+    color: dark,
     fontSize: responsiveScreenFontSize(1.9),
     fontWeight: '400',
   },
   basicDetailsText: {
+    color: dark,
     fontSize: responsiveFontSize(3.8),
     fontWeight: 'bold',
   },
   textPropertyPhoto: {
+    color: dark,
     marginTop: responsiveHeight(3.7),
     marginBottom: responsiveHeight(1),
   },

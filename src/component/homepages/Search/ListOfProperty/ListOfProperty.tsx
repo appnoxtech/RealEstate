@@ -9,6 +9,7 @@ import {
 import HeaderWithBackBtn from '../../../common/buttons/HeaderWithBackBtn';
 import CategoryEstate from '../../../../screens/homepage/CategoryEstate';
 import { SearchPropertyService } from '../../../../services/properties';
+import { dark } from '../../../../../assets/Styles/GlobalTheme';
 
 const ListOfProperty:React.FC<any> = ({route}) => {
   const {cityName} = route.params;
@@ -62,6 +63,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: responsiveScreenWidth(3),
   },
   typeText: {
+    color: dark,
     paddingTop: responsiveScreenHeight(1.5),
     fontSize: responsiveFontSize(3),
   },

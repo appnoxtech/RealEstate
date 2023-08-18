@@ -26,6 +26,7 @@ import {UpdateCityName} from '../../../redux/reducers/filterReducer';
 import {URL} from '@env';
 import axios from 'axios';
 import LocationBtn from '../../common/buttons/LocationBtn';
+import { dark } from '../../../../assets/Styles/GlobalTheme';
 
 const SearchFilterPage = ({route}: any) => {
   // const [selectedBedroom, setSelectedBedroom] = useState(1);
@@ -120,9 +121,7 @@ const SearchFilterPage = ({route}: any) => {
   ];
 
 
-  useEffect(() => {
-    
-  })
+ 
   const Item = ({item}: any) => {
     return (
       <TouchableOpacity onPress={() => setSelectedId(item.value)}>
@@ -131,9 +130,9 @@ const SearchFilterPage = ({route}: any) => {
             selectedId === item.value ? styles.afterClickOnItem : styles.item
           }>
           {selectedId === item.id && bedrooms ? (
-            <Ionicons style={styles.addFont} name={'checkmark'} />
+            <Ionicons style={styles.addFont} name={'checkmark'} color={dark}/>
           ) : (
-            <Ionicons style={styles.addFont} name={'add'} />
+            <Ionicons style={styles.addFont} name={'add'} color={dark}/>
           )}
           <Text style={styles.title}>{item.title}</Text>
         </View>
@@ -162,7 +161,7 @@ const SearchFilterPage = ({route}: any) => {
                   ? styles.typeColor
                   : styles.residential
               }>
-              <Text>Residential</Text>
+              <Text style={{color: dark}}>Residential</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
@@ -173,7 +172,7 @@ const SearchFilterPage = ({route}: any) => {
                   ? styles.typeColor
                   : styles.residential
               }>
-              <Text>Commercial</Text>
+              <Text style={{color: dark}}>Commercial</Text>
             </TouchableOpacity>
           </View>
 
@@ -186,7 +185,7 @@ const SearchFilterPage = ({route}: any) => {
               style={
                 lookingTo === 'Buy' ? styles.pressedbuyrent : styles.buyrent
               }>
-              <Text>Buy</Text>
+              <Text style={{color: dark}}>Buy</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
@@ -197,7 +196,7 @@ const SearchFilterPage = ({route}: any) => {
                   ? styles.pressedbuyrent
                   : styles.buyrent
               }>
-              <Text>Rent/Lease</Text>
+              <Text style={{color: dark}}>Rent/Lease</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -209,8 +208,8 @@ const SearchFilterPage = ({route}: any) => {
                 navigation.navigate('AddCityName' as never);
               }}
               style={styles.addCityName}>
-              <Text>City</Text>
-              <Ionicons style={styles.addFont} name={'add'} />
+              <Text style={{color: dark}}>City</Text>
+              <Ionicons style={styles.addFont} name={'add'} color={dark}/>
             </TouchableOpacity>
             <View style={styles.locationDetails}>
               {Array.isArray(newListing?.location) &&
@@ -222,12 +221,12 @@ const SearchFilterPage = ({route}: any) => {
         </View>
 
         <View style={styles.budgetContainer}>
-          <Text>Budget</Text>
+          <Text style={{color: dark}}>Budget</Text>
 
           <View style={styles.budgetText}>
-            <Text>$5</Text>
-            <Text> to </Text>
-            <Text>${sliderValue}+ </Text>
+            <Text style={{color: dark}}>$5</Text>
+            <Text style={{color: dark}}> to </Text>
+            <Text style={{color: dark}}>${sliderValue}+ </Text>
           </View>
           <Slider
             maximumValue={10000000}
@@ -240,7 +239,7 @@ const SearchFilterPage = ({route}: any) => {
           />
         </View>
         <View style={styles.typesOfProperty}>
-          <Text style={{fontSize: 20}}>Types of properties</Text>
+          <Text style={{fontSize: 20, color: dark}}>Types of properties</Text>
           <TouchableOpacity
             onPress={() => handleSubmit()}
             style={
@@ -249,11 +248,11 @@ const SearchFilterPage = ({route}: any) => {
                 : styles.typeOfPropertyStyle
             }>
             {bgColor ? (
-              <Ionicons style={styles.addFont} name={'checkmark'} />
+              <Ionicons style={styles.addFont} name={'checkmark'} color={dark}/>
             ) : (
-              <Ionicons style={styles.addFont} name={'add'} />
+              <Ionicons style={styles.addFont} name={'add'} color={dark}/>
             )}
-            <Text>Residential Apartment</Text>
+            <Text style={{color: dark}}>Residential Apartment</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => handleSubmit1()}
@@ -263,11 +262,11 @@ const SearchFilterPage = ({route}: any) => {
                 : styles.typeOfPropertyStyle
             }>
             {bgColor1 ? (
-              <Ionicons style={styles.addFont} name={'checkmark'} />
+              <Ionicons style={styles.addFont} name={'checkmark'} color={dark}/>
             ) : (
-              <Ionicons style={styles.addFont} name={'add'} />
+              <Ionicons style={styles.addFont} name={'add'} color={dark}/>
             )}
-            <Text>Independent House / Villa</Text>
+            <Text style={{color: dark}}>Independent House / Villa</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => handleSubmit2()}
@@ -277,15 +276,15 @@ const SearchFilterPage = ({route}: any) => {
                 : styles.typeOfPropertyStyle
             }>
             {bgColor2 ? (
-              <Ionicons style={styles.addFont} name={'checkmark'} />
+              <Ionicons style={styles.addFont} name={'checkmark'} color={dark}/>
             ) : (
-              <Ionicons style={styles.addFont} name={'add'} />
+              <Ionicons style={styles.addFont} name={'add'} color={dark}/>
             )}
-            <Text>Plot / Land</Text>
+            <Text style={{color: dark}}>Plot / Land</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.noOfBedrooms}>
-          <Text style={{fontSize: 20}}>No. of Bedrooms</Text>
+          <Text style={{fontSize: 20, color: dark}}>No. of Bedrooms</Text>
         </View>
 
         <View style={styles.typesOfBedrooms}>
@@ -299,7 +298,7 @@ const SearchFilterPage = ({route}: any) => {
           />
         </View>
         <View style={styles.readyToMove}>
-          <Text style={{fontSize: 17}}>
+          <Text style={{fontSize: 17, color: dark}}>
             Looking for "ReadytoMove" properties ?{' '}
           </Text>
           <View style={{flexDirection: 'row', gap: responsiveWidth(5)}}>
@@ -308,14 +307,14 @@ const SearchFilterPage = ({route}: any) => {
                 setReadyToMove('Yes');
               }}
               style={readyToMove === 'Yes' ? styles.yes : styles.no}>
-              <Text>Yes</Text>
+              <Text style={{color: dark}}>Yes</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
                 setReadyToMove('No');
               }}
               style={readyToMove === 'No' ? styles.yes : styles.no}>
-              <Text>No</Text>
+              <Text style={{color: dark}}>No</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -341,7 +340,6 @@ const styles = StyleSheet.create({
   propertyTYpe: {
     flexDirection: 'row',
     gap: responsiveScreenWidth(7),
-    borderBottomWidth: responsiveWidth(0.1),
   },
   residential: {
     borderBottomWidth: 0,
@@ -354,6 +352,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#8BC83F',
   },
   pb10: {
+    color: dark,
     paddingTop: responsiveScreenHeight(2),
   },
   lookingTo: {
@@ -475,6 +474,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   title: {
+    color: dark,
     fontSize: responsiveFontSize(1.7),
     padding: responsiveScreenWidth(1),
   },

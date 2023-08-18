@@ -7,11 +7,15 @@ import {
   GetCountryDataService,
 } from '../../../services/properties';
 import ExploreButton from '../../common/buttons/ExploreButton';
-import { UpdateNewListing } from '../../../redux/reducers/postReducer';
-import { useDispatch } from 'react-redux';
+import {UpdateNewListing} from '../../../redux/reducers/postReducer';
+import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import HeaderWithBackBtn from '../../common/buttons/HeaderWithBackBtn';
-import { responsiveHeight, responsiveScreenHeight } from 'react-native-responsive-dimensions';
+import {
+  responsiveHeight,
+  responsiveScreenHeight,
+} from 'react-native-responsive-dimensions';
+import {dark} from '../../../../assets/Styles/GlobalTheme';
 
 const DropdownComponent: FC = () => {
   const [countryValue, setCountryValue] = useState('');
@@ -26,7 +30,7 @@ const DropdownComponent: FC = () => {
   const [cityData, setCityDataValue] = useState<
     Array<{label: string; value: string}>
   >([]);
-  const [cityLabel, setCityLabel] = useState('')
+  const [cityLabel, setCityLabel] = useState('');
   const [stateLabel, setStateLabel] = useState('');
   const [countryLabel, setCountryLabel] = useState('');
   const location = [countryLabel, stateLabel, cityLabel];
@@ -34,7 +38,6 @@ const DropdownComponent: FC = () => {
   const navigation = useNavigation();
 
   const dispatch = useDispatch();
-  
 
   useEffect(() => {
     GetStateData();
@@ -130,14 +133,14 @@ const DropdownComponent: FC = () => {
         value: location,
       }),
     );
-    navigation.goBack()
-  }
+    navigation.goBack();
+  };
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
       <View style={styles.headerButton}>
         <HeaderWithBackBtn />
-        </View>
+      </View>
       <View style={styles.container}>
         {renderLabel()}
         <Dropdown
@@ -151,6 +154,7 @@ const DropdownComponent: FC = () => {
           maxHeight={300}
           labelField="label"
           valueField="value"
+          
           placeholder={!isFocus ? 'Select Country' : '...'}
           searchPlaceholder="Search..."
           value={countryValue}
@@ -185,7 +189,7 @@ const DropdownComponent: FC = () => {
           onBlur={() => setIsFocus1(false)}
           onChange={item => {
             setStateValue(item.value);
-            setStateLabel(item.label)
+            setStateLabel(item.label);
             setIsFocus1(false);
           }}
         />
@@ -216,10 +220,9 @@ const DropdownComponent: FC = () => {
         />
       </View>
 
-
-     <View style={{padding: 16}}>
-     <ExploreButton onPress={handelSave} title="Save"/>
-     </View>
+      <View style={{padding: 16}}>
+        <ExploreButton onPress={handelSave} title="Save" />
+      </View>
     </SafeAreaView>
   );
 };
@@ -228,13 +231,15 @@ export default DropdownComponent;
 
 const styles = StyleSheet.create({
   headerButton: {
-    padding: responsiveScreenHeight(1.8)
+    padding: responsiveScreenHeight(1.8),
   },
   container: {
+    color: dark,
     backgroundColor: 'white',
     padding: 16,
   },
   dropdown: {
+    color: dark,
     height: 50,
     borderColor: 'gray',
     borderWidth: 0.5,
@@ -245,6 +250,8 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   label: {
+    borderRightColor: dark,
+    color: dark,
     position: 'absolute',
     backgroundColor: 'white',
     left: 22,
@@ -254,9 +261,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   placeholderStyle: {
+    color: dark,
     fontSize: 16,
   },
   selectedTextStyle: {
+    color: dark,
     fontSize: 16,
   },
   iconStyle: {
@@ -264,7 +273,11 @@ const styles = StyleSheet.create({
     height: 20,
   },
   inputSearchStyle: {
+    color: dark,
     height: 40,
     fontSize: 16,
+  },
+  labelStyle: {
+    color: dark,
   },
 });

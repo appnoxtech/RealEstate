@@ -27,6 +27,7 @@ import {UpdateNewListing} from '../../../redux/reducers/postReducer';
 import ModalScreen from '../../Modals/ModalScreen';
 import HeaderWithBackBtn from '../../../component/common/buttons/HeaderWithBackBtn';
 import {GetPropertyType} from '../../../services/properties';
+import { dark } from '../../../../assets/Styles/GlobalTheme';
 
 const PostProperty = () => {
   const navigation = useNavigation();
@@ -38,7 +39,7 @@ const PostProperty = () => {
   const [ownerName, setOwnerName] = useState('');
   const [ownerPhoneNumber, setOwnerPhoneNumber] = useState('');
   const {newListing} = useSelector((store: any) => store.post);
-  // console.log(newListing);
+  console.log(newListing);
   
 
   const [errorProperty, setErrorProperty] = useState<string>('');
@@ -142,7 +143,7 @@ const PostProperty = () => {
             <View style={{gap: responsiveScreenHeight(1)}}>
               <Text style={styles.steps}>Step 1 of 3</Text>
               <Text style={styles.basicDetailsText}>Add Basic Details</Text>
-              <Text>Your Intent, Property type & Contact details</Text>
+              <Text style={{ color: dark,}}>Your Intent, Property type & Contact details</Text>
             </View>
             <View style={styles.main}>
               <Text style={styles.pb10}>You're Looking to ? </Text>
@@ -161,7 +162,7 @@ const PostProperty = () => {
                   />
                 ))}
               </View>
-              <Text>What Kind Of Property ?</Text>
+              <Text style={{ color: dark,}}>What Kind Of Property ?</Text>
               <View style={styles.propertyTYpe}>
                 {WhatKindOfProperty?.map((option, index) => (
                   <OptionBtn
@@ -177,7 +178,7 @@ const PostProperty = () => {
                   />
                 ))}
               </View>
-              <Text>Select Property Type</Text>
+              <Text style={{ color: dark,}}>Select Property Type</Text>
               {propertyType?.length ? (
                 <View style={styles.typeOfProperty}>
                   {propertyType?.map((option, index) => (
@@ -200,13 +201,13 @@ const PostProperty = () => {
               <Text style={{color: 'red'}}>{errorProperty}</Text>
             ) : null}
             <View style={styles.inputContainer}>
-              <Text>Owner Name</Text>
+              <Text style={{ color: dark,}}>Owner Name</Text>
               <TextInput
                 editable={false}
                 value={ownerName}
                 style={styles.inputStyling}
               />
-              <Text>Owner Contact</Text>
+              <Text style={{ color: dark,}}>Owner Contact</Text>
               <TextInput
                 editable={false}
                 value={ownerPhoneNumber}
@@ -242,6 +243,7 @@ const styles = StyleSheet.create({
     // gap: responsiveHeight(2),
   },
   steps: {
+    color: dark,
     fontSize: responsiveScreenFontSize(1.9),
     fontWeight: '400',
   },
@@ -251,6 +253,7 @@ const styles = StyleSheet.create({
     // gap: responsiveHeight(4),
   },
   basicDetailsText: {
+    color: dark,
     fontSize: responsiveFontSize(3.8),
     fontWeight: 'bold',
   },
@@ -283,6 +286,7 @@ const styles = StyleSheet.create({
     borderRadius: responsiveWidth(20),
   },
   pb10: {
+    color: dark,
     paddingTop: responsiveScreenHeight(2),
   },
   lookingTo: {
@@ -330,5 +334,6 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     padding: 10,
     fontSize: responsiveFontSize(3),
+    color: dark
   },
 });

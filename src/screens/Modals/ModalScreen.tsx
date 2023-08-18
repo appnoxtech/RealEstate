@@ -24,6 +24,7 @@ import BurgerCard from '../../component/common/Card/BurgerCard';
 import MenuCard from '../../component/common/Card/MenuCard';
 import {useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
+import {dark} from '../../../assets/Styles/GlobalTheme';
 
 const ModalScreen = () => {
   const [visible, setVisible] = useState(false);
@@ -37,7 +38,7 @@ const ModalScreen = () => {
             onPress={() => setVisible(false)}
             name="close"
             style={{height: 30, width: 30}}
-            size={24}
+            size={20}
             color="white"
           />
         </View>
@@ -86,59 +87,68 @@ const ModalScreen = () => {
             <BurgerCard
               setVisible={setVisible}
               title="Self-Verify your Property"
-              description="Verify your property to show users it as genuine"
+              description="Verify your property to show users it as gems"
               pageName=""
               iconName="business-outline"
             />
           </View>
-          <Text style={styles.manageProperty}>RESEARCH AND INSIGHTS</Text>
-          <BurgerCard
-            setVisible={setVisible}
-            title="Price Trends"
-            description="Explore locality and society level price growth/ drops"
-            pageName=""
-            iconName="trending-up-outline"
-          />
-          <BurgerCard
-            setVisible={setVisible}
-            title="Locality Insights"
-            description="Locality reviews, ratings, safety, commute, landmarks..."
-            pageName=""
-            iconName="location-outline"
-          />
-          <BurgerCard
-            setVisible={setVisible}
-            title="Rating and Reviews"
-            description="Read user reviews and ratings on locality and society"
-            pageName=""
-            iconName="star-half-outline"
-          />
-          <BurgerCard
-            setVisible={setVisible}
-            title="Article and News"
-            description="Article, News, Policies, Guides..."
-            pageName=""
-            iconName="newspaper-outline"
-          />
+          <Text
+            style={{
+              color: dark,
+              paddingHorizontal: responsiveScreenWidth(4),
+              paddingVertical: responsiveScreenHeight(1.5),
+            }}>
+            RESEARCH AND INSIGHTS
+          </Text>
+          <View style={{paddingHorizontal: responsiveScreenWidth(2)}}>
+            <BurgerCard
+              setVisible={setVisible}
+              title="Price Trends"
+              description="Explore locality and society level price growth"
+              pageName=""
+              iconName="trending-up-outline"
+            />
+            <BurgerCard
+              setVisible={setVisible}
+              title="Locality Insights"
+              description="Locality reviews, ratings, safety, commute, landmarks..."
+              pageName=""
+              iconName="location-outline"
+            />
+            <BurgerCard
+              setVisible={setVisible}
+              title="Rating and Reviews"
+              description="Read user reviews and ratings on locality "
+              pageName=""
+              iconName="star-half-outline"
+            />
+            <BurgerCard
+              setVisible={setVisible}
+              title="Article and News"
+              description="Article, News, Policies, Guides..."
+              pageName=""
+              iconName="newspaper-outline"
+            />
 
-          <MenuCard
-            setVisible={setVisible}
-            title="Terms of Use"
-            pageName=""
-            iconName="shield-outline"
-          />
-          <MenuCard
-            setVisible={setVisible}
-            title="Customer service"
-            pageName=""
-            iconName="people-outline"
-          />
-          <MenuCard
-            setVisible={setVisible}
-            title="Share Feedback"
-            pageName=""
-            iconName="newspaper-outline"
-          />
+            <MenuCard
+              setVisible={setVisible}
+              title="Terms of Use"
+              pageName=""
+              iconName="shield-outline"
+            />
+            <MenuCard
+              setVisible={setVisible}
+              title="Customer service"
+              pageName=""
+              iconName="people-outline"
+            />
+            <MenuCard
+              setVisible={setVisible}
+              title="Share Feedback"
+              pageName=""
+              iconName="newspaper-outline"
+            />
+          </View>
         </ScrollView>
       </ModalLayout>
       <Button title="Show Modal" onPress={() => setVisible(true)} />
@@ -156,7 +166,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
     paddingHorizontal: responsiveScreenWidth(1),
-    backgroundColor: '#234F68', 
+    backgroundColor: '#234F68',
     width: '100%',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
@@ -174,9 +184,14 @@ const styles = StyleSheet.create({
     fontSize: responsiveFontSize(3),
   },
 
-  body: {},
-  manageProperty: {
+  body: {
+    flex: 1,
     paddingHorizontal: responsiveScreenWidth(2),
+    paddingBottom: responsiveScreenHeight(3)
+  },
+  manageProperty: {
+    color: dark,
+    paddingHorizontal: responsiveScreenWidth(4),
     paddingVertical: responsiveScreenHeight(1.5),
   },
 });

@@ -27,6 +27,7 @@ import {dark} from '../../../assets/Styles/GlobalTheme';
 
 export default function Register() {
   const {userDetails} = useSelector((state: any) => state?.user);
+  const {registerUserDetails} = useSelector((state: any) => state.user);
   const navigation = useNavigation();
   const {handleRegisterService} = useAuthServiceHandler();
   const [name, setName] = useState('');
@@ -83,6 +84,7 @@ export default function Register() {
         role: 'tenant',
       };
       dispatch(UpdateRegisterUserDetails({...data}));
+      // handleRegisterService(registerUserDetails);
       navigation.navigate('SelectUserType' as never);
     }
   };
@@ -117,7 +119,7 @@ export default function Register() {
     if (!value.length) {
       setEmailValidError('Required');
       return false;
-    } else if (!EMAIL_REGEX.test(email)) {
+    } else if (!EMAIL_REGEX.test(value)) {
       setEmailValidError('Enter valid Email !');
       return false;
     } else {
@@ -185,11 +187,12 @@ export default function Register() {
             {emailValidError ? (
               <Text style={styles.errorText}>{emailValidError}</Text>
             ) : null}
-            <View
+            {/* <View
               style={
                 phoneValidError ? styles.inputContainer1 : styles.inputContainer
               }>
               <TextInput
+              
                 style={styles.input}
                 placeholder="Phone"
                 placeholderTextColor={dark}
@@ -206,7 +209,7 @@ export default function Register() {
             </View>
             {phoneValidError ? (
               <Text style={styles.errorText}>{phoneValidError}</Text>
-            ) : null}
+            ) : null} */}
           </View>
 
           <View style={styles.button__}>

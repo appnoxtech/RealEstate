@@ -11,8 +11,6 @@ import {updateUserDetails} from '../../redux/reducers/userReducer';
 import {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 
-
-
 interface navigationParams {
   SuccessPage: {title: string};
 }
@@ -21,27 +19,25 @@ interface phoneNumberType {
 }
 
 const useAuthServiceHandler = () => {
-
   // Inside useAuthServiceHandler
-
 
   const Navigation = useNavigation();
   const dispatch = useDispatch();
   const [title, setTitle] = useState('');
-const [isWrongOTPModalVisible, setWrongOTPModalVisible] = useState(false);
-
+  const [isWrongOTPModalVisible, setWrongOTPModalVisible] = useState(false);
 
   const GenerateOtpServiceHandler = async (data: any) => {
     try {
       const res = await GenerateOTPService(data);
       const {result} = res.data;
-      Alert.alert('OTP', result.generateOTP);
+      Alert.alert('OTP', result?.generateOTP);
       Navigation.navigate('RegisterWithOTP' as never, {
         phoneNumber: data?.phoneNumber,
         type: 'Login',
       });
     } catch (error: any) {
       const ErrorMsg = error.response.data.error.message;
+      Alert.alert(ErrorMsg)
       if (ErrorMsg === 'Phone number is not verified') {
         Navigation.navigate('RegisterWithOTP' as never, {
           phoneNumber: data?.phoneNumber,
@@ -53,6 +49,8 @@ const [isWrongOTPModalVisible, setWrongOTPModalVisible] = useState(false);
       }
     }
   };
+
+  
 
   const VerifyOTPServiceHandler = async (data: any) => {
     try {
@@ -103,7 +101,7 @@ const [isWrongOTPModalVisible, setWrongOTPModalVisible] = useState(false);
     handleRegisterService,
     handleLogoutService,
     isWrongOTPModalVisible,
-    setWrongOTPModalVisible
+    setWrongOTPModalVisible,
   };
 };
 

@@ -31,13 +31,6 @@ import {dark} from '../../../assets/Styles/GlobalTheme';
 export default function Profile() {
   const isKeyboardVisible = useKeyboardVisibleListener();
 
-  const {updatePofileHandler} = useProfileHooks();
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [profileData, setProfileData] = useState({
-    name: '',
-    email: '',
-    phoneNumber: '',
-  });
 
   const dispatch = useDispatch();
   const handleLogout = () => {
@@ -59,20 +52,7 @@ export default function Profile() {
     navigation.navigate('ChangelogScreen' as never);
   };
 
-  const handleSaveProfile = async (
-    updatedProfile: React.SetStateAction<{
-      name: string;
-      email: string;
-      phoneNumber: string;
-    }>,
-  ) => {
-    setProfileData(updatedProfile);
-    try {
-      const res = await updatePofileHandler(updatedProfile, userDetails);
-    } catch (error: any) {
-      Alert.alert('Error -------1111111', error);
-    }
-  };
+ 
   return (
     <SafeAreaView style={styles.safearea}>
       <View style={styles.container}>

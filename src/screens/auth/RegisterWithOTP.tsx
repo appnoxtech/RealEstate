@@ -175,6 +175,7 @@ const OTP: React.FC<any> = ({route}) => {
   }, [otp]);
 
   const clickHandler = async () => {
+    setOtp(initialState)
     setShow(false);
     setTimer(59);
     const data = {
@@ -514,7 +515,7 @@ const styles = StyleSheet.create({
 
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
     justifyContent: 'center',
     alignItems: 'center',
   },

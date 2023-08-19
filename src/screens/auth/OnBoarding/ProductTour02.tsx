@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
     paddingTop: 0,
   },
   containerText: {
+    color: '#000000',
     marginVertical: responsiveScreenHeight(5),
     fontSize: 25,
   },
@@ -76,6 +77,7 @@ const styles = StyleSheet.create({
     color: '#204D6C',
   },
   containerText1: {
+    color: '#000000',
     fontSize: 12,
     marginBottom: 20,
   },

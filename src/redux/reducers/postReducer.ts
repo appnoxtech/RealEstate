@@ -1,37 +1,38 @@
+const initialNewListingData = {
+  title: '',
+  type: 'Residential-property',
+  description: '',
+  bhk: '1BHK',
+  furnishedStatus: 'unfurnished',
+  images: [],
+  city: '',
+  state: '',
+  area: '',
+  price: '',
+  propertyOnFloor: '',
+  totalFloor: '',
+  amenities: '',
+  status: '',
+  lookingTo: 'Sell',
+  propertyType: [],
+  ownerPhoneNumber: '',
+  ownerName: '',
+  parking: '',
+  userId: '',
+};
 const initialState = {
-  newListing: {
-    id: '',
-    title: '',
-    type: '',
-    description: '',
-    bhk: '',
-    furnishedStatus: '',
-    images: [],
-    location: '',
-    area: '',
-    price: '',
-    propertyOnFloor: '',
-    totalFloor: '',
-    amenities: '',
-    status: '',
-    lookingTo: '',
-    propertyType: [],
-    ownerPhoneNumber: '',
-    ownerName: '',
-    parking: '',
-    userId: '',
-  },
+  newListing: {...initialNewListingData},
 };
 interface newListingData {
   key:
-    | 'id'
     | 'title'
     | 'type'
     | 'description'
     | 'bhk'
     | 'furnishedStatus'
     | 'images'
-    | 'location'
+    | 'city'
+    | 'state'
     | 'area'
     | 'price'
     | 'propertyOnFloor'
@@ -51,10 +52,24 @@ interface updateNewListing {
   type: 'UPDATE_NEW_LISTING';
   payload: newListingData;
 }
+
 interface resetNewListing {
   type: 'RESET_NEW_LISTING';
 }
-type action = updateNewListing | resetNewListing;;
+
+interface updatePostProperty {
+  type: 'UPDATE_POST_PROPERTY';
+  payload: any;
+}
+interface deletePostProperty {
+  type: 'DELETE_POST_PROPERTY';
+  payload: any;
+}
+type action =
+  | updateNewListing
+  | resetNewListing
+  | updatePostProperty
+  | deletePostProperty;
 
 const PostReducer = (state = initialState, action: action) => {
   switch (action.type) {
@@ -67,13 +82,33 @@ const PostReducer = (state = initialState, action: action) => {
         },
       };
     }
+
     case 'RESET_NEW_LISTING': {
       return {
         ...state,
-        newListing: initialState.newListing, // Reset newListing to initial empty state
+        newListing: {
+          ...initialNewListingData,
+        },
       };
     }
 
+    case 'UPDATE_POST_PROPERTY': {
+      return {
+        ...state,
+        newListing: {
+          ...action.payload,
+        },
+      };
+    }
+
+    case 'DELETE_POST_PROPERTY': {
+      return {
+        ...state,
+        newListing: {
+          ...action.payload,
+        },
+      };
+    }
     default:
       return state;
   }
@@ -91,5 +126,19 @@ export const UpdateNewListing = (data: newListingData): updateNewListing => {
 export const ResetNewListing = (): resetNewListing => {
   return {
     type: 'RESET_NEW_LISTING',
+  };
+};
+
+export const UpdatePostProperty = (data: any) => {
+  return {
+    type: 'UPDATE_POST_PROPERTY',
+    payload: data,
+  };
+};
+
+export const DeletePostProperty = (data: any) => {
+  return {
+    type: 'DELETE_POST_PROPERTY',
+    payload: data,
   };
 };

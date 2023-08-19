@@ -14,6 +14,7 @@ import {
 } from 'react-native-responsive-dimensions';
 import ExploreButton from '../../common/buttons/ExploreButton';
 import {useNavigation} from '@react-navigation/native';
+import { dark } from '../../../../assets/Styles/GlobalTheme';
 
 const BuyPlotLand: React.FC<any> = ({setModalOpen}) => {
   const searchImg = require('../../../../assets/images/Search.png');
@@ -53,8 +54,10 @@ const BuyPlotLand: React.FC<any> = ({setModalOpen}) => {
         <View>
           <View style={styles.inputContainer}>
             <TextInput
+            style={{flex: 1,color: dark}}
               placeholder="Search City / Locality / Projects / Landmarks...."
               onChangeText={text => setCityName(text)}
+              placeholderTextColor={dark}
             />
             <Image source={searchImg} />
           </View>

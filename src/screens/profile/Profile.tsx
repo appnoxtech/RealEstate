@@ -5,8 +5,10 @@ import {
   View,
   Image,
   TouchableOpacity,
+  Alert,
+  ScrollView,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -19,24 +21,57 @@ import {UpdateLogout} from '../../redux/reducers/userReducer';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 
 import ModalScreen from '../Modals/ModalScreen';
+import UpdateProfileModal from '../../component/homepages/Modal/UpdateProfileModal';
 import ProfileCard from '../../component/common/Card/ProfileCard';
 import {useNavigation} from '@react-navigation/native';
+import {useProfileHooks} from '../../hooks/ProfileHooks';
+import useKeyboardVisibleListener from '../../hooks/CommonHooks/isKeyboardVisibleHook';
+import {dark} from '../../../assets/Styles/GlobalTheme';
 
 export default function Profile() {
+  const isKeyboardVisible = useKeyboardVisibleListener();
+
+  const {updatePofileHandler} = useProfileHooks();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [profileData, setProfileData] = useState({
+    name: '',
+    email: '',
+    phoneNumber: '',
+  });
+
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(UpdateLogout());
   };
 
   const {userDetails} = useSelector((state: any) => state.user);
+
   const navigation = useNavigation();
 
-  const userName = userDetails?.name.toUpperCase();
+  const userName = userDetails?.name;
   const handelCommunePress = () => {
     navigation.navigate('CommunicationSetting' as never);
   };
   const handelFeedBackPress = () => {
     navigation.navigate('ShareFeed' as never);
+  };
+  const handelAppVersionPress = () => {
+    navigation.navigate('ChangelogScreen' as never);
+  };
+
+  const handleSaveProfile = async (
+    updatedProfile: React.SetStateAction<{
+      name: string;
+      email: string;
+      phoneNumber: string;
+    }>,
+  ) => {
+    setProfileData(updatedProfile);
+    try {
+      const res = await updatePofileHandler(updatedProfile, userDetails);
+    } catch (error: any) {
+      Alert.alert('Error -------1111111', error);
+    }
   };
   return (
     <SafeAreaView style={styles.safearea}>
@@ -50,39 +85,59 @@ export default function Profile() {
             <Text style={styles.headerText}>Real Estate</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.profileContainer}>
-          <View style={styles.userIcon}>
-            <Fontisto name="person" size={responsiveWidth(18)} />
-          </View>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.profileContainer}>
+            <View style={styles.userIcon}>
+              <Fontisto name="person" size={responsiveWidth(10)} color={dark} />
+            </View>
 
-          <Text style={styles.userName}>
-            Welcome,<Text style={styles.subText}> {userName} </Text>
-          </Text>
-          <Text style={styles.emailText}>{userDetails?.email}</Text>
-          <Text style={styles.emailText}>{userDetails?.phoneNumber}</Text>
-        </View>
-        <TouchableOpacity>
-          <Text style={styles.editYourProfile}>
-            Edit Your Profile
-          </Text>
-        </TouchableOpacity>
-        <ProfileCard
-          onPress={handelCommunePress}
-          iconName1="settings"
-          title="Communication Settings"
-          iconName2="chevron-forward-outline"
-        />
-        <ProfileCard
-          onPress={handelFeedBackPress}
-          iconName1="document-text-outline"
-          title="Share Feedback"
-          iconName2="chevron-forward-outline"
-        />
-        <View style={styles.button__}>
-          <TouchableOpacity onPress={handleLogout} style={styles.button}>
-            <Text style={styles.btnText}>Logout</Text>
+            {/* <UpdateProfileModal
+              isVisible={isModalVisible}
+              onClose={() => setIsModalVisible(false)}
+              onSave={handleSaveProfile}
+              profileData={profileData}
+            /> */}
+
+            <Text style={styles.userName}>
+              Welcome,<Text style={styles.subText}> {userName} </Text>
+            </Text>
+            <Text style={styles.emailText}>{userDetails?.email}</Text>
+            <Text style={styles.emailText}>{userDetails?.phoneNumber}</Text>
+
+            <TouchableOpacity onPress={() => navigation.navigate('EditProfile' as never)}>
+            <Text style={styles.editYourProfile}>Edit Your Profile</Text>
           </TouchableOpacity>
-        </View>
+          </View>
+         
+          <ProfileCard
+            onPress={handelCommunePress}
+            iconName1="settings"
+            title="Communication Settings"
+            iconName2="chevron-forward-outline"
+          />
+          <ProfileCard
+            onPress={handelFeedBackPress}
+            iconName1="document-text-outline"
+            title="Share Feedback"
+            iconName2="chevron-forward-outline"
+          />
+          <ProfileCard
+            onPress={handelAppVersionPress}
+            iconName1="add"
+            title="About App"
+            iconName2="chevron-forward-outline"
+          />
+
+          
+          <View style={styles.button__}>
+          <ProfileCard
+            onPress={handleLogout}
+            iconName1="log-out-outline"
+            title="Logout"
+            iconName2="chevron-forward-outline"
+          />
+          </View>
+        </ScrollView>
       </View>
     </SafeAreaView>
   );
@@ -107,22 +162,19 @@ const styles = StyleSheet.create({
     gap: responsiveScreenWidth(3),
   },
   headerText: {
-    fontSize: responsiveFontSize(3),
-    color: 'gray',
-    fontWeight: 'bold',
+    fontSize: responsiveFontSize(2),
+    color: dark,
   },
   profileContainer: {
+    flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    alignSelf: 'center',
-    marginVertical: responsiveScreenHeight(2),
+    // alignSelf: 'center',
     gap: responsiveScreenHeight(1),
   },
   userIcon: {
-    borderWidth: responsiveScreenWidth(0.2),
-    borderColor: '#234F68',
-    borderRadius: responsiveScreenWidth(50),
-    paddingHorizontal: responsiveScreenWidth(7),
+    backgroundColor: '#F5F4F8',
+    borderRadius: responsiveScreenWidth(48),
+    paddingHorizontal: responsiveScreenWidth(5),
     paddingVertical: responsiveScreenHeight(2.1),
   },
   textAuth: {
@@ -139,27 +191,28 @@ const styles = StyleSheet.create({
     backgroundColor: '#8BC83F',
   },
   emailText: {
-    fontSize: responsiveFontSize(3),
+    color: dark,
+    fontSize: responsiveFontSize(2),
   },
 
   editYourProfile: {
     textAlign: 'center',
-    fontSize: responsiveFontSize(3),
+    fontSize: responsiveFontSize(2),
+    fontWeight: 'bold',
     color: '#234F68',
-    marginBottom: responsiveScreenHeight(2),
+    marginVertical: responsiveScreenHeight(2),
   },
   button__: {
-    alignItems: 'center',
-    marginVertical: responsiveScreenHeight(5),
+    marginVertical: responsiveScreenHeight(10),
   },
 
   btnText: {
     color: 'white',
-    fontSize: responsiveFontSize(3),
-    textAlign: 'center',
+    fontSize: responsiveFontSize(2),
   },
   userName: {
-    fontSize: responsiveFontSize(4),
+    color: dark,
+    fontSize: responsiveFontSize(2),
   },
   subText: {
     color: '#234F68',

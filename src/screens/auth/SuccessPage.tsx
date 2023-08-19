@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
         height: responsiveScreenHeight(10)
     },
     text: {
+      color: '#000000',
         fontSize: responsiveFontSize(3),
         marginBottom: responsiveScreenHeight(5)
     },

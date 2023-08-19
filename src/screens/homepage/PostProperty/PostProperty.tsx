@@ -27,16 +27,20 @@ import {UpdateNewListing} from '../../../redux/reducers/postReducer';
 import ModalScreen from '../../Modals/ModalScreen';
 import HeaderWithBackBtn from '../../../component/common/buttons/HeaderWithBackBtn';
 import {GetPropertyType} from '../../../services/properties';
-import CustomTextInput from '../../../component/common/inputs/inputComponent';
+import { dark } from '../../../../assets/Styles/GlobalTheme';
 
 const PostProperty = () => {
+  const navigation = useNavigation();
   const dispatch = useDispatch();
   const [areaType, setAreaType] = useState<string>('Residential-property');
   const {userDetails} = useSelector((state: any) => state.user);
-  const [lookingTo, setLookingTo] = useState<string>('Buy');
+  const [lookingTo, setLookingTo] = useState<string>('Sell');
   const [propertyType, setPropertyType] = useState<Array<{name: string}>>([]);
   const [ownerName, setOwnerName] = useState('');
   const [ownerPhoneNumber, setOwnerPhoneNumber] = useState('');
+  const {newListing} = useSelector((store: any) => store.post);
+  console.log(newListing);
+  
 
   const [errorProperty, setErrorProperty] = useState<string>('');
 
@@ -76,19 +80,23 @@ const PostProperty = () => {
       );
     } catch (error) {}
   };
-  const setPropertyTypeHandler = (params: string) => {
+  const setPropertyTypeHandler = (id: string) => {
+    if(!id) {
+      setErrorProperty('Please select property');
+    } else {
+      setErrorProperty('');
+    }
     dispatch(
       UpdateNewListing({
         key: 'propertyType',
-        value: params,
+        value: id,
       }),
     );
+    
   };
-
-  const navigation = useNavigation();
-
+  
   const validate = () => {
-    if (!propertyType) {
+    if(!newListing?.propertyType[0]) {
       setErrorProperty('Please select property');
       return false;
     } else {
@@ -102,14 +110,15 @@ const PostProperty = () => {
       navigation.navigate('PostPropertySecond' as never);
     }
   };
-  const LookingOption = ['Buy', 'Rent / Lease', 'PG'];
+  const LookingOption = ['Sell', 'Rent/Lease', 'PG'];
+
   const WhatKindOfProperty = [
     {key: 'Residential-property', value: 'Residential'},
     {key: 'Commercial-property', value: 'Commercial'},
   ];
 
   useEffect(() => {
-    GetPropertyTypeData(areaType);
+    GetPropertyTypeData(newListing?.type);
     setOwnerName(userDetails?.name);
     setOwnerPhoneNumber(userDetails?.phoneNumber);
     dispatch(
@@ -124,7 +133,6 @@ const PostProperty = () => {
         value: ownerPhoneNumber,
       }),
     );
-    
   }, []);
 
   return (
@@ -140,7 +148,7 @@ const PostProperty = () => {
             <View style={{gap: responsiveScreenHeight(1)}}>
               <Text style={styles.steps}>Step 1 of 3</Text>
               <Text style={styles.basicDetailsText}>Add Basic Details</Text>
-              <Text>Your Intent, Property type & Contact details</Text>
+              <Text style={{ color: dark,}}>Your Intent, Property type & Contact details</Text>
             </View>
             <View style={styles.main}>
               <Text style={styles.pb10}>You're Looking to ? </Text>
@@ -152,14 +160,14 @@ const PostProperty = () => {
                     label={option}
                     btnPressHandler={setLookingBtnHandler}
                     style={
-                      lookingTo === option
+                      newListing?.lookingTo === option
                         ? styles.pressedSellrent
                         : styles.Sellrent
                     }
                   />
                 ))}
               </View>
-              <Text>What Kind Of Property ?</Text>
+              <Text style={{ color: dark,}}>What Kind Of Property ?</Text>
               <View style={styles.propertyTYpe}>
                 {WhatKindOfProperty?.map((option, index) => (
                   <OptionBtn
@@ -168,14 +176,14 @@ const PostProperty = () => {
                     label={option.value}
                     btnPressHandler={setWhatKindPropertyHandler}
                     style={
-                      areaType === option.key
+                      newListing?.type === option.key
                         ? styles.typeColor
                         : styles.residential
                     }
                   />
                 ))}
               </View>
-              <Text>Select Property Type</Text>
+              <Text style={{ color: dark,}}>Select Property Type</Text>
               {propertyType?.length ? (
                 <View style={styles.typeOfProperty}>
                   {propertyType?.map((option, index) => (
@@ -185,7 +193,9 @@ const PostProperty = () => {
                       label={option.name}
                       btnPressHandler={setPropertyTypeHandler}
                       style={
-                        option.name ? styles.typeColor : styles.noTypeColor
+                        newListing?.propertyType === option.name
+                          ? styles.typeColor
+                          : styles.noTypeColor
                       }
                     />
                   ))}
@@ -196,13 +206,13 @@ const PostProperty = () => {
               <Text style={{color: 'red'}}>{errorProperty}</Text>
             ) : null}
             <View style={styles.inputContainer}>
-              <Text>Owner Name</Text>
+              <Text style={{ color: dark,}}>Owner Name</Text>
               <TextInput
                 editable={false}
                 value={ownerName}
                 style={styles.inputStyling}
               />
-              <Text>Owner Contact</Text>
+              <Text style={{ color: dark,}}>Owner Contact</Text>
               <TextInput
                 editable={false}
                 value={ownerPhoneNumber}
@@ -238,6 +248,7 @@ const styles = StyleSheet.create({
     // gap: responsiveHeight(2),
   },
   steps: {
+    color: dark,
     fontSize: responsiveScreenFontSize(1.9),
     fontWeight: '400',
   },
@@ -247,6 +258,7 @@ const styles = StyleSheet.create({
     // gap: responsiveHeight(4),
   },
   basicDetailsText: {
+    color: dark,
     fontSize: responsiveFontSize(3.8),
     fontWeight: 'bold',
   },
@@ -279,6 +291,7 @@ const styles = StyleSheet.create({
     borderRadius: responsiveWidth(20),
   },
   pb10: {
+    color: dark,
     paddingTop: responsiveScreenHeight(2),
   },
   lookingTo: {
@@ -308,7 +321,7 @@ const styles = StyleSheet.create({
     gap: responsiveHeight(1),
   },
   inputContainer: {
-    marginTop: responsiveScreenHeight(2)
+    marginTop: responsiveScreenHeight(2),
   },
   bottomBtn: {
     paddingHorizontal: responsiveScreenWidth(5),
@@ -326,5 +339,6 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     padding: 10,
     fontSize: responsiveFontSize(3),
+    color: dark
   },
 });

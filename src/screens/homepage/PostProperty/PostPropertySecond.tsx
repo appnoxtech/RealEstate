@@ -24,6 +24,8 @@ import {UpdateCityName} from '../../../redux/reducers/filterReducer';
 import OptionBtn from '../../../component/common/buttons/OptionBtn';
 import ExploreButton from '../../../component/common/buttons/ExploreButton';
 import CustomTextInput from '../../../component/common/inputs/inputComponent';
+import LocationBtn from '../../../component/common/buttons/LocationBtn';
+import {dark} from '../../../../assets/Styles/GlobalTheme';
 
 const PostPropertySecond = () => {
   const [noOfRooms, setNoOfRooms] = useState('1BHK');
@@ -31,31 +33,97 @@ const PostPropertySecond = () => {
   const [parking, setParking] = useState('');
 
   const {newListing} = useSelector((store: any) => store.post);
+
   const [readyToMove, setReadyToMove] = useState('');
   const [propertyStatus, setStatus] = useState('');
   const [totalFloor, setTotalFloor] = useState('');
   const [propertyOnFloor, setProperyOnFloor] = useState('');
+
   const dispatch = useDispatch();
 
   const navigation = useNavigation();
   const {cityName} = useSelector((store: any) => store.filter);
+
   const [cityError, setCityError] = useState('');
-  const handleCityName = () => {
-    dispatch(UpdateCityName(''));
-  };
+  const [furnishedError, setFurnishedError] = useState('');
+  const [propertyError, setPropertyError] = useState('');
+  const [parkingError, setParkingError] = useState('');
+  const [totalFloorError, setTotalFloorError] = useState('');
+  const [floorError, setFloorError] = useState('');
+
+  
 
   const NoOfRooms = ['1BHK', '2BHK', '3BHK', '4BHK', '5BHK', '5BHK+'];
-  const FurnishedStatus = ['Unfurnished', 'Semi-Furnished', 'Furnished'];
+  const FurnishedStatus = ['unfurnished', 'semi-furnished', 'furnished'];
   const Parking = ['Yes', 'No'];
   const status = ['readyToMove', 'underConstruction'];
-  const ageOfProperty = ['0-'];
+
+  // const ageOfProperty = ['0-1', '1-2'];
 
   const validate = () => {
-    if (!cityName) {
-      setCityError('Please select city name !');
+    if (!newListing?.state) {
+      setCityError('Please add location');
+      setFurnishedError('');
+      setPropertyError('');
+      setParkingError('');
+      setTotalFloorError('');
+      setFloorError('');
+      return false;
+    } else if (!newListing?.furnishedStatus) {
+      setCityError('');
+      setFurnishedError('Please select furnished status!');
+      setPropertyError('');
+      setParkingError('');
+      setTotalFloorError('');
+      setFloorError('');
+      return false;
+    } else if (!newListing?.status) {
+      setCityError('');
+      setFurnishedError('');
+      setPropertyError('Please select property status !');
+      setParkingError('');
+      setTotalFloorError('');
+      setFloorError('');
+      return false;
+    } else if (!newListing?.parking) {
+      setCityError('');
+      setFurnishedError('');
+      setPropertyError('');
+      setParkingError('Please select parking !');
+      setTotalFloorError('');
+      setFloorError('');
+      return false;
+    } else if (!newListing?.totalFloor) {
+      setCityError('');
+      setFurnishedError('');
+      setPropertyError('');
+      setParkingError('');
+      setTotalFloorError('Please select total floor !');
+      setFloorError('');
+      return false;
+    } else if (!newListing?.propertyOnFloor) {
+      setCityError('');
+      setFurnishedError('');
+      setPropertyError('');
+      setParkingError('');
+      setTotalFloorError('');
+      setFloorError('Please select property on floor !');
+      return false;
+    } else if (Number(propertyOnFloor) > Number(totalFloor)) {
+      setCityError('');
+      setFurnishedError('');
+      setPropertyError('');
+      setParkingError('');
+      setTotalFloorError('');
+      setFloorError('Enter valid floor !');
       return false;
     } else {
       setCityError('');
+      setFurnishedError('');
+      setPropertyError('');
+      setParkingError('');
+      setTotalFloorError('');
+      setFloorError('');
       return true;
     }
   };
@@ -80,6 +148,11 @@ const PostPropertySecond = () => {
   };
 
   const setParkingHandel = (params: any) => {
+    if (!params) {
+      setParkingError('Please select parking !');
+    } else {
+      setParkingError('');
+    }
     setParking(params);
     dispatch(
       UpdateNewListing({
@@ -90,6 +163,11 @@ const PostPropertySecond = () => {
   };
 
   const setPropertyStatusHandel = (params: any) => {
+    if (!params) {
+      setPropertyError('Please select property status !');
+    } else {
+      setPropertyError('');
+    }
     setStatus(params);
     dispatch(
       UpdateNewListing({
@@ -98,7 +176,13 @@ const PostPropertySecond = () => {
       }),
     );
   };
+
   const setTotalFloorHandel = (params: string) => {
+    if(!params) {
+      setTotalFloorError('Please enter total floor !');
+    } else {
+      setTotalFloorError('');
+    }
     setTotalFloor(params);
     dispatch(
       UpdateNewListing({
@@ -108,6 +192,14 @@ const PostPropertySecond = () => {
     );
   };
   const setPropertyOnFloorHandel = (params: string) => {
+    if(!params) {
+      setFloorError('Please enter floor !');
+    }
+    else if (Number(params) > Number(totalFloor)) {
+      setFloorError('Enter valid floor !');
+    } else {
+      setFloorError('');
+    }
     setProperyOnFloor(params);
     dispatch(
       UpdateNewListing({
@@ -117,15 +209,27 @@ const PostPropertySecond = () => {
     );
   };
 
-
   const handleNext = () => {
-    const isValid = validate();
+    
+    if (!newListing?.city) {
+      setCityError('Please add location');
+    } else {
+      setCityError('');
+    }
+    
     dispatch(
       UpdateNewListing({
-        key: 'location',
-        value: cityName,
+        key: 'state',
+        value: newListing?.state,
       }),
     );
+    dispatch(
+      UpdateNewListing({
+        key: 'city',
+        value: newListing?.city,
+      }),
+    );
+    const isValid = validate();
     if (isValid) {
       navigation.navigate('PostPropertyThird' as never);
     }
@@ -146,23 +250,24 @@ const PostPropertySecond = () => {
 
             <Text style={styles.locatedText}>Where is it located ?</Text>
             <View style={styles.addCityNameContainer}>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('AddCityName' as never);
-                }}
-                style={styles.addCityName}>
-                <Text>City</Text>
-                <Ionicons style={styles.addFont} name={'add'} />
-              </TouchableOpacity>
-
-              {cityName ? (
-                <View style={styles.showCityName}>
-                  <Text>{cityName}</Text>
-                  <TouchableOpacity onPress={() => handleCityName()}>
-                    <Ionicons style={styles.removeFont} name={'close'} />
-                  </TouchableOpacity>
-                </View>
-              ) : null}
+              <ScrollView
+                showsHorizontalScrollIndicator={false}
+                horizontal={true}>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate('AddCityName' as never);
+                  }}
+                  style={styles.addCityName}>
+                  <Text style={{color: dark}}>Location</Text>
+                  <Ionicons style={styles.addFont} name={'add'} />
+                </TouchableOpacity>
+                {newListing?.city && (
+                  <View style={styles.locationDetails}>
+                    <LocationBtn label={newListing?.state} />
+                    <LocationBtn label={newListing?.city} />
+                  </View>
+                )}
+              </ScrollView>
             </View>
             {cityError ? (
               <Text style={styles.errorCity}>{cityError} !</Text>
@@ -182,14 +287,14 @@ const PostPropertySecond = () => {
                     btnPressHandler={setNoOfRoomsHandel}
                     style={[
                       styles.notColored,
-                      noOfRooms === option ? styles.colored : null,
+                      newListing?.bhk === option ? styles.colored : null,
                     ]}
                     id={option}
                   />
                 ))}
               </View>
             </ScrollView>
-            <Text style={styles.noOfBedroomsText}>Furnished Status</Text>
+            <Text style={styles.noOfBedroomsText}>Furnished Status ?</Text>
             <ScrollView
               showsHorizontalScrollIndicator={false}
               horizontal={true}>
@@ -202,15 +307,21 @@ const PostPropertySecond = () => {
                     btnPressHandler={setFurnishedStatusHandel}
                     style={[
                       styles.notColored,
-                      furnishedStatus === option ? styles.colored : null,
+                      newListing?.furnishedStatus === option
+                        ? styles.colored
+                        : null,
                     ]}
                   />
                 ))}
               </View>
             </ScrollView>
+            {furnishedError ? (
+              <Text style={styles.errorCity}>{furnishedError}</Text>
+            ) : null}
 
             <View style={styles.status}>
-              <Text style={{marginBottom: responsiveScreenHeight(1)}}>
+              <Text
+                style={{marginBottom: responsiveScreenHeight(1), color: dark}}>
                 Properties Status ?
               </Text>
               <View style={{flexDirection: 'row', gap: responsiveWidth(5)}}>
@@ -221,16 +332,19 @@ const PostPropertySecond = () => {
                     btnPressHandler={setPropertyStatusHandel}
                     style={[
                       styles.notColored,
-                      propertyStatus === option ? styles.colored : null,
+                      newListing?.status === option ? styles.colored : null,
                     ]}
                     id={option}
                   />
                 ))}
               </View>
+              {propertyError ? (
+                <Text style={styles.errorCity}>{propertyError}</Text>
+              ) : null}
             </View>
 
             <View style={styles.readyToMove}>
-              <Text>Parking ? </Text>
+              <Text style={{color: dark}}>Parking ? </Text>
               <View style={{flexDirection: 'row', gap: responsiveWidth(2)}}>
                 {Parking.map(option => (
                   <OptionBtn
@@ -239,27 +353,38 @@ const PostPropertySecond = () => {
                     btnPressHandler={setParkingHandel}
                     style={[
                       styles.notColored,
-                      parking === option ? styles.colored : null,
+                      newListing?.parking === option ? styles.colored : null,
                     ]}
                     id={option}
                   />
                 ))}
               </View>
+              {parkingError ? (
+                <Text style={styles.errorCity}>{parkingError}</Text>
+              ) : null}
               <View style={styles.inputContainer}>
-                <Text>Total Number Of Number Floor</Text>
+                <Text style={{color: dark}}>Total Number Of Floor ?</Text>
                 <CustomTextInput
                   onChangeText={setTotalFloorHandel}
-                  value={totalFloor}
+                  value={newListing?.totalFloor}
                   placeholder="No Of Floor"
                 />
               </View>
+              {totalFloorError ? (
+                <Text style={styles.errorCity}>{totalFloorError}</Text>
+              ) : null}
               <View style={styles.inputContainer1}>
-                <Text>Property on Floor</Text>
+                <Text style={{color: dark}}>Property on Floor ?</Text>
                 <CustomTextInput
                   onChangeText={setPropertyOnFloorHandel}
-                  value={propertyOnFloor}
+                  value={newListing?.propertyOnFloor}
                   placeholder="Property On Floor"
                 />
+                {floorError ? (
+                  <Text style={{color: 'red', textAlign: 'right'}}>
+                    {floorError}
+                  </Text>
+                ) : null}
               </View>
             </View>
             <View style={styles.bottomBtn}>
@@ -283,10 +408,12 @@ const styles = StyleSheet.create({
   innerContainer: {},
   buttonBack: {},
   steps: {
+    color: dark,
     fontSize: responsiveScreenFontSize(1.9),
     fontWeight: '400',
   },
   basicDetailsText: {
+    color: dark,
     fontSize: responsiveFontSize(3.8),
     fontWeight: 'bold',
   },
@@ -294,7 +421,12 @@ const styles = StyleSheet.create({
     color: 'red',
     textAlign: 'right',
   },
+  locationDetails: {
+    flexDirection: 'row',
+    paddingHorizontal: responsiveScreenWidth(3),
+  },
   locatedText: {
+    color: dark,
     marginTop: responsiveHeight(3),
     fontSize: responsiveFontSize(2.5),
     fontWeight: '600',
@@ -326,6 +458,7 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   addFont: {
+    color: dark,
     fontSize: responsiveFontSize(3),
   },
   removeFont: {
@@ -343,6 +476,7 @@ const styles = StyleSheet.create({
     borderColor: '#8BC83F',
   },
   noOfBedroomsText: {
+    color: dark,
     marginVertical: responsiveScreenHeight(2),
   },
   noOfBedrooms: {
@@ -351,7 +485,7 @@ const styles = StyleSheet.create({
     gap: responsiveWidth(3),
   },
   inputContainer: {
-    marginTop: responsiveScreenHeight(1)
+    marginTop: responsiveScreenHeight(1),
   },
   inputContainer1: {
     // marginBottom: responsiveScreenHeight(1.7),

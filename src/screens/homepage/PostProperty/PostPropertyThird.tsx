@@ -2,6 +2,7 @@ import {
   Alert,
   Image,
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -25,12 +26,16 @@ import {useDispatch, useSelector} from 'react-redux';
 import {UpdateNewListing} from '../../../redux/reducers/postReducer';
 import * as ImagePicker from 'react-native-image-picker';
 import {ImageUploadService} from '../../../services/common/ImagePicker';
+import {dark} from '../../../../assets/Styles/GlobalTheme';
 
 const PostPropertyThird = () => {
   const [imgUrls, setImgUrls] = useState<Array<string>>([]);
-  console.log(imgUrls);
-  
-  
+
+  const handleDeleteImage = (index: number) => {
+    const newImgUrls = [...imgUrls];
+    newImgUrls.splice(index, 1);
+    setImgUrls(newImgUrls);
+  };
 
   const handlePickerPress = async () => {
     await ImagePicker.launchImageLibrary({mediaType: 'photo'}, response => {
@@ -51,36 +56,42 @@ const PostPropertyThird = () => {
   const handleImageUpdload = async (image: any) => {
     try {
       const res = await ImageUploadService(image);
-      // console.log('res', res.data);
       const {result} = res.data;
-      console.log('data', result);
 
       const imageUrl = result.baseUrl + result.imagePath;
-      
+
       setImgUrls([...imgUrls, imageUrl]);
     } catch (error: any) {
-      Alert.alert('Error', error.response.data.msg);
+      Alert.alert('Error', error.message);
     }
   };
 
   const REGEX_NUMBER = /^\d*$/;
+
   const navigation = useNavigation();
   const [price, setPrice] = useState('');
   const [priceError, setPriceError] = useState('');
   const [text, setText] = useState('');
   const [textError, setTextError] = useState('');
   const {newListing} = useSelector((store: any) => store.post);
-  const dispatch = useDispatch(); 
+  const dispatch = useDispatch();
 
   const validate = () => {
-    if (!price.length) {
-      setPriceError('Required!');
+    if (!newListing?.title) {
+      setPriceError('');
+      setTextError('Required!');
       return false;
-    } else if (!REGEX_NUMBER.test(price)) {
+    } else if (!newListing?.price) {
+      setPriceError('Required!');
+      setTextError('');
+      return false;
+    } else if (!REGEX_NUMBER.test(newListing?.price)) {
       setPriceError('Enter valid number!');
+      setTextError('');
       return false;
     } else {
       setPriceError('');
+      setTextError('');
       return true;
     }
   };
@@ -89,7 +100,7 @@ const PostPropertyThird = () => {
     dispatch(
       UpdateNewListing({
         key: 'images',
-        value: imgUrls
+        value: imgUrls,
       }),
     );
     const isValid = validate();
@@ -99,6 +110,13 @@ const PostPropertyThird = () => {
   };
 
   const setPriceHandel = (params: any) => {
+    if (!params) {
+      setPriceError('Required!');
+    } else if (!isNaN(params)) {
+      setPriceError('Enter valid price!');
+    } else {
+      setPriceError('');
+    }
     setPrice(params);
     dispatch(
       UpdateNewListing({
@@ -109,6 +127,13 @@ const PostPropertyThird = () => {
   };
 
   const setTitleHandel = (params: string) => {
+    if (!params) {
+      setTextError('Required!');
+    } else if (!isNaN(params)) {
+      setTextError('Enter valid title');
+    } else {
+      setTextError('');
+    }
     setText(params);
     dispatch(
       UpdateNewListing({
@@ -124,59 +149,79 @@ const PostPropertyThird = () => {
         <View style={styles.btnBack}>
           <HeaderWithBackBtn />
         </View>
-        <View style={{flex: 1}}>
-          <View style={styles.headerText}>
-            <Text style={styles.steps}>Step 3 of 3</Text>
-            <Text style={styles.basicDetailsText}>Photos & Pricing</Text>
-          </View>
-          <Text style={styles.textPropertyPhoto}>Add property photos</Text>
-          <TouchableOpacity
-            onPress={handlePickerPress}
-            style={styles.uploadPhoto}>
-            <Ionicons
-              name="image"
-              size={responsiveWidth(18)}
-              color={'#F5F4F8'}
-            />
-            <Text style={styles.addPhotoText}>+ Add Photos</Text>
-          </TouchableOpacity>
-          <View style={styles.imageSelected}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={{flex: 1}}>
+            <View style={styles.headerText}>
+              <Text style={styles.steps}>Step 3 of 3</Text>
+              <Text style={styles.basicDetailsText}>Photos & Pricing</Text>
+            </View>
+            <Text style={styles.textPropertyPhoto}>Add property photos</Text>
+            <TouchableOpacity
+              onPress={handlePickerPress}
+              style={styles.uploadPhoto}>
+              <Ionicons
+                name="image"
+                size={responsiveWidth(18)}
+                color={'#F5F4F8'}
+              />
+              <Text style={styles.addPhotoText}>+ Add Photos</Text>
+            </TouchableOpacity>
 
-            {imgUrls.map(option => {
-              return (
-                <Image
-                  style={styles.images}
-                  key={option}
-                  source={{uri: option}}
-                  alt="img"
-                />
-              );
-            })}
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              <View style={styles.imageSelected}>
+                {imgUrls?.map((option: string, index: number) => (
+                  <View key={index} style={{position: 'relative'}}>
+                    <Image
+                      style={styles.images}
+                      source={{uri: option}}
+                      alt="img"
+                    />
+                    <Ionicons
+                      onPress={() => handleDeleteImage(index)}
+                      style={{position: 'absolute', top: -7, right: -7}}
+                      size={responsiveScreenWidth(5)}
+                      color="gray"
+                      name="close-circle-sharp"
+                    />
+                  </View>
+                ))}
+              </View>
+            </ScrollView>
+
+            <View style={styles.inputContainer1}>
+              <Text style={{color: dark}}>Title</Text>
+              <CustomTextInput
+                onChangeText={setTitleHandel}
+                value={newListing?.title}
+                placeholder="Title"
+              />
+              {textError ? (
+                <Text style={{color: 'red', alignSelf: 'flex-end'}}>
+                  {textError}
+                </Text>
+              ) : null}
+            </View>
+            <View style={styles.inputContainer}>
+              <Text style={{color: dark}}>Pricing Details</Text>
+              <CustomTextInput
+                onChangeText={setPriceHandel}
+                value={newListing?.price}
+                placeholder="Enter expected price"
+              />
+              {!newListing?.price ? (
+                <Text style={styles.errorText}>{priceError}</Text>
+              ) : null}
+            </View>
           </View>
-          <View style={styles.inputContainer1}>
-            <Text>Title</Text>
-            <CustomTextInput
-              onChangeText={setTitleHandel}
-              value={text}
-              placeholder="title"
-            />
+          <View
+            style={
+              !imgUrls[0]
+                ? {paddingVertical: responsiveScreenHeight(8)}
+                : {paddingVertical: responsiveScreenHeight(2)}
+            }>
+            <ExploreButton onPress={() => handleNext()} title="Next" />
           </View>
-          <View style={styles.inputContainer}>
-            <Text>Pricing Details</Text>
-            <CustomTextInput
-              onChangeText={setPriceHandel}
-              value={price}
-              placeholder="Enter expected price"
-            />
-            {priceError ? (
-              <Text style={styles.errorText}>{priceError}</Text>
-            ) : null}
-          </View>
-          
-        </View>
-        <View style={styles.bottomBtn}>
-          <ExploreButton onPress={() => handleNext()} title="Next" />
-        </View>
+        </ScrollView>
       </View>
     </SafeAreaView>
   );
@@ -196,14 +241,17 @@ const styles = StyleSheet.create({
     gap: responsiveHeight(2),
   },
   steps: {
+    color: dark,
     fontSize: responsiveScreenFontSize(1.9),
     fontWeight: '400',
   },
   basicDetailsText: {
+    color: dark,
     fontSize: responsiveFontSize(3.8),
     fontWeight: 'bold',
   },
   textPropertyPhoto: {
+    color: dark,
     marginTop: responsiveHeight(3.7),
     marginBottom: responsiveHeight(1),
   },
@@ -226,22 +274,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: responsiveScreenWidth(2),
     paddingBottom: responsiveHeight(4),
+    paddingTop: responsiveScreenHeight(2),
     gap: responsiveScreenWidth(3),
   },
   images: {
     width: responsiveScreenWidth(20),
     height: responsiveScreenHeight(10),
-    borderRadius: responsiveWidth(5)
+    borderRadius: responsiveWidth(5),
   },
-  inputContainer: {},
+  inputContainer: {
+    marginBottom: responsiveScreenHeight(3),
+  },
   errorText: {
     textAlign: 'right',
     color: 'red',
   },
   inputContainer1: {
-    marginBottom: responsiveScreenHeight(3),
+    marginBottom: responsiveScreenHeight(1),
   },
   bottomBtn: {
-    paddingVertical: responsiveScreenHeight(2),
+    paddingVertical: responsiveScreenHeight(8),
   },
 });

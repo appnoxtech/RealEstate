@@ -16,6 +16,7 @@ import {
   responsiveScreenWidth,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
+import { dark } from '../../../../assets/Styles/GlobalTheme';
 
 const DATA = [
   {
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#F5F4F8',
-    paddingRight: responsiveScreenWidth(2),
+    paddingRight: responsiveScreenWidth(4),
     borderWidth: 0,
     borderRadius: 50,
     marginHorizontal: 5,
@@ -109,6 +110,7 @@ const styles = StyleSheet.create({
     height: responsiveHeight(6),
   },
   title: {
+    color: dark,
     fontSize: responsiveFontSize(1.7),
   },
 });

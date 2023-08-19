@@ -57,8 +57,10 @@ const styles = StyleSheet.create({
   modalCon: {
     flex: 1,
     backgroundColor: "white",
-    marginTop: responsiveHeight(8),
-    borderRadius: 20,
+    marginTop: responsiveHeight(6),
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    // borderRadius: 20,
     height: '40%',
     width: "100%",
   },

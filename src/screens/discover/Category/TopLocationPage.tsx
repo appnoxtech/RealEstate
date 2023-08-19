@@ -21,6 +21,7 @@ import {
 
 import {useNavigation} from '@react-navigation/native';
 import BackWithSetting from '../../../component/common/buttons/BackWithSetting';
+import { dark } from '../../../../assets/Styles/GlobalTheme';
 
 const DATA = [
   {
@@ -92,7 +93,7 @@ const TopLocationPage = () => {
           <Text style={{color: 'white'}}>#{data.id}</Text>
         </TouchableOpacity>
       </ImageBackground>
-      <Text style={{fontSize: 10, fontWeight: 'bold', paddingLeft: 10}}>
+      <Text style={{fontSize: 10, fontWeight: 'bold', paddingLeft: 10 ,color: dark}}>
         {data.location}
       </Text>
     </TouchableOpacity>
@@ -107,7 +108,7 @@ const TopLocationPage = () => {
             marginTop: 10,
             fontSize: 25,
             fontWeight: 'bold',
-            color: '#252B5C',
+            color: dark,
             paddingLeft: 10,
             paddingBottom: 10,
           }}>
@@ -118,7 +119,7 @@ const TopLocationPage = () => {
             marginBottom: 10,
             fontSize: 12,
             fontWeight: 'bold',
-            color: '#252B5C',
+            color: dark,
             paddingLeft: 10,
           }}>
           Find the best recommendations place to live
@@ -127,7 +128,8 @@ const TopLocationPage = () => {
         <FlatList
           horizontal={false}
           numColumns={2}
-          showsHorizontalScrollIndicator={false}
+          scrollEnabled
+          showsVerticalScrollIndicator={false}
           data={DATA}
           renderItem={({item}) => <Item data={item} />}
           keyExtractor={item => item.id}
@@ -140,6 +142,7 @@ const TopLocationPage = () => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: 'white',
     paddingHorizontal: responsiveScreenWidth(2),
     paddingVertical: responsiveScreenHeight(2),

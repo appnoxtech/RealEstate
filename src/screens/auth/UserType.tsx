@@ -21,6 +21,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {UpdateRegisterUserDetails} from '../../redux/reducers/userReducer';
 import {useNavigation} from '@react-navigation/native';
 import useAuthServiceHandler from '../../hooks/serviceHandler/AuthServiceHandler';
+import { dark } from '../../../assets/Styles/GlobalTheme';
 
 
 const UserType = () => {
@@ -52,16 +53,17 @@ const UserType = () => {
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
       <View style={styles.headerBtn}>
         <HeaderWithBackBtn />
+        <Text style={styles.textUserType}>Select User Type</Text>
       </View>
       <View style={styles.container}>
-        <Text style={styles.textUserType}>Select User Type</Text>
+        
         {SelectUserType.map(option => {
           return (
             <UserTypeBtn
               key={option.id}
               label={option.type}
               id={option.id}
-              btnPressHandler={setUserType}
+              btnPressHandler={() => {setUserType; handelPress();}}
               style={
                 registerUserDetails?.role === option?.id
                   ? styles.selectedUser
@@ -71,7 +73,6 @@ const UserType = () => {
             />
           );
         })}
-        <NextBtn onPress={handelPress}/>
       </View>
     </SafeAreaView>
   );
@@ -81,7 +82,11 @@ export default UserType;
 
 const styles = StyleSheet.create({
   headerBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingHorizontal: responsiveScreenWidth(5),
+    paddingVertical: responsiveScreenHeight(2.5),
+    gap: responsiveScreenWidth(5)
   },
   selectedUser: {
     width: '100%',
@@ -89,7 +94,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: '#3fc888',
-    paddingVertical: responsiveScreenHeight(2),
+    paddingVertical: responsiveScreenHeight(4.5),
     borderRadius: responsiveScreenHeight(4),
     paddingHorizontal: responsiveScreenWidth(3),
   },
@@ -100,11 +105,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     backgroundColor: '#F5F4F8',
     paddingHorizontal: responsiveScreenWidth(3),
-    paddingVertical: responsiveScreenHeight(2),
+    paddingVertical: responsiveScreenHeight(4.5),
     borderRadius: responsiveScreenHeight(4),
     marginBottom: responsiveScreenHeight(1),
   },
   textUserType: {
+    color: dark,
     fontSize: responsiveFontSize(4),
   },
   agentImage: {

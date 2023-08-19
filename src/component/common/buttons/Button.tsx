@@ -16,7 +16,7 @@ const Button = ({ onPress }: ButtonProps) => {
       activeOpacity={0.9}
       style={styles.button}
     >
-      <Ionicons name="menu" size={responsiveWidth(10)} color={'#234F68'}/>
+      <Ionicons name="menu" size={responsiveWidth(6)} color={'#234F68'}/>
     </TouchableOpacity>
   );
 };

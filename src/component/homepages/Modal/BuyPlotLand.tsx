@@ -17,6 +17,7 @@ import {
 import ExploreButton from '../../common/buttons/ExploreButton';
 
 import {useNavigation} from '@react-navigation/native';
+import { dark } from '../../../../assets/Styles/GlobalTheme';
 
 const BuyPlotLand: React.FC<any> = ({setModalOpen}) => {
   const searchImg = require('../../../../assets/images/Search.png');
@@ -67,7 +68,7 @@ const BuyPlotLand: React.FC<any> = ({setModalOpen}) => {
                 ? styles.yesresidentialcommercial
                 : styles.noresidentialcommercial
             }>
-              <Text>Residential use</Text>
+              <Text style={{color: dark}}>Residential use</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
@@ -78,26 +79,24 @@ const BuyPlotLand: React.FC<any> = ({setModalOpen}) => {
                   ? styles.yesresidentialcommercial
                   : styles.noresidentialcommercial
               }>
-              <Text>Commercial use</Text>
+              <Text style={{color: dark}}>Commercial use</Text>
             </TouchableOpacity>
           </View>
         </View>
         <View>
           <Text style={styles.pb10}>City name</Text>
-          <TouchableOpacity
-            onPress={() => setText(true)}
-            style={styles.inputContainer}>
-            {!text ? (
-              <Text style={styles.where}>Where?</Text>
-            ) : (
-              <TextInput
-                placeholder="Enter City Name"
-                onChangeText={text => setCityName(text)}
-              />
-            )}
+
+          <View style={styles.inputCityName}>
+            <TextInput
+            style={{flex: 1,color: dark}}
+              placeholder="Enter City Name"
+              onChangeText={text => setCityName(text)}
+              placeholderTextColor={dark}
+            />
 
             <Image source={searchImg} />
-          </TouchableOpacity>
+          </View>
+
           {cityError ? (
             <Text style={{color: 'red', textAlign: 'right'}}>{cityError}</Text>
           ) : null}
@@ -121,11 +120,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  inputCityName: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
   image: {
     width: 5,
     height: 10,
   },
-  pb10: {paddingBottom: 10},
+  pb10: {paddingBottom: 10,
+    color: dark
+  },
   modalOpen: {},
   modal: {
     borderWidth: 1,

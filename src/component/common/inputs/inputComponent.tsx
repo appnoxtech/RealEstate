@@ -1,8 +1,9 @@
-import { StyleSheet,View } from 'react-native';
+import { StyleSheet,View,Platform } from 'react-native';
 import { useState } from 'react';
-import { responsiveScreenHeight } from 'react-native-responsive-dimensions';
+import { responsiveScreenHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 import { responsiveScreenWidth } from 'react-native-responsive-dimensions';
 import { TextInput } from 'react-native';
+import { dark } from '../../../../assets/Styles/GlobalTheme';
 
 export default function CustomTextInput(props: any) {
   const [focus, setFocus] = useState(false);
@@ -19,6 +20,7 @@ export default function CustomTextInput(props: any) {
         onBlur={() => setFocus(false)}
         style={styles.textInput}
         placeholder={props?.placeholder}
+        placeholderTextColor={dark}
       />
       
     </View>
@@ -27,22 +29,18 @@ export default function CustomTextInput(props: any) {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: 5,
-    height: responsiveScreenHeight(7),
-    width: responsiveScreenWidth(93),
+    height:responsiveScreenHeight(6),
+    width: '100%',
     marginVertical: responsiveScreenHeight(1),
-    borderWidth: 0,
     backgroundColor: '#DFDFDF',
-    borderRadius: 3,
-    padding: 10,
-    fontSize: 12,
+    borderRadius: responsiveScreenWidth(1),
+    paddingVertical: responsiveScreenHeight(1),
+    paddingHorizontal: responsiveScreenWidth(2)
   },
   focused: {},
   notFocused: {},
   textInput: {
+    color: dark,
     flex: 1,
   },
 })

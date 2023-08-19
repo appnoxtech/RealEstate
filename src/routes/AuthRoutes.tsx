@@ -24,6 +24,8 @@ import PropertyDetail from '../screens/homepage/PostProperty/PropertyFeatures';
 import PropertyFeatures from '../screens/homepage/PostProperty/PropertyFeatures';
 import CommunicationSetting from '../component/common/Card/CommunicationSetting';
 import PropertyListings from '../component/PropertyListings';
+import ChangelogScreen from '../screens/homepage/ChangelogScreen';
+import EditProfile from '../screens/profile/EditProfile';
 
 
 const Stack = createNativeStackNavigator();
@@ -142,6 +144,16 @@ const AuthRoute = () => {
       <Stack.Screen
         name="DetailedPage"
         component={DetailedPage}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ChangelogScreen"
+        component={ChangelogScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="EditProfile"
+        component={EditProfile}
         options={{headerShown: false}}
       />
       

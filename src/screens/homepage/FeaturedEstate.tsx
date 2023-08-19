@@ -6,7 +6,7 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
-  ScrollView,
+  ScrollView,Platform
 } from 'react-native';
 import React from 'react';
 import BackWithSetting from '../../component/common/buttons/BackWithSetting';
@@ -18,6 +18,7 @@ import {
 import FeaturedCategories from './FeaturedCategories';
 import CategoryEstate from './CategoryEstate';
 import { useNavigation } from '@react-navigation/native';
+import { dark } from '../../../assets/Styles/GlobalTheme';
 
 export default function FeaturedEstate() {
   const image28 = require('../../../assets/images/image28.png');
@@ -28,9 +29,12 @@ export default function FeaturedEstate() {
   const horizonatalImg = require('../../../assets/images/HorizontalActive.png');
   const navigation = useNavigation();
   return (
+   
     <SafeAreaView style={styles.conatiner}>
       <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={{paddingTop:  Platform.OS === 'ios' ? null : responsiveScreenHeight(2)}}>
         <BackWithSetting />
+        </View>
         <View style={styles.mainImgContainer}>
           <Image style={styles.mainImg} source={image28} />
           <View style={styles.secondImgContainer}>
@@ -47,7 +51,7 @@ export default function FeaturedEstate() {
           <TouchableOpacity
             onPress={() => navigation.navigate('SearchFilterPage' as never)}
             style={styles.serchContainer}>
-            <Text>
+            <Text style={{color: dark}}>
               <Text style={{fontWeight: 'bold'}}>Search </Text>City, Locality,
               Project, Landmark
             </Text>
@@ -67,7 +71,7 @@ export default function FeaturedEstate() {
                 </TouchableOpacity>
               </View>
             </View>
-            <CategoryEstate />
+            <CategoryEstate cityData={[]} />
           </View>
         </View>
       </ScrollView>
@@ -109,12 +113,13 @@ const styles = StyleSheet.create({
     fontSize: responsiveFontSize(3),
   },
   text1: {
+    color: dark,
     fontSize: responsiveFontSize(1.5),
   },
   serchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     height: responsiveScreenHeight(7),
     width: responsiveScreenWidth(90),
     borderWidth: 0,

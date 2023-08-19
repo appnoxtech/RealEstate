@@ -17,6 +17,7 @@ import {
   responsiveScreenWidth,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
+import { dark } from '../../../../assets/Styles/GlobalTheme';
 
 const FeaturedButton = require('../../component/common/buttons/FeaturedButton')
 const heartImage = require('../../../../assets/images/RedHeart.png')
@@ -109,12 +110,12 @@ const Item = ({data} : any) => (
                 style={styles.star}
                 source={starImage}
               />
-              <Text style={{fontSize: 10}}>{data.rating}</Text>
+              <Text style={{fontSize: 10 ,color: dark}}>{data.rating}</Text>
               <Image
                 style={styles.star}
                 source={locationImage}
               />
-              <Text style={{fontSize: 10}}>{data.location}</Text>
+              <Text style={{fontSize: 10,color: dark}}>{data.location}</Text>
             </View>
           </View>
         </View>
@@ -205,6 +206,7 @@ const styles = StyleSheet.create({
     // marginVertical: responsiveScreenHeight(1),
   },
   detailesHeadertext: {
+    color: dark,
     fontSize: 12,
   },
   map: {

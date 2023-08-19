@@ -9,8 +9,9 @@ import {
   TextInput,
   ScrollView,
   Modal,
+  Alert,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {
   responsiveFontSize,
@@ -29,13 +30,17 @@ import TopLocation from '../discover/Category/TopLocation';
 
 import PropertyListCard from '../../component/common/Card/PropertyListCard';
 import ModalScreen from '../Modals/ModalScreen';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import BoxBtn from '../../component/common/buttons/BoxBtn';
 import AgentBtn from '../../component/common/buttons/AgentBtn';
+import {GetPropertyByUserIdService} from '../../services/properties';
+import {ResetNewListing} from '../../redux/reducers/postReducer';
+import {dark} from '../../../assets/Styles/GlobalTheme';
 
 const HomePage = () => {
   const notificationImg = require('../../../assets/images/Notification.png');
   const searchImg = require('../../../assets/images/Search.png');
+  const dispatch = useDispatch();
 
   const navigation = useNavigation();
 
@@ -43,24 +48,64 @@ const HomePage = () => {
 
   const [property, setProperty] = useState('Listings');
   const [agentDataa, setAgentData] = useState('Listings');
+  const [propertyListings, setPropertyListings] = useState('');
+  console.log(propertyListings);
+  
+  const [item, setItem] = useState([]);
 
   const handelPress = (params: string) => {
     setAgentData(params);
   };
 
+  const GetPropertyData = async () => {
+    try {
+      const res = await GetPropertyByUserIdService(userDetails?.id);
+      const {result} = res.data;
+      setItem(result[0]);
+      if (result?.length) {
+        setPropertyListings(result?.length);
+      }
+    } catch (error: any) {
+      // Alert.alert('Error', error.response.data.error.message);
+      if (
+        (error.response.data.error.message =
+          'Property not found for this userId')
+      ) {
+        setPropertyListings('0');
+      }
+    }
+  };
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      GetPropertyData();
+      dispatch(ResetNewListing());
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
+
+  const updateListing = async () => {
+    try {
+      await GetPropertyData();
+    } catch (error: any) {
+      console.log('Error');
+    }
+  };
   const data = [
     {
-      number: 20,
+      number: propertyListings,
       title: 'Listings',
       page: 'PropertyListings',
     },
     {
-      number: 5,
+      number: 0,
       title: 'Reviews',
       page: 'Reviews',
     },
     {
-      number: 10,
+      number: 0,
       title: 'Responses',
       page: 'Responses',
     },
@@ -79,7 +124,7 @@ const HomePage = () => {
           <TouchableOpacity
             onPress={() => navigation.navigate('PostProperty' as never)}
             style={styles.postProperty}>
-            <Text style={styles.postPropertyText}>Post property</Text>
+            <Text style={styles.postPropertyText}>Post Property</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => navigation.navigate('Notification' as never)}>
@@ -92,73 +137,74 @@ const HomePage = () => {
           <Text style={styles.headerText}>
             Hey,<Text style={styles.subText}> {userDetails?.name}! </Text>
             {'\n'}
-            {userDetails?.role === 'agent' ? null : 'Find your dream home'}
           </Text>
-          {userDetails?.role === 'agent' ? (
-            <>
-              <View style={styles.yourListingHeader}>
-                <Text style={styles.featuredEstateHeaderText}>
-                  Your Listings
-                </Text>
-                <TouchableOpacity
-                  onPress={() =>
-                    navigation.navigate('PropertyListings' as never)
-                  }>
-                  <Text style={styles.textAll}>View all</Text>
-                </TouchableOpacity>
-              </View>
-              <PropertyListCard
-                title="Flat in Greater Noida"
-                propertyType="Independent House/Villa"
-                id={''}
-                price={0}
-              />
 
-              <View style={styles.box}>
-                {data.map(item => {
-                  return (
-                    <BoxBtn
-                      key={item.number}
-                      number={item.number}
-                      title={item.title}
-                      page={item.page}
-                    />
-                  );
-                })}
-              </View>
+          <View style={styles.yourListingHeader}>
+            <Text style={styles.featuredEstateHeaderText}>Your Listings</Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('PropertyListings' as never)}>
+              <Text style={styles.textAll}>View all</Text>
+            </TouchableOpacity>
+          </View>
+          {item && (
+            <PropertyListCard
+              title={item.title}
+              propertyType={item.propertyType}
+              id={item.id}
+              price={0}
+              property={item}
+              updateListing={updateListing}
+            />
+          )}
 
-              <View style={styles.agentBtn}>
-                {agentData.map(item => {
-                  return (
-                    <AgentBtn
-                      key={item}
-                      title={item}
-                      style={[
-                        styles.agentSection,
-                        agentDataa === item ? styles.responseBoxBgColor : null,
-                      ]}
-                      btnPressHandler={() => handelPress(item)}
-                    />
-                  );
-                })}
-              </View>
-            </>
-          ) : null}
+          <View style={styles.box}>
+            {data.map((item, index) => {
+              return (
+                <BoxBtn
+                  key={index}
+                  number={!propertyListings ? 0 : item.number}
+                  title={item.title}
+                  page={item.page}
+                />
+              );
+            })}
+          </View>
+
+          <View style={styles.agentBtn}>
+            {agentData.map((item, index) => {
+              return (
+                <AgentBtn
+                  key={index}
+                  title={item}
+                  style={[
+                    styles.agentSection,
+                    agentDataa === item ? styles.responseBoxBgColor : null,
+                  ]}
+                  btnPressHandler={() => handelPress(item)}
+                />
+              );
+            })}
+          </View>
+
           {agentDataa === 'Listings' ? (
-            <Text style={styles.textListings}>1 Listings</Text>
+            <Text style={styles.textListings}>
+              {propertyListings ? propertyListings : '0'} Listings
+            </Text>
           ) : agentDataa === 'Sold' ? (
-            <Text style={styles.textListings}>3 Sold Properties</Text>
+            <Text style={styles.textListings}>0 Sold Properties</Text>
           ) : (
-            <Text style={styles.textListings}>13 Responses</Text>
+            <Text style={styles.textListings}>0 Responses</Text>
           )}
           {userDetails?.role === 'agent' ? null : (
             <>
               <TouchableOpacity
                 onPress={() => navigation.navigate('SearchFilterPage' as never)}
                 style={styles.serchContainer}>
-                <Text>
-                  <Text style={{fontWeight: 'bold'}}>Search : </Text>City,
-                  Locality, Project, Landmark
+                <Text style={{color: dark}}>
+                  <Text style={{fontWeight: 'bold', color: dark}}>
+                    Search :{' '}
+                  </Text>
+                  City, Locality, Project, Landmark
                 </Text>
                 <Image source={searchImg} />
               </TouchableOpacity>
@@ -187,7 +233,7 @@ const HomePage = () => {
                   <FeaturedCategories />
                   <View style={styles.toplocation}>
                     <Text style={styles.featuredEstateHeaderText}>
-                      Top Location
+                      Top Locations
                     </Text>
                     <TouchableOpacity
                       onPress={() =>
@@ -198,7 +244,7 @@ const HomePage = () => {
                   </View>
                   <TopLocation />
                   <Text style={styles.featuredEstateHeaderText}>
-                    Explore Nearby Estate
+                    Explore Nearby Estates
                   </Text>
                   <View style={styles.dataListContainer}>
                     <ExploreNearbyEstate />
@@ -232,8 +278,8 @@ const styles = StyleSheet.create({
 
   container: {
     paddingHorizontal: responsiveScreenWidth(5),
-    paddingVertical: responsiveScreenHeight(1.8),
-    gap: responsiveHeight(2),
+    // paddingVertical: responsiveScreenHeight(1.8),
+    gap: responsiveHeight(1.5),
   },
   header: {
     flexDirection: 'row',
@@ -254,7 +300,7 @@ const styles = StyleSheet.create({
   },
   postProperty: {
     backgroundColor: '#234F68',
-    padding: responsiveHeight(1.6),
+    padding: responsiveHeight(1),
     borderRadius: responsiveWidth(10),
   },
   postPropertyText: {
@@ -263,16 +309,18 @@ const styles = StyleSheet.create({
   },
 
   notification: {
-    width: responsiveWidth(13),
-    height: responsiveWidth(13),
+    width: responsiveWidth(10),
+    height: responsiveWidth(10),
     borderRadius: responsiveWidth(7.5),
   },
   headerText: {
-    fontSize: responsiveFontSize(4),
+    color: dark,
+    fontSize: responsiveFontSize(2),
     paddingHorizontal: responsiveScreenWidth(1.23),
   },
   subText: {
     color: '#234F68',
+    fontSize: responsiveFontSize(2),
   },
   box: {
     flexDirection: 'row',
@@ -303,7 +351,8 @@ const styles = StyleSheet.create({
   },
 
   textListings: {
-    fontSize: responsiveFontSize(3)
+    color: dark,
+    fontSize: responsiveFontSize(2),
   },
 
   serchContainer: {
@@ -339,7 +388,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   featuredEstateHeaderText: {
-    fontSize: responsiveFontSize(3),
+    fontSize: responsiveFontSize(2),
     fontWeight: 'bold',
     color: '#252B5C',
   },

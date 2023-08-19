@@ -18,28 +18,27 @@ import {
 } from 'react-native-responsive-dimensions';
 import {useNavigation} from '@react-navigation/native';
 import useAuthServiceHandler from '../../hooks/serviceHandler/AuthServiceHandler';
-import { useDispatch } from 'react-redux';
-import { UpdateRegisterUserDetails, updateUserDetails } from '../../redux/reducers/userReducer';
-
+import {useDispatch} from 'react-redux';
+import {
+  UpdateRegisterUserDetails,
+  updateUserDetails,
+} from '../../redux/reducers/userReducer';
+import { dark } from '../../../assets/Styles/GlobalTheme';
 
 export default function Login() {
   const vectorImg = require('../../../assets/images/Vector1.png');
   const navigation = useNavigation();
   const {GenerateOtpServiceHandler} = useAuthServiceHandler();
-  
+
   const [phone, setPhone] = useState('');
-
+  const reg = /^[6-9]\d{9}$/;
   const [phoneValidError, setPhoneValidError] = useState('');
-
-  
 
   const [isFocus, setIsFocus] = useState(false);
   const dispatch = useDispatch();
-  
-
 
   const Validation = () => {
-    if (phone.length < 10) {
+    if (!reg.test(phone)) {
       setPhoneValidError('Enter valid number !');
       return false;
     } else {
@@ -50,27 +49,23 @@ export default function Login() {
 
   const handleSubmit = () => {
     const isValid = Validation();
+
     if (isValid) {
       const data = {
         phoneNumber: phone,
         type: 'GENERATE',
       };
-      dispatch(UpdateRegisterUserDetails(data))
+      dispatch(updateUserDetails(data));
+      dispatch(UpdateRegisterUserDetails(data));
       GenerateOtpServiceHandler(data);
-      
     }
-   
-    
   };
- 
-  
 
-  
-  const OnHandleChange = (value: string | any[]) => {
+  const OnHandleChange = (value: string) => {
     if (!value.length) {
-      setPhoneValidError('Required')
+      setPhoneValidError('Required');
       return false;
-    } else if (value.length < 10 || value.length > 10){
+    } else if (!reg.test(value)) {
       setPhoneValidError('Enter valid number !');
       return false;
     } else {
@@ -78,17 +73,14 @@ export default function Login() {
       return true;
     }
   };
- 
+
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View style={styles.container}>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={styles.containerImg}>
-          <Image
-            style={styles.image}
-            source={vectorImg}
-          />
+          <Image style={styles.image} source={vectorImg} />
         </TouchableOpacity>
 
         <View style={styles.textContainer}>
@@ -99,22 +91,20 @@ export default function Login() {
           <Text style={styles.textP}>Login with your mobile number</Text>
         </View>
 
-        <View
-          style={
-            phoneValidError ? styles.inputContainer1 : styles.inputContainer
-          }>
+        <View>
           <TextInput
-            style={styles.input}
-            placeholder="Phone "
+            style={
+              phoneValidError ? styles.inputContainer1 : styles.inputContainer
+            }
+            placeholder="Phone"
+            placeholderTextColor={'#000000'}
             value={phone}
             keyboardType="number-pad"
-            
             onChangeText={value => {
               OnHandleChange(value);
               setPhone(value);
             }}
             onFocus={() => setIsFocus(true)}
-            
           />
         </View>
         {phoneValidError ? (
@@ -127,11 +117,10 @@ export default function Login() {
             <Text style={styles.btnText}>GET OTP</Text>
           </TouchableOpacity>
         </View>
-
         <View style={styles.footerText}>
           <Text style={styles.registerText}>
             By continuing, you agree to Real Estate {'\n'}
-            <Text style={styles.text}>Privacy Policy</Text> and{' '}
+            <Text style={styles.text}>Privacy Policy</Text> and{''}
             <Text style={styles.text}>Terms and Conditions</Text>
           </Text>
         </View>
@@ -175,11 +164,13 @@ const styles = StyleSheet.create({
   },
 
   textH: {
+    color: '#000000',
     marginVertical: responsiveScreenHeight(2),
     fontSize: 25,
   },
 
   textP: {
+    color: '#000000',
     marginBottom: responsiveScreenHeight(1.2),
     fontSize: 12,
   },
@@ -197,10 +188,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5F4F8',
     borderRadius: 3,
     padding: 10,
-    fontSize: 12,
+    fontSize: responsiveFontSize(2),
   },
   input: {
-    flex: 3,
+    flex: 1,
+    color: dark,
   },
 
   inputContainer1: {
@@ -213,10 +205,11 @@ const styles = StyleSheet.create({
     marginVertical: responsiveScreenHeight(1),
     borderWidth: 1,
     borderColor: 'red',
+    color: dark,
     backgroundColor: '#F5F4F8',
     borderRadius: 3,
     padding: 10,
-    fontSize: 12,
+    fontSize: responsiveFontSize(2),
   },
 
   button: {

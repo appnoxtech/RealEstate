@@ -7,7 +7,7 @@ import {
   FlatList,
   ScrollView,
 } from 'react-native';
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import HeaderWithBackBtn from '../../common/buttons/HeaderWithBackBtn';
 import {
   responsiveFontSize,
@@ -16,75 +16,69 @@ import {
   responsiveScreenWidth,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-import {useState} from 'react';
+import { useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Slider from '@react-native-community/slider';
 import ExploreButton from '../../common/buttons/ExploreButton';
-import {useNavigation} from '@react-navigation/native';
-import {useDispatch, useSelector} from 'react-redux';
-import {UpdateCityName} from '../../../redux/reducers/filterReducer';
-import {URL} from '@env';
+import { useNavigation } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
+import { UpdateNewListing } from '../../../redux/reducers/postReducer';
+import { UpdateCityName } from '../../../redux/reducers/filterReducer';
+import { URL } from '@env';
 import axios from 'axios';
 import LocationBtn from '../../common/buttons/LocationBtn';
 import { dark } from '../../../../assets/Styles/GlobalTheme';
+import OptionBtn from '../../common/buttons/OptionBtn';
 
-const SearchFilterPage = ({route}: any) => {
+const SearchFilterPage = ({ route }: any) => {
   // const [selectedBedroom, setSelectedBedroom] = useState(1);
   const [areaType, setAreaType] = useState<'residential' | 'commercial'>(
     'residential',
   );
   const [lookingTo, setLookingTo] = useState<'Buy' | 'Rent / Lease'>('Buy');
-  const [readyToMove, setReadyToMove] = useState<'Yes' | 'No'>('Yes');
-  const [bgColor, setbgColor] = useState(false);
-  const [bgColor1, setbgColor1] = useState(false);
-  const [bgColor2, setbgColor2] = useState(false);
+  const [furnishedStatus, setFurnishedStatus] = useState('Unfurnished');
   const [sliderValue, setSliderValue] = useState(10);
-  const [onPress, setOnPress] = useState(true);
   const [selectedId, setSelectedId] = useState(1);
-  7;
   const [bedrooms, setBedrooms] = useState(false);
   const Navigation = useNavigation();
-  const {newListing} = useSelector((store: any) => store.post);
-  const cityName = newListing.location[2];
-
-  // const [searchString, setSearchString] = useState(`${cityName}&type=${areaType === 'residential' ? "Residential-property" : "Commercial-property"}&price=${sliderValue}`);
+  const { newListing } = useSelector((store: any) => store.post);
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const handleCityName = () => {
-    dispatch(UpdateCityName(''));
+  const setFurnishedStatusHandel = (params: any) => {
+    dispatch(
+      UpdateNewListing({
+        key: 'furnishedStatus',
+        value: params,
+      }),
+    );
   };
 
-  const handleSubmit = () => {
-    return setbgColor(!bgColor);
-  };
-  const handleSubmit1 = () => {
-    return setbgColor1(!bgColor1);
-  };
-  const handleSubmit2 = () => {
-    return setbgColor2(!bgColor2);
+  const setBHKStatusHandel = (params: any) => {
+    
+    dispatch(
+      UpdateNewListing({
+        key: 'bhk',
+        value: params,
+      }),
+    );
   };
 
   const handleSearch = async () => {
     try {
-      const searchString = `search?type=${
-        areaType === 'residential'
+      const searchString = `search?type=${areaType === 'residential'
           ? 'Residential-property'
           : 'Commercial-property'
-      }&lookingTo=${
-        lookingTo === 'Buy' ? 'Sell' : 'Rent/Lease'
-      }&price=${sliderValue}`;
+        }&lookingTo=${lookingTo === 'Buy' ? 'Sell' : 'Rent/Lease'
+        }&price=${sliderValue}&furnishedStatus=${newListing?.furnishedStatus}&state=${newListing?.state}&city=${newListing?.city}&bhk=${newListing?.bhk}`;
       const url = `${URL}${searchString}`;
 
-    console.log("xyz--->",url);
-    
-      
+      console.log('xyz--->', url);
+
       const res = await axios.get(url);
 
-      
-
-      const {result} = res.data;
+      const { result } = res.data;
 
       Navigation.navigate('RenderSearchResult' as never, {
         cityData: result,
@@ -93,64 +87,28 @@ const SearchFilterPage = ({route}: any) => {
     } catch (error: any) {
       const sendMessage = error.response.data.error.message;
 
-      Navigation.navigate('FallBackSearch' as never, {sendMessage});
+      Navigation.navigate('FallBackSearch' as never, { sendMessage });
     }
   };
 
-  const DATA = [
-    {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-      title: '1RK / 1BHK',
-      value: 1,
-    },
-    {
-      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-      title: '2BHK',
-      value: 2,
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d72',
-      title: '3BHK',
-      value: 3,
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d71',
-      title: '4BHK',
-      value: 4,
-    },
-  ];
+  const FurnishedStatus = ['unfurnished', 'semi-furnished', 'furnished'];
 
-
- 
-  const Item = ({item}: any) => {
-    return (
-      <TouchableOpacity onPress={() => setSelectedId(item.value)}>
-        <View
-          style={
-            selectedId === item.value ? styles.afterClickOnItem : styles.item
-          }>
-          {selectedId === item.id && bedrooms ? (
-            <Ionicons style={styles.addFont} name={'checkmark'} color={dark}/>
-          ) : (
-            <Ionicons style={styles.addFont} name={'add'} color={dark}/>
-          )}
-          <Text style={styles.title}>{item.title}</Text>
-        </View>
-      </TouchableOpacity>
-    );
-  };
+  const DATA = ['1RK/1BHK', '2BHK', '3BHK', '4BHK', '5BHK', '5BHK+'];
 
   return (
     <SafeAreaView style={styles.container}>
+      <View
+        style={{
+          marginHorizontal: responsiveScreenWidth(2.5),
+          marginVertical: responsiveScreenHeight(1),
+        }}>
+        <HeaderWithBackBtn />
+      </View>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View
-          style={{
-            marginHorizontal: responsiveScreenWidth(2.5),
-            marginVertical: responsiveScreenHeight(1.7),
-          }}>
-          <HeaderWithBackBtn />
-        </View>
         <View style={styles.main}>
+          <Text style={{ color: dark, paddingBottom: responsiveScreenHeight(2) }}>
+            Type ?
+          </Text>
           <View style={styles.propertyTYpe}>
             <TouchableOpacity
               onPress={() => {
@@ -161,7 +119,7 @@ const SearchFilterPage = ({route}: any) => {
                   ? styles.typeColor
                   : styles.residential
               }>
-              <Text style={{color: dark}}>Residential</Text>
+              <Text style={{ color: dark }}>Residential</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
@@ -172,11 +130,11 @@ const SearchFilterPage = ({route}: any) => {
                   ? styles.typeColor
                   : styles.residential
               }>
-              <Text style={{color: dark}}>Commercial</Text>
+              <Text style={{ color: dark }}>Commercial</Text>
             </TouchableOpacity>
           </View>
 
-          <Text style={styles.pb10}>Looking to </Text>
+          <Text style={styles.pb10}>Looking to ?</Text>
           <View style={styles.lookingTo}>
             <TouchableOpacity
               onPress={() => {
@@ -185,7 +143,7 @@ const SearchFilterPage = ({route}: any) => {
               style={
                 lookingTo === 'Buy' ? styles.pressedbuyrent : styles.buyrent
               }>
-              <Text style={{color: dark}}>Buy</Text>
+              <Text style={{ color: dark }}>Buy</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
@@ -196,11 +154,10 @@ const SearchFilterPage = ({route}: any) => {
                   ? styles.pressedbuyrent
                   : styles.buyrent
               }>
-              <Text style={{color: dark}}>Rent/Lease</Text>
+              <Text style={{ color: dark }}>Rent/Lease</Text>
             </TouchableOpacity>
           </View>
         </View>
-
         <View style={styles.addCityNameContainer}>
           <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
             <TouchableOpacity
@@ -208,115 +165,76 @@ const SearchFilterPage = ({route}: any) => {
                 navigation.navigate('AddCityName' as never);
               }}
               style={styles.addCityName}>
-              <Text style={{color: dark}}>City</Text>
-              <Ionicons style={styles.addFont} name={'add'} color={dark}/>
+              <Text style={{ color: dark }}>City</Text>
+              <Ionicons style={styles.addFont} name={'add'} color={dark} />
             </TouchableOpacity>
             <View style={styles.locationDetails}>
-              {Array.isArray(newListing?.location) &&
-                newListing.location.map((option: string) => (
-                  <LocationBtn key={option} label={option} />
-                ))}
+              {newListing?.state ? (
+                <LocationBtn label={newListing?.state} />
+              ) : null}
+              {newListing?.city ? (
+                <LocationBtn label={newListing?.city} />
+              ) : null}
             </View>
           </ScrollView>
         </View>
-
         <View style={styles.budgetContainer}>
-          <Text style={{color: dark}}>Budget</Text>
+          <Text style={{ color: dark }}>Budget ?</Text>
 
           <View style={styles.budgetText}>
-            <Text style={{color: dark}}>$5</Text>
-            <Text style={{color: dark}}> to </Text>
-            <Text style={{color: dark}}>${sliderValue}+ </Text>
+            <Text style={{ color: dark }}>$5</Text>
+            <Text style={{ color: dark }}> to </Text>
+            <Text style={{ color: dark }}>${sliderValue}+ </Text>
           </View>
           <Slider
             maximumValue={10000000}
             minimumValue={0}
             minimumTrackTintColor="#8BC83F"
             maximumTrackTintColor="gray"
-            step={100000}
+            step={1000}
             value={sliderValue}
             onValueChange={sliderValue => setSliderValue(sliderValue)}
           />
         </View>
-        <View style={styles.typesOfProperty}>
-          <Text style={{fontSize: 20, color: dark}}>Types of properties</Text>
-          <TouchableOpacity
-            onPress={() => handleSubmit()}
-            style={
-              bgColor
-                ? styles.typeOfPropertyStyleColor
-                : styles.typeOfPropertyStyle
-            }>
-            {bgColor ? (
-              <Ionicons style={styles.addFont} name={'checkmark'} color={dark}/>
-            ) : (
-              <Ionicons style={styles.addFont} name={'add'} color={dark}/>
-            )}
-            <Text style={{color: dark}}>Residential Apartment</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => handleSubmit1()}
-            style={
-              bgColor1
-                ? styles.typeOfPropertyStyleColor
-                : styles.typeOfPropertyStyle
-            }>
-            {bgColor1 ? (
-              <Ionicons style={styles.addFont} name={'checkmark'} color={dark}/>
-            ) : (
-              <Ionicons style={styles.addFont} name={'add'} color={dark}/>
-            )}
-            <Text style={{color: dark}}>Independent House / Villa</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => handleSubmit2()}
-            style={
-              bgColor2
-                ? styles.typeOfPropertyStyleColor
-                : styles.typeOfPropertyStyle
-            }>
-            {bgColor2 ? (
-              <Ionicons style={styles.addFont} name={'checkmark'} color={dark}/>
-            ) : (
-              <Ionicons style={styles.addFont} name={'add'} color={dark}/>
-            )}
-            <Text style={{color: dark}}>Plot / Land</Text>
-          </TouchableOpacity>
+        <View style={{ paddingHorizontal: responsiveScreenWidth(5) }}>
+          <Text style={styles.furnishedText}>Furnished Status ?</Text>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            <View style={styles.furnishedStatus}>
+              {FurnishedStatus.map((option: string) => (
+                <OptionBtn
+                  id={option}
+                  key={option}
+                  label={option}
+                  btnPressHandler={setFurnishedStatusHandel}
+                  style={[
+                    styles.notColored,
+                    newListing?.furnishedStatus === option
+                      ? styles.colored
+                      : null,
+                  ]}
+                />
+              ))}
+            </View>
+          </ScrollView>
         </View>
-        <View style={styles.noOfBedrooms}>
-          <Text style={{fontSize: 20, color: dark}}>No. of Bedrooms</Text>
-        </View>
-
-        <View style={styles.typesOfBedrooms}>
-          <FlatList
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            data={DATA}
-            renderItem={({item}) => <Item item={item} />}
-            keyExtractor={item => item.id}
-            extraData={selectedId}
-          />
-        </View>
-        <View style={styles.readyToMove}>
-          <Text style={{fontSize: 17, color: dark}}>
-            Looking for "ReadytoMove" properties ?{' '}
-          </Text>
-          <View style={{flexDirection: 'row', gap: responsiveWidth(5)}}>
-            <TouchableOpacity
-              onPress={() => {
-                setReadyToMove('Yes');
-              }}
-              style={readyToMove === 'Yes' ? styles.yes : styles.no}>
-              <Text style={{color: dark}}>Yes</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                setReadyToMove('No');
-              }}
-              style={readyToMove === 'No' ? styles.yes : styles.no}>
-              <Text style={{color: dark}}>No</Text>
-            </TouchableOpacity>
-          </View>
+        <View style={{ paddingHorizontal: responsiveScreenWidth(5) }}>
+          <Text style={styles.furnishedText}>No. of Bedrooms ?</Text>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            <View style={styles.furnishedStatus}>
+              {DATA.map((option: string) => (
+                <OptionBtn
+                  id={option}
+                  key={option}
+                  label={option}
+                  btnPressHandler={setBHKStatusHandel}
+                  style={[
+                    styles.notColored,
+                    newListing?.bhk === option ? styles.colored : null,
+                  ]}
+                />
+              ))}
+            </View>
+          </ScrollView>
         </View>
         <View style={styles.button}>
           <ExploreButton title="Search" onPress={handleSearch} />
@@ -449,7 +367,28 @@ const styles = StyleSheet.create({
 
     gap: 5,
   },
+  furnishedText: {
+    color: dark,
+    paddingVertical: responsiveScreenHeight(2),
+  },
+  furnishedStatus: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: responsiveWidth(3),
+    paddingHorizontal: responsiveScreenWidth(5),
+  },
 
+  notColored: {
+    alignSelf: 'flex-start',
+    borderWidth: responsiveWidth(0.3),
+    borderRadius: responsiveWidth(20),
+    borderColor: 'gray',
+    paddingHorizontal: responsiveWidth(5),
+    paddingVertical: responsiveScreenHeight(1.5),
+  },
+  colored: {
+    borderColor: '#8BC83F',
+  },
   noOfBedrooms: {
     paddingHorizontal: responsiveScreenWidth(5),
     paddingVertical: responsiveScreenHeight(2),
@@ -479,26 +418,11 @@ const styles = StyleSheet.create({
     padding: responsiveScreenWidth(1),
   },
   typesOfBedrooms: {
-    paddingHorizontal: responsiveScreenWidth(3),
-  },
-  readyToMove: {
     paddingHorizontal: responsiveScreenWidth(5),
-    paddingVertical: responsiveScreenHeight(3),
-    gap: responsiveHeight(1),
   },
-  yes: {
-    borderWidth: responsiveWidth(0.3),
-    borderRadius: responsiveWidth(4),
-    borderColor: '#8BC83F',
-    padding: responsiveWidth(2),
-  },
-  no: {
-    borderWidth: responsiveWidth(0.3),
-    borderRadius: responsiveWidth(4),
-    borderColor: 'gray',
-    padding: responsiveWidth(2),
-  },
+
   button: {
     paddingHorizontal: responsiveScreenWidth(5),
+    paddingVertical: responsiveScreenHeight(6),
   },
 });

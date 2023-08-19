@@ -51,14 +51,17 @@ const PostPropertySecond = () => {
   const [totalFloorError, setTotalFloorError] = useState('');
   const [floorError, setFloorError] = useState('');
 
+  
+
   const NoOfRooms = ['1BHK', '2BHK', '3BHK', '4BHK', '5BHK', '5BHK+'];
   const FurnishedStatus = ['unfurnished', 'semi-furnished', 'furnished'];
   const Parking = ['Yes', 'No'];
   const status = ['readyToMove', 'underConstruction'];
+
   // const ageOfProperty = ['0-1', '1-2'];
 
   const validate = () => {
-    if (!newListing?.location[2]) {
+    if (!newListing?.state) {
       setCityError('Please add location');
       setFurnishedError('');
       setPropertyError('');
@@ -145,6 +148,11 @@ const PostPropertySecond = () => {
   };
 
   const setParkingHandel = (params: any) => {
+    if (!params) {
+      setParkingError('Please select parking !');
+    } else {
+      setParkingError('');
+    }
     setParking(params);
     dispatch(
       UpdateNewListing({
@@ -155,6 +163,11 @@ const PostPropertySecond = () => {
   };
 
   const setPropertyStatusHandel = (params: any) => {
+    if (!params) {
+      setPropertyError('Please select property status !');
+    } else {
+      setPropertyError('');
+    }
     setStatus(params);
     dispatch(
       UpdateNewListing({
@@ -165,6 +178,11 @@ const PostPropertySecond = () => {
   };
 
   const setTotalFloorHandel = (params: string) => {
+    if(!params) {
+      setTotalFloorError('Please enter total floor !');
+    } else {
+      setTotalFloorError('');
+    }
     setTotalFloor(params);
     dispatch(
       UpdateNewListing({
@@ -174,7 +192,10 @@ const PostPropertySecond = () => {
     );
   };
   const setPropertyOnFloorHandel = (params: string) => {
-    if (Number(params) > Number(totalFloor)) {
+    if(!params) {
+      setFloorError('Please enter floor !');
+    }
+    else if (Number(params) > Number(totalFloor)) {
       setFloorError('Enter valid floor !');
     } else {
       setFloorError('');
@@ -189,13 +210,26 @@ const PostPropertySecond = () => {
   };
 
   const handleNext = () => {
-    const isValid = validate();
+    
+    if (!newListing?.city) {
+      setCityError('Please add location');
+    } else {
+      setCityError('');
+    }
+    
     dispatch(
       UpdateNewListing({
-        key: 'location',
-        value: newListing?.location,
+        key: 'state',
+        value: newListing?.state,
       }),
     );
+    dispatch(
+      UpdateNewListing({
+        key: 'city',
+        value: newListing?.city,
+      }),
+    );
+    const isValid = validate();
     if (isValid) {
       navigation.navigate('PostPropertyThird' as never);
     }
@@ -227,12 +261,12 @@ const PostPropertySecond = () => {
                   <Text style={{color: dark}}>Location</Text>
                   <Ionicons style={styles.addFont} name={'add'} />
                 </TouchableOpacity>
-                <View style={styles.locationDetails}>
-                  {Array.isArray(newListing?.location) &&
-                    newListing.location.map((option: string, index: string) => (
-                      <LocationBtn key={index} label={option} />
-                    ))}
-                </View>
+                {newListing?.city && (
+                  <View style={styles.locationDetails}>
+                    <LocationBtn label={newListing?.state} />
+                    <LocationBtn label={newListing?.city} />
+                  </View>
+                )}
               </ScrollView>
             </View>
             {cityError ? (

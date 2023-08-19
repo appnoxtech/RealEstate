@@ -19,7 +19,6 @@ import {
   responsiveScreenWidth,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-
 import BurgerCard from '../../component/common/Card/BurgerCard';
 import MenuCard from '../../component/common/Card/MenuCard';
 import {useSelector} from 'react-redux';
@@ -111,7 +110,7 @@ const ModalScreen = () => {
             <BurgerCard
               setVisible={setVisible}
               title="Locality Insights"
-              description="Locality reviews, ratings, safety, commute, landmarks..."
+              description="Locality reviews, ratings, safety, commute"
               pageName=""
               iconName="location-outline"
             />
@@ -172,13 +171,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
   },
 
-  capitalLetter: {
-    alignSelf: 'flex-start',
-    backgroundColor: 'white',
-    paddingHorizontal: responsiveScreenWidth(4),
-    paddingVertical: responsiveScreenHeight(1.6),
-    borderRadius: responsiveWidth(6),
-  },
+ 
   headerName: {
     color: 'white',
     fontSize: responsiveFontSize(3),

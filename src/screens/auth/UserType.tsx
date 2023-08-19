@@ -53,9 +53,10 @@ const UserType = () => {
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
       <View style={styles.headerBtn}>
         <HeaderWithBackBtn />
+        <Text style={styles.textUserType}>Select User Type</Text>
       </View>
       <View style={styles.container}>
-        <Text style={styles.textUserType}>Select User Type</Text>
+        
         {SelectUserType.map(option => {
           return (
             <UserTypeBtn
@@ -81,7 +82,11 @@ export default UserType;
 
 const styles = StyleSheet.create({
   headerBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingHorizontal: responsiveScreenWidth(5),
+    paddingVertical: responsiveScreenHeight(2.5),
+    gap: responsiveScreenWidth(5)
   },
   selectedUser: {
     width: '100%',

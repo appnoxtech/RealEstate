@@ -1,7 +1,7 @@
 import {Alert, SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {DeletePropertyByIdService, GetPropertyByUserIdService} from '../services/properties';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import PropertyListCard from './common/Card/PropertyListCard';
 import HeaderWithBackBtn from './common/buttons/HeaderWithBackBtn';
 import {
@@ -10,6 +10,7 @@ import {
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
 import {useNavigation} from '@react-navigation/native';
+import { ResetNewListing } from '../redux/reducers/postReducer';
 
 interface userListingsData {
   id: string;
@@ -19,6 +20,7 @@ interface userListingsData {
 }
 
 const PropertyListings: React.FC = () => {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const {id} = useSelector((state: any) => state.user.userDetails);
   const [userListingsData, setUserListingsData] = useState<
@@ -48,33 +50,22 @@ const PropertyListings: React.FC = () => {
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       GetPropertyData();
+      dispatch(ResetNewListing());
     });
 
     // Return the function to unsubscribe from the event so it gets removed on unmount
     return unsubscribe;
   }, [navigation]);
 
-
-  // const DeleteProperty = async (propertyId: string) => {
-  //   try {
-  //     const res = await DeletePropertyByIdService(propertyId);
-  //     // console.log(propertyId);
-  //     const {result} = res.data;
-  //     // console.log(result);
-  //   } catch (error: any) {
-  //     Alert.alert('Error', error.response.data.error.message);
-  //   }
-  // };
-
-  // const handelDelete = async () => {
-  //  await DeleteProperty(id);
-  //   const updateUserListings = userListingsData.filter(
-  //     item => item.id !== id,
-  //   );
-  //   setUserListingsData(updateUserListings);
-  //   GetPropertyData();
-    
-  // };
+  const updateListing = async() => {
+    try {
+      await GetPropertyData();
+    } catch (error) {
+      console.log('Error');
+      
+    }
+  }
+  
   return (
     <SafeAreaView style={styles.safearea}>
       <View style={styles.headerButton}>
@@ -93,6 +84,7 @@ const PropertyListings: React.FC = () => {
               propertyType={item.propertyType}
               price={item.price}
               property={item}
+              updateListing={updateListing}
             />
           );
         })}

@@ -81,13 +81,18 @@ const PostProperty = () => {
     } catch (error) {}
   };
   const setPropertyTypeHandler = (id: string) => {
-   
+    if(!id) {
+      setErrorProperty('Please select property');
+    } else {
+      setErrorProperty('');
+    }
     dispatch(
       UpdateNewListing({
         key: 'propertyType',
         value: id,
       }),
     );
+    
   };
   
   const validate = () => {

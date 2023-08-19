@@ -110,6 +110,13 @@ const PostPropertyThird = () => {
   };
 
   const setPriceHandel = (params: any) => {
+    if (!params) {
+      setPriceError('Required!');
+    } else if (!isNaN(params)) {
+      setPriceError('Enter valid price!');
+    } else {
+      setPriceError('');
+    }
     setPrice(params);
     dispatch(
       UpdateNewListing({
@@ -120,6 +127,13 @@ const PostPropertyThird = () => {
   };
 
   const setTitleHandel = (params: string) => {
+    if (!params) {
+      setTextError('Required!');
+    } else if (!isNaN(params)) {
+      setTextError('Enter valid title');
+    } else {
+      setTextError('');
+    }
     setText(params);
     dispatch(
       UpdateNewListing({
@@ -268,13 +282,15 @@ const styles = StyleSheet.create({
     height: responsiveScreenHeight(10),
     borderRadius: responsiveWidth(5),
   },
-  inputContainer: {},
+  inputContainer: {
+    marginBottom: responsiveScreenHeight(3),
+  },
   errorText: {
     textAlign: 'right',
     color: 'red',
   },
   inputContainer1: {
-    marginBottom: responsiveScreenHeight(3),
+    marginBottom: responsiveScreenHeight(1),
   },
   bottomBtn: {
     paddingVertical: responsiveScreenHeight(8),

@@ -31,14 +31,14 @@ export default function Login() {
   const {GenerateOtpServiceHandler} = useAuthServiceHandler();
 
   const [phone, setPhone] = useState('');
-  // const reg = /^(\+91[\-\s]?)?[0]?(91)?[789]\d{9}$/;
+  const reg = /^[6-9]\d{9}$/;
   const [phoneValidError, setPhoneValidError] = useState('');
 
   const [isFocus, setIsFocus] = useState(false);
   const dispatch = useDispatch();
 
   const Validation = () => {
-    if (phone.length < 10) {
+    if (!reg.test(phone)) {
       setPhoneValidError('Enter valid number !');
       return false;
     } else {
@@ -61,11 +61,11 @@ export default function Login() {
     }
   };
 
-  const OnHandleChange = (value: string | any[]) => {
+  const OnHandleChange = (value: string) => {
     if (!value.length) {
       setPhoneValidError('Required');
       return false;
-    } else if (value.length < 10 || value.length > 10) {
+    } else if (!reg.test(value)) {
       setPhoneValidError('Enter valid number !');
       return false;
     } else {
@@ -91,12 +91,11 @@ export default function Login() {
           <Text style={styles.textP}>Login with your mobile number</Text>
         </View>
 
-        <View
-          style={
-            phoneValidError ? styles.inputContainer1 : styles.inputContainer
-          }>
+        <View>
           <TextInput
-            style={styles.input}
+            style={
+              phoneValidError ? styles.inputContainer1 : styles.inputContainer
+            }
             placeholder="Phone"
             placeholderTextColor={'#000000'}
             value={phone}
@@ -118,7 +117,6 @@ export default function Login() {
             <Text style={styles.btnText}>GET OTP</Text>
           </TouchableOpacity>
         </View>
-
         <View style={styles.footerText}>
           <Text style={styles.registerText}>
             By continuing, you agree to Real Estate {'\n'}
@@ -190,11 +188,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5F4F8',
     borderRadius: 3,
     padding: 10,
-    fontSize: 12,
+    fontSize: responsiveFontSize(2),
   },
   input: {
-    
-    flex: 3,
+    flex: 1,
     color: dark,
   },
 
@@ -208,10 +205,11 @@ const styles = StyleSheet.create({
     marginVertical: responsiveScreenHeight(1),
     borderWidth: 1,
     borderColor: 'red',
+    color: dark,
     backgroundColor: '#F5F4F8',
     borderRadius: 3,
     padding: 10,
-    fontSize: 12,
+    fontSize: responsiveFontSize(2),
   },
 
   button: {

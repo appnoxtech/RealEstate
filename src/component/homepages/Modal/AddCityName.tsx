@@ -33,7 +33,7 @@ const DropdownComponent: FC = () => {
   const [cityLabel, setCityLabel] = useState('');
   const [stateLabel, setStateLabel] = useState('');
   const [countryLabel, setCountryLabel] = useState('');
-  const location = [countryLabel, stateLabel, cityLabel];
+  // const location = [countryLabel, stateLabel, cityLabel];
 
   const navigation = useNavigation();
 
@@ -129,8 +129,14 @@ const DropdownComponent: FC = () => {
   const handelSave = () => {
     dispatch(
       UpdateNewListing({
-        key: 'location',
-        value: location,
+        key: 'state',
+        value: stateLabel
+      }),
+    );
+    dispatch(
+      UpdateNewListing({
+        key: 'city',
+        value: cityLabel
       }),
     );
     navigation.goBack();
@@ -151,6 +157,7 @@ const DropdownComponent: FC = () => {
           iconStyle={styles.iconStyle}
           data={countryData}
           search
+          itemTextStyle={{color: 'black'}}
           maxHeight={300}
           labelField="label"
           valueField="value"
@@ -179,6 +186,7 @@ const DropdownComponent: FC = () => {
           iconStyle={styles.iconStyle}
           data={stateData}
           search
+          itemTextStyle={{color: 'black'}}
           labelField="label"
           valueField="value"
           maxHeight={300}
@@ -197,13 +205,14 @@ const DropdownComponent: FC = () => {
       <View style={styles.container}>
         {renderLabel2()}
         <Dropdown
-          style={[styles.dropdown, isFocus1 && {borderColor: 'blue'}]}
+          style={[styles.dropdown, isFocus2 && {borderColor: 'blue'}]}
           placeholderStyle={styles.placeholderStyle}
           selectedTextStyle={styles.selectedTextStyle}
           inputSearchStyle={styles.inputSearchStyle}
           iconStyle={styles.iconStyle}
           data={cityData}
           search
+          itemTextStyle={{color: 'black'}}
           labelField="label"
           valueField="value"
           maxHeight={300}

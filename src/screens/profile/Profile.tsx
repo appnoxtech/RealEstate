@@ -91,12 +91,12 @@ export default function Profile() {
               <Fontisto name="person" size={responsiveWidth(10)} color={dark} />
             </View>
 
-            <UpdateProfileModal
+            {/* <UpdateProfileModal
               isVisible={isModalVisible}
               onClose={() => setIsModalVisible(false)}
               onSave={handleSaveProfile}
               profileData={profileData}
-            />
+            /> */}
 
             <Text style={styles.userName}>
               Welcome,<Text style={styles.subText}> {userName} </Text>

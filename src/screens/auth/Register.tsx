@@ -7,6 +7,9 @@ import {
   TouchableOpacity,
   TextInput,
   Alert,
+  ScrollView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {
@@ -18,12 +21,9 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import useAuthServiceHandler from '../../hooks/serviceHandler/AuthServiceHandler';
 import HeaderWithBackBtn from '../../component/common/buttons/HeaderWithBackBtn';
-import { useDispatch, useSelector } from 'react-redux';
-import { UpdateRegisterUserDetails } from '../../redux/reducers/userReducer';
-import { dark } from '../../../assets/Styles/GlobalTheme';
-
-
-const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+import {useDispatch, useSelector} from 'react-redux';
+import {UpdateRegisterUserDetails} from '../../redux/reducers/userReducer';
+import {dark} from '../../../assets/Styles/GlobalTheme';
 
 export default function Register() {
   const {userDetails} = useSelector((state: any) => state?.user);
@@ -40,11 +40,9 @@ export default function Register() {
   const groupImg = require('../../../assets/images/Group.png');
   const callImg = require('../../../assets/images/Call.png');
   const dispatch = useDispatch();
-  
-  
-  
-  
-
+  const reg = /^[6-9]\d{9}$/;
+  const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  const fullNamePattern = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
   const validation = () => {
     if (!name.length) {
       setNameValidError('Required !');
@@ -61,7 +59,7 @@ export default function Register() {
       setEmailValidError('Enter valid email !');
       setPhoneValidError('');
       return false;
-    } else if (phone.length < 10) {
+    } else if (!reg.test(phone)) {
       setNameValidError('');
       setEmailValidError('');
       setPhoneValidError('Enter valid phone number !');
@@ -82,24 +80,18 @@ export default function Register() {
         email: email,
         phoneNumber: phone,
         profilePhoto: '',
-        role: 'tenant'
+        role: 'tenant',
       };
-      dispatch(UpdateRegisterUserDetails({...data}))
+      dispatch(UpdateRegisterUserDetails({...data}));
       navigation.navigate('SelectUserType' as never);
     }
   };
 
-
-  function isValidFullName(fullName : string) {
-    const fullNamePattern = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
-    return fullNamePattern.test(fullName);
-  }
-
-  const OnHandleChangeNumber = (value: string | any[]) => {
+  const OnHandleChangeNumber = (value: string) => {
     if (!value.length) {
-      setPhoneValidError('Required')
+      setPhoneValidError('Required');
       return false;
-    } else if (value.length < 10 || value.length > 10){
+    } else if (!reg.test(value)) {
       setPhoneValidError('Enter valid number !');
       return false;
     } else {
@@ -107,12 +99,12 @@ export default function Register() {
       return true;
     }
   };
-  
-  const OnHandleChangeName = (value: string | any[]) => {
+
+  const OnHandleChangeName = (value: string) => {
     if (!value.length) {
-      setNameValidError('Required')
+      setNameValidError('Required');
       return false;
-    } else if (isValidFullName(value)){
+    } else if (!fullNamePattern.test(value)) {
       setNameValidError('Enter valid Name !');
       return false;
     } else {
@@ -121,9 +113,9 @@ export default function Register() {
     }
   };
 
-  const OnHandleChangeEmail = (value: string | any []) => {
-    if(!value.length) {
-      setEmailValidError('Required')
+  const OnHandleChangeEmail = (value: string) => {
+    if (!value.length) {
+      setEmailValidError('Required');
       return false;
     } else if (!EMAIL_REGEX.test(email)) {
       setEmailValidError('Enter valid Email !');
@@ -132,99 +124,100 @@ export default function Register() {
       setEmailValidError('');
       return true;
     }
-}
+  };
 
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View style={styles.container}>
-       <View style={styles.headerBackButton}>
-       <HeaderWithBackBtn />
-       </View>
-
-        <Text style={styles.textH}>
-          Create your<Text style={{color: '#1F4C6B'}}> account</Text>
-        </Text>
-        <Text style={styles.textP}>
-          quis nostrud exercitation ullamco laboris nisi ut
-        </Text>
-        <View style={styles.containerInput}>
-          <View
-            style={
-              nameValidError ? styles.inputContainer1 : styles.inputContainer
-            }>
-            <TextInput
-              style={styles.input}
-              placeholder="Full Name"
-              placeholderTextColor={dark}
-              value={name}
-              autoCorrect={false}
-              autoCapitalize="none"
-              onChangeText={value => {
-                OnHandleChangeName(value);
-                setName(value);
-              }}
-              onFocus={() => setIsFocus(true)}></TextInput>
-            <Image source={require(profile)} style={styles.profileImage}/>
-          </View>
-          {nameValidError ? (
-            <Text style={styles.errorText}>{nameValidError}</Text>
-          ) : null}
-          <View
-            style={
-              emailValidError ? styles.inputContainer1 : styles.inputContainer
-            }>
-            <TextInput
-              style={styles.input}
-              placeholder="Email"
-              placeholderTextColor={dark}
-              value={email}
-              autoCorrect={false}
-              autoCapitalize="none"
-              onChangeText={value => {
-                OnHandleChangeEmail(value)
-                setEmail(value);
-              }}
-              onFocus={() => setIsFocus(true)}
-            />
-            <Image style={styles.emailImage} source={groupImg} />
-          </View>
-          {emailValidError ? (
-            <Text style={styles.errorText}>{emailValidError}</Text>
-          ) : null}
-          <View
-            style={
-              phoneValidError ? styles.inputContainer1 : styles.inputContainer
-            }>
-            <TextInput
-              style={styles.input}
-              placeholder="Phone"
-              placeholderTextColor={dark}
-              value={phone}
-              keyboardType="number-pad"
-              onChangeText={value => {
-                OnHandleChangeNumber(value);
-                setPhone(value);
-              }}
-              onFocus={() => setIsFocus(true)}
-            />
-           
-            <Image
-              style={styles.imagePhone}
-              source={callImg}
-            />
-          </View>
-          {phoneValidError ? (
-            <Text style={styles.errorText}>{phoneValidError}</Text>
-          ) : null}
+        <View style={styles.headerBackButton}>
+          <HeaderWithBackBtn />
         </View>
 
-        <View style={styles.button__}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => handleSubmit()}>
-            <Text style={styles.btnText}>Register</Text>
-          </TouchableOpacity>
-        </View>
+       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+       <ScrollView showsVerticalScrollIndicator={false}>
+          <Text style={styles.textH}>
+            Create your<Text style={{color: '#1F4C6B'}}> account</Text>
+          </Text>
+          <Text style={styles.textP}>
+            quis nostrud exercitation ullamco laboris nisi ut
+          </Text>
+          <View style={styles.containerInput}>
+            <View
+              style={
+                nameValidError ? styles.inputContainer1 : styles.inputContainer
+              }>
+              <TextInput
+                style={styles.input}
+                placeholder="Full Name"
+                placeholderTextColor={dark}
+                value={name}
+                autoCorrect={false}
+                autoCapitalize="none"
+                onChangeText={value => {
+                  OnHandleChangeName(value);
+                  setName(value);
+                }}
+                onFocus={() => setIsFocus(true)}></TextInput>
+              <Image source={require(profile)} style={styles.profileImage} />
+            </View>
+            {nameValidError ? (
+              <Text style={styles.errorText}>{nameValidError}</Text>
+            ) : null}
+            <View
+              style={
+                emailValidError ? styles.inputContainer1 : styles.inputContainer
+              }>
+              <TextInput
+                style={styles.input}
+                placeholder="Email"
+                placeholderTextColor={dark}
+                value={email}
+                autoCorrect={false}
+                autoCapitalize="none"
+                onChangeText={value => {
+                  OnHandleChangeEmail(value);
+                  setEmail(value);
+                }}
+                onFocus={() => setIsFocus(true)}
+              />
+              <Image style={styles.emailImage} source={groupImg} />
+            </View>
+            {emailValidError ? (
+              <Text style={styles.errorText}>{emailValidError}</Text>
+            ) : null}
+            <View
+              style={
+                phoneValidError ? styles.inputContainer1 : styles.inputContainer
+              }>
+              <TextInput
+                style={styles.input}
+                placeholder="Phone"
+                placeholderTextColor={dark}
+                value={phone}
+                keyboardType="number-pad"
+                onChangeText={value => {
+                  OnHandleChangeNumber(value);
+                  setPhone(value);
+                }}
+                onFocus={() => setIsFocus(true)}
+              />
+
+              <Image style={styles.imagePhone} source={callImg} />
+            </View>
+            {phoneValidError ? (
+              <Text style={styles.errorText}>{phoneValidError}</Text>
+            ) : null}
+          </View>
+
+          <View style={styles.button__}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => handleSubmit()}>
+              <Text style={styles.btnText}>Register</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+       </TouchableWithoutFeedback>
       </View>
     </SafeAreaView>
   );
@@ -241,27 +234,27 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     textAlign: 'center',
     paddingTop: 0,
-    paddingHorizontal: responsiveScreenWidth(5)
+    paddingHorizontal: responsiveScreenWidth(5),
   },
 
   headerBackButton: {
     marginVertical: responsiveScreenHeight(3),
-    marginBottom: responsiveScreenHeight(5)
+    marginBottom: responsiveScreenHeight(5),
   },
 
   profileImage: {
     width: responsiveScreenWidth(6),
-    height: responsiveScreenHeight(3)
+    height: responsiveScreenHeight(3),
   },
 
   emailImage: {
     width: responsiveScreenWidth(5),
-    height: responsiveScreenHeight(2)
+    height: responsiveScreenHeight(2),
   },
-  
+
   imagePhone: {
     width: responsiveScreenWidth(5),
-    height: responsiveScreenHeight(2)
+    height: responsiveScreenHeight(2),
   },
 
   textH: {
@@ -315,7 +308,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   input: {
-    flex: 3,
+    flex: 1,
     color: dark,
   },
   passwordFS: {

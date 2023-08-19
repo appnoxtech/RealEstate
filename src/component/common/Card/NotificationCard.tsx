@@ -2,6 +2,7 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {FC} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { responsiveWidth } from 'react-native-responsive-dimensions';
+import { dark } from '../../../../assets/Styles/GlobalTheme';
 
 interface props {
   title: string;
@@ -39,15 +40,18 @@ const styles = StyleSheet.create({
   shadowProp: {
     shadowOffset: {width: -2, height: 4},
     shadowOpacity: 0.2,
+    elevation: 5,
   },
   title: {
+    color: dark,
     fontSize: responsiveWidth(4),
     fontWeight: 'bold',
   },
   description: {
-    
+    color: dark
   },
   postTime: {
-    alignSelf: 'flex-end'
+    alignSelf: 'flex-end',
+    color: dark
   }
 });

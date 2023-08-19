@@ -34,8 +34,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import BoxBtn from '../../component/common/buttons/BoxBtn';
 import AgentBtn from '../../component/common/buttons/AgentBtn';
 import {GetPropertyByUserIdService} from '../../services/properties';
-import { ResetNewListing } from '../../redux/reducers/postReducer';
-import { dark } from '../../../assets/Styles/GlobalTheme';
+import {ResetNewListing} from '../../redux/reducers/postReducer';
+import {dark} from '../../../assets/Styles/GlobalTheme';
 
 const HomePage = () => {
   const notificationImg = require('../../../assets/images/Notification.png');
@@ -48,7 +48,9 @@ const HomePage = () => {
 
   const [property, setProperty] = useState('Listings');
   const [agentDataa, setAgentData] = useState('Listings');
-  const [propertyListings, setPropertyListings] = useState<number>();
+  const [propertyListings, setPropertyListings] = useState('');
+  console.log(propertyListings);
+  
   const [item, setItem] = useState([]);
 
   const handelPress = (params: string) => {
@@ -69,7 +71,7 @@ const HomePage = () => {
         (error.response.data.error.message =
           'Property not found for this userId')
       ) {
-        setPropertyListings(0);
+        setPropertyListings('0');
       }
     }
   };
@@ -84,6 +86,13 @@ const HomePage = () => {
     return unsubscribe;
   }, [navigation]);
 
+  const updateListing = async () => {
+    try {
+      await GetPropertyData();
+    } catch (error: any) {
+      console.log('Error');
+    }
+  };
   const data = [
     {
       number: propertyListings,
@@ -115,7 +124,7 @@ const HomePage = () => {
           <TouchableOpacity
             onPress={() => navigation.navigate('PostProperty' as never)}
             style={styles.postProperty}>
-            <Text style={styles.postPropertyText}>Post property</Text>
+            <Text style={styles.postPropertyText}>Post Property</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => navigation.navigate('Notification' as never)}>
@@ -137,13 +146,14 @@ const HomePage = () => {
               <Text style={styles.textAll}>View all</Text>
             </TouchableOpacity>
           </View>
-          {!propertyListings ? null : (
+          {item && (
             <PropertyListCard
               title={item.title}
               propertyType={item.propertyType}
               id={item.id}
               price={0}
               property={item}
+              updateListing={updateListing}
             />
           )}
 
@@ -152,7 +162,7 @@ const HomePage = () => {
               return (
                 <BoxBtn
                   key={index}
-                  number={item.number}
+                  number={!propertyListings ? 0 : item.number}
                   title={item.title}
                   page={item.page}
                 />
@@ -177,7 +187,9 @@ const HomePage = () => {
           </View>
 
           {agentDataa === 'Listings' ? (
-            <Text style={styles.textListings}>{propertyListings} Listings</Text>
+            <Text style={styles.textListings}>
+              {propertyListings ? propertyListings : '0'} Listings
+            </Text>
           ) : agentDataa === 'Sold' ? (
             <Text style={styles.textListings}>0 Sold Properties</Text>
           ) : (
@@ -189,8 +201,10 @@ const HomePage = () => {
                 onPress={() => navigation.navigate('SearchFilterPage' as never)}
                 style={styles.serchContainer}>
                 <Text style={{color: dark}}>
-                  <Text style={{fontWeight: 'bold', color: dark}}>Search : </Text>City,
-                  Locality, Project, Landmark
+                  <Text style={{fontWeight: 'bold', color: dark}}>
+                    Search :{' '}
+                  </Text>
+                  City, Locality, Project, Landmark
                 </Text>
                 <Image source={searchImg} />
               </TouchableOpacity>
@@ -219,7 +233,7 @@ const HomePage = () => {
                   <FeaturedCategories />
                   <View style={styles.toplocation}>
                     <Text style={styles.featuredEstateHeaderText}>
-                      Top Location
+                      Top Locations
                     </Text>
                     <TouchableOpacity
                       onPress={() =>
@@ -230,7 +244,7 @@ const HomePage = () => {
                   </View>
                   <TopLocation />
                   <Text style={styles.featuredEstateHeaderText}>
-                    Explore Nearby Estate
+                    Explore Nearby Estates
                   </Text>
                   <View style={styles.dataListContainer}>
                     <ExploreNearbyEstate />
@@ -264,8 +278,8 @@ const styles = StyleSheet.create({
 
   container: {
     paddingHorizontal: responsiveScreenWidth(5),
-    paddingVertical: responsiveScreenHeight(1.8),
-    gap: responsiveHeight(2),
+    // paddingVertical: responsiveScreenHeight(1.8),
+    gap: responsiveHeight(1.5),
   },
   header: {
     flexDirection: 'row',
@@ -286,7 +300,7 @@ const styles = StyleSheet.create({
   },
   postProperty: {
     backgroundColor: '#234F68',
-    padding: responsiveHeight(1.6),
+    padding: responsiveHeight(1),
     borderRadius: responsiveWidth(10),
   },
   postPropertyText: {
@@ -295,17 +309,18 @@ const styles = StyleSheet.create({
   },
 
   notification: {
-    width: responsiveWidth(13),
-    height: responsiveWidth(13),
+    width: responsiveWidth(10),
+    height: responsiveWidth(10),
     borderRadius: responsiveWidth(7.5),
   },
   headerText: {
     color: dark,
-    fontSize: responsiveFontSize(4),
+    fontSize: responsiveFontSize(2),
     paddingHorizontal: responsiveScreenWidth(1.23),
   },
   subText: {
     color: '#234F68',
+    fontSize: responsiveFontSize(2),
   },
   box: {
     flexDirection: 'row',
@@ -337,7 +352,7 @@ const styles = StyleSheet.create({
 
   textListings: {
     color: dark,
-    fontSize: responsiveFontSize(3),
+    fontSize: responsiveFontSize(2),
   },
 
   serchContainer: {
@@ -373,7 +388,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   featuredEstateHeaderText: {
-    fontSize: responsiveFontSize(3),
+    fontSize: responsiveFontSize(2),
     fontWeight: 'bold',
     color: '#252B5C',
   },

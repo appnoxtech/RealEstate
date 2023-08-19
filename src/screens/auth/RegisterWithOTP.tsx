@@ -6,6 +6,11 @@ import {
   Pressable,
   Text,
   Keyboard,
+  Platform,
+  Modal,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+  SafeAreaView,
 } from 'react-native';
 import React, {LegacyRef, RefObject, useEffect, useRef, useState} from 'react';
 import {Alert} from 'react-native';
@@ -19,6 +24,7 @@ import {
   colorPrimary,
   colorSecondary,
   danger,
+  dark,
   mediumFont,
   systemGrey,
   systemGreyBg,
@@ -29,8 +35,7 @@ import ButtonPrimary from '../../component/common/buttons/ButtonPrimary';
 import useKeyboardVisibleListener from '../../hooks/CommonHooks/isKeyboardVisibleHook';
 import HeaderWithBackBtn from '../../component/common/buttons/HeaderWithBackBtn';
 import useAuthServiceHandler from '../../hooks/serviceHandler/AuthServiceHandler';
-import { useSelector } from 'react-redux';
-
+import {useSelector} from 'react-redux';
 
 type otpInterface = {
   [key: string]: string;
@@ -63,9 +68,14 @@ const labels = {
 
 const OTP: React.FC<any> = ({route}) => {
   const {registerUserDetails} = useSelector((state: any) => state.user);
- const {type} = route?.params;
-  
-  const {VerifyOTPServiceHandler, GenerateOtpServiceHandler} = useAuthServiceHandler();
+  const {type} = route?.params;
+
+  const {
+    VerifyOTPServiceHandler,
+    GenerateOtpServiceHandler,
+    isWrongOTPModalVisible,
+    setWrongOTPModalVisible,
+  } = useAuthServiceHandler();
   const isKeyboardVisible = useKeyboardVisibleListener();
   const [loading, setLoading] = useState(false);
   const [timer, setTimer] = useState(59);
@@ -74,7 +84,7 @@ const OTP: React.FC<any> = ({route}) => {
   const [isActiveBtn, setIsActiveBtn] = useState(false);
   const [error, setError] = useState(false);
   const [otp, setOtp] = useState(initialState);
-  const [otpError, setOtpError] = useState('')
+  const [otpError, setOtpError] = useState('');
   const navigation = useNavigation();
 
   const pin1Ref = React.createRef<TextInput>();
@@ -110,6 +120,15 @@ const OTP: React.FC<any> = ({route}) => {
   //   }
   // };
 
+  // useEffect(() => {
+  //   console.log('Modal visibility updated:', isWrongOTPModalVisible);
+  // }, [isWrongOTPModalVisible]);
+
+  // const handleShowModal = () => {
+  //   console.log('Setting isWrongOTPModalVisible to true');
+  //   setWrongOTPModalVisible(true);
+  // };
+
   const handleOTPVerification = () => {
     // OTP VERIFICATION
     const userOTP = Object.keys(otp).reduce((sum, pin): string => {
@@ -124,7 +143,7 @@ const OTP: React.FC<any> = ({route}) => {
       };
       VerifyOTPServiceHandler(data);
     } else {
-      setOtpError("Enter Valid OTP !");
+      setOtpError('Enter Valid OTP !');
       return;
     }
   };
@@ -155,13 +174,11 @@ const OTP: React.FC<any> = ({route}) => {
     }
   }, [otp]);
 
-  
-  
   const clickHandler = async () => {
     setShow(false);
     setTimer(59);
     const data = {
-      phoneNumber,
+      phoneNumber: registerUserDetails?.phoneNumber,
       type: 'GENERATE',
     };
     GenerateOtpServiceHandler(data);
@@ -184,9 +201,15 @@ const OTP: React.FC<any> = ({route}) => {
   }, [timer]);
 
   return (
-    <View style={styles.mainContainer}>
-      <View style={{paddingHorizontal: responsiveScreenWidth(4)}}>
-      <HeaderWithBackBtn />
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.mainContainer}>
+      <View
+        style={{
+          paddingHorizontal: responsiveScreenWidth(4),
+          paddingVertical:
+            Platform.OS === 'android' ? responsiveScreenHeight(2) : 0,
+        }}>
+        <HeaderWithBackBtn />
       </View>
       <View style={styles.body}>
         {
@@ -338,7 +361,7 @@ const OTP: React.FC<any> = ({route}) => {
                 />
               </View>
             </View>
-            {otpError? <Text style={styles.errorOtp}>{otpError}</Text>: null}
+            {otpError ? <Text style={styles.errorOtp}>{otpError}</Text> : null}
             <View style={styles.btnContainer}>
               <ButtonPrimary
                 isActive={isActiveBtn}
@@ -363,7 +386,29 @@ const OTP: React.FC<any> = ({route}) => {
           )}
         </View>
       )}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isWrongOTPModalVisible}
+        onRequestClose={() => setWrongOTPModalVisible(false)}>
+        <TouchableWithoutFeedback
+          onPress={() => setWrongOTPModalVisible(false)}>
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContainer}>
+              <View style={styles.modalContent}>
+                <Text style={styles.modalText}>Wrong OTP</Text>
+                <TouchableOpacity
+                  style={styles.modalButton}
+                  onPress={() => setWrongOTPModalVisible(false)}>
+                  <Text style={styles.modalButtonText}>OK</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
     </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -404,9 +449,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  errorOtp:{
+  errorOtp: {
     color: 'red',
-    textAlign: 'right'
+    textAlign: 'right',
   },
   btnContainer: {
     marginTop: responsiveScreenHeight(5),
@@ -465,5 +510,38 @@ const styles = StyleSheet.create({
   backBtnContainer: {
     width: responsiveScreenWidth(15),
     paddingHorizontal: responsiveScreenWidth(2),
+  },
+
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContainer: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+    width: '80%',
+    alignItems: 'center',
+  },
+  modalContent: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalText: {
+    fontSize: 18,
+    marginBottom: 20,
+    color: 'red',
+  },
+  modalButton: {
+    backgroundColor: '#8BC83F',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  modalButtonText: {
+    color: dark,
+    fontSize: 18,
   },
 });

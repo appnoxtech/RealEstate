@@ -11,6 +11,8 @@ import {updateUserDetails} from '../../redux/reducers/userReducer';
 import {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 
+
+
 interface navigationParams {
   SuccessPage: {title: string};
 }
@@ -19,9 +21,15 @@ interface phoneNumberType {
 }
 
 const useAuthServiceHandler = () => {
+
+  // Inside useAuthServiceHandler
+
+
   const Navigation = useNavigation();
   const dispatch = useDispatch();
   const [title, setTitle] = useState('');
+const [isWrongOTPModalVisible, setWrongOTPModalVisible] = useState(false);
+
 
   const GenerateOtpServiceHandler = async (data: any) => {
     try {
@@ -40,7 +48,7 @@ const useAuthServiceHandler = () => {
           type: 'Register',
         });
       } else {
-        Alert.alert('', 'User Not Register!');
+        // Alert.alert('', 'User Not Register!');
         Navigation.navigate('Register' as never);
       }
     }
@@ -58,7 +66,7 @@ const useAuthServiceHandler = () => {
         Navigation.navigate('SuccessPage' as never, {title: data?.type});
       }
     } catch (error: any) {
-      Alert.alert('Wrong OTP');
+      setWrongOTPModalVisible(true);
     }
   };
 
@@ -94,6 +102,8 @@ const useAuthServiceHandler = () => {
     VerifyOTPServiceHandler,
     handleRegisterService,
     handleLogoutService,
+    isWrongOTPModalVisible,
+    setWrongOTPModalVisible
   };
 };
 

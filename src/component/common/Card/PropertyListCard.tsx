@@ -20,7 +20,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {DeletePropertyByIdService} from '../../../services/properties';
 import {useSelector} from 'react-redux';
 import {useDispatch} from 'react-redux'
-import { UpdatePostProperty } from '../../../redux/reducers/postReducer';
+import { ResetNewListing, UpdatePostProperty } from '../../../redux/reducers/postReducer';
 import { dark } from '../../../../assets/Styles/GlobalTheme';
 
 interface props {
@@ -29,6 +29,7 @@ interface props {
   propertyType: string;
   price: number;
   property: any;
+  updateListing(): any
 }
 
 interface userListingsData {
@@ -43,11 +44,9 @@ const PropertyListCard: FC<props> = ({
   propertyType,
   price,
   property,
+  updateListing
 }) => {
   const imgSrc = require('../../../../assets/images/image28.png');
-  const [userListingsData, setUserListingsData] = useState<
-    Array<userListingsData>
-  >([]);
   const dispatch = useDispatch();
 
   const {id} = useSelector((state: any) => state.user.userDetails);
@@ -64,20 +63,28 @@ const PropertyListCard: FC<props> = ({
     }
   };
 
-  const handelDelete = () => {
-    DeleteProperty(property?.id);
-    const updateUserListings = userListingsData.filter(
-      item => item.id !== property?.id,
-    );
-    setUserListingsData(updateUserListings);
+  // useEffect(() => {
+  //   const unsubscribe = navigation.addListener('focus', () => {
+  //     GetPropertyData();
+  //     dispatch(ResetNewListing());
+  //   });
+
+  //   // Return the function to unsubscribe from the event so it gets removed on unmount
+  //   return unsubscribe;
+  // }, [navigation]);
+
+
+  
+
+  const handelDelete = async () => {
+    await DeleteProperty(property?.id);
+    await updateListing();
   };
 
   const handelEdit = () => { 
     dispatch(UpdatePostProperty(property))
     navigation.navigate('PostProperty' as never)
   }
-
- 
 
   const navigation = useNavigation();
   return (
@@ -137,6 +144,7 @@ const styles = StyleSheet.create({
     borderRadius: responsiveWidth(3),
     shadowOffset: {width: -2, height: 4},
     shadowOpacity: 0.2,
+    elevation: 5,
   },
 
   featuredEstateHeaderText: {

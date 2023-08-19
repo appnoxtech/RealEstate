@@ -17,6 +17,7 @@ import {
 } from 'react-native-responsive-dimensions';
 import SettingButton from '../../component/common/buttons/SettingButton';
 import NotificationCard from '../../component/common/Card/NotificationCard';
+import { dark } from '../../../assets/Styles/GlobalTheme';
 
 export default function Notification() {
   const navigation = useNavigation();
@@ -96,6 +97,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   notificationText: {
+    color: dark,
     fontSize: responsiveFontSize(3),
   },
   notificationFeed: {

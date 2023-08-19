@@ -1,5 +1,6 @@
 const initialState = {
-    isLoading: false
+    isLoading: false,
+    hasLaunched: false
 }
 
 interface setIsLoading {
@@ -7,7 +8,12 @@ interface setIsLoading {
     payload: boolean;
 }
 
-type action = setIsLoading;
+interface updateAppLaunchedState {
+    type: 'UPDATE_APP_LAUNCH_STATE',
+    payload: boolean
+}
+
+type action = setIsLoading | updateAppLaunchedState;
   
 
 const CommonReducer = (state=initialState, action: action) => {
@@ -18,6 +24,13 @@ const CommonReducer = (state=initialState, action: action) => {
             isLoading: action.payload
         }
     }
+
+    case 'UPDATE_APP_LAUNCH_STATE': {
+        return {
+            ...state,
+            hasLaunched: action.payload
+        }
+    }
    
     default:
         return state;
@@ -25,3 +38,10 @@ const CommonReducer = (state=initialState, action: action) => {
 }
 
 export default CommonReducer;
+
+export const UpdateAppLaunchedState = (currState: boolean):updateAppLaunchedState => {
+   return {
+    type: 'UPDATE_APP_LAUNCH_STATE',
+    payload: currState
+   }
+}

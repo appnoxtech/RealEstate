@@ -23,11 +23,7 @@ export default function ProductTour01() {
   const navigation = useNavigation();
   const image1 = '../../../../assets/images/Rectangle6.png';
   const vector = '../../../../assets/images/Vector.png';
-  
-
-
-
-
+ 
   return (
     <SafeAreaView style={[{flex: 1, backgroundColor: 'white'}]}>
       <View style={styles.container}>

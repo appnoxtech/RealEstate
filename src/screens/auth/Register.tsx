@@ -130,12 +130,13 @@ export default function Register() {
 
   return (
     <SafeAreaView style={styles.mainContainer}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
         <View style={styles.headerBackButton}>
           <HeaderWithBackBtn />
         </View>
 
-       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+       
        <ScrollView showsVerticalScrollIndicator={false}>
           <Text style={styles.textH}>
             Create your<Text style={{color: '#1F4C6B'}}> account</Text>
@@ -220,8 +221,9 @@ export default function Register() {
             </TouchableOpacity>
           </View>
         </ScrollView>
-       </TouchableWithoutFeedback>
+       
       </View>
+      </TouchableWithoutFeedback>
     </SafeAreaView>
   );
 }
@@ -282,11 +284,12 @@ const styles = StyleSheet.create({
   },
 
   inputContainer: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     height: responsiveScreenHeight(7),
-    width: responsiveScreenWidth(90),
+    width: '99%',
     marginVertical: responsiveScreenHeight(1),
     borderWidth: 0,
     backgroundColor: '#F5F4F8',
@@ -296,12 +299,13 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   inputContainer1: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     gap: 5,
     height: responsiveScreenHeight(7),
-    width: responsiveScreenWidth(90),
+    width: '99%',
     marginVertical: responsiveScreenHeight(1),
     borderWidth: 1,
     borderColor: 'red',
@@ -312,7 +316,9 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
+    paddingVertical: responsiveScreenHeight(1),
     color: dark,
+    backgroundColor: '#F5F4F8',
   },
   passwordFS: {
     flexDirection: 'row',

@@ -189,7 +189,11 @@ const PostPropertyThird = () => {
             </ScrollView>
 
             <View style={styles.inputContainer1}>
-              <Text style={{color: dark}}>Title</Text>
+              <View style={styles.mainText}>
+                <Text style={{color: dark}}>Title </Text>
+                <Ionicons name="star" color={dark} size={responsiveWidth(3)} />
+              </View>
+
               <CustomTextInput
                 onChangeText={setTitleHandel}
                 value={newListing?.title}
@@ -202,7 +206,11 @@ const PostPropertyThird = () => {
               ) : null}
             </View>
             <View style={styles.inputContainer}>
-              <Text style={{color: dark}}>Pricing Details</Text>
+              <View style={styles.mainText}>
+                <Text style={{color: dark}}>Pricing Details </Text>
+                <Ionicons name="star" color={dark} size={responsiveWidth(3)} />
+              </View>
+
               <CustomTextInput
                 onChangeText={setPriceHandel}
                 value={newListing?.price}
@@ -262,8 +270,8 @@ const styles = StyleSheet.create({
     marginVertical: responsiveScreenHeight(1),
     borderRadius: responsiveWidth(4),
     backgroundColor: '#DFDFDF',
-    width: responsiveWidth(93),
-    height: responsiveScreenHeight(15),
+    width: '99%',
+    height: '25%',
   },
   addPhotoText: {
     fontSize: responsiveFontSize(3),
@@ -291,6 +299,11 @@ const styles = StyleSheet.create({
   },
   inputContainer1: {
     marginBottom: responsiveScreenHeight(1),
+  },
+  mainText: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingTop: responsiveScreenHeight(2),
   },
   bottomBtn: {
     paddingVertical: responsiveScreenHeight(8),

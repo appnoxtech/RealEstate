@@ -7,7 +7,7 @@ import {
   FlatList,
   ScrollView,
 } from 'react-native';
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import HeaderWithBackBtn from '../../common/buttons/HeaderWithBackBtn';
 import {
   responsiveFontSize,
@@ -16,21 +16,21 @@ import {
   responsiveScreenWidth,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-import { useState } from 'react';
+import {useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Slider from '@react-native-community/slider';
 import ExploreButton from '../../common/buttons/ExploreButton';
-import { useNavigation } from '@react-navigation/native';
-import { useDispatch, useSelector } from 'react-redux';
-import { UpdateNewListing } from '../../../redux/reducers/postReducer';
-import { UpdateCityName } from '../../../redux/reducers/filterReducer';
-import { URL } from '@env';
+import {useNavigation} from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
+import {UpdateNewListing} from '../../../redux/reducers/postReducer';
+import {UpdateCityName} from '../../../redux/reducers/filterReducer';
+import {URL} from '@env';
 import axios from 'axios';
 import LocationBtn from '../../common/buttons/LocationBtn';
-import { dark } from '../../../../assets/Styles/GlobalTheme';
+import {dark} from '../../../../assets/Styles/GlobalTheme';
 import OptionBtn from '../../common/buttons/OptionBtn';
 
-const SearchFilterPage = ({ route }: any) => {
+const SearchFilterPage = ({route}: any) => {
   // const [selectedBedroom, setSelectedBedroom] = useState(1);
   const [areaType, setAreaType] = useState<'residential' | 'commercial'>(
     'residential',
@@ -41,7 +41,7 @@ const SearchFilterPage = ({ route }: any) => {
   const [selectedId, setSelectedId] = useState(1);
   const [bedrooms, setBedrooms] = useState(false);
   const Navigation = useNavigation();
-  const { newListing } = useSelector((store: any) => store.post);
+  const {newListing} = useSelector((store: any) => store.post);
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -56,7 +56,6 @@ const SearchFilterPage = ({ route }: any) => {
   };
 
   const setBHKStatusHandel = (params: any) => {
-    
     dispatch(
       UpdateNewListing({
         key: 'bhk',
@@ -67,18 +66,24 @@ const SearchFilterPage = ({ route }: any) => {
 
   const handleSearch = async () => {
     try {
-      const searchString = `search?type=${areaType === 'residential'
+      const searchString = `search?type=${
+        areaType === 'residential'
           ? 'Residential-property'
           : 'Commercial-property'
-        }&lookingTo=${lookingTo === 'Buy' ? 'Sell' : 'Rent/Lease'
-        }&price=${sliderValue}&furnishedStatus=${newListing?.furnishedStatus}&state=${newListing?.state}&city=${newListing?.city}&bhk=${newListing?.bhk}`;
+      }&lookingTo=${
+        lookingTo === 'Buy' ? 'Sell' : 'Rent/Lease'
+      }&price=${sliderValue}&furnishedStatus=${
+        newListing?.furnishedStatus
+      }&state=${newListing?.state}&city=${newListing?.city}&bhk=${
+        newListing?.bhk
+      }`;
       const url = `${URL}${searchString}`;
 
       console.log('xyz--->', url);
 
       const res = await axios.get(url);
 
-      const { result } = res.data;
+      const {result} = res.data;
 
       Navigation.navigate('RenderSearchResult' as never, {
         cityData: result,
@@ -87,7 +92,7 @@ const SearchFilterPage = ({ route }: any) => {
     } catch (error: any) {
       const sendMessage = error.response.data.error.message;
 
-      Navigation.navigate('FallBackSearch' as never, { sendMessage });
+      Navigation.navigate('FallBackSearch' as never, {sendMessage});
     }
   };
 
@@ -106,7 +111,7 @@ const SearchFilterPage = ({ route }: any) => {
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.main}>
-          <Text style={{ color: dark, paddingBottom: responsiveScreenHeight(2) }}>
+          <Text style={{color: dark, paddingBottom: responsiveScreenHeight(2)}}>
             Type ?
           </Text>
           <View style={styles.propertyTYpe}>
@@ -119,7 +124,7 @@ const SearchFilterPage = ({ route }: any) => {
                   ? styles.typeColor
                   : styles.residential
               }>
-              <Text style={{ color: dark }}>Residential</Text>
+              <Text style={{color: dark}}>Residential</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
@@ -130,7 +135,7 @@ const SearchFilterPage = ({ route }: any) => {
                   ? styles.typeColor
                   : styles.residential
               }>
-              <Text style={{ color: dark }}>Commercial</Text>
+              <Text style={{color: dark}}>Commercial</Text>
             </TouchableOpacity>
           </View>
 
@@ -143,7 +148,7 @@ const SearchFilterPage = ({ route }: any) => {
               style={
                 lookingTo === 'Buy' ? styles.pressedbuyrent : styles.buyrent
               }>
-              <Text style={{ color: dark }}>Buy</Text>
+              <Text style={{color: dark}}>Buy</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
@@ -154,7 +159,7 @@ const SearchFilterPage = ({ route }: any) => {
                   ? styles.pressedbuyrent
                   : styles.buyrent
               }>
-              <Text style={{ color: dark }}>Rent/Lease</Text>
+              <Text style={{color: dark}}>Rent/Lease</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -165,7 +170,7 @@ const SearchFilterPage = ({ route }: any) => {
                 navigation.navigate('AddCityName' as never);
               }}
               style={styles.addCityName}>
-              <Text style={{ color: dark }}>City</Text>
+              <Text style={{color: dark}}>City</Text>
               <Ionicons style={styles.addFont} name={'add'} color={dark} />
             </TouchableOpacity>
             <View style={styles.locationDetails}>
@@ -179,12 +184,12 @@ const SearchFilterPage = ({ route }: any) => {
           </ScrollView>
         </View>
         <View style={styles.budgetContainer}>
-          <Text style={{ color: dark }}>Budget ?</Text>
+          <Text style={{color: dark}}>Budget ?</Text>
 
           <View style={styles.budgetText}>
-            <Text style={{ color: dark }}>$5</Text>
-            <Text style={{ color: dark }}> to </Text>
-            <Text style={{ color: dark }}>${sliderValue}+ </Text>
+            <Text style={{color: dark}}>$5</Text>
+            <Text style={{color: dark}}> to </Text>
+            <Text style={{color: dark}}>${sliderValue}+ </Text>
           </View>
           <Slider
             maximumValue={10000000}
@@ -196,7 +201,7 @@ const SearchFilterPage = ({ route }: any) => {
             onValueChange={sliderValue => setSliderValue(sliderValue)}
           />
         </View>
-        <View style={{ paddingHorizontal: responsiveScreenWidth(5) }}>
+        <View style={{paddingHorizontal: responsiveScreenWidth(5)}}>
           <Text style={styles.furnishedText}>Furnished Status ?</Text>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <View style={styles.furnishedStatus}>
@@ -217,7 +222,7 @@ const SearchFilterPage = ({ route }: any) => {
             </View>
           </ScrollView>
         </View>
-        <View style={{ paddingHorizontal: responsiveScreenWidth(5) }}>
+        <View style={{paddingHorizontal: responsiveScreenWidth(5)}}>
           <Text style={styles.furnishedText}>No. of Bedrooms ?</Text>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <View style={styles.furnishedStatus}>
@@ -297,8 +302,6 @@ const styles = StyleSheet.create({
   addCityNameContainer: {
     flexDirection: 'row',
     marginTop: responsiveHeight(2),
-    borderWidth: responsiveWidth(0.1),
-    borderRightWidth: 0,
     marginHorizontal: responsiveScreenWidth(5),
     padding: 5,
     gap: responsiveWidth(5),
@@ -375,7 +378,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: responsiveWidth(3),
-    paddingHorizontal: responsiveScreenWidth(5),
+    // paddingHorizontal: responsiveScreenWidth(5),
   },
 
   notColored: {

@@ -360,7 +360,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     height: responsiveScreenHeight(7),
-    width: responsiveScreenWidth(90),
+    width: '99%',
     borderWidth: 0,
     backgroundColor: '#F5F4F8',
     borderColor: '#F5F4F8',

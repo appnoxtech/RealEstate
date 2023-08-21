@@ -42,5 +42,6 @@ const styles = StyleSheet.create({
   textInput: {
     color: dark,
     flex: 1,
+    paddingVertical: responsiveScreenHeight(1)
   },
 })

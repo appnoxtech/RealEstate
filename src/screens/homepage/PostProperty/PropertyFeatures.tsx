@@ -125,7 +125,11 @@ const PropertyFeatures = () => {
           <HeaderWithBackBtn />
         </View>
         <View style={styles.inputContainer}>
-          <Text style={{color: dark}}>Area</Text>
+        <View style={styles.mainText}>
+        <Text style={{color: dark}}>Area </Text>
+                <Ionicons name="star" color={dark} size={responsiveWidth(3)} />
+              </View>
+         
           <CustomTextInput
             onChangeText={areaHandel}
             value={newListing?.area}
@@ -138,7 +142,11 @@ const PropertyFeatures = () => {
           ) : null}
         </View>
         <View style={styles.inputContainer}>
-          <Text style={{color: dark}}>Description</Text>
+        <View style={styles.mainText}>
+        <Text style={{color: dark}}>Description </Text>
+                <Ionicons name="star" color={dark} size={responsiveWidth(3)} />
+              </View>
+          
           <CustomTextInput
             onChangeText={discriptionHandel}
             value={newListing?.description}
@@ -180,4 +188,9 @@ const styles = StyleSheet.create({
     fontSize: responsiveWidth(7),
   },
   inputContainer: {},
+  mainText: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingTop: responsiveScreenHeight(2),
+  },
 });

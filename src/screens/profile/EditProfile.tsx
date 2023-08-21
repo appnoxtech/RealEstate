@@ -109,7 +109,6 @@ const EditProfile = () => {
       setNameValidError('');
       return true;
     }
-    
   };
 
   const OnHandleChangeEmail = (params: string) => {
@@ -136,38 +135,34 @@ const EditProfile = () => {
           <Fontisto name="person" size={responsiveWidth(10)} color={dark} />
         </View>
         <View style={styles.containerInput}>
-          <View
-            style={
-              nameValidError ? styles.inputContainer1 : styles.inputContainer
-            }>
+          <View>
             <TextInput
-              style={styles.input}
+              style={
+                nameValidError ? styles.inputContainer1 : styles.inputContainer
+              }
               placeholder="Full Name"
               placeholderTextColor={dark}
-              value={userDetails?.name}
+              value={name}
               autoCorrect={false}
               autoCapitalize="none"
               onChangeText={OnHandleChangeName}
             />
-            <Image source={require(profile)} style={styles.profileImage} />
           </View>
           {nameValidError ? (
             <Text style={styles.errorText}>{nameValidError}</Text>
           ) : null}
-          <View
-            style={
-              emailValidError ? styles.inputContainer1 : styles.inputContainer
-            }>
+          <View>
             <TextInput
-              style={styles.input}
+              style={
+                emailValidError ? styles.inputContainer1 : styles.inputContainer
+              }
               placeholder="Email"
               placeholderTextColor={dark}
-              value={userDetails?.email}
+              value={email}
               autoCorrect={false}
               autoCapitalize="none"
               onChangeText={OnHandleChangeEmail}
             />
-            <Image style={styles.emailImage} source={groupImg} />
           </View>
           {emailValidError ? (
             <Text style={styles.errorText}>{emailValidError}</Text>
@@ -192,6 +187,7 @@ const styles = StyleSheet.create({
   },
   profileText: {
     color: dark,
+    fontSize: responsiveFontSize(2.5),
   },
   userIcon: {
     backgroundColor: '#F5F4F8',

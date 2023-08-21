@@ -2,8 +2,12 @@ import { StyleSheet, Text, View,TouchableOpacity ,Image, SafeAreaView} from 'rea
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { responsiveScreenWidth } from 'react-native-responsive-dimensions';
+import { Dimensions } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 
 export default function HeaderWithBackBtn() {
+  const { width, height } = Dimensions.get('window');
 
   
     const navigation = useNavigation();
@@ -14,10 +18,7 @@ export default function HeaderWithBackBtn() {
        <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={styles.containerImg}>
-          <Image
-            style={styles.image}
-            source={vector1Img}
-          />
+         <Ionicons name='chevron-back-outline' size={responsiveScreenWidth(4)} color='black'/>
         </TouchableOpacity>
     </View>
    </SafeAreaView>

@@ -51,8 +51,6 @@ const PostPropertySecond = () => {
   const [totalFloorError, setTotalFloorError] = useState('');
   const [floorError, setFloorError] = useState('');
 
-  
-
   const NoOfRooms = ['1BHK', '2BHK', '3BHK', '4BHK', '5BHK', '5BHK+'];
   const FurnishedStatus = ['unfurnished', 'semi-furnished', 'furnished'];
   const Parking = ['Yes', 'No'];
@@ -178,7 +176,7 @@ const PostPropertySecond = () => {
   };
 
   const setTotalFloorHandel = (params: string) => {
-    if(!params) {
+    if (!params) {
       setTotalFloorError('Please enter total floor !');
     } else {
       setTotalFloorError('');
@@ -192,10 +190,9 @@ const PostPropertySecond = () => {
     );
   };
   const setPropertyOnFloorHandel = (params: string) => {
-    if(!params) {
+    if (!params) {
       setFloorError('Please enter floor !');
-    }
-    else if (Number(params) > Number(totalFloor)) {
+    } else if (Number(params) > Number(totalFloor)) {
       setFloorError('Enter valid floor !');
     } else {
       setFloorError('');
@@ -210,13 +207,12 @@ const PostPropertySecond = () => {
   };
 
   const handleNext = () => {
-    
     if (!newListing?.city) {
       setCityError('Please add location');
     } else {
       setCityError('');
     }
-    
+
     dispatch(
       UpdateNewListing({
         key: 'state',
@@ -247,8 +243,11 @@ const PostPropertySecond = () => {
               <Text style={styles.steps}>Step 2 of 3</Text>
               <Text style={styles.basicDetailsText}>Property Details</Text>
             </View>
+            <View style={styles.mainText}>
+              <Text style={styles.locatedText}>Where is it located ? </Text>
+              <Ionicons name="star" color={dark} size={responsiveWidth(3)} />
+            </View>
 
-            <Text style={styles.locatedText}>Where is it located ?</Text>
             <View style={styles.addCityNameContainer}>
               <ScrollView
                 showsHorizontalScrollIndicator={false}
@@ -275,7 +274,11 @@ const PostPropertySecond = () => {
           </View>
           <View>
             <Text style={styles.locatedText}>Add Rooms Details</Text>
-            <Text style={styles.noOfBedroomsText}>BHK ?</Text>
+            <View style={styles.mainText}>
+              <Text style={styles.noOfBedroomsText}>BHK ? </Text>
+              <Ionicons name="star" color={dark} size={responsiveWidth(3)} />
+            </View>
+
             <ScrollView
               showsHorizontalScrollIndicator={false}
               horizontal={true}>
@@ -294,7 +297,11 @@ const PostPropertySecond = () => {
                 ))}
               </View>
             </ScrollView>
-            <Text style={styles.noOfBedroomsText}>Furnished Status ?</Text>
+            <View style={styles.mainText}>
+              <Text style={styles.noOfBedroomsText}>Furnished Status ? </Text>
+              <Ionicons name="star" color={dark} size={responsiveWidth(3)} />
+            </View>
+
             <ScrollView
               showsHorizontalScrollIndicator={false}
               horizontal={true}>
@@ -320,10 +327,17 @@ const PostPropertySecond = () => {
             ) : null}
 
             <View style={styles.status}>
-              <Text
-                style={{marginBottom: responsiveScreenHeight(1), color: dark}}>
-                Properties Status ?
-              </Text>
+              <View style={styles.mainText}>
+                <Text
+                  style={{
+                    paddingVertical: responsiveScreenHeight(2),
+                    color: dark,
+                  }}>
+                  Properties Status ?{' '}
+                </Text>
+                <Ionicons name="star" color={dark} size={responsiveWidth(3)} />
+              </View>
+
               <View style={{flexDirection: 'row', gap: responsiveWidth(5)}}>
                 {status.map(option => (
                   <OptionBtn
@@ -344,7 +358,11 @@ const PostPropertySecond = () => {
             </View>
 
             <View style={styles.readyToMove}>
-              <Text style={{color: dark}}>Parking ? </Text>
+              <View style={styles.mainText}>
+                <Text style={{color: dark}}>Parking ? </Text>
+                <Ionicons name="star" color={dark} size={responsiveWidth(3)} />
+              </View>
+
               <View style={{flexDirection: 'row', gap: responsiveWidth(2)}}>
                 {Parking.map(option => (
                   <OptionBtn
@@ -363,7 +381,15 @@ const PostPropertySecond = () => {
                 <Text style={styles.errorCity}>{parkingError}</Text>
               ) : null}
               <View style={styles.inputContainer}>
-                <Text style={{color: dark}}>Total Number Of Floor ?</Text>
+                <View style={styles.mainText}>
+                  <Text style={{color: dark}}>Total Number Of Floor ? </Text>
+                  <Ionicons
+                    name="star"
+                    color={dark}
+                    size={responsiveWidth(3)}
+                  />
+                </View>
+
                 <CustomTextInput
                   onChangeText={setTotalFloorHandel}
                   value={newListing?.totalFloor}
@@ -374,7 +400,15 @@ const PostPropertySecond = () => {
                 <Text style={styles.errorCity}>{totalFloorError}</Text>
               ) : null}
               <View style={styles.inputContainer1}>
-                <Text style={{color: dark}}>Property on Floor ?</Text>
+                <View style={styles.mainText}>
+                  <Text style={{color: dark}}>Property on Floor ? </Text>
+                  <Ionicons
+                    name="star"
+                    color={dark}
+                    size={responsiveWidth(3)}
+                  />
+                </View>
+
                 <CustomTextInput
                   onChangeText={setPropertyOnFloorHandel}
                   value={newListing?.propertyOnFloor}
@@ -425,17 +459,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: responsiveScreenWidth(3),
   },
+  mainText: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingTop: responsiveScreenHeight(2),
+  },
   locatedText: {
     color: dark,
-    marginTop: responsiveHeight(3),
     fontSize: responsiveFontSize(2.5),
     fontWeight: '600',
   },
   addCityNameContainer: {
     flexDirection: 'row',
-    marginTop: responsiveHeight(1),
-    borderWidth: responsiveWidth(0.1),
-    borderRightWidth: 0,
+    marginVertical: responsiveHeight(1),
     padding: 5,
     gap: responsiveWidth(5),
   },
@@ -477,7 +513,7 @@ const styles = StyleSheet.create({
   },
   noOfBedroomsText: {
     color: dark,
-    marginVertical: responsiveScreenHeight(2),
+    marginVertical: responsiveScreenHeight(1),
   },
   noOfBedrooms: {
     flexDirection: 'row',
@@ -509,6 +545,6 @@ const styles = StyleSheet.create({
     padding: responsiveWidth(2),
   },
   status: {
-    marginVertical: responsiveScreenHeight(2),
+    // marginVertical: responsiveScreenHeight(2),
   },
 });

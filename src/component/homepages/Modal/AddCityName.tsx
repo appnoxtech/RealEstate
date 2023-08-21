@@ -33,7 +33,7 @@ const DropdownComponent: FC = () => {
   const [cityLabel, setCityLabel] = useState('');
   const [stateLabel, setStateLabel] = useState('');
   const [countryLabel, setCountryLabel] = useState('');
-  // const location = [countryLabel, stateLabel, cityLabel];
+  
 
   const navigation = useNavigation();
 
@@ -222,11 +222,11 @@ const DropdownComponent: FC = () => {
           onFocus={() => setIsFocus2(true)}
           onBlur={() => setIsFocus2(false)}
           onChange={item => {
-            setCityValue(item.value);
             setCityLabel(item.label);
-            setIsFocus1(false);
+            setIsFocus2(false);
           }}
         />
+      
       </View>
 
       <View style={{padding: 16}}>

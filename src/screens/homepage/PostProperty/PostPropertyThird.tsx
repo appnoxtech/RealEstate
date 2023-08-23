@@ -1,10 +1,14 @@
 import {
   Alert,
   Image,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
   SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
+  TouchableNativeFeedback,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -27,7 +31,7 @@ import {UpdateNewListing} from '../../../redux/reducers/postReducer';
 import * as ImagePicker from 'react-native-image-picker';
 import {ImageUploadService} from '../../../services/common/ImagePicker';
 import {dark} from '../../../../assets/Styles/GlobalTheme';
-import { width } from '../../../utils/constants/Matrics';
+import {width} from '../../../utils/constants/Matrics';
 
 const PostPropertyThird = () => {
   const [imgUrls, setImgUrls] = useState<Array<string>>([]);
@@ -86,8 +90,7 @@ const PostPropertyThird = () => {
       setPriceError('');
       setTextError('Enter valid title!');
       return false;
-    }
-     else if (!newListing?.price) {
+    } else if (!newListing?.price) {
       setPriceError('Required!');
       setTextError('');
       return false;
@@ -151,92 +154,106 @@ const PostPropertyThird = () => {
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
-      <View style={styles.container}>
-        <View style={styles.btnBack}>
-          <HeaderWithBackBtn />
-        </View>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={{flex: 1}}>
-            <View style={styles.headerText}>
-              <Text style={styles.steps}>Step 3 of 3</Text>
-              <Text style={styles.basicDetailsText}>Photos & Pricing</Text>
+      <TouchableNativeFeedback onPress={Keyboard.dismiss}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={styles.view}>
+          <View style={styles.container}>
+            <View style={styles.btnBack}>
+              <HeaderWithBackBtn />
             </View>
-            <Text style={styles.textPropertyPhoto}>Add property photos</Text>
-            <TouchableOpacity
-              onPress={handlePickerPress}
-              style={styles.uploadPhoto}>
-              <Ionicons
-                name="image"
-                size={responsiveWidth(18)}
-                color={'#F5F4F8'}
-              />
-              <Text style={styles.addPhotoText}>+ Add Photos</Text>
-            </TouchableOpacity>
+            <ScrollView showsVerticalScrollIndicator={false}>
+              <View style={{flex: 1}}>
+                <View style={styles.headerText}>
+                  <Text style={styles.steps}>Step 3 of 4</Text>
+                  <Text style={styles.basicDetailsText}>Photos & Pricing</Text>
+                </View>
+                <Text style={styles.textPropertyPhoto}>
+                  Add property photos
+                </Text>
+                <TouchableOpacity
+                  onPress={handlePickerPress}
+                  style={styles.uploadPhoto}>
+                  <Ionicons
+                    name="image"
+                    size={responsiveWidth(18)}
+                    color={'#F5F4F8'}
+                  />
+                  <Text style={styles.addPhotoText}>+ Add Photos</Text>
+                </TouchableOpacity>
 
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              <View style={[styles.imageSelected, styles.padding]}>
-                {imgUrls?.map((option: string, index: number) => (
-                  <View key={index} style={{position: 'relative'}}>
-                    <Image
-                      style={styles.images}
-                      source={{uri: option}}
-                      alt="img"
-                    />
-                    <Ionicons
-                      onPress={() => handleDeleteImage(index)}
-                      style={{position: 'absolute', top: -7, right: -7}}
-                      size={responsiveScreenWidth(5)}
-                      color="gray"
-                      name="close-circle-sharp"
-                    />
+                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                  <View style={[styles.imageSelected, styles.padding ]}>
+                    {imgUrls?.map((option: string, index: number) => (
+                      <View key={index} style={{position: 'relative'}}>
+                        <Image
+                          style={styles.images}
+                          source={{uri: option}}
+                          alt="img"
+                        />
+                        <Ionicons
+                          onPress={() => handleDeleteImage(index)}
+                          style={{position: 'absolute', top: -7, right: -7}}
+                          size={responsiveScreenWidth(5)}
+                          color="gray"
+                          name="close-circle-sharp"
+                        />
+                      </View>
+                    ))}
                   </View>
-                ))}
+                </ScrollView>
+
+                <View style={styles.inputContainer1}>
+                  <View style={styles.mainText}>
+                    <Text style={{color: dark}}>Title </Text>
+                    <Text
+                      style={{fontSize: responsiveFontSize(2.5), color: 'red'}}>
+                      *
+                    </Text>
+                  </View>
+
+                  <CustomTextInput
+                    onChangeText={setTitleHandel}
+                    value={newListing?.title}
+                    placeholder="Title"
+                  />
+                  {textError ? (
+                    <Text style={{color: 'red', alignSelf: 'flex-end'}}>
+                      {textError}
+                    </Text>
+                  ) : null}
+                </View>
+                <View style={styles.inputContainer}>
+                  <View style={styles.mainText}>
+                    <Text style={{color: dark}}>Pricing Details </Text>
+                    <Text
+                      style={{fontSize: responsiveFontSize(2.5), color: 'red'}}>
+                      *
+                    </Text>
+                  </View>
+
+                  <CustomTextInput
+                    onChangeText={setPriceHandel}
+                    value={newListing?.price}
+                    placeholder="Enter expected price"
+                  />
+                  {priceError ? (
+                    <Text style={styles.errorText}>{priceError}</Text>
+                  ) : null}
+                </View>
+              </View>
+              <View
+                style={
+                  !imgUrls[0]
+                    ? {paddingVertical: responsiveScreenHeight(8)}
+                    : {paddingVertical: responsiveScreenHeight(2)}
+                }>
+                <ExploreButton onPress={() => handleNext()} title="Next" />
               </View>
             </ScrollView>
-
-            <View style={styles.inputContainer1}>
-              <View style={styles.mainText}>
-                <Text style={{color: dark}}>Title </Text>
-                <Text style={{fontSize: responsiveFontSize(2.5), color: 'red'}}>*</Text>
-              </View>
-
-              <CustomTextInput
-                onChangeText={setTitleHandel}
-                value={newListing?.title}
-                placeholder="Title"
-              />
-              {textError ? (
-                <Text style={{color: 'red', alignSelf: 'flex-end'}}>
-                  {textError}
-                </Text>
-              ) : null}
-            </View>
-            <View style={styles.inputContainer}>
-              <View style={styles.mainText}>
-                <Text style={{color: dark}}>Pricing Details </Text>
-                <Text style={{fontSize: responsiveFontSize(2.5), color: 'red'}}>*</Text>
-              </View>
-
-              <CustomTextInput
-                onChangeText={setPriceHandel}
-                value={newListing?.price}
-                placeholder="Enter expected price"
-              />
-              {priceError? (
-                <Text style={styles.errorText}>{priceError}</Text>
-              ) : null}
-            </View>
           </View>
-          <View
-            style={
-              !imgUrls[0]
-                ? {paddingVertical: responsiveScreenHeight(8)}
-                : {paddingVertical: responsiveScreenHeight(2)}
-            }>
-            <ExploreButton onPress={() => handleNext()} title="Next" />
-          </View>
-        </ScrollView>
-      </View>
+        </KeyboardAvoidingView>
+      </TouchableNativeFeedback>
     </SafeAreaView>
   );
 };
@@ -247,6 +264,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: responsiveScreenWidth(3),
+  },
+  view: {
+    flex: 1,
   },
   btnBack: {
     marginVertical: responsiveScreenHeight(1),
@@ -292,9 +312,10 @@ const styles = StyleSheet.create({
     paddingTop: responsiveScreenHeight(2),
     gap: responsiveScreenWidth(3),
   },
-  padding : {
-    paddingBottom: responsiveHeight(8),
+  padding: {
+    paddingBottom: responsiveHeight(5),
   },
+  
   images: {
     width: responsiveScreenWidth(20),
     height: responsiveScreenHeight(10),

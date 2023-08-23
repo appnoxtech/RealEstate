@@ -49,7 +49,7 @@ const PropertyListCard: FC<props> = ({
   property,
   updateListing,
 }) => {
-  const imgSrc = require('../../../../assets/images/image28.png');
+  const imgSrc = require('../../../../assets/images/p6.jpg');
   const dispatch = useDispatch();
 
   const {id} = useSelector((state: any) => state.user.userDetails);
@@ -60,7 +60,7 @@ const PropertyListCard: FC<props> = ({
       console.log(propertyId);
 
       const {result} = res.data;
-      Alert.alert('Property deleted successfully ')
+      Alert.alert('Property deleted successfully ');
       console.log(result);
     } catch (error: any) {
       Alert.alert('Error', error.response.data.error.message);
@@ -91,7 +91,11 @@ const PropertyListCard: FC<props> = ({
   return (
     <SafeAreaView>
       <View style={styles.yourListing}>
-        <View style={[styles.listingContainer, styles.shadowProp]}>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate('DetailedPage' as never, {data: property})
+          }
+          style={[styles.listingContainer, styles.shadowProp]}>
           <View style={styles.yourListingsBody}>
             <Image
               style={{
@@ -133,7 +137,7 @@ const PropertyListCard: FC<props> = ({
               />
             </View>
           </View>
-        </View>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );

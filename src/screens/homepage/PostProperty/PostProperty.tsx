@@ -8,6 +8,7 @@ import {
   Alert,
   ScrollView,
   TextInput,
+  Platform,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -143,7 +144,7 @@ const PostProperty = () => {
         <View style={styles.headerItems}>
           <View style={styles.basicDetails}>
             <View style={{gap: responsiveScreenHeight(1)}}>
-              <Text style={styles.steps}>Step 1 of 3</Text>
+              <Text style={styles.steps}>Step 1 of 4</Text>
               <Text style={styles.basicDetailsText}>Add Basic Details</Text>
               <Text style={{color: dark}}>
                 Your Intent, Property type & Contact details
@@ -247,6 +248,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: responsiveScreenWidth(4),
+    paddingVertical: Platform.OS === 'android' ? responsiveScreenHeight(2) : responsiveScreenHeight(1),
     gap: responsiveScreenWidth(70),
   },
   hamBurger: {

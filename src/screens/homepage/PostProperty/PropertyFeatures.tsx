@@ -2,6 +2,9 @@ import {Alert, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
+  responsiveFontSize,
+  responsiveHeight,
+  responsiveScreenFontSize,
   responsiveScreenHeight,
   responsiveScreenWidth,
   responsiveWidth,
@@ -128,9 +131,16 @@ const PropertyFeatures = () => {
           <HeaderWithBackBtn />
         </View>
         <View style={styles.inputContainer}>
+        <View style={styles.headerText}>
+                  <Text style={styles.steps}>Step 4 of 4</Text>
+                  <Text style={styles.basicDetailsText}>Area & Description</Text>
+                </View>
         <View style={styles.mainText}>
         <Text style={{color: dark}}>Area </Text>
-                <Ionicons name="star" color={dark} size={responsiveWidth(3)} />
+                 <Text
+                      style={{fontSize: responsiveFontSize(2.5), color: 'red'}}>
+                      *
+                    </Text>
               </View>
          
           <CustomTextInput
@@ -147,7 +157,10 @@ const PropertyFeatures = () => {
         <View style={styles.inputContainer}>
         <View style={styles.mainText}>
         <Text style={{color: dark}}>Description </Text>
-                <Ionicons name="star" color={dark} size={responsiveWidth(3)} />
+                 <Text
+                      style={{fontSize: responsiveFontSize(2.5), color: 'red'}}>
+                      *
+                    </Text>
               </View>
           
           <CustomTextInput
@@ -191,6 +204,19 @@ const styles = StyleSheet.create({
     fontSize: responsiveWidth(7),
   },
   inputContainer: {},
+  headerText: {
+    gap: responsiveHeight(2),
+  },
+  steps: {
+    color: dark,
+    fontSize: responsiveScreenFontSize(1.9),
+    fontWeight: '400',
+  },
+  basicDetailsText: {
+    color: dark,
+    fontSize: responsiveFontSize(3.8),
+    fontWeight: 'bold',
+  },
   mainText: {
     flexDirection: 'row',
     alignItems: 'center',

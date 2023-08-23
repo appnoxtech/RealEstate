@@ -27,6 +27,7 @@ import {UpdateNewListing} from '../../../redux/reducers/postReducer';
 import * as ImagePicker from 'react-native-image-picker';
 import {ImageUploadService} from '../../../services/common/ImagePicker';
 import {dark} from '../../../../assets/Styles/GlobalTheme';
+import { width } from '../../../utils/constants/Matrics';
 
 const PostPropertyThird = () => {
   const [imgUrls, setImgUrls] = useState<Array<string>>([]);
@@ -81,7 +82,12 @@ const PostPropertyThird = () => {
       setPriceError('');
       setTextError('Required!');
       return false;
-    } else if (!newListing?.price) {
+    } else if (!isNaN(newListing?.title)) {
+      setPriceError('');
+      setTextError('Enter valid title!');
+      return false;
+    }
+     else if (!newListing?.price) {
       setPriceError('Required!');
       setTextError('');
       return false;
@@ -112,7 +118,7 @@ const PostPropertyThird = () => {
   const setPriceHandel = (params: any) => {
     if (!params) {
       setPriceError('Required!');
-    } else if (!isNaN(params)) {
+    } else if (isNaN(params)) {
       setPriceError('Enter valid price!');
     } else {
       setPriceError('');
@@ -168,7 +174,7 @@ const PostPropertyThird = () => {
             </TouchableOpacity>
 
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              <View style={styles.imageSelected}>
+              <View style={[styles.imageSelected, styles.padding]}>
                 {imgUrls?.map((option: string, index: number) => (
                   <View key={index} style={{position: 'relative'}}>
                     <Image
@@ -191,7 +197,7 @@ const PostPropertyThird = () => {
             <View style={styles.inputContainer1}>
               <View style={styles.mainText}>
                 <Text style={{color: dark}}>Title </Text>
-                <Ionicons name="star" color={dark} size={responsiveWidth(3)} />
+                <Text style={{fontSize: responsiveFontSize(2.5), color: 'red'}}>*</Text>
               </View>
 
               <CustomTextInput
@@ -208,7 +214,7 @@ const PostPropertyThird = () => {
             <View style={styles.inputContainer}>
               <View style={styles.mainText}>
                 <Text style={{color: dark}}>Pricing Details </Text>
-                <Ionicons name="star" color={dark} size={responsiveWidth(3)} />
+                <Text style={{fontSize: responsiveFontSize(2.5), color: 'red'}}>*</Text>
               </View>
 
               <CustomTextInput
@@ -216,7 +222,7 @@ const PostPropertyThird = () => {
                 value={newListing?.price}
                 placeholder="Enter expected price"
               />
-              {!newListing?.price ? (
+              {priceError? (
                 <Text style={styles.errorText}>{priceError}</Text>
               ) : null}
             </View>
@@ -279,11 +285,15 @@ const styles = StyleSheet.create({
   },
 
   imageSelected: {
+    flex: 1,
     flexDirection: 'row',
     paddingHorizontal: responsiveScreenWidth(2),
     paddingBottom: responsiveHeight(4),
     paddingTop: responsiveScreenHeight(2),
     gap: responsiveScreenWidth(3),
+  },
+  padding : {
+    paddingBottom: responsiveHeight(8),
   },
   images: {
     width: responsiveScreenWidth(20),

@@ -1,7 +1,7 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Platform, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {FC} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { responsiveWidth } from 'react-native-responsive-dimensions';
+import { responsiveScreenWidth, responsiveWidth } from 'react-native-responsive-dimensions';
 import { dark } from '../../../../assets/Styles/GlobalTheme';
 
 interface props {
@@ -14,7 +14,7 @@ const NotificationCard: FC<props> = ({title, description, postingTime}) => {
   return (
     <TouchableOpacity style={[styles.container, styles.shadowProp]} >
       <Ionicons name="notifications" color={'#8BC83F'} size={responsiveWidth(9) } />
-      <View>
+      <View style={{ paddingHorizontal:Platform.OS === 'android' ? responsiveScreenWidth(3) : 0}}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.description}>{description}</Text>
         <Text style={styles.postTime}>{postingTime}</Text>
@@ -48,7 +48,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   description: {
-    color: dark
+    color: dark,
+   
   },
   postTime: {
     alignSelf: 'flex-end',

@@ -2,7 +2,7 @@ import { Text, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
 import COLORS from "../../../utils/Colors";
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { responsiveWidth } from "react-native-responsive-dimensions";
+import { responsiveHeight, responsiveScreenWidth, responsiveWidth } from "react-native-responsive-dimensions";
 
 type ButtonProps = {
   onPress: () => void;
@@ -23,12 +23,13 @@ const Button = ({ onPress }: ButtonProps) => {
 
 const styles = StyleSheet.create({
   button: {
-    height: 55,
-    // backgroundColor: 'gray',
-    marginVertical: 10,
+    width: responsiveWidth(10),
+    height: responsiveHeight(5),
+    backgroundColor: '#F5F4F8',
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 5,
+    borderRadius: responsiveWidth(10),
+    // paddingHorizontal: responsiveScreenWidth()
   },
   
 });

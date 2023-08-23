@@ -1,11 +1,20 @@
-import { StyleSheet,View,Platform } from 'react-native';
-import { useState } from 'react';
+import { StyleSheet,View,Platform, InputModeOptions } from 'react-native';
+import { FC, useState } from 'react';
 import { responsiveScreenHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 import { responsiveScreenWidth } from 'react-native-responsive-dimensions';
 import { TextInput } from 'react-native';
 import { dark } from '../../../../assets/Styles/GlobalTheme';
 
-export default function CustomTextInput(props: any) {
+
+interface props {
+  keyboardType?: InputModeOptions | undefined,
+  value: string,
+  onChangeText(text : string) : void,
+  placeholder: string
+  
+}
+
+const CustomTextInput : FC<props> = ({keyboardType = 'text', value, onChangeText, placeholder}) => {
   const [focus, setFocus] = useState(false);
   return (
     <View
@@ -14,19 +23,20 @@ export default function CustomTextInput(props: any) {
         {borderColor: focus ? 'red' : 'rgba(0,0,0,0.5)'}
       ]}>
       <TextInput
-        value={props?.value}
-        onChangeText={(text: string) => props?.onChangeText(text)}
+        value={value}
+        onChangeText={(text: string) => onChangeText(text)}
         onFocus={() => setFocus(true)}
         onBlur={() => setFocus(false)}
         style={styles.textInput}
-        placeholder={props?.placeholder}
+        placeholder={placeholder}
         placeholderTextColor={dark}
+        inputMode={keyboardType}
       />
       
     </View>
   );
 }
-
+export default CustomTextInput
 const styles = StyleSheet.create({
   container: {
     height:responsiveScreenHeight(6),

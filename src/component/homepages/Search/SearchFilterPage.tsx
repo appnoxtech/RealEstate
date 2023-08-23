@@ -29,22 +29,37 @@ import axios from 'axios';
 import LocationBtn from '../../common/buttons/LocationBtn';
 import {dark} from '../../../../assets/Styles/GlobalTheme';
 import OptionBtn from '../../common/buttons/OptionBtn';
+import CustomTextInput from '../../common/inputs/inputComponent';
 
 const SearchFilterPage = ({route}: any) => {
-  // const [selectedBedroom, setSelectedBedroom] = useState(1);
+
   const [areaType, setAreaType] = useState<'residential' | 'commercial'>(
     'residential',
   );
   const [lookingTo, setLookingTo] = useState<'Buy' | 'Rent / Lease'>('Buy');
-  const [furnishedStatus, setFurnishedStatus] = useState('Unfurnished');
+
   const [sliderValue, setSliderValue] = useState(10);
-  const [selectedId, setSelectedId] = useState(1);
-  const [bedrooms, setBedrooms] = useState(false);
+  const [area, setArea] = useState();
+  const [status, setStatus] = useState('');
+ 
+  
+  
+  
+
   const Navigation = useNavigation();
   const {newListing} = useSelector((store: any) => store.post);
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
+
+
+  const handelArea = (params: any) => {
+    setArea(params)
+  }
+
+  const setStatusHandel = (params: any) => {
+    setStatus(params)
+  }
 
   const setFurnishedStatusHandel = (params: any) => {
     dispatch(
@@ -76,7 +91,7 @@ const SearchFilterPage = ({route}: any) => {
         newListing?.furnishedStatus
       }&state=${newListing?.state}&city=${newListing?.city}&bhk=${
         newListing?.bhk
-      }`;
+      }&status=${status}&area=${area}`;
       const url = `${URL}${searchString}`;
 
       console.log('xyz--->', url);
@@ -99,6 +114,9 @@ const SearchFilterPage = ({route}: any) => {
   const FurnishedStatus = ['unfurnished', 'semi-furnished', 'furnished'];
 
   const DATA = ['1RK/1BHK', '2BHK', '3BHK', '4BHK', '5BHK', '5BHK+'];
+
+  const statusData = ['readyToMove', 'underConstruction'];
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -163,14 +181,16 @@ const SearchFilterPage = ({route}: any) => {
             </TouchableOpacity>
           </View>
         </View>
+      <Text style={[styles.pb10, {paddingHorizontal: responsiveScreenWidth(5)}]}>Location ?</Text>
         <View style={styles.addCityNameContainer}>
+          
           <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate('AddCityName' as never);
               }}
               style={styles.addCityName}>
-              <Text style={{color: dark}}>City</Text>
+              <Text style={{color: dark, }}>Location</Text>
               <Ionicons style={styles.addFont} name={'add'} color={dark} />
             </TouchableOpacity>
             <View style={styles.locationDetails}>
@@ -196,7 +216,7 @@ const SearchFilterPage = ({route}: any) => {
             minimumValue={0}
             minimumTrackTintColor="#8BC83F"
             maximumTrackTintColor="gray"
-            step={1000}
+            step={10000}
             value={sliderValue}
             onValueChange={sliderValue => setSliderValue(sliderValue)}
           />
@@ -240,6 +260,25 @@ const SearchFilterPage = ({route}: any) => {
               ))}
             </View>
           </ScrollView>
+          <Text style={styles.status}>Status ?</Text>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            <View style={styles.furnishedStatus}>
+              {statusData.map((option: any) => (
+                <OptionBtn
+                  id={option}
+                  key={option}
+                  label={option}
+                  btnPressHandler={setStatusHandel}
+                  style={[
+                    styles.notColored,
+                    status === option ? styles.colored : null,
+                  ]}
+                />
+              ))}
+            </View>
+          </ScrollView>
+          <Text style={styles.area}>Enter area ?</Text>
+          <CustomTextInput onChangeText={handelArea} value={area} placeholder="sq.ft" />
         </View>
         <View style={styles.button}>
           <ExploreButton title="Search" onPress={handleSearch} />
@@ -302,9 +341,9 @@ const styles = StyleSheet.create({
   addCityNameContainer: {
     flexDirection: 'row',
     marginTop: responsiveHeight(2),
-    marginHorizontal: responsiveScreenWidth(5),
-    padding: 5,
-    gap: responsiveWidth(5),
+    paddingHorizontal: responsiveScreenWidth(5),
+    paddingVertical: responsiveScreenHeight(1),
+   gap: responsiveWidth(5),
   },
   locationDetails: {
     flexDirection: 'row',
@@ -317,6 +356,7 @@ const styles = StyleSheet.create({
     borderRadius: responsiveWidth(18),
     borderColor: '#8BC83F',
     paddingHorizontal: responsiveScreenWidth(5),
+    paddingVertical: responsiveScreenHeight(1),
     gap: 5,
   },
   showCityName: {
@@ -426,6 +466,14 @@ const styles = StyleSheet.create({
 
   button: {
     paddingHorizontal: responsiveScreenWidth(5),
-    paddingVertical: responsiveScreenHeight(6),
+    paddingVertical: responsiveScreenHeight(2),
+  },
+  area: {
+    color: dark,
+    paddingTop: responsiveScreenHeight(2.7),
+  },
+  status: {
+    color: dark,
+    paddingVertical: responsiveScreenHeight(2.2),
   },
 });

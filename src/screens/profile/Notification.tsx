@@ -102,6 +102,6 @@ const styles = StyleSheet.create({
   },
   notificationFeed: {
     flex: 1,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
 });

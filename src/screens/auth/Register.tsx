@@ -142,7 +142,7 @@ export default function Register() {
             Create your<Text style={{color: '#1F4C6B'}}> account</Text>
           </Text>
           <Text style={styles.textP}>
-            quis nostrud exercitation ullamco laboris nisi ut
+           In few simple steps
           </Text>
           <View style={styles.containerInput}>
             <View

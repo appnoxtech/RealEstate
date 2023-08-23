@@ -51,7 +51,10 @@ const PropertyFeatures = () => {
   };
 
   const handelPost = () => {
+    const isValid = validate()
+    if(isValid) {
     createPropertyHandler(newListing);
+    }
   };
   const discriptionHandel = (params: any) => {
     if (!isNaN(params)) {

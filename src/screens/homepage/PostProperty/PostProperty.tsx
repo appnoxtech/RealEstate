@@ -151,8 +151,8 @@ const PostProperty = () => {
             </View>
             <View style={styles.main}>
               <View style={styles.mainText}>
-                <Text style={styles.pb10}>You're Looking to ? </Text>
-                <Ionicons name="star" color={dark} size={responsiveWidth(3)} />
+                <Text style={styles.pb10}>You're Looking to ? <Text style={{fontSize: responsiveFontSize(2.5), color: 'red'}}>*</Text></Text>
+                
               </View>
               <View style={styles.lookingTo}>
                 {LookingOption?.map(option => (
@@ -170,8 +170,8 @@ const PostProperty = () => {
                 ))}
               </View>
               <View style={styles.mainText}>
-                <Text style={styles.pb10}>What Kind Of Property ? </Text>
-                <Ionicons name="star" color={dark} size={responsiveWidth(3)} />
+                <Text style={styles.pb10}>What Kind Of Property ? <Text style={{fontSize: responsiveFontSize(2.5), color: 'red'}}>*</Text></Text>
+                
               </View>
               <View style={styles.propertyTYpe}>
                 {WhatKindOfProperty?.map((option, index) => (
@@ -189,8 +189,8 @@ const PostProperty = () => {
                 ))}
               </View>
               <View style={styles.mainText}>
-              <Text style={{color: dark}}>Select Property Type ? </Text>
-                <Ionicons name="star" color={dark} size={responsiveWidth(3)} />
+              <Text style={{color: dark}}>Select Property Type ? <Text style={{fontSize: responsiveFontSize(2.5), color: 'red'}}>*</Text></Text>
+                
               </View>
               
               {propertyType?.length ? (
@@ -246,7 +246,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: responsiveScreenWidth(3),
+    paddingHorizontal: responsiveScreenWidth(4),
     gap: responsiveScreenWidth(70),
   },
   hamBurger: {

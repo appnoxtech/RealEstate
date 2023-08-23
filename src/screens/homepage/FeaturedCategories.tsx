@@ -19,6 +19,7 @@ import {
 } from 'react-native-responsive-dimensions';
 import { dark } from '../../../assets/Styles/GlobalTheme';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { width } from '../../utils/constants/Matrics';
 
 const FeaturedCategories = () => {
   
@@ -98,7 +99,7 @@ const FeaturedCategories = () => {
       <View style={styles.container}>
         <View style={styles.featuredCard}>
           <ImageBackground  style={styles.imageContainer} source={data.image}>
-            <TouchableOpacity style={styles.heartContainer}>
+            <TouchableOpacity style={[styles.heartContainer, width > 500 && styles.heartContainer1]}>
               <Ionicons name='heart' size={responsiveScreenWidth(4)} color='white'/>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button}>
@@ -157,17 +158,20 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     flexDirection: 'row',
     backgroundColor: '#F5F4F8',
-    padding: responsiveScreenWidth(3),
+    paddingLeft: responsiveScreenWidth(5),
+    paddingRight: responsiveScreenWidth(10),
+    paddingVertical: responsiveScreenHeight(1),
     gap: responsiveScreenWidth(3),
    
   },
   imageContainer: {
    flex: 1,
     width: responsiveScreenWidth(40),
-    height: responsiveScreenHeight(22),
+    height: responsiveScreenHeight(21),
     borderRadius: responsiveWidth(4),
-    padding: responsiveScreenWidth(2),
-    gap: responsiveHeight(7),
+    paddingHorizontal: responsiveScreenWidth(2),
+    paddingVertical: responsiveScreenHeight(1),
+    gap: responsiveHeight(9),
     overflow: 'hidden'
   },
   heartContainer: {
@@ -177,6 +181,9 @@ const styles = StyleSheet.create({
     height: responsiveScreenHeight(5),
     borderRadius: responsiveScreenWidth(20),
     backgroundColor: '#8BC83F',
+  },
+  heartContainer1: {
+    width: responsiveScreenWidth(7.5),
   },
   
   button: {

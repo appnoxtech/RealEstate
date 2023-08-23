@@ -13,6 +13,7 @@ import {
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import { dark } from '../../../../assets/Styles/GlobalTheme';
+import { width } from '../../../utils/constants/Matrics';
 
 
 
@@ -24,7 +25,7 @@ const LocationBtn: FC<props> = ({label}) => {
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
       <View style={styles.showCityName}>
-        <Text style={{color: dark, fontSize: responsiveFontSize(1)}}>{label}</Text>
+        <Text style={{color: dark, fontSize: width > 500 ? responsiveFontSize(1) : responsiveFontSize(1.6)}}>{label}</Text>
       </View>
     </SafeAreaView>
   );

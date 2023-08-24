@@ -14,8 +14,8 @@ const usePropertyHook = () => {
       Navigation.navigate('Homepage' as never);
       dispatch(ResetNewListing())
     } catch (error: any) {
-      const ErrorMsg = error.message;
-      Alert.alert(ErrorMsg)
+      const ErrorMsg = error;
+     console.log(ErrorMsg);
       
     }
   };

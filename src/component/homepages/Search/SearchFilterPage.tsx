@@ -39,7 +39,6 @@ const SearchFilterPage = ({route}: any) => {
   const [lookingTo, setLookingTo] = useState<'Buy' | 'Rent / Lease'>('Buy');
 
   const [sliderValue, setSliderValue] = useState(10);
-  const [area, setArea] = useState();
   const [status, setStatus] = useState('');
  
   
@@ -53,9 +52,7 @@ const SearchFilterPage = ({route}: any) => {
   const dispatch = useDispatch();
 
 
-  const handelArea = (params: any) => {
-    setArea(params)
-  }
+ 
 
   const setStatusHandel = (params: any) => {
     setStatus(params)
@@ -91,7 +88,7 @@ const SearchFilterPage = ({route}: any) => {
         newListing?.furnishedStatus
       }&state=${newListing?.state}&city=${newListing?.city}&bhk=${
         newListing?.bhk
-      }&status=${status}&area=${area}`;
+      }&status=${status}`;
       const url = `${URL}${searchString}`;
 
       console.log('xyz--->', url);
@@ -277,8 +274,6 @@ const SearchFilterPage = ({route}: any) => {
               ))}
             </View>
           </ScrollView>
-          <Text style={styles.area}>Enter area ?</Text>
-          <CustomTextInput onChangeText={handelArea} value={area} placeholder="sq.ft" />
         </View>
         <View style={styles.button}>
           <ExploreButton title="Search" onPress={handleSearch} />

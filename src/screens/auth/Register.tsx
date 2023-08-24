@@ -271,7 +271,7 @@ const styles = StyleSheet.create({
   textP: {
     color: dark,
     marginBottom: responsiveScreenHeight(1.2),
-    fontSize: 12,
+    fontSize: responsiveFontSize(1.9),
   },
 
   inputContainerEmail: {

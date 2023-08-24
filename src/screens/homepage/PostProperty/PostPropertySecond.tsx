@@ -30,7 +30,7 @@ import ExploreButton from '../../../component/common/buttons/ExploreButton';
 import CustomTextInput from '../../../component/common/inputs/inputComponent';
 import LocationBtn from '../../../component/common/buttons/LocationBtn';
 import {dark} from '../../../../assets/Styles/GlobalTheme';
-import { width } from '../../../utils/constants/Matrics';
+import {width} from '../../../utils/constants/Matrics';
 
 const PostPropertySecond = () => {
   const [noOfRooms, setNoOfRooms] = useState('1BHK');
@@ -42,7 +42,9 @@ const PostPropertySecond = () => {
   const [readyToMove, setReadyToMove] = useState('');
   const [propertyStatus, setStatus] = useState('');
   const [totalFloor, setTotalFloor] = useState(newListing?.totalFloor);
-  const [propertyOnFloor, setProperyOnFloor] = useState(newListing?.propertyOnFloor);
+  const [propertyOnFloor, setProperyOnFloor] = useState(
+    newListing?.propertyOnFloor,
+  );
 
   const dispatch = useDispatch();
 
@@ -58,13 +60,18 @@ const PostPropertySecond = () => {
   const [skipOne, setSkipOne] = useState(false);
 
   const NoOfRooms = ['1BHK', '2BHK', '3BHK', '4BHK', '5BHK', '5BHK+'];
-  const FurnishedStatus = ['unfurnished', 'semi-furnished', 'furnished'];
+  const FurnishedStatus = [
+    {label: 'unfurnished', value: 'Unfurnished'},
+    {label: 'semi-furnished', value: 'Semi-Furnished'},
+    {label: 'furnished', value: 'Furnished'},
+  ];
   const Parking = ['Yes', 'No'];
-  const status = ['readyToMove', 'underConstruction'];
+  const status = [
+    {label: 'readyToMove', value: 'Ready To Move'},
+    {label: 'underConstruction', value: 'Under Construction'},
+  ];
 
-  
   const setTotalFloorHandel = (params: any) => {
-    
     setTotalFloor(params);
     if (!totalFloor) {
       setTotalFloorError('Please enter total floor !');
@@ -73,7 +80,7 @@ const PostPropertySecond = () => {
     } else {
       setTotalFloorError('');
     }
-    
+
     dispatch(
       UpdateNewListing({
         key: 'totalFloor',
@@ -83,8 +90,7 @@ const PostPropertySecond = () => {
   };
   const setPropertyOnFloorHandel = (params: any) => {
     setProperyOnFloor(params);
-    
-    
+
     if (!propertyOnFloor) {
       setFloorError('Please enter floor !');
     } else if (isNaN(parseInt(propertyOnFloor, 10))) {
@@ -94,7 +100,7 @@ const PostPropertySecond = () => {
     } else {
       setFloorError('');
     }
-    
+
     dispatch(
       UpdateNewListing({
         key: 'propertyOnFloor',
@@ -222,6 +228,8 @@ const PostPropertySecond = () => {
   };
   const setFurnishedStatusHandel = (params: any) => {
     setFurnishedStatus(params);
+    console.log(params);
+
     dispatch(
       UpdateNewListing({
         key: 'furnishedStatus',
@@ -259,8 +267,6 @@ const PostPropertySecond = () => {
       }),
     );
   };
-
-  
 
   const handleNext = () => {
     if (!newListing?.city) {
@@ -321,12 +327,21 @@ const PostPropertySecond = () => {
                         navigation.navigate('AddCityName' as never);
                       }}
                       style={styles.addCityName}>
-                      <Text style={{color: dark, fontSize: width > 500 ? responsiveFontSize(1) : responsiveFontSize(2)}}>Location</Text>
+                      <Text
+                        style={{
+                          color: dark,
+                          fontSize:
+                            width > 500
+                              ? responsiveFontSize(1)
+                              : responsiveFontSize(2),
+                        }}>
+                        Location
+                      </Text>
                       <Ionicons style={styles.addFont} name={'add'} />
                     </TouchableOpacity>
                     {newListing?.city && (
                       <View style={styles.locationDetails}>
-                        <LocationBtn label={newListing?.state} />
+                        {/* <LocationBtn label={newListing?.state} /> */}
                         <LocationBtn label={newListing?.city} />
                       </View>
                     )}
@@ -378,15 +393,15 @@ const PostPropertySecond = () => {
                   showsHorizontalScrollIndicator={false}
                   horizontal={true}>
                   <View style={styles.noOfBedrooms}>
-                    {FurnishedStatus.map((option: string) => (
+                    {FurnishedStatus.map((option: any) => (
                       <OptionBtn
-                        id={option}
-                        key={option}
-                        label={option}
+                        id={option.label}
+                        key={option.label}
+                        label={option.value}
                         btnPressHandler={setFurnishedStatusHandel}
                         style={[
                           styles.notColored,
-                          newListing?.furnishedStatus === option
+                          newListing?.furnishedStatus === option.label
                             ? styles.colored
                             : null,
                         ]}
@@ -414,16 +429,18 @@ const PostPropertySecond = () => {
                   </View>
 
                   <View style={{flexDirection: 'row', gap: responsiveWidth(5)}}>
-                    {status.map(option => (
+                    {status.map((option: any) => (
                       <OptionBtn
-                        key={option}
-                        label={option}
+                        id={option.label}
+                        key={option.label}
+                        label={option.value}
                         btnPressHandler={setPropertyStatusHandel}
                         style={[
                           styles.notColored,
-                          newListing?.status === option ? styles.colored : null,
+                          newListing?.status === option.label
+                            ? styles.colored
+                            : null,
                         ]}
-                        id={option}
                       />
                     ))}
                   </View>
@@ -477,8 +494,9 @@ const PostPropertySecond = () => {
                     <CustomTextInput
                       onChangeText={setTotalFloorHandel}
                       value={newListing?.totalFloor}
-                      placeholder="No Of Floor"
+                      placeholder="Number of floor"
                       keyboardType="numeric"
+                      errorText={totalFloorError}
                     />
                   </View>
                   {totalFloorError ? (
@@ -499,8 +517,9 @@ const PostPropertySecond = () => {
                     <CustomTextInput
                       onChangeText={setPropertyOnFloorHandel}
                       value={newListing?.propertyOnFloor}
-                      placeholder="Property On Floor"
+                      placeholder="Property on floor"
                       keyboardType="numeric"
+                      errorText={floorError}
                     />
                     {floorError ? (
                       <Text style={{color: 'red', textAlign: 'right'}}>

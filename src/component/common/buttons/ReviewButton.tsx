@@ -23,8 +23,9 @@ export default ReviewButton;
 const styles = StyleSheet.create({
   item: {
     backgroundColor: '#234F68',
-    paddingHorizontal: responsiveScreenWidth(6),
+    paddingHorizontal: responsiveScreenWidth(4),
     paddingVertical: responsiveScreenHeight(2),
+    marginHorizontal: responsiveScreenWidth(1.5),
     borderRadius: responsiveWidth(5),
   },
 });

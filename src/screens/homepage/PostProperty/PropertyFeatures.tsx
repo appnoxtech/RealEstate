@@ -147,6 +147,7 @@ const PropertyFeatures = () => {
             onChangeText={areaHandel}
             value={newListing?.area}
             placeholder="sq.ft"
+            errorText={areaError}
           />
           {areaError ? (
             <Text style={{color: 'red', textAlign: 'right'}}>
@@ -167,6 +168,7 @@ const PropertyFeatures = () => {
             onChangeText={discriptionHandel}
             value={newListing?.description}
             placeholder="description"
+            errorText={descriptionError}
           />
           {descriptionError ? (
             <Text style={{color: 'red', textAlign: 'right'}}>

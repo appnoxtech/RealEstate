@@ -3,24 +3,25 @@ import { FC, useState } from 'react';
 import { responsiveScreenHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 import { responsiveScreenWidth } from 'react-native-responsive-dimensions';
 import { TextInput } from 'react-native';
-import { dark } from '../../../../assets/Styles/GlobalTheme';
+import { colorPrimary, dark } from '../../../../assets/Styles/GlobalTheme';
 
 
 interface props {
   keyboardType?: InputModeOptions | undefined,
   value: string,
   onChangeText(text : string) : void,
-  placeholder: string
+  placeholder: string;
+  errorText?: string;
   
 }
 
-const CustomTextInput : FC<props> = ({keyboardType = 'text', value, onChangeText, placeholder}) => {
+const CustomTextInput : FC<props> = ({keyboardType = 'text', value, onChangeText, placeholder, errorText=''}) => {
   const [focus, setFocus] = useState(false);
   return (
     <View
       style={[
         styles.container,
-        {borderColor: focus ? 'red' : 'rgba(0,0,0,0.5)'}
+        {borderColor: errorText ? 'red' : focus ? colorPrimary : 'rgba(0,0,0,0.5)'}
       ]}>
       <TextInput
         value={value}
@@ -42,10 +43,11 @@ const styles = StyleSheet.create({
     height:responsiveScreenHeight(6),
     width: '100%',
     marginVertical: responsiveScreenHeight(1),
-    backgroundColor: '#DFDFDF',
+    // backgroundColor: '#DFDFDF',
     borderRadius: responsiveScreenWidth(1),
     paddingVertical: responsiveScreenHeight(1),
-    paddingHorizontal: responsiveScreenWidth(2)
+    paddingHorizontal: responsiveScreenWidth(2),
+    borderWidth: 0.5
   },
   focused: {},
   notFocused: {},

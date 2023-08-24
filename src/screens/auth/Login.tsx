@@ -125,8 +125,8 @@ export default function Login() {
             <View style={styles.footerText}>
               <Text style={styles.registerText}>
                 By continuing, you agree to Real Estate {'\n'}
-                <Text style={styles.text}>Privacy Policy</Text> and{''}
-                <Text style={styles.text}>Terms and Conditions</Text>
+                <Text style={styles.text}>Privacy Policy</Text> and 
+                <Text style={styles.text}> Terms and Conditions</Text>
               </Text>
             </View>
           )}

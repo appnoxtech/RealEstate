@@ -183,7 +183,7 @@ const PostPropertyThird = () => {
                 </TouchableOpacity>
 
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                  <View style={[styles.imageSelected, styles.padding ]}>
+                  <View style={[styles.imageSelected, imgUrls ? styles.padding : null ]}>
                     {imgUrls?.map((option: string, index: number) => (
                       <View key={index} style={{position: 'relative'}}>
                         <Image
@@ -216,6 +216,7 @@ const PostPropertyThird = () => {
                     onChangeText={setTitleHandel}
                     value={newListing?.title}
                     placeholder="Title"
+                    errorText={textError}
                   />
                   {textError ? (
                     <Text style={{color: 'red', alignSelf: 'flex-end'}}>
@@ -236,6 +237,7 @@ const PostPropertyThird = () => {
                     onChangeText={setPriceHandel}
                     value={newListing?.price}
                     placeholder="Enter expected price"
+                    errorText={priceError}
                   />
                   {priceError ? (
                     <Text style={styles.errorText}>{priceError}</Text>
@@ -244,9 +246,9 @@ const PostPropertyThird = () => {
               </View>
               <View
                 style={
-                  !imgUrls[0]
-                    ? {paddingVertical: responsiveScreenHeight(8)}
-                    : {paddingVertical: responsiveScreenHeight(2)}
+                  !imgUrls
+                    ? {paddingTop: responsiveScreenHeight(7)}
+                    : {paddingTop: responsiveScreenHeight(0)}
                 }>
                 <ExploreButton onPress={() => handleNext()} title="Next" />
               </View>
@@ -305,20 +307,18 @@ const styles = StyleSheet.create({
   },
 
   imageSelected: {
-    flex: 1,
     flexDirection: 'row',
     paddingHorizontal: responsiveScreenWidth(2),
-    paddingBottom: responsiveHeight(4),
-    paddingTop: responsiveScreenHeight(2),
+    paddingVertical: responsiveScreenHeight(1),
     gap: responsiveScreenWidth(3),
   },
   padding: {
-    paddingBottom: responsiveHeight(5),
+    height: responsiveScreenHeight(16),
   },
   
   images: {
-    width: responsiveScreenWidth(20),
-    height: responsiveScreenHeight(10),
+    width: responsiveScreenWidth(16),
+    height: responsiveScreenHeight(8),
     borderRadius: responsiveWidth(5),
   },
   inputContainer: {

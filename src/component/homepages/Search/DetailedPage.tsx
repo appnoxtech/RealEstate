@@ -34,7 +34,12 @@ const DetailedPage = ({route}: any) => {
         resizeMode="cover"
         source={{uri: `${data.images[0]}`}}
         style={styles.container}>
-        <View style={{flex: 1, justifyContent: 'space-between'}}>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'space-between',
+            position: 'relative',
+          }}>
           <View style={styles.backButton}>
             <HeaderWithBackBtn />
             <TouchableOpacity
@@ -52,7 +57,7 @@ const DetailedPage = ({route}: any) => {
           <View style={styles.buttonContainer}>
             <View style={styles.itemContainer}>
               <ReviewButton>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <View style={styles.reviewButton}>
                   <Ionicons
                     name="star"
                     size={responsiveWidth(3)}
@@ -60,7 +65,8 @@ const DetailedPage = ({route}: any) => {
                   />
                   <Text
                     style={{
-                      fontSize: responsiveScreenFontSize(1),
+                      fontSize: responsiveScreenFontSize(1.5),
+                      fontWeight: '800',
                       color: 'white',
                     }}>
                     {4.5}
@@ -68,25 +74,46 @@ const DetailedPage = ({route}: any) => {
                 </View>
               </ReviewButton>
               <ReviewButton>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <View style={styles.reviewButton}>
                   <Text
                     style={{
-                      fontSize: responsiveScreenFontSize(1),
+                      fontSize: responsiveScreenFontSize(1.5),
                       color: 'white',
+                      fontWeight: '800',
                     }}>
                     {data?.propertyType}
                   </Text>
                 </View>
               </ReviewButton>
             </View>
-            <View style={styles.photoContainer}>
-              <TouchableOpacity style={styles.image}>
-                <Image source={{uri: `${data.images[0]}`}} />
-              </TouchableOpacity>
-            </View>
+          </View>
+          <View style={styles.photoContainer}>
+            <TouchableOpacity style={styles.imageView}>
+              <Image style={styles.image} source={{uri: `${data.images[0]}`}} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.imageView}>
+              <Image style={styles.image} source={{uri: `${data.images[0]}`}} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.imageView}>
+              <ImageBackground
+                style={styles.image}
+                source={{uri: `${data.images[0]}`}}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    color: 'white',
+                    fontWeight: 'bold',
+                  }}>
+                  +3
+                </Text>
+              </ImageBackground>
+            </TouchableOpacity>
           </View>
         </View>
       </ImageBackground>
+      <Text>
+        Hello
+      </Text>
     </SafeAreaView>
   );
 };
@@ -106,7 +133,7 @@ const styles = StyleSheet.create({
       Platform.OS === 'android'
         ? responsiveScreenWidth(2)
         : responsiveScreenWidth(2),
-    marginBottom: responsiveScreenHeight(20),
+    // paddingBottom: responsiveScreenHeight(20),
     justifyContent: 'space-between',
   },
   backButton: {
@@ -132,13 +159,37 @@ const styles = StyleSheet.create({
     width: responsiveScreenWidth(7.5),
     height: responsiveScreenWidth(7.5),
   },
-  buttonContainer: {},
+  buttonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
   itemContainer: {
     flexDirection: 'row',
   },
+  reviewButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    
+  },
 
-  photoContainer: {},
+  photoContainer: {
+    position: 'absolute',
+    bottom: responsiveScreenHeight(0),
+    right: responsiveScreenWidth(4),
+  },
+  imageView: {
+    borderRadius: responsiveWidth(4.5),
+    backgroundColor: 'white',
+    paddingHorizontal: responsiveScreenWidth(0.7),
+    paddingVertical: responsiveScreenHeight(0.4),
+    marginTop: responsiveScreenHeight(1),
+  },
   image: {
-    borderRadius: responsiveWidth(5)
-  }
+    justifyContent: 'center',
+    width: responsiveScreenWidth(12),
+    height: responsiveScreenHeight(6),
+    borderRadius: responsiveWidth(4.5),
+    overflow: 'hidden',
+  },
 });

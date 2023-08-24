@@ -1,12 +1,12 @@
-import {View, Text, StyleSheet, ActivityIndicator} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {StyleSheet} from 'react-native';
+import React from 'react';
 import {useSelector} from 'react-redux';
 import {storeInterface} from '../interfaces/reducer/store';
 import AuthRoute from '../routes/AuthRoutes';
 import UnAuthRoutes from '../routes/unAuthRoutes';
 import AgentRoute from '../routes/AgentRoute';
 import OwnerRoute from '../routes/OwnerRoute';
-import {getItem, storeData} from '../hooks/CommonHooks/storageHelper';
+
 
 const HAS_LAUNCHED = 'HAS_LAUNCHED';
 

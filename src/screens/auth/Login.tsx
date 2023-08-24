@@ -27,6 +27,7 @@ import {
 } from '../../redux/reducers/userReducer';
 import {dark} from '../../../assets/Styles/GlobalTheme';
 import useKeyboardVisibleListener from '../../hooks/CommonHooks/isKeyboardVisibleHook';
+import PrimaryButton from '../../component/common/buttons/PrimaryButton';
 
 export default function Login() {
   const isKeyboardVisible = useKeyboardVisibleListener();
@@ -79,8 +80,7 @@ export default function Login() {
 
   return (
     <SafeAreaView style={styles.mainContainer}>
-
-        <>
+      <>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
           <View style={styles.container}>
             <View style={styles.textContainer}>
@@ -101,6 +101,7 @@ export default function Login() {
                 placeholder="Phone"
                 placeholderTextColor={'#000000'}
                 value={phone}
+                maxLength={10}
                 keyboardType="number-pad"
                 onChangeText={value => {
                   OnHandleChange(value);
@@ -112,26 +113,23 @@ export default function Login() {
             {phoneValidError ? (
               <Text style={styles.errorText}>{phoneValidError}</Text>
             ) : null}
-            <View style={styles.button__}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => handleSubmit()}>
-                <Text style={styles.btnText}>GET OTP</Text>
-              </TouchableOpacity>
+            <View style={{justifyContent: 'center', alignItems: 'center', marginTop: responsiveScreenHeight(2)}}>
+              <View style={styles.btnContainer}>
+                <PrimaryButton label="GET OTP" onPresshandler={handleSubmit} />
+              </View>
             </View>
           </View>
-          </TouchableWithoutFeedback>
-          {isKeyboardVisible ? null : (
-            <View style={styles.footerText}>
-              <Text style={styles.registerText}>
-                By continuing, you agree to Real Estate {'\n'}
-                <Text style={styles.text}>Privacy Policy</Text> and{''}
-                <Text style={styles.text}>Terms and Conditions</Text>
-              </Text>
-            </View>
-          )}
-        </>
-      
+        </TouchableWithoutFeedback>
+        {isKeyboardVisible ? null : (
+          <View style={styles.footerText}>
+            <Text style={styles.registerText}>
+              By continuing, you agree to Real Estate {'\n'}
+              <Text style={styles.text}>Privacy Policy</Text> and{''}
+              <Text style={styles.text}>Terms and Conditions</Text>
+            </Text>
+          </View>
+        )}
+      </>
     </SafeAreaView>
   );
 }
@@ -217,6 +215,10 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     padding: 10,
     fontSize: responsiveFontSize(2),
+  },
+
+  btnContainer: {
+    width: responsiveScreenWidth(70),
   },
 
   button: {

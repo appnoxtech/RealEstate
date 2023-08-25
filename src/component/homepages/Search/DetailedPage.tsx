@@ -48,7 +48,7 @@ const DetailedPage = ({route}: any) => {
         showsVerticalScrollIndicator={false}>
         <ImageBackground
           resizeMode="cover"
-          source={{uri: `${data.images[0]}`}}
+          source={{uri: `${data?.images[0]}`}}
           style={styles.container}>
           <View
             style={{
@@ -202,7 +202,7 @@ const DetailedPage = ({route}: any) => {
         </View>
         <View style={styles.reviewCotainer}>
           <Text style={{fontFamily: regularFont}}>Review</Text>
-          <ReviewCard name='Sam Harris'/>
+          <ReviewCard imgUrl={data?.images[0]} name='Sam Harris'/>
         </View>
       </ScrollView>
     </SafeAreaView>

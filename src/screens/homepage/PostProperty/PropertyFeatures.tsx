@@ -26,11 +26,14 @@ import {
 import {dark} from '../../../../assets/Styles/GlobalTheme';
 
 const PropertyFeatures = () => {
+  const textRegex = /^[A-Za-z]+$/;
+  const numberRegex = /^[1-9]\d*$/;
   const Navigation = useNavigation();
   const [discription, setDiscription] = useState('');
   const [area, setArea] = useState('');
   const {createPropertyHandler} = usePropertyHook();
   const {newListing} = useSelector((store: any) => store.post);
+
 
   const {userDetails} = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
@@ -42,11 +45,20 @@ const PropertyFeatures = () => {
       setAreaError('Please enter area !');
       setDescriptionError('');
       return false;
-    } else if (!newListing?.description) {
+    } else if (!numberRegex.test(newListing?.area)) {
+      setAreaError('');
+      setAreaError('Please enter valid area !');
+    }
+     else if (!newListing?.description) {
       setAreaError('');
       setDescriptionError('Please add description!');
       return false;
-    } else {
+    } else if (!textRegex.test(newListing?.description)) {
+      setAreaError('');
+      setDescriptionError('Please add valid description!');
+      return false;
+    }
+     else {
       setAreaError('');
       setDescriptionError('');
       return true;

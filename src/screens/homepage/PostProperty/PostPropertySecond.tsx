@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import HeaderWithBackBtn from '../../../component/common/buttons/HeaderWithBackBtn';
 import {
   responsiveFontSize,
@@ -31,8 +31,11 @@ import CustomTextInput from '../../../component/common/inputs/inputComponent';
 import LocationBtn from '../../../component/common/buttons/LocationBtn';
 import {dark} from '../../../../assets/Styles/GlobalTheme';
 import {width} from '../../../utils/constants/Matrics';
+import Dropdown from '../../../component/common/Card/Dropdown';
+import SelectDropdown from 'react-native-select-dropdown';
 
 const PostPropertySecond = () => {
+  const genereDropRef = useRef<SelectDropdown>(null);
   const [noOfRooms, setNoOfRooms] = useState('1BHK');
   const [furnishedStatus, setFurnishedStatus] = useState('Unfurnished');
   const [parking, setParking] = useState('');
@@ -45,6 +48,7 @@ const PostPropertySecond = () => {
   const [propertyOnFloor, setProperyOnFloor] = useState(
     newListing?.propertyOnFloor,
   );
+  const [floorList, setFloorList] = useState<Array<{key: string}>>([]);
 
   const dispatch = useDispatch();
 
@@ -71,50 +75,30 @@ const PostPropertySecond = () => {
     {label: 'underConstruction', value: 'Under Construction'},
   ];
 
-
-  function isInt(n : number){
-    return ( Number(n) === n && n % 1 === 0 && n > 0);
-}
-
-// isInt(5)
-// function isFloat(n){
-//     return Number(n) === n && n % 1 !== 0;
-// }
-
-  const setTotalFloorHandel = (params: number) => {
-    setTotalFloor(params);
-    if (!totalFloor) {
+  const regex = /^(?:[1-9]|[1-9][0-9]|100)$/
+  const setTotalFloorHandel = (params: any) => {
+    
+    if (!params) {
       setTotalFloorError('Please enter total floor !');
-    } else if (!isInt(totalFloor)) {
+    } else if (!regex.test(params)) {
       setTotalFloorError('Please enter valid floor !');
-    } else {
+     } else {
       setTotalFloorError('');
     }
 
     dispatch(
       UpdateNewListing({
         key: 'totalFloor',
-        value: totalFloor,
+        value: params,
       }),
     );
   };
-  const setPropertyOnFloorHandel = (params: number) => {
-    setProperyOnFloor(params);
-
-    if (!propertyOnFloor) {
-      setFloorError('Please enter floor !');
-    } else if (!isInt(propertyOnFloor)) {
-      setFloorError('Please enter valid number !');
-    } else if (Number(params) > Number(totalFloor)) {
-      setFloorError('Enter valid floor !');
-    } else {
-      setFloorError('');
-    }
-
+  const setPropertyOnFloorHandel = (params: any) => {
+    
     dispatch(
       UpdateNewListing({
         key: 'propertyOnFloor',
-        value: propertyOnFloor,
+        value: params,
       }),
     );
   };
@@ -153,7 +137,7 @@ const PostPropertySecond = () => {
       setTotalFloorError('');
       setFloorError('');
       return false;
-    } else if (!totalFloor) {
+    } else if (!newListing?.totalFloor) {
       setCityError('');
       setFurnishedError('');
       setPropertyError('');
@@ -161,7 +145,7 @@ const PostPropertySecond = () => {
       setTotalFloorError('Please enter total floor !');
       setFloorError('');
       return false;
-    } else if (isNaN(parseInt(totalFloor, 10))) {
+    } else if (isNaN(parseInt(newListing?.totalFloor, 10))) {
       setCityError('');
       setFurnishedError('');
       setPropertyError('');
@@ -169,7 +153,7 @@ const PostPropertySecond = () => {
       setTotalFloorError('Please enter valid total floor !');
       setFloorError('');
       return false;
-    } else if (parseInt(totalFloor, 10) < 0) {
+    } else if (parseInt(newListing?.totalFloor, 10) < 0) {
       setCityError('');
       setFurnishedError('');
       setPropertyError('');
@@ -177,7 +161,7 @@ const PostPropertySecond = () => {
       setTotalFloorError('Please enter valid total floor !');
       setFloorError('');
       return false;
-    } else if (!propertyOnFloor) {
+    } else if (!newListing?.propertyOnFloor) {
       setCityError('');
       setFurnishedError('');
       setPropertyError('');
@@ -185,7 +169,7 @@ const PostPropertySecond = () => {
       setTotalFloorError('');
       setFloorError('Please enter property on floor !');
       return false;
-    } else if (isNaN(parseInt(propertyOnFloor, 10))) {
+    } else if (isNaN(parseInt(newListing?.propertyOnFloor, 10))) {
       setCityError('');
       setFurnishedError('');
       setPropertyError('');
@@ -193,7 +177,7 @@ const PostPropertySecond = () => {
       setTotalFloorError('');
       setFloorError('Please enter valid property on floor !');
       return false;
-    } else if (parseInt(propertyOnFloor, 10) < 0) {
+    } else if (parseInt(newListing?.propertyOnFloor, 10) < 0) {
       setCityError('');
       setFurnishedError('');
       setPropertyError('');
@@ -201,7 +185,7 @@ const PostPropertySecond = () => {
       setTotalFloorError('');
       setFloorError('Please enter valid property on floor !');
       return false;
-    } else if (parseInt(propertyOnFloor, 10) > parseInt(totalFloor, 10)) {
+    } else if (parseInt(newListing?.propertyOnFloor, 10) > parseInt(newListing?.totalFloor, 10)) {
       setCityError('');
       setFurnishedError('');
       setPropertyError('');
@@ -221,11 +205,11 @@ const PostPropertySecond = () => {
   };
 
   useEffect(() => {
-    if (skipOne) {
-      validate();
+    if(newListing?.city){
+      setCityError('');
     }
-    setSkipOne(true);
-  }, [newListing]);
+  }, [newListing?.city]);
+  
 
   const setNoOfRoomsHandel = (params: any) => {
     setNoOfRooms(params);
@@ -302,6 +286,19 @@ const PostPropertySecond = () => {
       navigation.navigate('PostPropertyThird' as never);
     }
   };
+
+  useEffect(() => {
+    const num = parseInt(newListing?.totalFloor, 10);
+    const data = [];
+    for (let i = 0; i <= num; i++) {
+      data.push({key: `${i}`});
+    }
+    setFloorList([...data]);
+    // if(totalFloor && !isNaN(num)){
+    //   //@ts-ignore
+
+    // }
+  }, [newListing?.totalFloor]);
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
@@ -507,6 +504,7 @@ const PostPropertySecond = () => {
                       placeholder="Number of floor"
                       keyboardType="numeric"
                       errorText={totalFloorError}
+                      maxLength={3}
                     />
                   </View>
                   {totalFloorError ? (
@@ -524,18 +522,14 @@ const PostPropertySecond = () => {
                       </Text>
                     </View>
 
-                    <CustomTextInput
-                      onChangeText={setPropertyOnFloorHandel}
-                      value={newListing?.propertyOnFloor}
-                      placeholder="Property on floor"
-                      keyboardType="numeric"
-                      errorText={floorError}
+                    <Dropdown
+                      data={floorList}
+                      onSelectHandler={setPropertyOnFloorHandel}
+                      id="key"
+                      placeholder="Select"
+                      innerRef={genereDropRef}
+                      defaultValue={newListing?.propertyOnFloor}
                     />
-                    {floorError ? (
-                      <Text style={{color: 'red', textAlign: 'right'}}>
-                        {floorError}
-                      </Text>
-                    ) : null}
                   </View>
                 </View>
                 <View style={styles.bottomBtn}>

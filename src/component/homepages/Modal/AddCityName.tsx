@@ -148,7 +148,7 @@ const DropdownComponent: FC = () => {
         <HeaderWithBackBtn />
       </View>
       <View style={styles.container}>
-        {renderLabel()}
+      {renderLabel()}
         <Dropdown
           style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
           placeholderStyle={styles.placeholderStyle}
@@ -158,16 +158,13 @@ const DropdownComponent: FC = () => {
           data={countryData}
           search
           itemTextStyle={{color: 'black'}}
-          maxHeight={300}
           labelField="label"
           valueField="value"
-          
+          maxHeight={300}
           placeholder={!isFocus ? 'Select Country' : '...'}
           searchPlaceholder="Search..."
           value={countryValue}
-          onFocus={() => {
-            setIsFocus(true);
-          }}
+          onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
           onChange={item => {
             setCountryValue(item.value);
@@ -177,7 +174,7 @@ const DropdownComponent: FC = () => {
         />
       </View>
       <View style={styles.container}>
-        {renderLabel1()}
+      {renderLabel1()}
         <Dropdown
           style={[styles.dropdown, isFocus1 && {borderColor: 'blue'}]}
           placeholderStyle={styles.placeholderStyle}
@@ -196,8 +193,8 @@ const DropdownComponent: FC = () => {
           onFocus={() => setIsFocus1(true)}
           onBlur={() => setIsFocus1(false)}
           onChange={item => {
-            setStateValue(item.value);
             setStateLabel(item.label);
+            setStateValue(item.value);
             setIsFocus1(false);
           }}
         />
@@ -216,7 +213,7 @@ const DropdownComponent: FC = () => {
           labelField="label"
           valueField="value"
           maxHeight={300}
-          placeholder={!isFocus2 ? 'Select City' : '...'}
+          placeholder={'Select City'}
           searchPlaceholder="Search..."
           value={cityValue}
           onFocus={() => setIsFocus2(true)}

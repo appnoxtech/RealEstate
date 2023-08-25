@@ -48,8 +48,9 @@ const BuyModal: React.FC<any> = ({setModalOpen}) => {
   const handleSubmit = () => {
     const isValid = validation();
     if (isValid) {
+      //@ts-ignore
       Navigation.navigate('ListOfProperty' as never, {cityName}),
-        setModalOpen(false);
+      setModalOpen(false);
     }
   };
   return (
@@ -113,12 +114,11 @@ const BuyModal: React.FC<any> = ({setModalOpen}) => {
 
             <View style={styles.inputCityName}>
               <TextInput
-                style={{flex: 1, color: dark}}
+                style={styles.textInput}
                 placeholder="Enter City Name"
                 onChangeText={text => setCityName(text)}
                 placeholderTextColor={dark}
               />
-
               <Image source={searchImg} />
             </View>
 
@@ -157,6 +157,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    borderWidth: 0.5,
+    borderColor: 'rgba(0,0,0,0.4)',
+    paddingHorizontal: responsiveScreenWidth(2),
+    borderRadius: responsiveScreenHeight(1)
   },
   modalOpen: {},
   modal: {
@@ -221,4 +225,9 @@ const styles = StyleSheet.create({
     width: responsiveScreenWidth(87),
     paddingVertical: responsiveScreenHeight(1),
   },
+  textInput: {
+    color: dark,
+    flex: 1,
+    paddingVertical: responsiveScreenHeight(1.4),
+  }
 });

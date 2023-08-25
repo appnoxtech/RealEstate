@@ -6,6 +6,7 @@ import {
   View,
   FlatList,
   ScrollView,
+  Alert,
 } from 'react-native';
 import React, {useEffect} from 'react';
 import HeaderWithBackBtn from '../../common/buttons/HeaderWithBackBtn';
@@ -91,20 +92,22 @@ const SearchFilterPage = ({route}: any) => {
       }&status=${status}`;
       const url = `${URL}${searchString}`;
 
-      console.log('xyz--->', url);
-
       const res = await axios.get(url);
-
       const {result} = res.data;
-
-      Navigation.navigate('RenderSearchResult' as never, {
-        cityData: result,
-        cityName,
-      });
+      
+      if(result?.rows?.length){
+        //@ts-ignore
+        Navigation.navigate('RenderSearchResult' as never, {
+          cityData: result?.rows,
+        });
+      }else {
+        const sendMessage = 'No Result Found !';
+         //@ts-ignore
+        Navigation.navigate('FallBackSearch' as never, {sendMessage});
+      }
     } catch (error: any) {
       const sendMessage = error.response.data.error.message;
-
-      Navigation.navigate('FallBackSearch' as never, {sendMessage});
+      Alert.alert('', sendMessage)
     }
   };
 

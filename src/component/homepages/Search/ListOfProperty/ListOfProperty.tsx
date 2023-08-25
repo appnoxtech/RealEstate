@@ -64,8 +64,8 @@ const styles = StyleSheet.create({
   },
   typeText: {
     color: dark,
-    paddingTop: responsiveScreenHeight(1.5),
     fontSize: responsiveFontSize(3),
+    marginRight: responsiveScreenWidth(5)
   },
   item: {
     backgroundColor: '#8BC83F',

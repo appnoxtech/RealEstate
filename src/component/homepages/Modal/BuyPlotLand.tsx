@@ -6,6 +6,7 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import React from 'react';
 import {useState} from 'react';
@@ -17,7 +18,7 @@ import {
 import ExploreButton from '../../common/buttons/ExploreButton';
 
 import {useNavigation} from '@react-navigation/native';
-import { dark } from '../../../../assets/Styles/GlobalTheme';
+import {dark} from '../../../../assets/Styles/GlobalTheme';
 
 const BuyPlotLand: React.FC<any> = ({setModalOpen}) => {
   const searchImg = require('../../../../assets/images/Search.png');
@@ -42,68 +43,73 @@ const BuyPlotLand: React.FC<any> = ({setModalOpen}) => {
   const handleSubmit = () => {
     const isValid = validation();
     if (isValid) {
+      //@ts-ignore
       Navigation.navigate('ListOfProperty' as never, {cityName});
       setModalOpen(false);
     }
   };
 
   return (
-    <SafeAreaView style={{flex: 1, justifyContent: 'flex-end'}}>
-      <View style={styles.modalContainer}>
-        <TouchableOpacity
-          style={styles.containerImg}
-          onPress={() => setModalOpen(false)}>
-          <Image style={styles.image} source={vectorImg} />
-        </TouchableOpacity>
+    <TouchableWithoutFeedback onPress={() => setModalOpen(false)}>
+      <SafeAreaView style={{flex: 1, justifyContent: 'flex-end'}}>
+        <View style={styles.modalContainer}>
+          <TouchableOpacity
+            style={styles.containerImg}
+            onPress={() => setModalOpen(false)}>
+            <Image style={styles.image} source={vectorImg} />
+          </TouchableOpacity>
 
-        <View>
-          <Text style={styles.pb10}>Type of Plot/Land</Text>
-          <View style={styles.purposeOfBuying}>
-            <TouchableOpacity
-             onPress={() => {
-              setResidential(true), setCommercial(false);
-            }}
-            style={
-              residential
-                ? styles.yesresidentialcommercial
-                : styles.noresidentialcommercial
-            }>
-              <Text style={{color: dark}}>Residential use</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                setResidential(false), setCommercial(true);
-              }}
-              style={
-                commercial
-                  ? styles.yesresidentialcommercial
-                  : styles.noresidentialcommercial
-              }>
-              <Text style={{color: dark}}>Commercial use</Text>
-            </TouchableOpacity>
+          <View>
+            <Text style={styles.pb10}>Type of Plot/Land</Text>
+            <View style={styles.purposeOfBuying}>
+              <TouchableOpacity
+                onPress={() => {
+                  setResidential(true), setCommercial(false);
+                }}
+                style={
+                  residential
+                    ? styles.yesresidentialcommercial
+                    : styles.noresidentialcommercial
+                }>
+                <Text style={{color: dark}}>Residential use</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  setResidential(false), setCommercial(true);
+                }}
+                style={
+                  commercial
+                    ? styles.yesresidentialcommercial
+                    : styles.noresidentialcommercial
+                }>
+                <Text style={{color: dark}}>Commercial use</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-        <View>
-          <Text style={styles.pb10}>City name</Text>
+          <View>
+            <Text style={styles.pb10}>City name</Text>
 
-          <View style={styles.inputCityName}>
-            <TextInput
-            style={{flex: 1,color: dark}}
-              placeholder="Enter City Name"
-              onChangeText={text => setCityName(text)}
-              placeholderTextColor={dark}
-            />
+            <View style={styles.inputCityName}>
+              <TextInput
+                style={{flex: 1, color: dark}}
+                placeholder="Enter City Name"
+                onChangeText={text => setCityName(text)}
+                placeholderTextColor={dark}
+              />
 
-            <Image source={searchImg} />
+              <Image source={searchImg} />
+            </View>
+
+            {cityError ? (
+              <Text style={{color: 'red', textAlign: 'right'}}>
+                {cityError}
+              </Text>
+            ) : null}
           </View>
-
-          {cityError ? (
-            <Text style={{color: 'red', textAlign: 'right'}}>{cityError}</Text>
-          ) : null}
+          <ExploreButton title="Explore" onPress={() => handleSubmit()} />
         </View>
-        <ExploreButton title="Explore" onPress={() => handleSubmit()} />
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -123,15 +129,13 @@ const styles = StyleSheet.create({
   inputCityName: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   image: {
     width: 5,
     height: 10,
   },
-  pb10: {paddingBottom: 10,
-    color: dark
-  },
+  pb10: {paddingBottom: 10, color: dark},
   modalOpen: {},
   modal: {
     borderWidth: 1,

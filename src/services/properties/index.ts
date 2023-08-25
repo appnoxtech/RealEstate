@@ -27,7 +27,8 @@ export const CreatePropertyService = async (data: any) => {
 
 export const EditUserDetails = async (profileData: any, userDetails: any) => {
   const url = `${URL}user/update/${userDetails?.id}`;
-
+  console.log('url', url);
+  console.log('profileData', profileData);
   return axios.patch(url, profileData, {
     headers: {
       'Content-Type': 'application/json',

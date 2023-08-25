@@ -52,7 +52,7 @@ const HomePage = () => {
   const [propertyListings, setPropertyListings] = useState('');
   // console.log(propertyListings);
   
-  const [item, setItem] = useState([]);
+  const [item, setItem] = useState<{title: string, propertyType: string, id: string}>();
 
   const handelPress = (params: string) => {
     setAgentData(params);
@@ -209,7 +209,6 @@ const HomePage = () => {
                 </Text>
                 <Image source={searchImg} />
               </TouchableOpacity>
-
               <Category />
             </>
           )}

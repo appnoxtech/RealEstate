@@ -80,10 +80,10 @@ const DATA = [
 // type ItemProps = {image: string};
 
 const Item = ({data}: any) => (
-  <TouchableOpacity>
+  <TouchableOpacity style={{ marginRight: responsiveScreenWidth(3)}}>
     <View style={styles.container}>
       <View style={styles.featuredCard}>
-        <ImageBackground style={styles.imageContainer} source={data.image}>
+        <ImageBackground imageStyle={{borderTopLeftRadius: responsiveWidth(5), borderTopRightRadius: responsiveWidth(5)}} style={styles.imageContainer} source={data.image}>
           <TouchableOpacity style={styles.heartContainer}>
             <Ionicons
               name="heart-outline"
@@ -128,7 +128,6 @@ const CategoryEstate = () => {
     <SafeAreaView style={styles.container}>
       <FlatList
         horizontal={true}
-        numColumns={1}
         showsHorizontalScrollIndicator={false}
         data={DATA}
         renderItem={({item}) => <Item data={item} />}
@@ -141,24 +140,21 @@ const CategoryEstate = () => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: responsiveScreenWidth(1),
+    flex: 1,
   },
 
   featuredCard: {
-    width: responsiveWidth(44),
-    borderRadius: responsiveWidth(10),
+    width: responsiveWidth(60),
+    borderRadius: responsiveWidth(5),
     backgroundColor: '#F5F4F8',
-    paddingHorizontal: responsiveScreenWidth(2),
-    paddingVertical: responsiveScreenHeight(2),
+    paddingBottom: responsiveScreenHeight(2),
     gap: responsiveScreenWidth(3),
   },
   imageContainer: {
     alignItems: 'flex-end',
-    width: responsiveWidth(40),
+    justifyContent: 'space-between',
+    width: '100%',
     height: responsiveHeight(20),
-    borderRadius: responsiveWidth(4),
-    gap: responsiveHeight(9.5),
-    paddingHorizontal: responsiveScreenWidth(2),
     paddingVertical: responsiveScreenHeight(1),
     overflow: 'hidden',
   },
@@ -166,9 +162,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: responsiveWidth(8),
-    height: responsiveHeight(4),
-    borderRadius: 50,
+    height: responsiveWidth(8),
+    borderRadius: responsiveWidth(5),
     backgroundColor: 'white',
+    marginRight: responsiveScreenWidth(3)
   },
   heart: {
     width: responsiveWidth(3),
@@ -179,7 +176,7 @@ const styles = StyleSheet.create({
     padding: responsiveScreenWidth(2),
     backgroundColor: '#234F68',
     borderRadius: 8,
-
+    marginRight: responsiveScreenWidth(3)
     // padding: responsiveHeight(2),
   },
   details: {

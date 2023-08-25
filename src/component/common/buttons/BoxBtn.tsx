@@ -16,7 +16,7 @@ import {useNavigation} from '@react-navigation/native';
 import { dark } from '../../../../assets/Styles/GlobalTheme';
 
 interface props {
-    number: number;
+    number: number | string;
     title: string;
     page: string;
 }

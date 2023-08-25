@@ -1,5 +1,6 @@
 import {
   Alert,
+  Keyboard,
   Platform,
   SafeAreaView,
   StyleSheet,
@@ -23,6 +24,8 @@ import {useNavigation} from '@react-navigation/native';
 import {useProfileHooks} from '../../hooks/ProfileHooks';
 
 import ExploreButton from '../../component/common/buttons/ExploreButton';
+import useKeyboardVisibleListener from '../../hooks/CommonHooks/isKeyboardVisibleHook';
+import {TouchableWithoutFeedback} from 'react-native';
 
 var padding =
   Platform.OS === 'android'
@@ -33,14 +36,14 @@ const EditProfile = () => {
   const fullNamePattern = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
   const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   const {updatePofileHandler} = useProfileHooks();
-
+  const isKeyboardVisible = useKeyboardVisibleListener();
   const {userDetails} = useSelector((state: any) => state?.user);
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const [name, setName] = useState('');
+  const [name, setName] = useState(userDetails?.name);
 
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(userDetails?.email);
   const [nameValidError, setNameValidError] = useState('');
   const [emailValidError, setEmailValidError] = useState('');
 
@@ -66,24 +69,15 @@ const EditProfile = () => {
     }
   };
 
-  const handleSaveProfile = async (
-    updatedProfile: React.SetStateAction<{
-      name: string;
-      email: string;
-      phoneNumber: string;
-    }>,
-  ) => {
+  const handleSaveProfile = async () => {
     const isValid = validation();
     if (isValid) {
       const data = {
         name: name,
         email: email,
       };
-      setProfileData(data);
-      console.log(profileData);
-
       try {
-        const res = await updatePofileHandler(profileData, userDetails);
+        const res = await updatePofileHandler(data);
         navigation.goBack();
       } catch (error: any) {
         Alert.alert('Error -------1111111', error.message);
@@ -120,52 +114,76 @@ const EditProfile = () => {
   };
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
-      <View style={styles.mainContainer}>
-        <View style={styles.backButton}>
-          <HeaderWithBackBtn />
-          <Text style={styles.profileText}>Profile Detail</Text>
-        </View>
-        <View style={styles.userIcon}>
-          <Fontisto name="person" size={responsiveWidth(10)} color={dark} />
-        </View>
-        <View style={styles.containerInput}>
-          <View>
-            <TextInput
-              style={
-                nameValidError ? styles.inputContainer1 : styles.inputContainer
-              }
-              placeholder="Full Name"
-              placeholderTextColor={dark}
-              value={name}
-              autoCorrect={false}
-              autoCapitalize="none"
-              onChangeText={OnHandleChangeName}
-            />
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
+        <View style={styles.mainContainer}>
+          <View style={styles.header}>
+            <View>
+              <HeaderWithBackBtn />
+            </View>
+            <View
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                paddingRight: responsiveScreenWidth(18),
+              }}>
+              <Text style={styles.profileText}>Profile Detail</Text>
+            </View>
           </View>
-          {nameValidError ? (
-            <Text style={styles.errorText}>{nameValidError}</Text>
-          ) : null}
-          <View style={{paddingVertical: responsiveScreenHeight(3)}}>
-            <TextInput
-              style={
-                emailValidError ? styles.inputContainer1 : styles.inputContainer
-              }
-              placeholder="Email"
-              placeholderTextColor={dark}
-              value={email}
-              autoCorrect={false}
-              autoCapitalize="none"
-              onChangeText={OnHandleChangeEmail}
-            />
+          <View style={styles.userIcon}>
+            <Fontisto name="person" size={responsiveWidth(10)} color={dark} />
           </View>
-          {emailValidError ? (
-            <Text style={styles.errorText}>{emailValidError}</Text>
-          ) : null}
+          <View style={styles.containerInput}>
+            <View>
+              <TextInput
+                style={
+                  nameValidError
+                    ? styles.inputContainer1
+                    : styles.inputContainer
+                }
+                placeholder="Full Name"
+                placeholderTextColor={dark}
+                value={name}
+                autoCorrect={false}
+                autoCapitalize="none"
+                onChangeText={OnHandleChangeName}
+              />
+            </View>
+            {nameValidError ? (
+              <Text style={styles.errorText}>{nameValidError}</Text>
+            ) : null}
+            <View style={{paddingVertical: responsiveScreenHeight(1.5)}}>
+              <TextInput
+                style={
+                  emailValidError
+                    ? styles.inputContainer1
+                    : styles.inputContainer
+                }
+                placeholder="Email"
+                placeholderTextColor={dark}
+                value={email}
+                autoCorrect={false}
+                autoCapitalize="none"
+                onChangeText={OnHandleChangeEmail}
+              />
+            </View>
+            {emailValidError ? (
+              <Text style={styles.errorText}>{emailValidError}</Text>
+            ) : null}
+          </View>
         </View>
-        <ExploreButton onPress={handleSaveProfile} title="Save" />
-      </View>
-    </SafeAreaView>
+        {isKeyboardVisible ? null : (
+          <View
+            style={{
+              paddingHorizontal: responsiveScreenWidth(4),
+              marginBottom: responsiveScreenHeight(3),
+            }}>
+            <ExploreButton onPress={handleSaveProfile} title="Save" />
+          </View>
+        )}
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -173,10 +191,11 @@ export default EditProfile;
 
 const styles = StyleSheet.create({
   mainContainer: {
+    flex: 1,
     paddingHorizontal: responsiveScreenWidth(4),
     paddingVertical: padding,
   },
-  backButton: {
+  header: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: responsiveScreenWidth(10),
@@ -184,19 +203,22 @@ const styles = StyleSheet.create({
   profileText: {
     color: dark,
     fontSize: responsiveFontSize(2.5),
+    fontWeight: 'bold',
+    letterSpacing: 0.3,
   },
   userIcon: {
     backgroundColor: '#F5F4F8',
-    borderRadius: responsiveScreenWidth(48),
-    paddingHorizontal: responsiveScreenWidth(5),
-    paddingVertical: responsiveScreenHeight(2.1),
+    borderRadius: responsiveScreenWidth(11),
+    width: responsiveScreenWidth(22),
+    height: responsiveScreenWidth(22),
+    justifyContent: 'center',
+    alignItems: 'center',
     alignSelf: 'center',
-    marginVertical: responsiveScreenHeight(5),
+    marginVertical: responsiveScreenHeight(3),
   },
   containerInput: {
-    marginTop: responsiveScreenHeight(6),
+    marginTop: responsiveScreenHeight(2),
   },
-
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -209,7 +231,7 @@ const styles = StyleSheet.create({
     borderColor: '#F5F4F8',
     borderRadius: 10,
     padding: 10,
-    fontSize: 12,
+    fontSize: responsiveFontSize(2),
   },
   inputContainer1: {
     flexDirection: 'row',
@@ -224,7 +246,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5F4F8',
     borderRadius: 3,
     padding: 10,
-    fontSize: 12,
+    fontSize: responsiveFontSize(2),
   },
   input: {
     flex: 1,

@@ -6,6 +6,7 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import React, {useState} from 'react';
 import {
@@ -37,13 +38,15 @@ const BuyPlotLand: React.FC<any> = ({setModalOpen}) => {
   const handleSubmit = () => {
     const isValid = validation();
     if (isValid) {
+      //@ts-ignore
       Navigation.navigate('ListOfProperty' as never, {cityName, title});
       setModalOpen(false);
     }
   };
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <TouchableWithoutFeedback onPress={() => setModalOpen(false)}>
+      <SafeAreaView style={{flex: 1}}>
       <View style={styles.modalContainer}>
         <TouchableOpacity
           style={styles.containerImg}
@@ -68,6 +71,8 @@ const BuyPlotLand: React.FC<any> = ({setModalOpen}) => {
         <ExploreButton title="Continue" onPress={() => handleSubmit()} />
       </View>
     </SafeAreaView>
+    </TouchableWithoutFeedback>
+    
   );
 };
 

@@ -36,8 +36,8 @@ const ModalScreen = () => {
           <Ionicons
             onPress={() => setVisible(false)}
             name="close"
-            style={{height: 30, width: 30}}
-            size={20}
+            style={{height: 30, width: 30, justifyContent: 'center', alignItems: 'center'}}
+            size={responsiveFontSize(3.2)}
             color="white"
           />
         </View>
@@ -165,10 +165,11 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
     paddingHorizontal: responsiveScreenWidth(1),
+    paddingVertical: responsiveScreenHeight(1),
     backgroundColor: '#234F68',
     width: '100%',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
+    borderTopLeftRadius: responsiveScreenHeight(2),
+    borderTopRightRadius: responsiveScreenHeight(2),
   },
 
  
@@ -179,6 +180,7 @@ const styles = StyleSheet.create({
 
   body: {
     flex: 1,
+    paddingTop: responsiveScreenHeight(1),
     paddingHorizontal: responsiveScreenWidth(2),
     paddingBottom: responsiveScreenHeight(3)
   },

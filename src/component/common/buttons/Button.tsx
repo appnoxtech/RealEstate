@@ -16,15 +16,15 @@ const Button = ({ onPress }: ButtonProps) => {
       activeOpacity={0.9}
       style={styles.button}
     >
-      <Ionicons name="menu" size={responsiveWidth(6)} color={'#234F68'}/>
+      <Ionicons name="menu" size={responsiveWidth(6.5)} color={'#234F68'}/>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   button: {
-    width: responsiveWidth(10),
-    height: responsiveHeight(5),
+    width: responsiveWidth(11),
+    height: responsiveWidth(11),
     backgroundColor: '#F5F4F8',
     justifyContent: "center",
     alignItems: "center",

@@ -96,8 +96,7 @@ const FeaturedCategories = () => {
 
   const Item: React.FC<renderProp> = ({data}) => (
     <TouchableOpacity>
-      <View style={styles.container}>
-        <View style={styles.featuredCard}>
+       <View style={styles.featuredCard}>
           <ImageBackground  style={styles.imageContainer} source={data.image}>
             <TouchableOpacity style={[styles.heartContainer, width > 500 && styles.heartContainer1]}>
               <Ionicons name='heart' size={responsiveScreenWidth(4)} color='white'/>
@@ -128,7 +127,6 @@ const FeaturedCategories = () => {
             </View>
           </View>
         </View>
-      </View>
     </TouchableOpacity>
   );
 
@@ -147,39 +145,31 @@ const FeaturedCategories = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: responsiveScreenWidth(2),
-    
+    flex: 1
   },
-
   featuredCard: {
-    flex: 1,
-    width: '95%',
-    borderRadius: 40,
+    width: responsiveScreenWidth(85),
+    borderRadius: responsiveScreenHeight(2),
     flexDirection: 'row',
     backgroundColor: '#F5F4F8',
-    paddingLeft: responsiveScreenWidth(5),
-    paddingRight: responsiveScreenWidth(10),
-    paddingVertical: responsiveScreenHeight(1),
-    gap: responsiveScreenWidth(3),
-   
+    paddingRight: responsiveScreenWidth(2),
+    marginHorizontal: responsiveScreenWidth(3)
   },
   imageContainer: {
-   flex: 1,
-    width: responsiveScreenWidth(40),
+    flex: 1,
+    justifyContent: 'space-between',
     height: responsiveScreenHeight(21),
     borderRadius: responsiveWidth(4),
     paddingHorizontal: responsiveScreenWidth(2),
     paddingVertical: responsiveScreenHeight(1),
-    gap: responsiveHeight(9),
     overflow: 'hidden'
   },
   heartContainer: {
     alignItems: 'center',
     justifyContent: 'center',
     width: responsiveScreenWidth(10),
-    height: responsiveScreenHeight(5),
-    borderRadius: responsiveScreenWidth(20),
+    height: responsiveScreenWidth(10),
+    borderRadius: responsiveScreenWidth(7),
     backgroundColor: '#8BC83F',
   },
   heartContainer1: {
@@ -193,7 +183,11 @@ const styles = StyleSheet.create({
     padding: responsiveScreenWidth(3),
     // padding: responsiveHeight(2),
   },
-  details: {},
+  details: {
+    flex:1,
+    paddingVertical: responsiveScreenHeight(1),
+    paddingHorizontal: responsiveScreenWidth(2)
+  },
 
   buttonText: {
     color: '#fff',
@@ -209,14 +203,15 @@ const styles = StyleSheet.create({
   
   price: {},
   detailsHeader: {
-    width: responsiveScreenWidth(30),
+    flex: 1,
     gap: responsiveHeight(2),
     // marginHorizontal: responsiveScreenWidth(2),
     // marginVertical: responsiveScreenHeight(1),
   },
   detailesHeadertext: {
-    color: dark,
-    fontSize: 17,
+    color: '#234F68',
+    fontSize: responsiveFontSize(2),
+    fontWeight: 'bold',
   },
   map: {
     flexDirection: 'row',

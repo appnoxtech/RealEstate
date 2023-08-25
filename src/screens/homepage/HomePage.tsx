@@ -133,7 +133,7 @@ const HomePage = () => {
           </TouchableOpacity>
         </View>
       </View>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView style={{marginBottom: responsiveScreenHeight(2)}} showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <Text style={styles.headerText}>
             Hey,<Text style={styles.subText}> {userDetails?.name}! </Text>
@@ -260,12 +260,6 @@ const HomePage = () => {
 export default HomePage;
 
 const styles = StyleSheet.create({
-  // imageContainer: {
-  //   backgroundColor: '#234F68',
-  //   width: 362,
-  //   height: 200,
-  // },
-
   mainContainer: {
     flex: 1,
     backgroundColor: 'white',
@@ -278,7 +272,6 @@ const styles = StyleSheet.create({
 
   container: {
     paddingHorizontal: responsiveScreenWidth(5),
-    // paddingVertical: responsiveScreenHeight(1.8),
     gap: responsiveHeight(1.5),
   },
   header: {

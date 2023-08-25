@@ -8,6 +8,7 @@ import {
   Alert,
   ScrollView,
   TextInput,
+  Platform,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -27,7 +28,7 @@ import {UpdateNewListing} from '../../../redux/reducers/postReducer';
 import ModalScreen from '../../Modals/ModalScreen';
 import HeaderWithBackBtn from '../../../component/common/buttons/HeaderWithBackBtn';
 import {GetPropertyType} from '../../../services/properties';
-import { dark } from '../../../../assets/Styles/GlobalTheme';
+import {dark} from '../../../../assets/Styles/GlobalTheme';
 
 const PostProperty = () => {
   const navigation = useNavigation();
@@ -40,7 +41,6 @@ const PostProperty = () => {
   const [ownerPhoneNumber, setOwnerPhoneNumber] = useState('');
   const {newListing} = useSelector((store: any) => store.post);
   console.log(newListing);
-  
 
   const [errorProperty, setErrorProperty] = useState<string>('');
 
@@ -48,7 +48,6 @@ const PostProperty = () => {
     try {
       const res = await GetPropertyType(params);
       const {result} = res.data;
-
       if (result?.length) {
         setPropertyType([...result]);
       } else {
@@ -81,7 +80,7 @@ const PostProperty = () => {
     } catch (error) {}
   };
   const setPropertyTypeHandler = (id: string) => {
-    if(!id) {
+    if (!id) {
       setErrorProperty('Please select property');
     } else {
       setErrorProperty('');
@@ -92,11 +91,10 @@ const PostProperty = () => {
         value: id,
       }),
     );
-    
   };
-  
+
   const validate = () => {
-    if(!newListing?.propertyType[0]) {
+    if (!newListing?.propertyType[0]) {
       setErrorProperty('Please select property');
       return false;
     } else {
@@ -146,12 +144,17 @@ const PostProperty = () => {
         <View style={styles.headerItems}>
           <View style={styles.basicDetails}>
             <View style={{gap: responsiveScreenHeight(1)}}>
-              <Text style={styles.steps}>Step 1 of 3</Text>
+              <Text style={styles.steps}>Step 1 of 4</Text>
               <Text style={styles.basicDetailsText}>Add Basic Details</Text>
-              <Text style={{ color: dark,}}>Your Intent, Property type & Contact details</Text>
+              <Text style={{color: dark}}>
+                Your Intent, Property type & Contact details
+              </Text>
             </View>
             <View style={styles.main}>
-              <Text style={styles.pb10}>You're Looking to ? </Text>
+              <View style={styles.mainText}>
+                <Text style={styles.pb10}>You're Looking to ? <Text style={{fontSize: responsiveFontSize(2.5), color: 'red'}}>*</Text></Text>
+                
+              </View>
               <View style={styles.lookingTo}>
                 {LookingOption?.map(option => (
                   <OptionBtn
@@ -167,7 +170,10 @@ const PostProperty = () => {
                   />
                 ))}
               </View>
-              <Text style={{ color: dark,}}>What Kind Of Property ?</Text>
+              <View style={styles.mainText}>
+                <Text style={styles.pb10}>What Kind Of Property ? <Text style={{fontSize: responsiveFontSize(2.5), color: 'red'}}>*</Text></Text>
+                
+              </View>
               <View style={styles.propertyTYpe}>
                 {WhatKindOfProperty?.map((option, index) => (
                   <OptionBtn
@@ -183,7 +189,11 @@ const PostProperty = () => {
                   />
                 ))}
               </View>
-              <Text style={{ color: dark,}}>Select Property Type</Text>
+              <View style={styles.mainText}>
+              <Text style={{color: dark}}>Select Property Type ? <Text style={{fontSize: responsiveFontSize(2.5), color: 'red'}}>*</Text></Text>
+                
+              </View>
+              
               {propertyType?.length ? (
                 <View style={styles.typeOfProperty}>
                   {propertyType?.map((option, index) => (
@@ -206,13 +216,13 @@ const PostProperty = () => {
               <Text style={{color: 'red'}}>{errorProperty}</Text>
             ) : null}
             <View style={styles.inputContainer}>
-              <Text style={{ color: dark,}}>Owner Name</Text>
+              <Text style={{color: dark}}>Owner Name</Text>
               <TextInput
                 editable={false}
                 value={ownerName}
                 style={styles.inputStyling}
               />
-              <Text style={{ color: dark,}}>Owner Contact</Text>
+              <Text style={{color: dark}}>Owner Contact</Text>
               <TextInput
                 editable={false}
                 value={ownerPhoneNumber}
@@ -237,7 +247,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: responsiveScreenWidth(3),
+    paddingHorizontal: responsiveScreenWidth(4),
+    paddingVertical: Platform.OS === 'android' ? responsiveScreenHeight(2) : responsiveScreenHeight(1),
     gap: responsiveScreenWidth(70),
   },
   hamBurger: {
@@ -263,11 +274,16 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   main: {},
+  mainText: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingTop: responsiveScreenHeight(2),
+  },
   propertyTYpe: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: responsiveScreenHeight(2),
-    paddingBottom: responsiveScreenWidth(7),
+    // paddingBottom: responsiveScreenWidth(7),
     gap: responsiveScreenWidth(3),
   },
   residential: {
@@ -292,11 +308,9 @@ const styles = StyleSheet.create({
   },
   pb10: {
     color: dark,
-    paddingTop: responsiveScreenHeight(2),
   },
   lookingTo: {
     paddingVertical: responsiveScreenHeight(1.5),
-    paddingBottom: responsiveScreenWidth(7),
     flexDirection: 'row',
     gap: responsiveScreenWidth(2),
   },
@@ -339,6 +353,6 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     padding: 10,
     fontSize: responsiveFontSize(3),
-    color: dark
+    color: dark,
   },
 });

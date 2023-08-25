@@ -28,7 +28,7 @@ const DATA = [
     id: '1',
     title: 'Sky Dandelions Apartment',
     rating: '4.9',
-    image: require('../../../../assets/images/Jakarta.png'),
+    image: require('../../../../assets/images/p1.jpg'),
     price: '$ 226',
     location: 'Delhi',
     buttonTitle: 'Apartment',
@@ -37,7 +37,7 @@ const DATA = [
     id: '2',
     title: 'Sky Dandelions Apartment',
     rating: '4.9',
-    image: require('../../../../assets/images/Bali.png'),
+    image: require('../../../../assets/images/p2.jpg'),
     price: '$ 300',
     location: 'Greater Noida',
     buttonTitle: 'Villa',
@@ -46,7 +46,7 @@ const DATA = [
     id: '3',
     title: 'Sky Dandelions Apartment',
     rating: '4.9',
-    image: require('../../../../assets/images/Jakarta.png'),
+    image: require('../../../../assets/images/p3.jpg'),
     price: '$ 226',
     location: 'City xyz',
     buttonTitle: 'Apartment',
@@ -55,7 +55,7 @@ const DATA = [
     id: '4',
     title: 'Sky Dandelions Apartment',
     rating: '4.9',
-    image: require('../../../../assets/images/Bali.png'),
+    image: require('../../../../assets/images/p4.jpg'),
     price: '$ 300',
     location: 'Bali',
     buttonTitle: 'Villa',
@@ -64,7 +64,7 @@ const DATA = [
     id: '5',
     title: 'Sky Dandelions Apartment',
     rating: '4.9',
-    image: require('../../../../assets/images/Jakarta.png'),
+    image: require('../../../../assets/images/p5.jpg'),
     price: '$ 226',
     location: 'Jakarta',
     buttonTitle: 'Apartment',
@@ -73,7 +73,7 @@ const DATA = [
     id: '6',
     title: 'Sky Dandelions Apartment',
     rating: '4.9',
-    image: require('../../../../assets/images/Bali.png'),
+    image: require('../../../../assets/images/p6.jpg'),
     price: '$ 300',
     location: 'Bali',
     buttonTitle: 'Villa',
@@ -93,7 +93,7 @@ const TopLocationPage = () => {
           <Text style={{color: 'white'}}>#{data.id}</Text>
         </TouchableOpacity>
       </ImageBackground>
-      <Text style={{fontSize: 10, fontWeight: 'bold', paddingLeft: 10 ,color: dark}}>
+      <Text style={{fontSize: responsiveFontSize(2), fontWeight: '400', paddingLeft: 10 ,color: dark}}>
         {data.location}
       </Text>
     </TouchableOpacity>
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
   },
   featuredCard: {
     width: responsiveWidth(44),
-    borderRadius: 40,
+    borderRadius: responsiveWidth(10),
     backgroundColor: '#F5F4F8',
     paddingHorizontal: responsiveScreenWidth(2),
     paddingVertical: responsiveScreenHeight(2),
@@ -159,9 +159,11 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: responsiveWidth(40),
     height: responsiveHeight(22.5),
+    borderRadius: responsiveWidth(5),
     gap: responsiveHeight(9.5),
     paddingRight: responsiveScreenWidth(1.5),
     paddingTop: responsiveScreenHeight(1),
+    overflow: 'hidden'
   },
   noContainer: {
     alignItems: 'center',

@@ -21,35 +21,33 @@ import {useDispatch, useSelector} from 'react-redux';
 import useAuthServiceHandler from '../../hooks/serviceHandler/AuthServiceHandler';
 import {useNavigation} from '@react-navigation/native';
 import {useProfileHooks} from '../../hooks/ProfileHooks';
-import {Image} from 'react-native';
-const padding =
+
+import ExploreButton from '../../component/common/buttons/ExploreButton';
+
+var padding =
   Platform.OS === 'android'
     ? responsiveScreenHeight(2)
     : responsiveScreenHeight(0);
 
 const EditProfile = () => {
+  const fullNamePattern = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
+  const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  const {updatePofileHandler} = useProfileHooks();
+
   const {userDetails} = useSelector((state: any) => state?.user);
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const {handleRegisterService} = useAuthServiceHandler();
+
   const [name, setName] = useState('');
+
   const [email, setEmail] = useState('');
   const [nameValidError, setNameValidError] = useState('');
   const [emailValidError, setEmailValidError] = useState('');
 
-  const profile = '../../../assets/images/Profilecopy.png';
-  const groupImg = require('../../../assets/images/Group.png');
-
-  const {updatePofileHandler} = useProfileHooks();
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const [profileData, setProfileData] = useState({
     name: '',
     email: '',
-    phoneNumber: '',
   });
-
-  const fullNamePattern = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
-  const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
   const validation = () => {
     if (!fullNamePattern.test(name)) {
@@ -75,30 +73,26 @@ const EditProfile = () => {
       phoneNumber: string;
     }>,
   ) => {
-    setProfileData(updatedProfile);
-    try {
-      const res = await updatePofileHandler(updatedProfile, userDetails);
-    } catch (error: any) {
-      Alert.alert('Error -------1111111', error);
+    const isValid = validation();
+    if (isValid) {
+      const data = {
+        name: name,
+        email: email,
+      };
+      setProfileData(data);
+      console.log(profileData);
+
+      try {
+        const res = await updatePofileHandler(profileData, userDetails);
+        navigation.goBack();
+      } catch (error: any) {
+        Alert.alert('Error -------1111111', error.message);
+      }
     }
   };
 
-  // const handleSubmit = () => {
-  //   const isValid = validation();
-  //   if (isValid) {
-  //     const data = {
-  //       name: name,
-  //       email: email,
-  //       phoneNumber: phone,
-  //       profilePhoto: '',
-  //       role: 'tenant',
-  //     };
-  //     dispatch(UpdateRegisterUserDetails({...data}));
-  //     navigation.navigate('SelectUserType' as never);
-  //   }
-  // };
-
   const OnHandleChangeName = (params: string) => {
+    setName(params);
     if (!params.length) {
       setNameValidError('Required');
       return false;
@@ -109,10 +103,10 @@ const EditProfile = () => {
       setNameValidError('');
       return true;
     }
-    
   };
 
   const OnHandleChangeEmail = (params: string) => {
+    setEmail(params);
     if (!params.length) {
       setEmailValidError('Required');
       return false;
@@ -136,43 +130,40 @@ const EditProfile = () => {
           <Fontisto name="person" size={responsiveWidth(10)} color={dark} />
         </View>
         <View style={styles.containerInput}>
-          <View
-            style={
-              nameValidError ? styles.inputContainer1 : styles.inputContainer
-            }>
+          <View>
             <TextInput
-              style={styles.input}
+              style={
+                nameValidError ? styles.inputContainer1 : styles.inputContainer
+              }
               placeholder="Full Name"
               placeholderTextColor={dark}
-              value={userDetails?.name}
+              value={name}
               autoCorrect={false}
               autoCapitalize="none"
               onChangeText={OnHandleChangeName}
             />
-            <Image source={require(profile)} style={styles.profileImage} />
           </View>
           {nameValidError ? (
             <Text style={styles.errorText}>{nameValidError}</Text>
           ) : null}
-          <View
-            style={
-              emailValidError ? styles.inputContainer1 : styles.inputContainer
-            }>
+          <View style={{paddingVertical: responsiveScreenHeight(3)}}>
             <TextInput
-              style={styles.input}
+              style={
+                emailValidError ? styles.inputContainer1 : styles.inputContainer
+              }
               placeholder="Email"
               placeholderTextColor={dark}
-              value={userDetails?.email}
+              value={email}
               autoCorrect={false}
               autoCapitalize="none"
               onChangeText={OnHandleChangeEmail}
             />
-            <Image style={styles.emailImage} source={groupImg} />
           </View>
           {emailValidError ? (
             <Text style={styles.errorText}>{emailValidError}</Text>
           ) : null}
         </View>
+        <ExploreButton onPress={handleSaveProfile} title="Save" />
       </View>
     </SafeAreaView>
   );
@@ -192,6 +183,7 @@ const styles = StyleSheet.create({
   },
   profileText: {
     color: dark,
+    fontSize: responsiveFontSize(2.5),
   },
   userIcon: {
     backgroundColor: '#F5F4F8',
@@ -210,7 +202,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     height: responsiveScreenHeight(7),
-    width: responsiveScreenWidth(90),
+    width: '100%',
     marginVertical: responsiveScreenHeight(1),
     borderWidth: 0,
     backgroundColor: '#F5F4F8',
@@ -225,7 +217,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     gap: 5,
     height: responsiveScreenHeight(7),
-    width: responsiveScreenWidth(90),
+    width: '100%',
     marginVertical: responsiveScreenHeight(1),
     borderWidth: 1,
     borderColor: 'red',

@@ -1,21 +1,34 @@
 const initialState = {
-    isLoading: false
+    isLoading: false,
+    hasLaunched: false
 }
 
 interface setIsLoading {
-    type: 'SET_IS_LOADING_STATE';
+    type: 'UPDATE_LOADING_STATE';
     payload: boolean;
 }
 
-type action = setIsLoading;
+interface updateAppLaunchedState {
+    type: 'UPDATE_APP_LAUNCH_STATE',
+    payload: boolean
+}
+
+type action = setIsLoading | updateAppLaunchedState;
   
 
 const CommonReducer = (state=initialState, action: action) => {
    switch (action.type) {
-    case 'SET_IS_LOADING_STATE':{
+    case 'UPDATE_LOADING_STATE':{
         return {
             ...state,
             isLoading: action.payload
+        }
+    }
+
+    case 'UPDATE_APP_LAUNCH_STATE': {
+        return {
+            ...state,
+            hasLaunched: action.payload
         }
     }
    
@@ -25,3 +38,17 @@ const CommonReducer = (state=initialState, action: action) => {
 }
 
 export default CommonReducer;
+
+export const UpdateIsLoadingState = (state: boolean) => {
+  return {
+    type: 'UPDATE_LOADING_STATE',
+    payload: state
+  }
+};
+
+export const UpdateAppLaunchedState = (currState: boolean):updateAppLaunchedState => {
+   return {
+    type: 'UPDATE_APP_LAUNCH_STATE',
+    payload: currState
+   }
+}

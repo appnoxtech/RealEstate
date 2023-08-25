@@ -8,10 +8,12 @@ import {
 import React, {FC} from 'react';
 import {
   responsiveFontSize,
+  responsiveScreenHeight,
   responsiveScreenWidth,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import { dark } from '../../../../assets/Styles/GlobalTheme';
+import { width } from '../../../utils/constants/Matrics';
 
 
 
@@ -23,7 +25,7 @@ const LocationBtn: FC<props> = ({label}) => {
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
       <View style={styles.showCityName}>
-        <Text style={{color: dark}}>{label}</Text>
+        <Text style={{color: dark, fontSize: width > 500 ? responsiveFontSize(1) : responsiveFontSize(2)}}>{label}</Text>
       </View>
     </SafeAreaView>
   );
@@ -39,12 +41,11 @@ const styles = StyleSheet.create({
     borderRadius: responsiveWidth(18),
     borderColor: '#8BC83F',
     paddingHorizontal: responsiveScreenWidth(5),
+    paddingVertical: responsiveScreenHeight(1.5),
     marginHorizontal: responsiveScreenWidth(1),
     padding: 5,
   },
-  removeFont: {
-    fontSize: responsiveFontSize(2.5),
-  },
+
 });
 
 function UpdateNewListing(arg0: string): any {

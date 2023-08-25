@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {OTPData, generateOTP} from '../../interfaces/auth/authServiceInterface';
+import { URL } from '@env';
 
 export const confirmOTPService = async (data: OTPData) => {
   const url = `${URL}account/generate-otp`;
@@ -7,7 +8,6 @@ export const confirmOTPService = async (data: OTPData) => {
 };
 
 export const generateOTPService = async (data: generateOTP) => {
-  console.log('URL', URL);
-  const url = `${URL}account/generate-otp`;
+  const url = `${URL}generate-otp`;
   return axios.post(url, data);
 };

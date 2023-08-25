@@ -1,47 +1,59 @@
-import { StyleSheet, Text, View,TouchableOpacity ,Image, SafeAreaView} from 'react-native'
-import React from 'react';
-import { useNavigation } from '@react-navigation/native';
-import { responsiveScreenWidth } from 'react-native-responsive-dimensions';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  SafeAreaView,
+  ViewStyle,
+} from 'react-native';
+import React, { FC } from 'react';
+import {useNavigation} from '@react-navigation/native';
+import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
+import {Dimensions} from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { StyleProp } from 'react-native';
 
-export default function HeaderWithBackBtn() {
-
-  
-    const navigation = useNavigation();
-    const vector1Img = require('../../../../assets/images/Vector1.png')
-  return (
-   <SafeAreaView>
-     <View style={styles.container}>
-       <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={styles.containerImg}>
-          <Image
-            style={styles.image}
-            source={vector1Img}
-          />
-        </TouchableOpacity>
-    </View>
-   </SafeAreaView>
-  )
+interface props {
+  style?: StyleProp<ViewStyle>;
 }
 
-const styles = StyleSheet.create({
-    container: {
-        // flex: 1,
-    },
 
+const HeaderWithBackBtn:FC <props> = ({style}) => {
+  const {width, height} = Dimensions.get('window');
+
+
+
+  const navigation = useNavigation();
+  const vector1Img = require('../../../../assets/images/Vector1.png');
+  return (
+    <TouchableOpacity
+      onPress={() => navigation.goBack()}
+      style={[styles.containerImg, width > 500 && styles.containerImg1 , style]}>
+      <Ionicons
+        name="chevron-back-outline"
+        size={responsiveScreenWidth(4)}
+        color="black"
+      />
+    </TouchableOpacity>
+  );
+}
+
+export default HeaderWithBackBtn
+const styles = StyleSheet.create({
+ 
   containerImg: {
-    borderWidth: 1,
     borderRadius: responsiveScreenWidth(7),
     backgroundColor: '#F5F4F8',
     borderColor: '#F5F4F8',
-    width: responsiveScreenWidth(12),
+    width:  responsiveScreenWidth(12),
     height: responsiveScreenWidth(12),
     alignItems: 'center',
     justifyContent: 'center',
   },
-  image: {
-    width: 5,
-    height: 10,
-  },
-
-})
+  containerImg1: {
+    width:  responsiveScreenWidth(7.5),
+    height: responsiveScreenWidth(7.5),
+  }
+  
+});

@@ -8,6 +8,7 @@ import StackNavigation from './src/navigation/StackNavigation';
 import {ActivityIndicator} from 'react-native';
 
 const App = () => {
+
   return (
     <Provider store={store}>
       <PersistGate

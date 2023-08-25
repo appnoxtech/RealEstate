@@ -18,18 +18,17 @@ import {
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import { dark } from '../../../assets/Styles/GlobalTheme';
-import FeaturedButton from '../../component/common/buttons/FeaturedButton';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { width } from '../../utils/constants/Matrics';
 
 const FeaturedCategories = () => {
-  const imageConstant = require('../../../assets/images/Heart.png');
-  const starImg = require('../../../assets/images/Star.png');
-  const locationImg = require('../../../assets/images/Location.png');
+  
   const DATA = [
     {
       id: '1',
       title: 'Sky Dandelions Apartment',
       rating: '4.9',
-      image: require('../../../assets/images/image26.png'),
+      image: require('../../../assets/images/p1.jpg'),
       price: '$226',
       location: 'Jakarta, Indonesia',
       buttonTitle: 'Apartment',
@@ -38,7 +37,7 @@ const FeaturedCategories = () => {
       id: '2',
       title: 'The laurels Villa',
       rating: '4.9',
-      image: require('../../../assets/images/image27.png'),
+      image: require('../../../assets/images/p2.jpg'),
       price: '$300',
       location: 'Bali, Indonesia',
       buttonTitle: 'Villa',
@@ -47,7 +46,7 @@ const FeaturedCategories = () => {
       id: '3',
       title: 'Sky Dandelions Apartment',
       rating: '4.9',
-      image: require('../../../assets/images/image26.png'),
+      image: require('../../../assets/images/p3.jpg'),
       price: '$226',
       location: 'Jakarta, Indonesia',
       buttonTitle: 'Apartment',
@@ -56,7 +55,7 @@ const FeaturedCategories = () => {
       id: '4',
       title: 'The laurels Villa',
       rating: '4.9',
-      image: require('../../../assets/images/image27.png'),
+      image: require('../../../assets/images/p4.jpg'),
       price: '$300',
       location: 'Bali, Indonesia',
       buttonTitle: 'Villa',
@@ -65,7 +64,7 @@ const FeaturedCategories = () => {
       id: '5',
       title: 'Sky Dandelions Apartment',
       rating: '4.9',
-      image: require('../../../assets/images/image26.png'),
+      image: require('../../../assets/images/p5.jpg'),
       price: '$226',
       location: 'Jakarta, Indonesia',
       buttonTitle: 'Apartment',
@@ -74,7 +73,7 @@ const FeaturedCategories = () => {
       id: '6',
       title: 'The laurels Villa',
       rating: '4.9',
-      image: require('../../../assets/images/image27.png'),
+      image: require('../../../assets/images/p6.jpg'),
       price: '$300',
       location: 'Bali, Indonesia',
       buttonTitle: 'Villa',
@@ -99,9 +98,9 @@ const FeaturedCategories = () => {
     <TouchableOpacity>
       <View style={styles.container}>
         <View style={styles.featuredCard}>
-          <ImageBackground style={styles.imageContainer} source={data.image}>
-            <TouchableOpacity style={styles.heartContainer}>
-              <Image style={styles.heart} source={imageConstant} />
+          <ImageBackground  style={styles.imageContainer} source={data.image}>
+            <TouchableOpacity style={[styles.heartContainer, width > 500 && styles.heartContainer1]}>
+              <Ionicons name='heart' size={responsiveScreenWidth(4)} color='white'/>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button}>
               <Text style={styles.buttonText}>{data.buttonTitle}</Text>
@@ -112,11 +111,11 @@ const FeaturedCategories = () => {
             <View style={styles.detailsHeader}>
               <Text style={styles.detailesHeadertext}>{data.title}</Text>
               <View style={styles.ratingContainer}>
-                <Image style={styles.star} source={starImg} />
+                <Ionicons name='star' size={responsiveScreenWidth(2)} color='gold' />
                 <Text style={{color: dark}}>{data.rating}</Text>
               </View>
               <View style={styles.map}>
-                <Image style={styles.star} source={locationImg} />
+               <Ionicons name='locate-outline' size={responsiveScreenWidth(2)} color='#234F68'/>
                 <Text style={{fontSize: 12, color: dark}}>{data.location}</Text>
               </View>
 
@@ -148,35 +147,45 @@ const FeaturedCategories = () => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     padding: responsiveScreenWidth(2),
+    
   },
 
   featuredCard: {
-    width: responsiveWidth(80),
+    flex: 1,
+    width: '95%',
     borderRadius: 40,
     flexDirection: 'row',
     backgroundColor: '#F5F4F8',
-    padding: responsiveScreenWidth(3),
+    paddingLeft: responsiveScreenWidth(5),
+    paddingRight: responsiveScreenWidth(10),
+    paddingVertical: responsiveScreenHeight(1),
     gap: responsiveScreenWidth(3),
+   
   },
   imageContainer: {
-    width: responsiveWidth(40),
-    height: responsiveHeight(20),
-    padding: responsiveScreenWidth(2),
-    gap: responsiveHeight(7),
+   flex: 1,
+    width: responsiveScreenWidth(40),
+    height: responsiveScreenHeight(21),
+    borderRadius: responsiveWidth(4),
+    paddingHorizontal: responsiveScreenWidth(2),
+    paddingVertical: responsiveScreenHeight(1),
+    gap: responsiveHeight(9),
+    overflow: 'hidden'
   },
   heartContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: responsiveWidth(12.5),
-    height: responsiveHeight(6),
-    borderRadius: 50,
+    width: responsiveScreenWidth(10),
+    height: responsiveScreenHeight(5),
+    borderRadius: responsiveScreenWidth(20),
     backgroundColor: '#8BC83F',
   },
-  heart: {
-    width: responsiveWidth(6),
-    height: responsiveHeight(3),
+  heartContainer1: {
+    width: responsiveScreenWidth(7.5),
   },
+  
   button: {
     width: responsiveWidth(24),
     backgroundColor: '#234F68',
@@ -197,10 +206,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 5,
   },
-  star: {
-    width: 9,
-    height: 9,
-  },
+  
   price: {},
   detailsHeader: {
     width: responsiveScreenWidth(30),

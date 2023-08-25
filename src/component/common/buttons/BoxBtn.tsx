@@ -41,7 +41,7 @@ export default BoxBtn;
 const styles = StyleSheet.create({
   responseBox: {
     alignItems: 'center',
-    alignSelf: 'flex-start',
+    // alignSelf: 'flex-start',
     borderWidth: responsiveWidth(0.1),
     borderRadius: responsiveWidth(5),
     paddingHorizontal: responsiveScreenWidth(6),

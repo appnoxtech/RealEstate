@@ -16,8 +16,9 @@ import {
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
+import { TouchableWithoutFeedback } from 'react-native';
 
-const CustomModal: React.FC<any> = ({title, modalOpen, setTitle, children}) => {
+const CustomModal: React.FC<any> = ({title, modalOpen, setTitle, children, setShowModal}) => {
 
   return (
     <View style={{flex: 1, backgroundColor: 'red'}}>

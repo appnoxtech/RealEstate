@@ -19,9 +19,12 @@ import {useNavigation} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {DeletePropertyByIdService} from '../../../services/properties';
 import {useSelector} from 'react-redux';
-import {useDispatch} from 'react-redux'
-import { ResetNewListing, UpdatePostProperty } from '../../../redux/reducers/postReducer';
-import { dark } from '../../../../assets/Styles/GlobalTheme';
+import {useDispatch} from 'react-redux';
+import {
+  ResetNewListing,
+  UpdatePostProperty,
+} from '../../../redux/reducers/postReducer';
+import {dark} from '../../../../assets/Styles/GlobalTheme';
 
 interface props {
   id: string;
@@ -29,7 +32,7 @@ interface props {
   propertyType: string;
   price: number;
   property: any;
-  updateListing(): any
+  updateListing(): any;
 }
 
 interface userListingsData {
@@ -44,9 +47,9 @@ const PropertyListCard: FC<props> = ({
   propertyType,
   price,
   property,
-  updateListing
+  updateListing,
 }) => {
-  const imgSrc = require('../../../../assets/images/image28.png');
+  const imgSrc = require('../../../../assets/images/p6.jpg');
   const dispatch = useDispatch();
 
   const {id} = useSelector((state: any) => state.user.userDetails);
@@ -57,6 +60,7 @@ const PropertyListCard: FC<props> = ({
       console.log(propertyId);
 
       const {result} = res.data;
+      Alert.alert('Property deleted successfully ');
       console.log(result);
     } catch (error: any) {
       Alert.alert('Error', error.response.data.error.message);
@@ -73,24 +77,25 @@ const PropertyListCard: FC<props> = ({
   //   return unsubscribe;
   // }, [navigation]);
 
-
-  
-
   const handelDelete = async () => {
     await DeleteProperty(property?.id);
     await updateListing();
   };
 
-  const handelEdit = () => { 
-    dispatch(UpdatePostProperty(property))
-    navigation.navigate('PostProperty' as never)
-  }
+  const handelEdit = () => {
+    dispatch(UpdatePostProperty(property));
+    navigation.navigate('PostProperty' as never);
+  };
 
   const navigation = useNavigation();
   return (
     <SafeAreaView>
       <View style={styles.yourListing}>
-        <View style={[styles.listingContainer, styles.shadowProp]}>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate('DetailedPage' as never, {data: property})
+          }
+          style={[styles.listingContainer, styles.shadowProp]}>
           <View style={styles.yourListingsBody}>
             <Image
               style={{
@@ -100,35 +105,39 @@ const PropertyListCard: FC<props> = ({
               }}
               source={imgSrc}
             />
-             
+
             <View style={styles.yourListingsBodyText}>
               <View>
                 <Text
-                  style={{fontWeight: 'bold', fontSize: responsiveFontSize(2), color: dark}}>
+                  style={{
+                    fontWeight: 'bold',
+                    fontSize: responsiveFontSize(2),
+                    color: dark,
+                  }}>
                   {propertyType}
                 </Text>
                 <Text style={{color: dark}}>{title}</Text>
               </View>
               <Text style={{color: dark}}>Posted 2 Weeks ago</Text>
             </View>
-           <View style={styles.buttonsContainer}>
-           <Ionicons
-              style={styles.editButton}
-              onPress={() => handelEdit()}
-              name="create-outline"
-              size={responsiveScreenWidth(7)}
-              color={dark}
-            />
-            <Ionicons
-              style={styles.deleteButton}
-              onPress={() => handelDelete()}
-              name="trash-outline"
-              size={responsiveScreenWidth(7)}
-              color={dark}
-            />
-           </View>
+            <View style={styles.buttonsContainer}>
+              <Ionicons
+                style={styles.editButton}
+                onPress={() => handelEdit()}
+                name="create-outline"
+                size={responsiveScreenWidth(7)}
+                color={dark}
+              />
+              <Ionicons
+                style={styles.deleteButton}
+                onPress={() => handelDelete()}
+                name="trash-outline"
+                size={responsiveScreenWidth(7)}
+                color={dark}
+              />
+            </View>
           </View>
-        </View>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -158,7 +167,7 @@ const styles = StyleSheet.create({
     gap: responsiveScreenWidth(2),
   },
   buttonsContainer: {
-   justifyContent: 'space-evenly'
+    justifyContent: 'space-evenly',
   },
   buttonManage: {
     alignSelf: 'flex-start',
@@ -183,26 +192,24 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F5F4F8',
     borderColor: '#F5F4F8',
-    paddingHorizontal: responsiveScreenWidth(2),
-    paddingVertical: responsiveScreenHeight(1.5),
+    paddingHorizontal: responsiveScreenWidth(1),
+    paddingVertical: responsiveScreenHeight(1),
     gap: responsiveScreenHeight(2),
   },
   yourListingsBodyText: {
-    paddingHorizontal: responsiveScreenWidth(2),
-    gap: responsiveHeight(4.5)
+    flex: 1,
+    paddingHorizontal: responsiveScreenWidth(3),
+    gap: responsiveHeight(4.5),
   },
   yourListingsBody: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: responsiveScreenWidth(2),
   },
   deleteButton: {
     paddingTop: responsiveScreenHeight(5),
     alignSelf: 'flex-end',
   },
   editButton: {
-    alignSelf: 'flex-start'
-  }
+    alignSelf: 'flex-start',
+  },
 });
-

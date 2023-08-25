@@ -5,14 +5,24 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {useNavigation} from '@react-navigation/native';
 import { Appearance } from 'react-native';
+import { storeData } from '../../../hooks/CommonHooks/storageHelper';
+import { useDispatch } from 'react-redux';
+import { UpdateAppLaunchedState } from '../../../redux/reducers/commonReducer';
 
 export default function TourHeader() {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const maskgroupImageUri =  '../../../../assets/images/Maskgroup.png';
-  const currentColorScheme = Appearance.getColorScheme(); 
+  const onSkipPressHandler = async() => {
+    try {
+      dispatch(UpdateAppLaunchedState(true));
+    } catch (error) {
+      console.log('Error', error);
+    }
+  }
   return (
     <SafeAreaView style={styles.container}>
       <Image
@@ -21,7 +31,7 @@ export default function TourHeader() {
       />
 
       <TouchableOpacity
-        onPress={() => navigation.navigate('Login' as never)}
+        onPress={onSkipPressHandler}
         style={styles.button}>
         <Text style={{fontSize: 12, color: '#000000'}}>Skip</Text>
       </TouchableOpacity>

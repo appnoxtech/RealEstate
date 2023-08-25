@@ -36,6 +36,7 @@ import AgentBtn from '../../component/common/buttons/AgentBtn';
 import {GetPropertyByUserIdService} from '../../services/properties';
 import {ResetNewListing} from '../../redux/reducers/postReducer';
 import {dark} from '../../../assets/Styles/GlobalTheme';
+import { width } from '../../utils/constants/Matrics';
 
 const HomePage = () => {
   const notificationImg = require('../../../assets/images/Notification.png');
@@ -49,7 +50,7 @@ const HomePage = () => {
   const [property, setProperty] = useState('Listings');
   const [agentDataa, setAgentData] = useState('Listings');
   const [propertyListings, setPropertyListings] = useState('');
-  console.log(propertyListings);
+  // console.log(propertyListings);
   
   const [item, setItem] = useState([]);
 
@@ -200,7 +201,7 @@ const HomePage = () => {
               <TouchableOpacity
                 onPress={() => navigation.navigate('SearchFilterPage' as never)}
                 style={styles.serchContainer}>
-                <Text style={{color: dark}}>
+                <Text style={styles.searchText}>
                   <Text style={{fontWeight: 'bold', color: dark}}>
                     Search :{' '}
                   </Text>
@@ -360,7 +361,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     height: responsiveScreenHeight(7),
-    width: responsiveScreenWidth(90),
+    width: '99%',
     borderWidth: 0,
     backgroundColor: '#F5F4F8',
     borderColor: '#F5F4F8',
@@ -368,6 +369,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: responsiveScreenWidth(1.9),
     gap: responsiveScreenWidth(2),
     fontSize: responsiveFontSize(2),
+  },
+  searchText: {
+    color: dark,
+    fontSize : responsiveFontSize(1.5)
   },
   input: {
     flex: 2,

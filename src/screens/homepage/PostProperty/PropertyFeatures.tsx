@@ -2,6 +2,9 @@ import {Alert, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
+  responsiveFontSize,
+  responsiveHeight,
+  responsiveScreenFontSize,
   responsiveScreenHeight,
   responsiveScreenWidth,
   responsiveWidth,
@@ -51,7 +54,10 @@ const PropertyFeatures = () => {
   };
 
   const handelPost = () => {
+    const isValid = validate()
+    if(isValid) {
     createPropertyHandler(newListing);
+    }
   };
   const discriptionHandel = (params: any) => {
     if (!isNaN(params)) {
@@ -125,11 +131,23 @@ const PropertyFeatures = () => {
           <HeaderWithBackBtn />
         </View>
         <View style={styles.inputContainer}>
-          <Text style={{color: dark}}>Area</Text>
+        <View style={styles.headerText}>
+                  <Text style={styles.steps}>Step 4 of 4</Text>
+                  <Text style={styles.basicDetailsText}>Area & Description</Text>
+                </View>
+        <View style={styles.mainText}>
+        <Text style={{color: dark}}>Area </Text>
+                 <Text
+                      style={{fontSize: responsiveFontSize(2.5), color: 'red'}}>
+                      *
+                    </Text>
+              </View>
+         
           <CustomTextInput
             onChangeText={areaHandel}
             value={newListing?.area}
             placeholder="sq.ft"
+            errorText={areaError}
           />
           {areaError ? (
             <Text style={{color: 'red', textAlign: 'right'}}>
@@ -138,11 +156,19 @@ const PropertyFeatures = () => {
           ) : null}
         </View>
         <View style={styles.inputContainer}>
-          <Text style={{color: dark}}>Description</Text>
+        <View style={styles.mainText}>
+        <Text style={{color: dark}}>Description </Text>
+                 <Text
+                      style={{fontSize: responsiveFontSize(2.5), color: 'red'}}>
+                      *
+                    </Text>
+              </View>
+          
           <CustomTextInput
             onChangeText={discriptionHandel}
             value={newListing?.description}
             placeholder="description"
+            errorText={descriptionError}
           />
           {descriptionError ? (
             <Text style={{color: 'red', textAlign: 'right'}}>
@@ -180,4 +206,22 @@ const styles = StyleSheet.create({
     fontSize: responsiveWidth(7),
   },
   inputContainer: {},
+  headerText: {
+    gap: responsiveHeight(2),
+  },
+  steps: {
+    color: dark,
+    fontSize: responsiveScreenFontSize(1.9),
+    fontWeight: '400',
+  },
+  basicDetailsText: {
+    color: dark,
+    fontSize: responsiveFontSize(3.8),
+    fontWeight: 'bold',
+  },
+  mainText: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingTop: responsiveScreenHeight(2),
+  },
 });

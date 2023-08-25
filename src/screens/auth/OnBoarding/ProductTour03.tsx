@@ -15,12 +15,17 @@ import {
   useResponsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
 import {useNavigation} from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { UpdateAppLaunchedState } from '../../../redux/reducers/commonReducer';
 
 export default function ProductTour03() {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const image1 = '../../../../assets/images/Rectangle8.png';
   const vector = '../../../../assets/images/Vector.png'; 
-
+  const onNextPressHandler = () => {
+    dispatch(UpdateAppLaunchedState(true))
+  }
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
       <View style={styles.container}>
@@ -49,7 +54,7 @@ export default function ProductTour03() {
                 />
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => navigation.navigate('Login' as never)}
+                onPress={onNextPressHandler}
                 style={styles.button}>
                 <Text style={styles.btnText}>Next</Text>
               </TouchableOpacity>

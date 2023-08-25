@@ -7,7 +7,7 @@ import {
   FlatList,
   ScrollView,
 } from 'react-native';
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import HeaderWithBackBtn from '../../common/buttons/HeaderWithBackBtn';
 import {
   responsiveFontSize,
@@ -16,35 +16,47 @@ import {
   responsiveScreenWidth,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-import { useState } from 'react';
+import {useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Slider from '@react-native-community/slider';
 import ExploreButton from '../../common/buttons/ExploreButton';
-import { useNavigation } from '@react-navigation/native';
-import { useDispatch, useSelector } from 'react-redux';
-import { UpdateNewListing } from '../../../redux/reducers/postReducer';
-import { UpdateCityName } from '../../../redux/reducers/filterReducer';
-import { URL } from '@env';
+import {useNavigation} from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
+import {UpdateNewListing} from '../../../redux/reducers/postReducer';
+import {UpdateCityName} from '../../../redux/reducers/filterReducer';
+import {URL} from '@env';
 import axios from 'axios';
 import LocationBtn from '../../common/buttons/LocationBtn';
-import { dark } from '../../../../assets/Styles/GlobalTheme';
+import {dark} from '../../../../assets/Styles/GlobalTheme';
 import OptionBtn from '../../common/buttons/OptionBtn';
+import CustomTextInput from '../../common/inputs/inputComponent';
 
-const SearchFilterPage = ({ route }: any) => {
-  // const [selectedBedroom, setSelectedBedroom] = useState(1);
+const SearchFilterPage = ({route}: any) => {
+
   const [areaType, setAreaType] = useState<'residential' | 'commercial'>(
     'residential',
   );
   const [lookingTo, setLookingTo] = useState<'Buy' | 'Rent / Lease'>('Buy');
-  const [furnishedStatus, setFurnishedStatus] = useState('Unfurnished');
+
   const [sliderValue, setSliderValue] = useState(10);
-  const [selectedId, setSelectedId] = useState(1);
-  const [bedrooms, setBedrooms] = useState(false);
+  const [status, setStatus] = useState('');
+ 
+  
+  
+  
+
   const Navigation = useNavigation();
-  const { newListing } = useSelector((store: any) => store.post);
+  const {newListing} = useSelector((store: any) => store.post);
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
+
+
+ 
+
+  const setStatusHandel = (params: any) => {
+    setStatus(params)
+  }
 
   const setFurnishedStatusHandel = (params: any) => {
     dispatch(
@@ -56,7 +68,6 @@ const SearchFilterPage = ({ route }: any) => {
   };
 
   const setBHKStatusHandel = (params: any) => {
-    
     dispatch(
       UpdateNewListing({
         key: 'bhk',
@@ -67,18 +78,24 @@ const SearchFilterPage = ({ route }: any) => {
 
   const handleSearch = async () => {
     try {
-      const searchString = `search?type=${areaType === 'residential'
+      const searchString = `search?type=${
+        areaType === 'residential'
           ? 'Residential-property'
           : 'Commercial-property'
-        }&lookingTo=${lookingTo === 'Buy' ? 'Sell' : 'Rent/Lease'
-        }&price=${sliderValue}&furnishedStatus=${newListing?.furnishedStatus}&state=${newListing?.state}&city=${newListing?.city}&bhk=${newListing?.bhk}`;
+      }&lookingTo=${
+        lookingTo === 'Buy' ? 'Sell' : 'Rent/Lease'
+      }&price=${sliderValue}&furnishedStatus=${
+        newListing?.furnishedStatus
+      }&state=${newListing?.state}&city=${newListing?.city}&bhk=${
+        newListing?.bhk
+      }&status=${status}`;
       const url = `${URL}${searchString}`;
 
       console.log('xyz--->', url);
 
       const res = await axios.get(url);
 
-      const { result } = res.data;
+      const {result} = res.data;
 
       Navigation.navigate('RenderSearchResult' as never, {
         cityData: result,
@@ -87,13 +104,16 @@ const SearchFilterPage = ({ route }: any) => {
     } catch (error: any) {
       const sendMessage = error.response.data.error.message;
 
-      Navigation.navigate('FallBackSearch' as never, { sendMessage });
+      Navigation.navigate('FallBackSearch' as never, {sendMessage});
     }
   };
 
   const FurnishedStatus = ['unfurnished', 'semi-furnished', 'furnished'];
 
   const DATA = ['1RK/1BHK', '2BHK', '3BHK', '4BHK', '5BHK', '5BHK+'];
+
+  const statusData = ['readyToMove', 'underConstruction'];
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -106,7 +126,7 @@ const SearchFilterPage = ({ route }: any) => {
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.main}>
-          <Text style={{ color: dark, paddingBottom: responsiveScreenHeight(2) }}>
+          <Text style={{color: dark, paddingBottom: responsiveScreenHeight(2)}}>
             Type ?
           </Text>
           <View style={styles.propertyTYpe}>
@@ -119,7 +139,7 @@ const SearchFilterPage = ({ route }: any) => {
                   ? styles.typeColor
                   : styles.residential
               }>
-              <Text style={{ color: dark }}>Residential</Text>
+              <Text style={{color: dark}}>Residential</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
@@ -130,7 +150,7 @@ const SearchFilterPage = ({ route }: any) => {
                   ? styles.typeColor
                   : styles.residential
               }>
-              <Text style={{ color: dark }}>Commercial</Text>
+              <Text style={{color: dark}}>Commercial</Text>
             </TouchableOpacity>
           </View>
 
@@ -143,7 +163,7 @@ const SearchFilterPage = ({ route }: any) => {
               style={
                 lookingTo === 'Buy' ? styles.pressedbuyrent : styles.buyrent
               }>
-              <Text style={{ color: dark }}>Buy</Text>
+              <Text style={{color: dark}}>Buy</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
@@ -154,18 +174,20 @@ const SearchFilterPage = ({ route }: any) => {
                   ? styles.pressedbuyrent
                   : styles.buyrent
               }>
-              <Text style={{ color: dark }}>Rent/Lease</Text>
+              <Text style={{color: dark}}>Rent/Lease</Text>
             </TouchableOpacity>
           </View>
         </View>
+      <Text style={[styles.pb10, {paddingHorizontal: responsiveScreenWidth(5)}]}>Location ?</Text>
         <View style={styles.addCityNameContainer}>
+          
           <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate('AddCityName' as never);
               }}
               style={styles.addCityName}>
-              <Text style={{ color: dark }}>City</Text>
+              <Text style={{color: dark, }}>Location</Text>
               <Ionicons style={styles.addFont} name={'add'} color={dark} />
             </TouchableOpacity>
             <View style={styles.locationDetails}>
@@ -179,24 +201,24 @@ const SearchFilterPage = ({ route }: any) => {
           </ScrollView>
         </View>
         <View style={styles.budgetContainer}>
-          <Text style={{ color: dark }}>Budget ?</Text>
+          <Text style={{color: dark}}>Budget ?</Text>
 
           <View style={styles.budgetText}>
-            <Text style={{ color: dark }}>$5</Text>
-            <Text style={{ color: dark }}> to </Text>
-            <Text style={{ color: dark }}>${sliderValue}+ </Text>
+            <Text style={{color: dark}}>$5</Text>
+            <Text style={{color: dark}}> to </Text>
+            <Text style={{color: dark}}>${sliderValue}+ </Text>
           </View>
           <Slider
             maximumValue={10000000}
             minimumValue={0}
             minimumTrackTintColor="#8BC83F"
             maximumTrackTintColor="gray"
-            step={1000}
+            step={10000}
             value={sliderValue}
             onValueChange={sliderValue => setSliderValue(sliderValue)}
           />
         </View>
-        <View style={{ paddingHorizontal: responsiveScreenWidth(5) }}>
+        <View style={{paddingHorizontal: responsiveScreenWidth(5)}}>
           <Text style={styles.furnishedText}>Furnished Status ?</Text>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <View style={styles.furnishedStatus}>
@@ -217,7 +239,7 @@ const SearchFilterPage = ({ route }: any) => {
             </View>
           </ScrollView>
         </View>
-        <View style={{ paddingHorizontal: responsiveScreenWidth(5) }}>
+        <View style={{paddingHorizontal: responsiveScreenWidth(5)}}>
           <Text style={styles.furnishedText}>No. of Bedrooms ?</Text>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <View style={styles.furnishedStatus}>
@@ -230,6 +252,23 @@ const SearchFilterPage = ({ route }: any) => {
                   style={[
                     styles.notColored,
                     newListing?.bhk === option ? styles.colored : null,
+                  ]}
+                />
+              ))}
+            </View>
+          </ScrollView>
+          <Text style={styles.status}>Status ?</Text>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            <View style={styles.furnishedStatus}>
+              {statusData.map((option: any) => (
+                <OptionBtn
+                  id={option}
+                  key={option}
+                  label={option}
+                  btnPressHandler={setStatusHandel}
+                  style={[
+                    styles.notColored,
+                    status === option ? styles.colored : null,
                   ]}
                 />
               ))}
@@ -297,11 +336,9 @@ const styles = StyleSheet.create({
   addCityNameContainer: {
     flexDirection: 'row',
     marginTop: responsiveHeight(2),
-    borderWidth: responsiveWidth(0.1),
-    borderRightWidth: 0,
-    marginHorizontal: responsiveScreenWidth(5),
-    padding: 5,
-    gap: responsiveWidth(5),
+    paddingHorizontal: responsiveScreenWidth(5),
+    paddingVertical: responsiveScreenHeight(1),
+   gap: responsiveWidth(5),
   },
   locationDetails: {
     flexDirection: 'row',
@@ -314,6 +351,7 @@ const styles = StyleSheet.create({
     borderRadius: responsiveWidth(18),
     borderColor: '#8BC83F',
     paddingHorizontal: responsiveScreenWidth(5),
+    paddingVertical: responsiveScreenHeight(1),
     gap: 5,
   },
   showCityName: {
@@ -375,7 +413,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: responsiveWidth(3),
-    paddingHorizontal: responsiveScreenWidth(5),
+    // paddingHorizontal: responsiveScreenWidth(5),
   },
 
   notColored: {
@@ -423,6 +461,14 @@ const styles = StyleSheet.create({
 
   button: {
     paddingHorizontal: responsiveScreenWidth(5),
-    paddingVertical: responsiveScreenHeight(6),
+    paddingVertical: responsiveScreenHeight(2),
+  },
+  area: {
+    color: dark,
+    paddingTop: responsiveScreenHeight(2.7),
+  },
+  status: {
+    color: dark,
+    paddingVertical: responsiveScreenHeight(2.2),
   },
 });

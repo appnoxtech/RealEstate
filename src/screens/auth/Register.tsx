@@ -24,9 +24,12 @@ import HeaderWithBackBtn from '../../component/common/buttons/HeaderWithBackBtn'
 import {useDispatch, useSelector} from 'react-redux';
 import {UpdateRegisterUserDetails} from '../../redux/reducers/userReducer';
 import {dark} from '../../../assets/Styles/GlobalTheme';
+import PrimaryButton from '../../component/common/buttons/PrimaryButton';
+import InputWithIcon from '../../component/common/inputs/InputWithIcon';
 
 export default function Register() {
   const {userDetails} = useSelector((state: any) => state?.user);
+  const {registerUserDetails} = useSelector((state: any) => state.user);
   const navigation = useNavigation();
   const {handleRegisterService} = useAuthServiceHandler();
   const [name, setName] = useState('');
@@ -83,6 +86,7 @@ export default function Register() {
         role: 'tenant',
       };
       dispatch(UpdateRegisterUserDetails({...data}));
+      // handleRegisterService(registerUserDetails);
       navigation.navigate('SelectUserType' as never);
     }
   };
@@ -117,7 +121,7 @@ export default function Register() {
     if (!value.length) {
       setEmailValidError('Required');
       return false;
-    } else if (!EMAIL_REGEX.test(email)) {
+    } else if (!EMAIL_REGEX.test(value)) {
       setEmailValidError('Enter valid Email !');
       return false;
     } else {
@@ -126,99 +130,66 @@ export default function Register() {
     }
   };
 
+  const EmailTextChangeHandler = (value: string) => {
+    OnHandleChangeEmail(value);
+    setEmail(value);
+  };
+
+  const NameTextChangeHandler = (value: string) => {
+    OnHandleChangeName(value);
+    setName(value);
+  }
+ 
   return (
     <SafeAreaView style={styles.mainContainer}>
-      <View style={styles.container}>
-        <View style={styles.headerBackButton}>
-          <HeaderWithBackBtn />
-        </View>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <View style={styles.container}>
+          <View style={styles.headerBackButton}>
+            <HeaderWithBackBtn />
+          </View>
 
-       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-       <ScrollView showsVerticalScrollIndicator={false}>
-          <Text style={styles.textH}>
-            Create your<Text style={{color: '#1F4C6B'}}> account</Text>
-          </Text>
-          <Text style={styles.textP}>
-            quis nostrud exercitation ullamco laboris nisi ut
-          </Text>
-          <View style={styles.containerInput}>
-            <View
-              style={
-                nameValidError ? styles.inputContainer1 : styles.inputContainer
-              }>
-              <TextInput
-                style={styles.input}
-                placeholder="Full Name"
-                placeholderTextColor={dark}
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <Text style={styles.textH}>
+              Create your<Text style={{color: '#1F4C6B'}}> account</Text>
+            </Text>
+            <Text style={styles.textP}>In few simple steps</Text>
+            <View style={styles.containerInput}>
+              <InputWithIcon
+                errorText={nameValidError}
                 value={name}
-                autoCorrect={false}
-                autoCapitalize="none"
-                onChangeText={value => {
-                  OnHandleChangeName(value);
-                  setName(value);
-                }}
-                onFocus={() => setIsFocus(true)}></TextInput>
-              <Image source={require(profile)} style={styles.profileImage} />
-            </View>
-            {nameValidError ? (
-              <Text style={styles.errorText}>{nameValidError}</Text>
-            ) : null}
-            <View
-              style={
-                emailValidError ? styles.inputContainer1 : styles.inputContainer
-              }>
-              <TextInput
-                style={styles.input}
-                placeholder="Email"
-                placeholderTextColor={dark}
+                placeholder="Full Name"
+                id="name"
+                onTextChangeHandler={NameTextChangeHandler}
+                iconFamily="MaterialIcons"
+                iconName="person"
+                iconColor="black"
+                iconStyle={{}}
+              />
+              <InputWithIcon
+                errorText={emailValidError}
                 value={email}
-                autoCorrect={false}
-                autoCapitalize="none"
-                onChangeText={value => {
-                  OnHandleChangeEmail(value);
-                  setEmail(value);
-                }}
-                onFocus={() => setIsFocus(true)}
+                placeholder="Email"
+                id="email"
+                onTextChangeHandler={EmailTextChangeHandler}
+                iconFamily="MaterialCommunityIcons"
+                iconName="email-outline"
+                iconColor="black"
+                iconStyle={{}}
               />
-              <Image style={styles.emailImage} source={groupImg} />
             </View>
-            {emailValidError ? (
-              <Text style={styles.errorText}>{emailValidError}</Text>
-            ) : null}
             <View
-              style={
-                phoneValidError ? styles.inputContainer1 : styles.inputContainer
-              }>
-              <TextInput
-                style={styles.input}
-                placeholder="Phone"
-                placeholderTextColor={dark}
-                value={phone}
-                keyboardType="number-pad"
-                onChangeText={value => {
-                  OnHandleChangeNumber(value);
-                  setPhone(value);
-                }}
-                onFocus={() => setIsFocus(true)}
-              />
-
-              <Image style={styles.imagePhone} source={callImg} />
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: responsiveScreenHeight(2),
+              }}>
+              <View style={styles.btnContainer}>
+                <PrimaryButton label="Register" onPresshandler={handleSubmit} />
+              </View>
             </View>
-            {phoneValidError ? (
-              <Text style={styles.errorText}>{phoneValidError}</Text>
-            ) : null}
-          </View>
-
-          <View style={styles.button__}>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => handleSubmit()}>
-              <Text style={styles.btnText}>Register</Text>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
-       </TouchableWithoutFeedback>
-      </View>
+          </ScrollView>
+        </View>
+      </TouchableWithoutFeedback>
     </SafeAreaView>
   );
 }
@@ -246,7 +217,9 @@ const styles = StyleSheet.create({
     width: responsiveScreenWidth(6),
     height: responsiveScreenHeight(3),
   },
-
+  btnContainer: {
+    width: responsiveScreenWidth(70),
+  },
   emailImage: {
     width: responsiveScreenWidth(5),
     height: responsiveScreenHeight(2),
@@ -266,7 +239,7 @@ const styles = StyleSheet.create({
   textP: {
     color: dark,
     marginBottom: responsiveScreenHeight(1.2),
-    fontSize: 12,
+    fontSize: responsiveFontSize(1.9),
   },
 
   inputContainerEmail: {
@@ -279,11 +252,12 @@ const styles = StyleSheet.create({
   },
 
   inputContainer: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     height: responsiveScreenHeight(7),
-    width: responsiveScreenWidth(90),
+    width: '99%',
     marginVertical: responsiveScreenHeight(1),
     borderWidth: 0,
     backgroundColor: '#F5F4F8',
@@ -293,12 +267,13 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   inputContainer1: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     gap: 5,
     height: responsiveScreenHeight(7),
-    width: responsiveScreenWidth(90),
+    width: '99%',
     marginVertical: responsiveScreenHeight(1),
     borderWidth: 1,
     borderColor: 'red',
@@ -309,7 +284,9 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
+    paddingVertical: responsiveScreenHeight(1),
     color: dark,
+    backgroundColor: '#F5F4F8',
   },
   passwordFS: {
     flexDirection: 'row',

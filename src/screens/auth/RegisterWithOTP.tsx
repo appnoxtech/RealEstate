@@ -36,6 +36,7 @@ import useKeyboardVisibleListener from '../../hooks/CommonHooks/isKeyboardVisibl
 import HeaderWithBackBtn from '../../component/common/buttons/HeaderWithBackBtn';
 import useAuthServiceHandler from '../../hooks/serviceHandler/AuthServiceHandler';
 import {useSelector} from 'react-redux';
+import {generateOTPService} from '../../services/common/OtpService';
 
 type otpInterface = {
   [key: string]: string;
@@ -175,6 +176,7 @@ const OTP: React.FC<any> = ({route}) => {
   }, [otp]);
 
   const clickHandler = async () => {
+    setOtp(initialState);
     setShow(false);
     setTimer(59);
     const data = {
@@ -200,214 +202,232 @@ const OTP: React.FC<any> = ({route}) => {
     };
   }, [timer]);
 
+  const GenerateOtp = async () => {
+    try {
+      setOtp(initialState);
+      setShow(false);
+      setTimer(59);
+      await generateOTPService({
+        phoneNumber: registerUserDetails?.phoneNumber,
+        type: 'GENERATE',
+      });
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.mainContainer}>
-      <View
-        style={{
-          paddingHorizontal: responsiveScreenWidth(4),
-          paddingVertical:
-            Platform.OS === 'android' ? responsiveScreenHeight(2) : 0,
-        }}>
-        <HeaderWithBackBtn />
-      </View>
-      <View style={styles.body}>
-        {
-          <View style={styles.container}>
-            <View>
-              <Text style={styles.primaryText}>
-                {OtpScreenLabels.primaryText}
-              </Text>
-              <Text style={styles.secondaryHeading}>
-                {OtpScreenLabels.subText}
-              </Text>
-            </View>
-            <View style={styles.inputsContainer}>
-              <View
-                style={
-                  error
-                    ? styles.errorTextInputView
-                    : activePin === 'pin1'
-                    ? styles.focusTextInputView
-                    : styles.TextInputView
-                }>
-                <TextInput
-                  keyboardType="number-pad"
-                  ref={pin1Ref}
-                  selectionColor={colorSecondary}
-                  maxLength={1}
-                  onFocus={() => setActivePin('pin1')}
-                  value={otp.pin1}
-                  onChangeText={val => {
-                    handleChange({val, key: 'pin1'});
-                    if (val) {
-                      if (!pin2Ref.current) {
-                        return;
-                      }
-                      //@ts-ignore
-                      pin2Ref.current.focus();
-                      setActivePin('pin2');
-                    }
-                  }}
-                  style={styles.otpInput}
-                />
-              </View>
-              <View
-                style={
-                  error
-                    ? styles.errorTextInputView
-                    : activePin === 'pin2'
-                    ? styles.focusTextInputView
-                    : styles.TextInputView
-                }>
-                <TextInput
-                  keyboardType="number-pad"
-                  ref={pin2Ref}
-                  selectionColor={colorSecondary}
-                  onFocus={() => setActivePin('pin2')}
-                  onKeyPress={({nativeEvent}) => {
-                    if (nativeEvent.key === 'Backspace') {
-                      if (!pin1Ref.current) {
-                        return;
-                      }
-                      pin1Ref.current.focus();
-                      setActivePin('pin1');
-                    }
-                  }}
-                  maxLength={1}
-                  value={otp.pin2}
-                  onChangeText={val => {
-                    handleChange({val, key: 'pin2'});
-                    if (val) {
-                      if (!pin3Ref.current) {
-                        return;
-                      }
-                      pin3Ref.current.focus();
-                      setActivePin('pin3');
-                    }
-                  }}
-                  style={styles.otpInput}
-                />
-              </View>
-              <View
-                style={
-                  error
-                    ? styles.errorTextInputView
-                    : activePin === 'pin3'
-                    ? styles.focusTextInputView
-                    : styles.TextInputView
-                }>
-                <TextInput
-                  keyboardType="number-pad"
-                  maxLength={1}
-                  selectionColor={colorSecondary}
-                  ref={pin3Ref}
-                  onFocus={() => setActivePin('pin3')}
-                  value={otp.pin3}
-                  onKeyPress={({nativeEvent}) => {
-                    if (nativeEvent.key === 'Backspace') {
-                      if (!pin2Ref.current) {
-                        return;
-                      }
-                      pin2Ref.current.focus();
-                      setActivePin('pin2');
-                    }
-                  }}
-                  onChangeText={val => {
-                    handleChange({val, key: 'pin3'});
-                    if (val) {
-                      if (!pin4Ref.current) {
-                        return;
-                      }
-                      pin4Ref.current.focus();
-                      setActivePin('pin4');
-                    }
-                  }}
-                  style={styles.otpInput}
-                />
-              </View>
-              <View
-                style={
-                  error
-                    ? styles.errorTextInputView
-                    : activePin === 'pin4'
-                    ? styles.focusTextInputView
-                    : styles.TextInputView
-                }>
-                <TextInput
-                  keyboardType="number-pad"
-                  ref={pin4Ref}
-                  selectionColor={colorSecondary}
-                  onKeyPress={({nativeEvent}) => {
-                    if (nativeEvent.key === 'Backspace') {
-                      if (!pin3Ref.current) {
-                        return;
-                      }
-                      pin3Ref.current.focus();
-                      setActivePin('pin3');
-                    }
-                  }}
-                  value={otp.pin4}
-                  onFocus={() => setActivePin('pin4')}
-                  maxLength={1}
-                  onChangeText={val => {
-                    handleChange({val, key: 'pin4'});
-                    if (pin4Ref.current) {
-                      pin4Ref.current.focus();
-                      setActivePin('pin4');
-                    }
-                  }}
-                  style={styles.otpInput}
-                />
-              </View>
-            </View>
-            {otpError ? <Text style={styles.errorOtp}>{otpError}</Text> : null}
-            <View style={styles.btnContainer}>
-              <ButtonPrimary
-                isActive={isActiveBtn}
-                label={labels.verify}
-                handleBtnPress={handleOTPVerification}
-              />
-            </View>
-          </View>
-        }
-      </View>
-      {isKeyboardVisible ? null : (
-        <View style={styles.resendOtp}>
-          <Text style={styles.message}>{labels.notRecieveCode}</Text>
-          {show ? (
-            <Pressable onPress={clickHandler}>
-              <Text style={styles.linkMessage}>{labels.resend}</Text>
-            </Pressable>
-          ) : (
-            <Text style={styles.linkMessage}>
-              {timer < 10 ? `00:0${timer}` : `00:${timer}`}
-            </Text>
-          )}
+        <View
+          style={{
+            paddingHorizontal: responsiveScreenWidth(4),
+            paddingTop:
+              Platform.OS === 'android'
+                ? responsiveScreenHeight(3)
+                : responsiveScreenHeight(8),
+          }}>
+          <HeaderWithBackBtn />
         </View>
-      )}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={isWrongOTPModalVisible}
-        onRequestClose={() => setWrongOTPModalVisible(false)}>
-        <TouchableWithoutFeedback
-          onPress={() => setWrongOTPModalVisible(false)}>
-          <View style={styles.modalOverlay}>
-            <View style={styles.modalContainer}>
-              <View style={styles.modalContent}>
-                <Text style={styles.modalText}>Wrong OTP</Text>
-                <TouchableOpacity
-                  style={styles.modalButton}
-                  onPress={() => setWrongOTPModalVisible(false)}>
-                  <Text style={styles.modalButtonText}>OK</Text>
-                </TouchableOpacity>
+        <View style={styles.body}>
+          {
+            <View style={styles.container}>
+              <View>
+                <Text style={styles.primaryText}>
+                  {OtpScreenLabels.primaryText}
+                </Text>
+                <Text style={styles.secondaryHeading}>
+                  {OtpScreenLabels.subText}
+                </Text>
+              </View>
+              <View style={styles.inputsContainer}>
+                <View
+                  style={
+                    error
+                      ? styles.errorTextInputView
+                      : activePin === 'pin1'
+                      ? styles.focusTextInputView
+                      : styles.TextInputView
+                  }>
+                  <TextInput
+                    keyboardType="number-pad"
+                    ref={pin1Ref}
+                    selectionColor={colorSecondary}
+                    maxLength={1}
+                    onFocus={() => setActivePin('pin1')}
+                    value={otp.pin1}
+                    onChangeText={val => {
+                      handleChange({val, key: 'pin1'});
+                      if (val) {
+                        if (!pin2Ref.current) {
+                          return;
+                        }
+                        //@ts-ignore
+                        pin2Ref.current.focus();
+                        setActivePin('pin2');
+                      }
+                    }}
+                    style={styles.otpInput}
+                  />
+                </View>
+                <View
+                  style={
+                    error
+                      ? styles.errorTextInputView
+                      : activePin === 'pin2'
+                      ? styles.focusTextInputView
+                      : styles.TextInputView
+                  }>
+                  <TextInput
+                    keyboardType="number-pad"
+                    ref={pin2Ref}
+                    selectionColor={colorSecondary}
+                    onFocus={() => setActivePin('pin2')}
+                    onKeyPress={({nativeEvent}) => {
+                      if (nativeEvent.key === 'Backspace') {
+                        if (!pin1Ref.current) {
+                          return;
+                        }
+                        pin1Ref.current.focus();
+                        setActivePin('pin1');
+                      }
+                    }}
+                    maxLength={1}
+                    value={otp.pin2}
+                    onChangeText={val => {
+                      handleChange({val, key: 'pin2'});
+                      if (val) {
+                        if (!pin3Ref.current) {
+                          return;
+                        }
+                        pin3Ref.current.focus();
+                        setActivePin('pin3');
+                      }
+                    }}
+                    style={styles.otpInput}
+                  />
+                </View>
+                <View
+                  style={
+                    error
+                      ? styles.errorTextInputView
+                      : activePin === 'pin3'
+                      ? styles.focusTextInputView
+                      : styles.TextInputView
+                  }>
+                  <TextInput
+                    keyboardType="number-pad"
+                    maxLength={1}
+                    selectionColor={colorSecondary}
+                    ref={pin3Ref}
+                    onFocus={() => setActivePin('pin3')}
+                    value={otp.pin3}
+                    onKeyPress={({nativeEvent}) => {
+                      if (nativeEvent.key === 'Backspace') {
+                        if (!pin2Ref.current) {
+                          return;
+                        }
+                        pin2Ref.current.focus();
+                        setActivePin('pin2');
+                      }
+                    }}
+                    onChangeText={val => {
+                      handleChange({val, key: 'pin3'});
+                      if (val) {
+                        if (!pin4Ref.current) {
+                          return;
+                        }
+                        pin4Ref.current.focus();
+                        setActivePin('pin4');
+                      }
+                    }}
+                    style={styles.otpInput}
+                  />
+                </View>
+                <View
+                  style={
+                    error
+                      ? styles.errorTextInputView
+                      : activePin === 'pin4'
+                      ? styles.focusTextInputView
+                      : styles.TextInputView
+                  }>
+                  <TextInput
+                    keyboardType="number-pad"
+                    ref={pin4Ref}
+                    selectionColor={colorSecondary}
+                    onKeyPress={({nativeEvent}) => {
+                      if (nativeEvent.key === 'Backspace') {
+                        if (!pin3Ref.current) {
+                          return;
+                        }
+                        pin3Ref.current.focus();
+                        setActivePin('pin3');
+                      }
+                    }}
+                    value={otp.pin4}
+                    onFocus={() => setActivePin('pin4')}
+                    maxLength={1}
+                    onChangeText={val => {
+                      handleChange({val, key: 'pin4'});
+                      if (pin4Ref.current) {
+                        pin4Ref.current.focus();
+                        setActivePin('pin4');
+                      }
+                    }}
+                    style={styles.otpInput}
+                  />
+                </View>
+              </View>
+              {otpError ? (
+                <Text style={styles.errorOtp}>{otpError}</Text>
+              ) : null}
+              <View style={styles.btnContainer}>
+                <ButtonPrimary
+                  isActive={isActiveBtn}
+                  label={labels.verify}
+                  handleBtnPress={handleOTPVerification}
+                />
               </View>
             </View>
+          }
+        </View>
+        {isKeyboardVisible ? null : (
+          <View style={styles.resendOtp}>
+            <Text style={styles.message}>{labels.notRecieveCode}</Text>
+            {show ? (
+              <Pressable onPress={GenerateOtp}>
+                <Text style={styles.linkMessage}>{labels.resend}</Text>
+              </Pressable>
+            ) : (
+              <Text style={styles.linkMessage}>
+                {timer < 10 ? `00:0${timer}` : `00:${timer}`}
+              </Text>
+            )}
           </View>
-        </TouchableWithoutFeedback>
-      </Modal>
-    </View>
+        )}
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={isWrongOTPModalVisible}
+          onRequestClose={() => setWrongOTPModalVisible(false)}>
+          <TouchableWithoutFeedback
+            onPress={() => setWrongOTPModalVisible(false)}>
+            <View style={styles.modalOverlay}>
+              <View style={styles.modalContainer}>
+                <View style={styles.modalContent}>
+                  <Text style={styles.modalText}>Wrong OTP</Text>
+                  <TouchableOpacity
+                    style={styles.modalButton}
+                    onPress={() => setWrongOTPModalVisible(false)}>
+                    <Text style={styles.modalButtonText}>OK</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </Modal>
+      </View>
     </TouchableWithoutFeedback>
   );
 };
@@ -429,9 +449,9 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   body: {
+    flex: 1,
     marginTop: responsiveScreenHeight(3),
     paddingHorizontal: responsiveScreenWidth(4.5),
-    flex: 1,
   },
   mainContainer: {
     flex: 1,
@@ -514,7 +534,7 @@ const styles = StyleSheet.create({
 
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
     justifyContent: 'center',
     alignItems: 'center',
   },

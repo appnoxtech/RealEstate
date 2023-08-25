@@ -24,6 +24,8 @@ import useAuthServiceHandler from '../../hooks/serviceHandler/AuthServiceHandler
 import { dark } from '../../../assets/Styles/GlobalTheme';
 
 
+
+
 const UserType = () => {
   const dispatch = useDispatch();
   const imageAgentUrl = require('../../../assets/Animation/animationUser.json');
@@ -63,13 +65,15 @@ const UserType = () => {
               key={option.id}
               label={option.type}
               id={option.id}
-              btnPressHandler={() => {setUserType; handelPress();}}
+              btnPressHandler={setUserType}
               style={
                 registerUserDetails?.role === option?.id
                   ? styles.selectedUser
                   : styles.unSelectedUser
               }
               imageUrl={option.img}
+              selectedLabel={registerUserDetails?.role}
+              handelPress={handelPress}
             />
           );
         })}

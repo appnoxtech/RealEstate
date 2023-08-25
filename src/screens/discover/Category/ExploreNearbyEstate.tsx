@@ -17,22 +17,15 @@ import {
   responsiveScreenWidth,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-import { dark } from '../../../../assets/Styles/GlobalTheme';
-
-const FeaturedButton = require('../../component/common/buttons/FeaturedButton')
-const heartImage = require('../../../../assets/images/RedHeart.png')
-const starImage = require('../../../../assets/images/Star.png')
-const locationImage = require('../../../../assets/images/Location.png')
-
-
+import {dark} from '../../../../assets/Styles/GlobalTheme';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const DATA = [
-
   {
     id: '1',
     title: 'Sky Dandelions Apartment',
     rating: '4.9',
-    image: require('../../../../assets/images/image26.png'),
+    image: require('../../../../assets/images/p6.jpg'),
     price: '$ 226',
     location: 'Jakarta, Indonesia',
     buttonTitle: 'Apartment',
@@ -41,7 +34,7 @@ const DATA = [
     id: '2',
     title: 'Sky Dandelions Apartment',
     rating: '4.9',
-    image: require('../../../../assets/images/image26.png'),
+    image: require('../../../../assets/images/p6.jpg'),
     price: '$ 300',
     location: 'Bali, Indonesia',
     buttonTitle: 'Villa',
@@ -50,7 +43,7 @@ const DATA = [
     id: '3',
     title: 'Sky Dandelions Apartment',
     rating: '4.9',
-    image: require('../../../../assets/images/image26.png'),
+    image: require('../../../../assets/images/p6.jpg'),
     price: '$ 226',
     location: 'Jakarta, Indonesia',
     buttonTitle: 'Apartment',
@@ -59,7 +52,7 @@ const DATA = [
     id: '4',
     title: 'Sky Dandelions Apartment',
     rating: '4.9',
-    image: require('../../../../assets/images/image26.png'),
+    image: require('../../../../assets/images/p6.jpg'),
     price: '$ 300',
     location: 'Bali, Indonesia',
     buttonTitle: 'Villa',
@@ -68,7 +61,7 @@ const DATA = [
     id: '5',
     title: 'Sky Dandelions Apartment',
     rating: '4.9',
-    image: require('../../../../assets/images/image26.png'),
+    image: require('../../../../assets/images/p6.jpg'),
     price: '$ 226',
     location: 'Jakarta, Indonesia',
     buttonTitle: 'Apartment',
@@ -77,7 +70,7 @@ const DATA = [
     id: '6',
     title: 'Sky Dandelions Apartment',
     rating: '4.9',
-    image: require('../../../../assets/images/image26.png'),
+    image: require('../../../../assets/images/p6.jpg'),
     price: '$ 300',
     location: 'Bali, Indonesia',
     buttonTitle: 'Villa',
@@ -86,18 +79,22 @@ const DATA = [
 
 // type ItemProps = {image: string};
 
-const Item = ({data} : any) => (
+const Item = ({data}: any) => (
   <TouchableOpacity>
     <View style={styles.container}>
       <View style={styles.featuredCard}>
         <ImageBackground style={styles.imageContainer} source={data.image}>
           <TouchableOpacity style={styles.heartContainer}>
-          <Image style={styles.heart} source={heartImage} />
+            <Ionicons
+              name="heart-outline"
+              size={responsiveScreenWidth(4)}
+              color="red"
+            />
           </TouchableOpacity>
           <TouchableOpacity style={styles.button}>
             <Text style={styles.buttonText}>
               {data.price}
-              <Text style={{fontSize: 8}}>/Month</Text>
+              <Text style={{fontSize: responsiveFontSize(1.5)}}>/Month</Text>
             </Text>
           </TouchableOpacity>
         </ImageBackground>
@@ -106,16 +103,18 @@ const Item = ({data} : any) => (
           <View style={styles.detailsHeader}>
             <Text style={styles.detailesHeadertext}>{data.title}</Text>
             <View style={styles.ratingContainer}>
-              <Image
-                style={styles.star}
-                source={starImage}
+              <Ionicons
+                name="star"
+                color="gold"
+                size={responsiveScreenWidth(4)}
               />
-              <Text style={{fontSize: 10 ,color: dark}}>{data.rating}</Text>
-              <Image
-                style={styles.star}
-                source={locationImage}
+              <Text style={{fontSize: 10, color: dark}}>{data.rating}</Text>
+              <Ionicons
+                name="locate-outline"
+                size={responsiveScreenWidth(4)}
+                color="#234F68"
               />
-              <Text style={{fontSize: 10,color: dark}}>{data.location}</Text>
+              <Text style={{fontSize: 10, color: dark}}>{data.location}</Text>
             </View>
           </View>
         </View>
@@ -147,18 +146,21 @@ const styles = StyleSheet.create({
 
   featuredCard: {
     width: responsiveWidth(44),
-    borderRadius: 40,
+    borderRadius: responsiveWidth(10),
     backgroundColor: '#F5F4F8',
-    padding: responsiveScreenWidth(1.5),
+    paddingHorizontal: responsiveScreenWidth(2),
+    paddingVertical: responsiveScreenHeight(2),
     gap: responsiveScreenWidth(3),
   },
   imageContainer: {
     alignItems: 'flex-end',
     width: responsiveWidth(40),
     height: responsiveHeight(20),
+    borderRadius: responsiveWidth(4),
     gap: responsiveHeight(9.5),
-    paddingRight: responsiveScreenWidth(1.5),
-    paddingTop: responsiveScreenHeight(1)
+    paddingHorizontal: responsiveScreenWidth(2),
+    paddingVertical: responsiveScreenHeight(1),
+    overflow: 'hidden',
   },
   heartContainer: {
     alignItems: 'center',
@@ -174,10 +176,10 @@ const styles = StyleSheet.create({
   },
   button: {
     width: responsiveWidth(22),
-     padding: responsiveScreenWidth(2),
+    padding: responsiveScreenWidth(2),
     backgroundColor: '#234F68',
     borderRadius: 8,
-   
+
     // padding: responsiveHeight(2),
   },
   details: {

@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   TextInput,
   Alert,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import React, {useEffect, useState, useRef} from 'react';
 import {
@@ -23,10 +25,12 @@ import {
   UpdateRegisterUserDetails,
   updateUserDetails,
 } from '../../redux/reducers/userReducer';
-import { dark } from '../../../assets/Styles/GlobalTheme';
+import {dark} from '../../../assets/Styles/GlobalTheme';
+import useKeyboardVisibleListener from '../../hooks/CommonHooks/isKeyboardVisibleHook';
+import PrimaryButton from '../../component/common/buttons/PrimaryButton';
 
 export default function Login() {
-  const vectorImg = require('../../../assets/images/Vector1.png');
+  const isKeyboardVisible = useKeyboardVisibleListener();
   const navigation = useNavigation();
   const {GenerateOtpServiceHandler} = useAuthServiceHandler();
 
@@ -76,55 +80,56 @@ export default function Login() {
 
   return (
     <SafeAreaView style={styles.mainContainer}>
-      <View style={styles.container}>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={styles.containerImg}>
-          <Image style={styles.image} source={vectorImg} />
-        </TouchableOpacity>
+      <>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+          <View style={styles.container}>
+            <View style={styles.textContainer}>
+              <Text style={styles.textH}>
+                Let's <Text style={{color: '#1F4C6B'}}>Sign In</Text>
+              </Text>
 
-        <View style={styles.textContainer}>
-          <Text style={styles.textH}>
-            Let's <Text style={{color: '#1F4C6B'}}>Sign In</Text>
-          </Text>
+              <Text style={styles.textP}>Login with your mobile number</Text>
+            </View>
 
-          <Text style={styles.textP}>Login with your mobile number</Text>
-        </View>
-
-        <View>
-          <TextInput
-            style={
-              phoneValidError ? styles.inputContainer1 : styles.inputContainer
-            }
-            placeholder="Phone"
-            placeholderTextColor={'#000000'}
-            value={phone}
-            keyboardType="number-pad"
-            onChangeText={value => {
-              OnHandleChange(value);
-              setPhone(value);
-            }}
-            onFocus={() => setIsFocus(true)}
-          />
-        </View>
-        {phoneValidError ? (
-          <Text style={styles.errorText}>{phoneValidError}</Text>
-        ) : null}
-        <View style={styles.button__}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => handleSubmit()}>
-            <Text style={styles.btnText}>GET OTP</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.footerText}>
-          <Text style={styles.registerText}>
-            By continuing, you agree to Real Estate {'\n'}
-            <Text style={styles.text}>Privacy Policy</Text> and{''}
-            <Text style={styles.text}>Terms and Conditions</Text>
-          </Text>
-        </View>
-      </View>
+            <View>
+              <TextInput
+                style={
+                  phoneValidError
+                    ? styles.inputContainer1
+                    : styles.inputContainer
+                }
+                placeholder="Phone"
+                placeholderTextColor={'#000000'}
+                value={phone}
+                maxLength={10}
+                keyboardType="number-pad"
+                onChangeText={value => {
+                  OnHandleChange(value);
+                  setPhone(value);
+                }}
+                onFocus={() => setIsFocus(true)}
+              />
+            </View>
+            {phoneValidError ? (
+              <Text style={styles.errorText}>{phoneValidError}</Text>
+            ) : null}
+            <View style={{justifyContent: 'center', alignItems: 'center', marginTop: responsiveScreenHeight(2)}}>
+              <View style={styles.btnContainer}>
+                <PrimaryButton label="GET OTP" onPresshandler={handleSubmit} />
+              </View>
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+        {isKeyboardVisible ? null : (
+          <View style={styles.footerText}>
+            <Text style={styles.registerText}>
+              By continuing, you agree to Real Estate {'\n'}
+              <Text style={styles.text}>Privacy Policy</Text> and{''}
+              <Text style={styles.text}> Terms and Conditions</Text>
+            </Text>
+          </View>
+        )}
+      </>
     </SafeAreaView>
   );
 }
@@ -181,7 +186,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     gap: 5,
     height: responsiveScreenHeight(7),
-    width: responsiveScreenWidth(90),
+    width: '100%',
     marginVertical: responsiveScreenHeight(1),
     borderWidth: 0,
     borderColor: '#D3D3D3',
@@ -201,7 +206,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     gap: 5,
     height: responsiveScreenHeight(7),
-    width: responsiveScreenWidth(90),
+    width: '100%',
     marginVertical: responsiveScreenHeight(1),
     borderWidth: 1,
     borderColor: 'red',
@@ -210,6 +215,10 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     padding: 10,
     fontSize: responsiveFontSize(2),
+  },
+
+  btnContainer: {
+    width: responsiveScreenWidth(70),
   },
 
   button: {
@@ -229,6 +238,8 @@ const styles = StyleSheet.create({
 
   btnText: {color: 'white', fontSize: 16, textAlign: 'center'},
   registerText: {
+    textAlign: 'center',
+    color: dark,
     fontSize: 12,
   },
 
@@ -236,7 +247,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginVertical: responsiveHeight(12),
+    marginVertical: responsiveHeight(2),
   },
   errorText: {
     fontSize: responsiveFontSize(1.5),

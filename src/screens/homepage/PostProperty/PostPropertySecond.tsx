@@ -71,11 +71,21 @@ const PostPropertySecond = () => {
     {label: 'underConstruction', value: 'Under Construction'},
   ];
 
-  const setTotalFloorHandel = (params: any) => {
+
+  function isInt(n : number){
+    return ( Number(n) === n && n % 1 === 0 && n > 0);
+}
+
+// isInt(5)
+// function isFloat(n){
+//     return Number(n) === n && n % 1 !== 0;
+// }
+
+  const setTotalFloorHandel = (params: number) => {
     setTotalFloor(params);
     if (!totalFloor) {
       setTotalFloorError('Please enter total floor !');
-    } else if (isNaN(parseInt(totalFloor, 10))) {
+    } else if (!isInt(totalFloor)) {
       setTotalFloorError('Please enter valid floor !');
     } else {
       setTotalFloorError('');
@@ -84,16 +94,16 @@ const PostPropertySecond = () => {
     dispatch(
       UpdateNewListing({
         key: 'totalFloor',
-        value: params,
+        value: totalFloor,
       }),
     );
   };
-  const setPropertyOnFloorHandel = (params: any) => {
+  const setPropertyOnFloorHandel = (params: number) => {
     setProperyOnFloor(params);
 
     if (!propertyOnFloor) {
       setFloorError('Please enter floor !');
-    } else if (isNaN(parseInt(propertyOnFloor, 10))) {
+    } else if (!isInt(propertyOnFloor)) {
       setFloorError('Please enter valid number !');
     } else if (Number(params) > Number(totalFloor)) {
       setFloorError('Enter valid floor !');
@@ -104,7 +114,7 @@ const PostPropertySecond = () => {
     dispatch(
       UpdateNewListing({
         key: 'propertyOnFloor',
-        value: params,
+        value: propertyOnFloor,
       }),
     );
   };

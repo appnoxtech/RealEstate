@@ -217,13 +217,15 @@ const OTP: React.FC<any> = ({route}) => {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.mainContainer}>
         <View
           style={{
             paddingHorizontal: responsiveScreenWidth(4),
-            paddingVertical:
-              Platform.OS === 'android' ? responsiveScreenHeight(2) : 0,
+            paddingTop:
+              Platform.OS === 'android'
+                ? responsiveScreenHeight(3)
+                : responsiveScreenHeight(8),
           }}>
           <HeaderWithBackBtn />
         </View>
@@ -447,9 +449,9 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   body: {
+    flex: 1,
     marginTop: responsiveScreenHeight(3),
     paddingHorizontal: responsiveScreenWidth(4.5),
-    flex: 1,
   },
   mainContainer: {
     flex: 1,

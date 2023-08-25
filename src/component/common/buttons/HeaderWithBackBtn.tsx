@@ -5,14 +5,21 @@ import {
   TouchableOpacity,
   Image,
   SafeAreaView,
+  ViewStyle,
 } from 'react-native';
-import React from 'react';
+import React, { FC } from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
 import {Dimensions} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { StyleProp } from 'react-native';
 
-export default function HeaderWithBackBtn() {
+interface props {
+  style?: StyleProp<ViewStyle>;
+}
+
+
+const HeaderWithBackBtn:FC <props> = ({style}) => {
   const {width, height} = Dimensions.get('window');
 
 
@@ -22,7 +29,7 @@ export default function HeaderWithBackBtn() {
   return (
     <TouchableOpacity
       onPress={() => navigation.goBack()}
-      style={[styles.containerImg, width > 500 && styles.containerImg1 ]}>
+      style={[styles.containerImg, width > 500 && styles.containerImg1 , style]}>
       <Ionicons
         name="chevron-back-outline"
         size={responsiveScreenWidth(4)}
@@ -32,6 +39,7 @@ export default function HeaderWithBackBtn() {
   );
 }
 
+export default HeaderWithBackBtn
 const styles = StyleSheet.create({
  
   containerImg: {

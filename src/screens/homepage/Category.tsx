@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {FC, useState} from 'react';
 import {
   SafeAreaView,
   View,
@@ -74,9 +74,15 @@ const Item = ({
   );
 };
 
-const Category = () => {
+interface props {
+  showModal: boolean,
+  setShowModal(state: boolean): any
+}
+
+const Category:FC<any> = () => {
   const [selectedOption, setSelectedOption] = useState('');
   const [showModal, setShowModal] = useState(false);
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
@@ -93,7 +99,7 @@ const Category = () => {
         )}
         keyExtractor={item => item.id}
       />
-      <CustomModal title={selectedOption} modalOpen={showModal}>
+      <CustomModal setShowModal={setShowModal} title={selectedOption} modalOpen={showModal}>
         {selectedOption === 'Buy' ? (
           <BuyModal setModalOpen={setShowModal} />
         ) : null}

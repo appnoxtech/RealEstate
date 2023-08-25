@@ -6,6 +6,7 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import React, {useState} from 'react';
 import {
@@ -15,7 +16,8 @@ import {
 } from 'react-native-responsive-dimensions';
 import ExploreButton from '../../common/buttons/ExploreButton';
 import {useNavigation} from '@react-navigation/native';
-import { dark } from '../../../../assets/Styles/GlobalTheme';
+import {dark} from '../../../../assets/Styles/GlobalTheme';
+import {TouchableRipple} from 'react-native-paper';
 
 const BuyModal: React.FC<any> = ({setModalOpen}) => {
   const searchImg = require('../../../../assets/images/Search.png');
@@ -51,81 +53,85 @@ const BuyModal: React.FC<any> = ({setModalOpen}) => {
     }
   };
   return (
-    <SafeAreaView style={{flex: 1, justifyContent: 'flex-end'}}>
-      <View style={styles.modalContainer}>
-        <TouchableOpacity
-          style={styles.containerImg}
-          onPress={() => setModalOpen(false)}>
-          <Image style={styles.image} source={vector1mg} />
-        </TouchableOpacity>
+    <TouchableWithoutFeedback onPress={() => setModalOpen(false)}>
+      <SafeAreaView style={{flex: 1, justifyContent: 'flex-end'}}>
+        <View style={styles.modalContainer}>
+          <TouchableOpacity
+            style={styles.containerImg}
+            onPress={() => setModalOpen(false)}>
+            <Image style={styles.image} source={vector1mg} />
+          </TouchableOpacity>
 
-        <View>
-          <Text style={styles.pb10}>Looking to </Text>
-          <View style={styles.lookingTo}>
-            <TouchableOpacity
-              onPress={() => {
-                setBuy(true), setRent(false);
-              }}
-              style={buy ? styles.yesbuyrent : styles.notbuyrent}>
-              <Text style={{color: dark}}>Buy</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                setBuy(false), setRent(true);
-              }}
-              style={rent ? styles.yesbuyrent : styles.notbuyrent}>
-              <Text style={{color: dark}}>Rent/Lease</Text>
-            </TouchableOpacity>
+          <View>
+            <Text style={styles.pb10}>Looking to </Text>
+            <View style={styles.lookingTo}>
+              <TouchableOpacity
+                onPress={() => {
+                  setBuy(true), setRent(false);
+                }}
+                style={buy ? styles.yesbuyrent : styles.notbuyrent}>
+                <Text style={{color: dark}}>Buy</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  setBuy(false), setRent(true);
+                }}
+                style={rent ? styles.yesbuyrent : styles.notbuyrent}>
+                <Text style={{color: dark}}>Rent/Lease</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-        <View>
-          <Text style={styles.pb10}>Purpose of buying</Text>
-          <View style={styles.purposeOfBuying}>
-            <TouchableOpacity
-              onPress={() => {
-                setResidential(true), setCommercial(false);
-              }}
-              style={
-                residential
-                  ? styles.yesresidentialcommercial
-                  : styles.noresidentialcommercial
-              }>
-              <Text style={{color: dark}}>Residential use</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                setResidential(false), setCommercial(true);
-              }}
-              style={
-                commercial
-                  ? styles.yesresidentialcommercial
-                  : styles.noresidentialcommercial
-              }>
-              <Text style={{color: dark}}>Commercial use</Text>
-            </TouchableOpacity>
+          <View>
+            <Text style={styles.pb10}>Purpose of buying</Text>
+            <View style={styles.purposeOfBuying}>
+              <TouchableOpacity
+                onPress={() => {
+                  setResidential(true), setCommercial(false);
+                }}
+                style={
+                  residential
+                    ? styles.yesresidentialcommercial
+                    : styles.noresidentialcommercial
+                }>
+                <Text style={{color: dark}}>Residential use</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  setResidential(false), setCommercial(true);
+                }}
+                style={
+                  commercial
+                    ? styles.yesresidentialcommercial
+                    : styles.noresidentialcommercial
+                }>
+                <Text style={{color: dark}}>Commercial use</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-        <View>
-          <Text style={styles.pb10}>City name</Text>
+          <View>
+            <Text style={styles.pb10}>City name</Text>
 
-          <View style={styles.inputCityName}>
-            <TextInput
-            style={{flex: 1,color: dark}}
-              placeholder="Enter City Name"
-              onChangeText={text => setCityName(text)}
-              placeholderTextColor={dark}
-            />
+            <View style={styles.inputCityName}>
+              <TextInput
+                style={{flex: 1, color: dark}}
+                placeholder="Enter City Name"
+                onChangeText={text => setCityName(text)}
+                placeholderTextColor={dark}
+              />
 
-            <Image source={searchImg} />
+              <Image source={searchImg} />
+            </View>
+
+            {cityError ? (
+              <Text style={{color: 'red', textAlign: 'right'}}>
+                {cityError}
+              </Text>
+            ) : null}
           </View>
-
-          {cityError ? (
-            <Text style={{color: 'red', textAlign: 'right'}}>{cityError}</Text>
-          ) : null}
+          <ExploreButton title="Explore" onPress={() => handleSubmit()} />
         </View>
-        <ExploreButton title="Explore" onPress={() => handleSubmit()} />
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -146,13 +152,11 @@ const styles = StyleSheet.create({
     width: 5,
     height: 10,
   },
-  pb10: {paddingBottom: 10,
-    color: dark,
-  },
+  pb10: {paddingBottom: 10, color: dark},
   inputCityName: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   modalOpen: {},
   modal: {

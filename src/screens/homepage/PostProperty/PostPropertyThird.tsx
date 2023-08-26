@@ -71,7 +71,8 @@ const PostPropertyThird = () => {
     }
   };
 
-  const REGEX_NUMBER = /^\d*$/;
+  const textRegex = /^[A-Za-z]+$/;
+  const numberRegex = /^[1-9]\d*$/;
 
   const navigation = useNavigation();
   const [price, setPrice] = useState('');
@@ -86,7 +87,7 @@ const PostPropertyThird = () => {
       setPriceError('');
       setTextError('Required!');
       return false;
-    } else if (!isNaN(newListing?.title)) {
+    } else if (!textRegex.test(newListing?.title)) {
       setPriceError('');
       setTextError('Enter valid title!');
       return false;
@@ -94,7 +95,7 @@ const PostPropertyThird = () => {
       setPriceError('Required!');
       setTextError('');
       return false;
-    } else if (!REGEX_NUMBER.test(newListing?.price)) {
+    } else if (!numberRegex.test(newListing?.price)) {
       setPriceError('Enter valid number!');
       setTextError('');
       return false;
@@ -121,7 +122,7 @@ const PostPropertyThird = () => {
   const setPriceHandel = (params: any) => {
     if (!params) {
       setPriceError('Required!');
-    } else if (isNaN(params)) {
+    } else if (!numberRegex.test(params)) {
       setPriceError('Enter valid price!');
     } else {
       setPriceError('');
@@ -138,7 +139,7 @@ const PostPropertyThird = () => {
   const setTitleHandel = (params: string) => {
     if (!params) {
       setTextError('Required!');
-    } else if (!isNaN(params)) {
+    } else if (!textRegex.test(params)) {
       setTextError('Enter valid title');
     } else {
       setTextError('');
@@ -183,7 +184,11 @@ const PostPropertyThird = () => {
                 </TouchableOpacity>
 
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                  <View style={[styles.imageSelected, imgUrls ? styles.padding : null ]}>
+                  <View
+                    style={[
+                      styles.imageSelected,
+                      imgUrls ? styles.padding : null,
+                    ]}>
                     {imgUrls?.map((option: string, index: number) => (
                       <View key={index} style={{position: 'relative'}}>
                         <Image
@@ -315,7 +320,7 @@ const styles = StyleSheet.create({
   padding: {
     height: responsiveScreenHeight(16),
   },
-  
+
   images: {
     width: responsiveScreenWidth(16),
     height: responsiveScreenHeight(8),

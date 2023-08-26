@@ -12,10 +12,11 @@ interface props {
   onChangeText(text : string) : void,
   placeholder: string;
   errorText?: string;
+  maxLength?: number
   
 }
 
-const CustomTextInput : FC<props> = ({keyboardType = 'text', value, onChangeText, placeholder, errorText=''}) => {
+const CustomTextInput : FC<props> = ({maxLength,keyboardType = 'text', value, onChangeText, placeholder, errorText=''}) => {
   const [focus, setFocus] = useState(false);
   return (
     <View
@@ -32,6 +33,7 @@ const CustomTextInput : FC<props> = ({keyboardType = 'text', value, onChangeText
         placeholder={placeholder}
         placeholderTextColor={dark}
         inputMode={keyboardType}
+        maxLength={maxLength}
       />
       
     </View>
@@ -40,7 +42,7 @@ const CustomTextInput : FC<props> = ({keyboardType = 'text', value, onChangeText
 export default CustomTextInput
 const styles = StyleSheet.create({
   container: {
-    height:responsiveScreenHeight(6),
+    height:responsiveScreenHeight(7),
     width: '100%',
     marginVertical: responsiveScreenHeight(1),
     // backgroundColor: '#DFDFDF',
@@ -54,6 +56,6 @@ const styles = StyleSheet.create({
   textInput: {
     color: dark,
     flex: 1,
-    paddingVertical: responsiveScreenHeight(1)
+    paddingVertical: responsiveScreenHeight(1),
   },
 })

@@ -29,6 +29,7 @@ import ModalScreen from '../../Modals/ModalScreen';
 import HeaderWithBackBtn from '../../../component/common/buttons/HeaderWithBackBtn';
 import {GetPropertyType} from '../../../services/properties';
 import {dark} from '../../../../assets/Styles/GlobalTheme';
+import {Dimensions} from 'react-native';
 
 const PostProperty = () => {
   const navigation = useNavigation();
@@ -40,7 +41,8 @@ const PostProperty = () => {
   const [ownerName, setOwnerName] = useState('');
   const [ownerPhoneNumber, setOwnerPhoneNumber] = useState('');
   const {newListing} = useSelector((store: any) => store.post);
-  console.log(newListing);
+ 
+  const {width, height} = Dimensions.get('window');
 
   const [errorProperty, setErrorProperty] = useState<string>('');
 
@@ -342,17 +344,19 @@ const styles = StyleSheet.create({
     paddingVertical: responsiveScreenHeight(2),
   },
   inputStyling: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    height: responsiveScreenHeight(7),
+    height: Platform.OS === 'ios' ? responsiveScreenHeight(5) : responsiveScreenHeight(7),
     width: responsiveScreenWidth(90),
     marginVertical: responsiveScreenHeight(1),
-    borderWidth: 0,
-    backgroundColor: '#DFDFDF',
-    borderRadius: 3,
-    padding: 10,
-    fontSize: responsiveFontSize(3),
+    borderWidth: responsiveWidth(0.1),
+    backgroundColor: 'white',
+    borderRadius: responsiveWidth(1.5),
+    paddingHorizontal: responsiveScreenWidth(2.5),
+    paddingVertical: responsiveScreenHeight(2),
+    fontSize: responsiveFontSize(2),
     color: dark,
   },
 });

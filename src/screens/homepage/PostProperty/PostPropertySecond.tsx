@@ -20,6 +20,7 @@ import {
   responsiveScreenWidth,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
@@ -75,14 +76,13 @@ const PostPropertySecond = () => {
     {label: 'underConstruction', value: 'Under Construction'},
   ];
 
-  const regex = /^(?:[1-9]|[1-9][0-9]|100)$/
+  const regex = /^(?:[1-9]|[1-9][0-9]|100)$/;
   const setTotalFloorHandel = (params: any) => {
-    
     if (!params) {
       setTotalFloorError('Please enter total floor !');
     } else if (!regex.test(params)) {
       setTotalFloorError('Please enter valid floor !');
-     } else {
+    } else {
       setTotalFloorError('');
     }
 
@@ -94,7 +94,6 @@ const PostPropertySecond = () => {
     );
   };
   const setPropertyOnFloorHandel = (params: any) => {
-    
     dispatch(
       UpdateNewListing({
         key: 'propertyOnFloor',
@@ -185,7 +184,10 @@ const PostPropertySecond = () => {
       setTotalFloorError('');
       setFloorError('Please enter valid property on floor !');
       return false;
-    } else if (parseInt(newListing?.propertyOnFloor, 10) > parseInt(newListing?.totalFloor, 10)) {
+    } else if (
+      parseInt(newListing?.propertyOnFloor, 10) >
+      parseInt(newListing?.totalFloor, 10)
+    ) {
       setCityError('');
       setFurnishedError('');
       setPropertyError('');
@@ -205,11 +207,10 @@ const PostPropertySecond = () => {
   };
 
   useEffect(() => {
-    if(newListing?.city){
+    if (newListing?.city) {
       setCityError('');
     }
   }, [newListing?.city]);
-  
 
   const setNoOfRoomsHandel = (params: any) => {
     setNoOfRooms(params);
@@ -302,244 +303,234 @@ const PostPropertySecond = () => {
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.view}>
-        <View style={styles.container}>
-          <View style={styles.buttonBack}>
-            <HeaderWithBackBtn />
-          </View>
+      <View style={styles.container}>
+        <View style={styles.buttonBack}>
+          <HeaderWithBackBtn />
+        </View>
 
-          <TouchableNativeFeedback onPress={Keyboard.dismiss}>
-            <ScrollView showsVerticalScrollIndicator={false}>
-              <View style={styles.innerContainer}>
-                <View style={styles.headerText}>
-                  <Text style={styles.steps}>Step 2 of 4</Text>
-                  <Text style={styles.basicDetailsText}>Property Details</Text>
-                </View>
-                <View style={styles.mainText}>
-                  <Text style={styles.locatedText}>Where is it located ? </Text>
-                  <Text
-                    style={{fontSize: responsiveFontSize(2.5), color: 'red'}}>
-                    *
-                  </Text>
-                </View>
-
-                <View style={styles.addCityNameContainer}>
-                  <ScrollView
-                    showsHorizontalScrollIndicator={false}
-                    horizontal={true}>
-                    <TouchableOpacity
-                      onPress={() => {
-                        navigation.navigate('AddCityName' as never);
-                      }}
-                      style={styles.addCityName}>
-                      <Text
-                        style={{
-                          color: dark,
-                          fontSize:
-                            width > 500
-                              ? responsiveFontSize(1)
-                              : responsiveFontSize(2),
-                        }}>
-                        Location
-                      </Text>
-                      <Ionicons style={styles.addFont} name={'add'} />
-                    </TouchableOpacity>
-                    {newListing?.city && (
-                      <View style={styles.locationDetails}>
-                        {/* <LocationBtn label={newListing?.state} /> */}
-                        <LocationBtn label={newListing?.city} />
-                      </View>
-                    )}
-                  </ScrollView>
-                </View>
-                {cityError ? (
-                  <Text style={styles.errorCity}>{cityError} !</Text>
-                ) : null}
+        <TouchableNativeFeedback onPress={Keyboard.dismiss}>
+          <KeyboardAwareScrollView
+            enableOnAndroid={true}
+            extraHeight={Platform.select({ android: 100 })}
+            showsVerticalScrollIndicator={false}>
+            <View style={styles.innerContainer}>
+              <View style={styles.headerText}>
+                <Text style={styles.steps}>Step 2 of 4</Text>
+                <Text style={styles.basicDetailsText}>Property Details</Text>
               </View>
-              <View>
-                <Text style={styles.locatedText}>Add Rooms Details</Text>
-                <View style={styles.mainText}>
-                  <Text style={styles.noOfBedroomsText}>BHK ? </Text>
-                  <Text
-                    style={{fontSize: responsiveFontSize(2.5), color: 'red'}}>
-                    *
-                  </Text>
-                </View>
+              <View style={styles.mainText}>
+                <Text style={styles.locatedText}>Where is it located ? </Text>
+                <Text style={{fontSize: responsiveFontSize(2.5), color: 'red'}}>
+                  *
+                </Text>
+              </View>
 
+              <View style={styles.addCityNameContainer}>
                 <ScrollView
                   showsHorizontalScrollIndicator={false}
                   horizontal={true}>
-                  <View style={styles.noOfBedrooms}>
-                    {NoOfRooms.map(option => (
-                      <OptionBtn
-                        key={option}
-                        label={option}
-                        btnPressHandler={setNoOfRoomsHandel}
-                        style={[
-                          styles.notColored,
-                          newListing?.bhk === option ? styles.colored : null,
-                        ]}
-                        id={option}
-                      />
-                    ))}
-                  </View>
-                </ScrollView>
-                <View style={styles.mainText}>
-                  <Text style={styles.noOfBedroomsText}>
-                    Furnished Status ?{' '}
-                  </Text>
-                  <Text
-                    style={{fontSize: responsiveFontSize(2.5), color: 'red'}}>
-                    *
-                  </Text>
-                </View>
-
-                <ScrollView
-                  showsHorizontalScrollIndicator={false}
-                  horizontal={true}>
-                  <View style={styles.noOfBedrooms}>
-                    {FurnishedStatus.map((option: any) => (
-                      <OptionBtn
-                        id={option.label}
-                        key={option.label}
-                        label={option.value}
-                        btnPressHandler={setFurnishedStatusHandel}
-                        style={[
-                          styles.notColored,
-                          newListing?.furnishedStatus === option.label
-                            ? styles.colored
-                            : null,
-                        ]}
-                      />
-                    ))}
-                  </View>
-                </ScrollView>
-                {furnishedError ? (
-                  <Text style={styles.errorCity}>{furnishedError}</Text>
-                ) : null}
-
-                <View style={styles.status}>
-                  <View style={styles.mainText}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('AddCityName' as never);
+                    }}
+                    style={styles.addCityName}>
                     <Text
                       style={{
-                        paddingVertical: responsiveScreenHeight(2),
                         color: dark,
+                        fontSize:
+                          width > 500
+                            ? responsiveFontSize(1)
+                            : responsiveFontSize(2),
                       }}>
-                      Properties Status ?{' '}
+                      Location
                     </Text>
-                    <Text
-                      style={{fontSize: responsiveFontSize(2.5), color: 'red'}}>
-                      *
-                    </Text>
-                  </View>
+                    <Ionicons style={styles.addFont} name={'add'} />
+                  </TouchableOpacity>
+                  {newListing?.city && (
+                    <View style={styles.locationDetails}>
+                      {/* <LocationBtn label={newListing?.state} /> */}
+                      <LocationBtn label={newListing?.city} />
+                    </View>
+                  )}
+                </ScrollView>
+              </View>
+              {cityError ? (
+                <Text style={styles.errorCity}>{cityError} !</Text>
+              ) : null}
+            </View>
+            <View>
+              <Text style={styles.locatedText}>Add Rooms Details</Text>
+              <View style={styles.mainText}>
+                <Text style={styles.noOfBedroomsText}>BHK ? </Text>
+                <Text style={{fontSize: responsiveFontSize(2.5), color: 'red'}}>
+                  *
+                </Text>
+              </View>
 
-                  <View style={{flexDirection: 'row', gap: responsiveWidth(5)}}>
-                    {status.map((option: any) => (
-                      <OptionBtn
-                        id={option.label}
-                        key={option.label}
-                        label={option.value}
-                        btnPressHandler={setPropertyStatusHandel}
-                        style={[
-                          styles.notColored,
-                          newListing?.status === option.label
-                            ? styles.colored
-                            : null,
-                        ]}
-                      />
-                    ))}
-                  </View>
-                  {propertyError ? (
-                    <Text style={styles.errorCity}>{propertyError}</Text>
-                  ) : null}
+              <ScrollView
+                showsHorizontalScrollIndicator={false}
+                horizontal={true}>
+                <View style={styles.noOfBedrooms}>
+                  {NoOfRooms.map(option => (
+                    <OptionBtn
+                      key={option}
+                      label={option}
+                      btnPressHandler={setNoOfRoomsHandel}
+                      style={[
+                        styles.notColored,
+                        newListing?.bhk === option ? styles.colored : null,
+                      ]}
+                      id={option}
+                    />
+                  ))}
+                </View>
+              </ScrollView>
+              <View style={styles.mainText}>
+                <Text style={styles.noOfBedroomsText}>Furnished Status ? </Text>
+                <Text style={{fontSize: responsiveFontSize(2.5), color: 'red'}}>
+                  *
+                </Text>
+              </View>
+
+              <ScrollView
+                showsHorizontalScrollIndicator={false}
+                horizontal={true}>
+                <View style={styles.noOfBedrooms}>
+                  {FurnishedStatus.map((option: any) => (
+                    <OptionBtn
+                      id={option.label}
+                      key={option.label}
+                      label={option.value}
+                      btnPressHandler={setFurnishedStatusHandel}
+                      style={[
+                        styles.notColored,
+                        newListing?.furnishedStatus === option.label
+                          ? styles.colored
+                          : null,
+                      ]}
+                    />
+                  ))}
+                </View>
+              </ScrollView>
+              {furnishedError ? (
+                <Text style={styles.errorCity}>{furnishedError}</Text>
+              ) : null}
+
+              <View style={styles.status}>
+                <View style={styles.mainText}>
+                  <Text
+                    style={{
+                      paddingVertical: responsiveScreenHeight(2),
+                      color: dark,
+                    }}>
+                    Properties Status ?{' '}
+                  </Text>
+                  <Text
+                    style={{fontSize: responsiveFontSize(2.5), color: 'red'}}>
+                    *
+                  </Text>
                 </View>
 
-                <View style={styles.readyToMove}>
+                <View style={{flexDirection: 'row', gap: responsiveWidth(3)}}>
+                  {status.map((option: any) => (
+                    <OptionBtn
+                      id={option.label}
+                      key={option.label}
+                      label={option.value}
+                      btnPressHandler={setPropertyStatusHandel}
+                      style={[
+                        styles.notColored,
+                        newListing?.status === option.label
+                          ? styles.colored
+                          : null,
+                      ]}
+                    />
+                  ))}
+                </View>
+                {propertyError ? (
+                  <Text style={styles.errorCity}>{propertyError}</Text>
+                ) : null}
+              </View>
+
+              <View style={styles.readyToMove}>
+                <View style={styles.mainText}>
+                  <Text style={{color: dark}}>Parking ? </Text>
+                  <Text
+                    style={{fontSize: responsiveFontSize(2.5), color: 'red'}}>
+                    *
+                  </Text>
+                </View>
+
+                <View style={{flexDirection: 'row', gap: responsiveWidth(3)}}>
+                  {Parking.map(option => (
+                    <OptionBtn
+                      key={option}
+                      label={option}
+                      btnPressHandler={setParkingHandel}
+                      style={[
+                        styles.notColored,
+                        newListing?.parking === option ? styles.colored : null,
+                      ]}
+                      id={option}
+                    />
+                  ))}
+                </View>
+                {parkingError ? (
+                  <Text style={styles.errorCity}>{parkingError}</Text>
+                ) : null}
+                <View style={styles.inputContainer}>
                   <View style={styles.mainText}>
-                    <Text style={{color: dark}}>Parking ? </Text>
+                    <Text style={{color: dark}}>Total Number Of Floor ? </Text>
                     <Text
-                      style={{fontSize: responsiveFontSize(2.5), color: 'red'}}>
+                      style={{
+                        fontSize: responsiveFontSize(2.5),
+                        color: 'red',
+                      }}>
                       *
                     </Text>
                   </View>
 
-                  <View style={{flexDirection: 'row', gap: responsiveWidth(2)}}>
-                    {Parking.map(option => (
-                      <OptionBtn
-                        key={option}
-                        label={option}
-                        btnPressHandler={setParkingHandel}
-                        style={[
-                          styles.notColored,
-                          newListing?.parking === option
-                            ? styles.colored
-                            : null,
-                        ]}
-                        id={option}
-                      />
-                    ))}
-                  </View>
-                  {parkingError ? (
-                    <Text style={styles.errorCity}>{parkingError}</Text>
-                  ) : null}
-                  <View style={styles.inputContainer}>
-                    <View style={styles.mainText}>
-                      <Text style={{color: dark}}>
-                        Total Number Of Floor ?{' '}
-                      </Text>
-                      <Text
-                        style={{
-                          fontSize: responsiveFontSize(2.5),
-                          color: 'red',
-                        }}>
-                        *
-                      </Text>
-                    </View>
-
-                    <CustomTextInput
-                      onChangeText={setTotalFloorHandel}
-                      value={newListing?.totalFloor}
-                      placeholder="Number of floor"
-                      keyboardType="numeric"
-                      errorText={totalFloorError}
-                      maxLength={3}
-                    />
-                  </View>
-                  {totalFloorError ? (
-                    <Text style={styles.errorCity}>{totalFloorError}</Text>
-                  ) : null}
-                  <View style={styles.inputContainer1}>
-                    <View style={styles.mainText}>
-                      <Text style={{color: dark}}>Property on Floor ? </Text>
-                      <Text
-                        style={{
-                          fontSize: responsiveFontSize(2.5),
-                          color: 'red',
-                        }}>
-                        *
-                      </Text>
-                    </View>
-
-                    <Dropdown
-                      data={floorList}
-                      onSelectHandler={setPropertyOnFloorHandel}
-                      id="key"
-                      placeholder="Select"
-                      innerRef={genereDropRef}
-                      defaultValue={newListing?.propertyOnFloor}
-                    />
-                  </View>
+                  <CustomTextInput
+                    onChangeText={setTotalFloorHandel}
+                    value={newListing?.totalFloor}
+                    placeholder="Number of floor"
+                    keyboardType="numeric"
+                    errorText={totalFloorError}
+                    maxLength={3}
+                  />
                 </View>
-                <View style={styles.bottomBtn}>
-                  <ExploreButton onPress={() => handleNext()} title="Next" />
+                {totalFloorError ? (
+                  <Text style={styles.errorCity}>{totalFloorError}</Text>
+                ) : null}
+                <View style={styles.inputContainer1}>
+                  <View style={styles.mainText}>
+                    <Text style={{color: dark}}>Property on Floor ? </Text>
+                    <Text
+                      style={{
+                        fontSize: responsiveFontSize(2.5),
+                        color: 'red',
+                      }}>
+                      *
+                    </Text>
+                  </View>
+
+                  <Dropdown
+                    data={floorList}
+                    onSelectHandler={setPropertyOnFloorHandel}
+                    id="key"
+                    placeholder="Select"
+                    innerRef={genereDropRef}
+                    defaultValue={newListing?.propertyOnFloor}
+                  />
                 </View>
               </View>
-            </ScrollView>
-          </TouchableNativeFeedback>
-        </View>
-      </KeyboardAvoidingView>
+              <View style={styles.bottomBtn}>
+                <ExploreButton onPress={() => handleNext()} title="Next" />
+              </View>
+            </View>
+          </KeyboardAwareScrollView>
+        </TouchableNativeFeedback>
+      </View>
     </SafeAreaView>
   );
 };

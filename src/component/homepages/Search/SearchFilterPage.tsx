@@ -91,6 +91,8 @@ const SearchFilterPage = ({route}: any) => {
         newListing?.bhk
       }&status=${status}`;
       const url = `${URL}${searchString}`;
+      console.log(url);
+      
 
       const res = await axios.get(url);
       const {result} = res.data;
@@ -113,7 +115,7 @@ const SearchFilterPage = ({route}: any) => {
 
   const FurnishedStatus = ['unfurnished', 'semi-furnished', 'furnished'];
 
-  const DATA = ['1RK/1BHK', '2BHK', '3BHK', '4BHK', '5BHK', '5BHK+'];
+  const DATA = ['1BHK', '2BHK', '3BHK', '4BHK', '5BHK', '5BHK+'];
 
   const statusData = ['readyToMove', 'underConstruction'];
 

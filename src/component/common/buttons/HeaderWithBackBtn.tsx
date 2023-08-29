@@ -26,6 +26,8 @@ const HeaderWithBackBtn:FC <props> = ({style}) => {
 
   const navigation = useNavigation();
   const vector1Img = require('../../../../assets/images/Vector1.png');
+  console.log(width);
+  
   return (
     <TouchableOpacity
       onPress={() => navigation.goBack()}

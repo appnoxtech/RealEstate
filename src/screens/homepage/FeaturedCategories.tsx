@@ -19,6 +19,7 @@ import {
 } from 'react-native-responsive-dimensions';
 import { dark } from '../../../assets/Styles/GlobalTheme';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { width } from '../../utils/constants/Matrics';
 
 const FeaturedCategories = () => {
@@ -114,7 +115,7 @@ const FeaturedCategories = () => {
                 <Text style={{color: dark}}>{data.rating}</Text>
               </View>
               <View style={styles.map}>
-               <Ionicons name='locate-outline' size={responsiveScreenWidth(2)} color='#234F68'/>
+               <MaterialCommunityIcons name='map-marker' size={responsiveScreenWidth(3)} color='#234F68'/>
                 <Text style={{fontSize: 12, color: dark}}>{data.location}</Text>
               </View>
 

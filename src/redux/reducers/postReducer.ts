@@ -2,7 +2,7 @@ const initialNewListingData = {
   title: '',
   type: 'Residential-property',
   description: '',
-  bhk: '1BHK',
+  bhk: '',
   furnishedStatus: 'unfurnished',
   images: [],
   city: '',

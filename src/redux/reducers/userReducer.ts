@@ -1,13 +1,11 @@
 const initialState = {
-
   isLogin: false,
-  userDetails: {
-  },
-  registerUserDetails: {}
+  userDetails: {},
+  registerUserDetails: {},
 };
 interface user {
-  isLogin: boolean,
-  userDetails: any,
+  isLogin: boolean;
+  userDetails: any;
 }
 
 interface setIsLogin {
@@ -19,16 +17,20 @@ interface setIsLogout {
   payload: boolean;
 }
 interface updateUserDetails {
-  type: 'UPDATE_USER_DETAILS',
-  payload: user
+  type: 'UPDATE_USER_DETAILS';
+  payload: user;
 }
 
 interface registerUserDetails {
   payload: any;
-  type: 'REGISTER_USER_DETAILS'
+  type: 'REGISTER_USER_DETAILS';
 }
 
-type action = setIsLogin | setIsLogout | updateUserDetails | registerUserDetails
+type action =
+  | setIsLogin
+  | setIsLogout
+  | updateUserDetails
+  | registerUserDetails;
 
 const UserReducer = (state = initialState, action: action) => {
   switch (action.type) {
@@ -38,7 +40,7 @@ const UserReducer = (state = initialState, action: action) => {
         isLogin: action.payload,
       };
     }
-    case 'UPDATE_LOGOUT':  {
+    case 'UPDATE_LOGOUT': {
       return {
         ...state,
         isLogin: false,
@@ -48,14 +50,14 @@ const UserReducer = (state = initialState, action: action) => {
     case 'UPDATE_USER_DETAILS': {
       return {
         ...state,
-        userDetails: {...action.payload}
-      }
+        userDetails: {...action.payload},
+      };
     }
     case 'REGISTER_USER_DETAILS': {
       return {
         ...state,
-        registerUserDetails: {...action.payload}
-      }
+        registerUserDetails: {...action.payload},
+      };
     }
     default:
       return state;
@@ -71,18 +73,18 @@ export const UpdateIsLoginState = (state: boolean) => {
   };
 };
 
-
 export const UpdateLogout = () => {
   return {
     type: 'UPDATE_LOGOUT',
   };
 };
+
 export const updateUserDetails = (data: any): updateUserDetails => {
   return {
     type: 'UPDATE_USER_DETAILS',
     payload: data,
-  }
-}
+  };
+};
 
 export const UpdateRegisterUserDetails = (data: any): registerUserDetails => {
   return {

@@ -5,9 +5,9 @@ import {
   RegisterService,
   LogoutService,
 } from '../../services/auth/authService';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
-import {updateUserDetails} from '../../redux/reducers/userReducer';
+import {UpdateLogout, updateUserDetails} from '../../redux/reducers/userReducer';
 import {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import { UpdateIsLoadingState } from '../../redux/reducers/commonReducer';
@@ -20,6 +20,8 @@ interface phoneNumberType {
 }
 
 const useAuthServiceHandler = () => {
+
+  const {userDetails} = useSelector((state: any) => state.user);
   // Inside useAuthServiceHandler
 
   const Navigation = useNavigation();
@@ -33,7 +35,6 @@ const useAuthServiceHandler = () => {
       const res = await GenerateOTPService(data);
       dispatch(UpdateIsLoadingState(false));
       const {result} = res.data;
-      Alert.alert('OTP', result?.generateOTP);
       //@ts-ignore
       Navigation.navigate('RegisterWithOTP' as never, {
         phoneNumber: data?.phoneNumber,
@@ -55,7 +56,6 @@ const useAuthServiceHandler = () => {
           type: 'Register',
         });
       } else {
-        // Alert.alert('', 'User Not Register!');
         Navigation.navigate('Register' as never);
       }
     }
@@ -95,11 +95,17 @@ const useAuthServiceHandler = () => {
   };
 
   const handleLogoutService = async (data: any) => {
+    console.log(data);
+    
     try {
       const res = await LogoutService(data);
-
+      // const {result} = res.data;
+     
+      console.log("Hello");
+      
+      
       Navigation.navigate('Login' as never);
-      const {result} = res.data;
+      
     } catch (error: any) {
       Alert.alert('Error', error.response.data.error.message);
     }
@@ -116,6 +122,6 @@ const useAuthServiceHandler = () => {
 };
 
 export default useAuthServiceHandler;
-// function SetIsLoadingState(arg0: boolean): any {
-//   throw new Error('Function not implemented.');
-// }
+
+
+

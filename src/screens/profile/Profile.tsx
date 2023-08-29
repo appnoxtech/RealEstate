@@ -29,25 +29,31 @@ import useKeyboardVisibleListener from '../../hooks/CommonHooks/isKeyboardVisibl
 import {colorPrimary, dark} from '../../../assets/Styles/GlobalTheme';
 import ProfileItemCard from '../../component/common/Card/ProfileItemCard';
 import LoadIcon from '../../component/common/LoadIcon';
+import useAuthServiceHandler from '../../hooks/serviceHandler/AuthServiceHandler';
 
 export default function Profile() {
+
+  const {handleLogoutService} = useAuthServiceHandler();
   const isKeyboardVisible = useKeyboardVisibleListener();
+  const {userDetails} = useSelector((state: any) => state.user);
+
+  
 
   const dispatch = useDispatch();
-  const handleLogout = () => {
-    dispatch(UpdateLogout());
-  };
+  
 
-  const {userDetails} = useSelector((state: any) => state.user);
+  
 
   const navigation = useNavigation();
 
   const userName = userDetails?.name;
+  const phone = userDetails?.phoneNumber
+  
   const handelCommunePress = () => {
     navigation.navigate('CommunicationSetting' as never);
   };
   const handelFeedBackPress = () => {
-    navigation.navigate('ShareFeed' as never);
+    navigation.navigate('ShareFeedback' as never);
   };
   const handelAppVersionPress = () => {
     navigation.navigate('ChangelogScreen' as never);
@@ -55,6 +61,12 @@ export default function Profile() {
 
   const UpdateProfileBtnPress = () => {
     navigation.navigate('EditProfile' as never);
+  };
+
+  const handleLogout = () => {
+    dispatch(UpdateLogout());
+    // handleLogoutService(phone) 
+   
   };
 
   return (
@@ -106,7 +118,7 @@ export default function Profile() {
                     color={'black'}
                   />
                   <Text style={styles.leftSideContainerText}>
-                    Communication Settings
+                    Communication Setting
                   </Text>
                 </View>
                 <LoadIcon
@@ -198,10 +210,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     // backgroundColor: '#F5F4F8',
     paddingHorizontal: responsiveScreenWidth(6),
-    paddingVertical: responsiveScreenHeight(1),
+    paddingVertical: responsiveScreenHeight(1.8),
   },
   headerText: {
-    fontSize: responsiveFontSize(2.7),
+    fontSize: responsiveFontSize(3),
     color: dark,
     fontWeight: '700',
   },
@@ -299,3 +311,5 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
 });
+
+

@@ -9,7 +9,7 @@ import {
   Image,
   ScrollView,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import HeaderWithBackBtn from '../../common/buttons/HeaderWithBackBtn';
 import {
   responsiveHeight,
@@ -18,7 +18,11 @@ import {
   responsiveScreenWidth,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-import {boldFont, dark, regularFont} from '../../../../assets/Styles/GlobalTheme';
+import {
+  boldFont,
+  dark,
+  regularFont,
+} from '../../../../assets/Styles/GlobalTheme';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {width} from '../../../utils/constants/Matrics';
 import ReviewButton from '../../common/buttons/ReviewButton';
@@ -27,18 +31,23 @@ import BHK from '../../common/buttons/BHK';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import LoadIcon from '../../common/LoadIcon';
 import ReviewCard from '../../common/Card/ReviewCard';
+import {useNavigation} from '@react-navigation/native';
 
 const DetailedPage = ({route}: any) => {
+  const navigation = useNavigation();
   const {data} = route.params;
   console.log('--->', data);
-
+  console.log(data.images);
   const reveiw = ['4.5', data?.propertyType];
 
   const bhkData = [
     {name: 'bed', title: ' Bedrooms'},
-    {neme: 'bathtub', title: ' Bathrooms'},
+    {name: 'bathtub', title: ' Bathrooms'},
     {name: 'kitchen', title: ' Kitchen'},
   ];
+  const [imgUrlBackground, setImgUrlBackground] = useState(0);
+  const image =
+    'https://harsha-temp.s3.ap-south-1.amazonaws.com/appnox/Real-Estate-Documents/image_1693214102370.png';
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
@@ -48,7 +57,9 @@ const DetailedPage = ({route}: any) => {
         showsVerticalScrollIndicator={false}>
         <ImageBackground
           resizeMode="cover"
-          source={{uri: `${data?.images[0]}`}}
+          source={{
+            uri: data?.images.length ? data?.images[imgUrlBackground] : image,
+          }}
           style={styles.container}>
           <View
             style={{
@@ -104,22 +115,33 @@ const DetailedPage = ({route}: any) => {
               </View>
             </View>
             <View style={styles.photoContainer}>
-              <TouchableOpacity style={styles.imageView}>
+              <TouchableOpacity
+                style={styles.imageView}
+                onPress={() => setImgUrlBackground(1)}>
                 <Image
                   style={styles.image}
-                  source={{uri: `${data.images[1]}`}}
+                  source={{uri: data?.images.length ? data?.images[0] : image}}
                 />
               </TouchableOpacity>
-              <TouchableOpacity style={styles.imageView}>
+              <TouchableOpacity
+                style={styles.imageView}
+                onPress={() => setImgUrlBackground(2)}>
                 <Image
                   style={styles.image}
-                  source={{uri: `${data.images[2]}`}}
+                  source={{uri: data?.images.length ? data?.images[1] : image}}
                 />
               </TouchableOpacity>
-              <TouchableOpacity style={styles.imageView}>
+
+              <TouchableOpacity
+                style={styles.imageView}
+                onPress={() =>
+                  navigation.navigate('DetailImagePage' as never, {
+                    data: data.images,
+                  })
+                }>
                 <ImageBackground
                   style={styles.image}
-                  source={{uri: `${data.images[0]}`}}>
+                  source={{uri: data?.images.length ? data?.images[2] : image}}>
                   <Text
                     style={{
                       textAlign: 'center',
@@ -135,7 +157,13 @@ const DetailedPage = ({route}: any) => {
         </ImageBackground>
         <View style={styles.textContainer}>
           <View>
-            <Text style={{color: dark, fontSize: 25, maxWidth: 200, fontFamily: boldFont}}>
+            <Text
+              style={{
+                color: dark,
+                fontSize: 25,
+                maxWidth: 200,
+                fontFamily: boldFont,
+              }}>
               {data?.title}
             </Text>
             <View
@@ -160,49 +188,70 @@ const DetailedPage = ({route}: any) => {
           </View>
         </View>
         <View style={styles.bhkButton}>
-          {bhkData.map((item: any) => (
-            <BHK bgColor={'#F5F4F8'}>
-              <View style={styles.reviewButton}>
-                {item.name === 'bed' && (
-                  <Ionicons
-                    name="bed"
-                    size={responsiveWidth(3)}
-                    color="#8BC83F"
-                  />
-                )}
-                {item.name === 'bathtub' && (
-                  <LoadIcon
-                    iconFamily="MaterialCommunityIcons"
-                    iconName="bathtub"
-                    style={{}}
-                    color="#8BC83F"
-                    size={10}
-                  />
-                )}
-                {item.name === 'kitchen' && (
-                  <MaterialIcons
-                    name="kitchen"
-                    size={responsiveWidth(3)}
-                    color="#8BC83F"
-                  />
-                )}
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            {bhkData.map((item: any) => (
+              <BHK bgColor={'#F5F4F8'} key={item.name}>
+                <View style={styles.reviewButton}>
+                  {item.name === 'bed' && (
+                    <Ionicons
+                      name="bed"
+                      size={responsiveWidth(5)}
+                      color="#8BC83F"
+                    />
+                  )}
+                  {item.name === 'bathtub' && (
+                    <LoadIcon
+                      iconFamily="MaterialCommunityIcons"
+                      iconName="bathtub"
+                      style={{}}
+                      color="#8BC83F"
+                      size={responsiveWidth(5)}
+                    />
+                  )}
+                  {item.name === 'kitchen' && (
+                    <MaterialIcons
+                      name="kitchen"
+                      size={responsiveWidth(5)}
+                      color="#8BC83F"
+                    />
+                  )}
 
-                <Text
-                  style={{
-                    fontSize: responsiveScreenFontSize(1.5),
-                    fontWeight: '800',
-                    color: '#53587A',
-                  }}>
-                  {' '}
-                  1 {item.title}
-                </Text>
-              </View>
-            </BHK>
-          ))}
+                  <Text
+                    style={{
+                      fontSize: responsiveScreenFontSize(1.5),
+                      fontWeight: '800',
+                      color: '#53587A',
+                    }}>
+                    {' '}
+                    1 {item.title}
+                  </Text>
+                </View>
+              </BHK>
+            ))}
+          </ScrollView>
         </View>
         <View style={styles.reviewCotainer}>
-          <Text style={{fontFamily: regularFont}}>Review</Text>
-          <ReviewCard imgUrl={data?.images[0]} name='Sam Harris'/>
+          <Text style={{fontFamily: regularFont, color: '#252B5C'}}>
+            Reviews
+          </Text>
+          <ReviewCard
+            imgUrl={data?.images.length ? data?.images[0] : image}
+            name="Sam Harris"
+            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
+          />
+          <ReviewCard
+            imgUrl={data?.images.length ? data?.images[1] : image}
+            name="Elon Musk"
+            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
+          />
+
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Reviews' as never, {data})}
+            style={styles.allReview}>
+            <Text style={{textAlign: 'center', color: '#1F4C6B'}}>
+              View all reviews
+            </Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -212,7 +261,6 @@ const DetailedPage = ({route}: any) => {
 export default DetailedPage;
 
 const styles = StyleSheet.create({
- 
   container: {
     height: responsiveHeight(70),
     borderRadius: responsiveWidth(10),
@@ -301,5 +349,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingVertical: responsiveScreenHeight(2),
   },
-  reviewCotainer: {},
+  reviewCotainer: {
+    gap: responsiveScreenHeight(2),
+  },
+  allReview: {
+    backgroundColor: '#F5F4F8',
+    borderRadius: responsiveWidth(10),
+    paddingHorizontal: responsiveScreenWidth(3),
+    paddingVertical: responsiveScreenHeight(2),
+  },
 });

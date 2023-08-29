@@ -219,6 +219,7 @@ const styles = StyleSheet.create({
 
   btnContainer: {
     width: responsiveScreenWidth(70),
+    paddingTop: responsiveScreenHeight(5)
   },
 
   button: {

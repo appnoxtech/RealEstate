@@ -26,58 +26,59 @@ import CommunicationSetting from '../component/common/Card/CommunicationSetting'
 import PropertyListings from '../component/PropertyListings';
 import ChangelogScreen from '../screens/homepage/ChangelogScreen';
 import EditProfile from '../screens/profile/EditProfile';
-
+import DetailImagePage from '../component/homepages/Search/DetailImagePage';
+import Reviews from '../component/homepages/Search/Reviews';
+import ShareFeedback from '../screens/profile/ShareFeedback';
 
 const Stack = createNativeStackNavigator();
 
 const AuthRoute = () => {
-
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="BottomTabNavigation"
         component={BottomTabNavigation}
-        options={{headerShown: false,}}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="Notification"
         component={Notification}
-        options={{headerShown: false,}}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="CommunicationSetting"
         component={CommunicationSetting}
-        options={{headerShown: false,}}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="PostProperty"
         component={PostProperty}
-        options={{headerShown: false,}}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="PostPropertySecond"
         component={PostPropertySecond}
-        options={{headerShown: false,}}
+        options={{headerShown: false}}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="PostPropertyThird"
         component={PostPropertyThird}
-        options={{headerShown: false,}}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="PropertyFeatures"
         component={PropertyFeatures}
-        options={{headerShown: false,}}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="PropertyListings"
         component={PropertyListings}
-        options={{headerShown: false,}}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="Profile"
         component={Profile}
-        options={{headerShown: false,}}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="FeaturedEstate"
@@ -99,7 +100,7 @@ const AuthRoute = () => {
         component={RenderSearchResult}
         options={{headerShown: false}}
       />
-            <Stack.Screen
+      <Stack.Screen
         name="FallBackSearch"
         component={FallBackSearch}
         options={{headerShown: false}}
@@ -135,7 +136,6 @@ const AuthRoute = () => {
         options={{headerShown: false}}
       />
 
-      
       <Stack.Screen
         name="AddCityName"
         component={AddCityName}
@@ -156,8 +156,21 @@ const AuthRoute = () => {
         component={EditProfile}
         options={{headerShown: false}}
       />
-      
-
+      <Stack.Screen
+        name="DetailImagePage"
+        component={DetailImagePage}
+        options={{headerShown: false}}
+      />
+       <Stack.Screen
+        name="Reviews"
+        component={Reviews}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ShareFeedback"
+        component={ShareFeedback}
+        options={{headerShown: false}}
+      />
     </Stack.Navigator>
   );
 };

@@ -49,7 +49,10 @@ const PropertyListCard: FC<props> = ({
   property,
   updateListing,
 }) => {
-  const imgSrc = require('../../../../assets/images/p6.jpg');
+  const image = 'https://harsha-temp.s3.ap-south-1.amazonaws.com/appnox/Real-Estate-Documents/image_1693214102370.png'
+  console.log(image);
+  
+
   const dispatch = useDispatch();
 
   const {id} = useSelector((state: any) => state.user.userDetails);
@@ -86,6 +89,8 @@ const PropertyListCard: FC<props> = ({
     dispatch(UpdatePostProperty(property));
     navigation.navigate('PostProperty' as never);
   };
+  console.log(property);
+  
 
   const navigation = useNavigation();
   return (
@@ -103,7 +108,7 @@ const PropertyListCard: FC<props> = ({
                 width: responsiveWidth(23),
                 height: responsiveHeight(11),
               }}
-              source={imgSrc}
+              source={{uri: property?.images ? property?.images[0] : image}}
             />
 
             <View style={styles.yourListingsBodyText}>
@@ -199,7 +204,8 @@ const styles = StyleSheet.create({
   yourListingsBodyText: {
     flex: 1,
     paddingHorizontal: responsiveScreenWidth(3),
-    gap: responsiveHeight(4.5),
+    gap: responsiveHeight(5),
+    
   },
   yourListingsBody: {
     flexDirection: 'row',

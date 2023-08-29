@@ -6,6 +6,7 @@ import { TextInput } from 'react-native';
 import { colorPrimary, dark } from '../../../../assets/Styles/GlobalTheme';
 
 
+
 interface props {
   keyboardType?: InputModeOptions | undefined,
   value: string,
@@ -16,7 +17,7 @@ interface props {
   
 }
 
-const CustomTextInput : FC<props> = ({maxLength,keyboardType = 'text', value, onChangeText, placeholder, errorText=''}) => {
+const CustomTextInput : FC<props> = ({maxLength,keyboardType = 'text', value, onChangeText, placeholder, errorText='', }) => {
   const [focus, setFocus] = useState(false);
   return (
     <View
@@ -42,7 +43,8 @@ const CustomTextInput : FC<props> = ({maxLength,keyboardType = 'text', value, on
 export default CustomTextInput
 const styles = StyleSheet.create({
   container: {
-    height:responsiveScreenHeight(7),
+    flex: 1,
+    height: Platform.OS === 'android' ? responsiveScreenHeight(7) : responsiveScreenHeight(6),
     width: '100%',
     marginVertical: responsiveScreenHeight(1),
     // backgroundColor: '#DFDFDF',

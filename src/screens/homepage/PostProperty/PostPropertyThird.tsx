@@ -32,6 +32,7 @@ import * as ImagePicker from 'react-native-image-picker';
 import {ImageUploadService} from '../../../services/common/ImagePicker';
 import {dark} from '../../../../assets/Styles/GlobalTheme';
 import {width} from '../../../utils/constants/Matrics';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const PostPropertyThird = () => {
   const [imgUrls, setImgUrls] = useState<Array<string>>([]);
@@ -71,7 +72,7 @@ const PostPropertyThird = () => {
     }
   };
 
-  const textRegex = /^[A-Za-z]+$/;
+  const fullNamePattern = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
   const numberRegex = /^[1-9]\d*$/;
 
   const navigation = useNavigation();
@@ -87,7 +88,7 @@ const PostPropertyThird = () => {
       setPriceError('');
       setTextError('Required!');
       return false;
-    } else if (!textRegex.test(newListing?.title)) {
+    } else if (!fullNamePattern.test(newListing?.title)) {
       setPriceError('');
       setTextError('Enter valid title!');
       return false;
@@ -139,7 +140,7 @@ const PostPropertyThird = () => {
   const setTitleHandel = (params: string) => {
     if (!params) {
       setTextError('Required!');
-    } else if (!textRegex.test(params)) {
+    } else if (!fullNamePattern.test(params)) {
       setTextError('Enter valid title');
     } else {
       setTextError('');
@@ -156,9 +157,10 @@ const PostPropertyThird = () => {
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
       <TouchableNativeFeedback onPress={Keyboard.dismiss}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          style={styles.view}>
+      <KeyboardAwareScrollView
+            enableOnAndroid={true}
+            extraHeight={Platform.select({ android: 100 })}
+            showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
             <View style={styles.btnBack}>
               <HeaderWithBackBtn />
@@ -187,7 +189,7 @@ const PostPropertyThird = () => {
                   <View
                     style={[
                       styles.imageSelected,
-                      imgUrls ? styles.padding : null,
+                      !imgUrls[0] ? null : styles.padding ,
                     ]}>
                     {imgUrls?.map((option: string, index: number) => (
                       <View key={index} style={{position: 'relative'}}>
@@ -251,15 +253,15 @@ const PostPropertyThird = () => {
               </View>
               <View
                 style={
-                  !imgUrls
-                    ? {paddingTop: responsiveScreenHeight(7)}
-                    : {paddingTop: responsiveScreenHeight(0)}
+                  imgUrls
+                    ? {paddingTop: responsiveScreenHeight(11)}
+                    : {paddingTop: responsiveScreenHeight(12)}
                 }>
                 <ExploreButton onPress={() => handleNext()} title="Next" />
               </View>
             </ScrollView>
           </View>
-        </KeyboardAvoidingView>
+        </KeyboardAwareScrollView>
       </TouchableNativeFeedback>
     </SafeAreaView>
   );

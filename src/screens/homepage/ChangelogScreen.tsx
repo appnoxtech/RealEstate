@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, FlatList, SafeAreaView} from 'react-native';
+import { dark } from '../../../assets/Styles/GlobalTheme';
 import HeaderWithBackBtn from '../../component/common/buttons/HeaderWithBackBtn';
 
 const ChangelogScreen = () => {
@@ -49,6 +50,7 @@ const styles = StyleSheet.create({
   version: {
     fontSize: 18,
     fontWeight: 'bold',
+    color: dark
   },
   date: {
     color: '#666',
@@ -56,6 +58,7 @@ const styles = StyleSheet.create({
   },
   change: {
     marginLeft: 8,
+    color: dark
   },
 });
 

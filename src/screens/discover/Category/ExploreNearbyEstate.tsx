@@ -19,6 +19,7 @@ import {
 } from 'react-native-responsive-dimensions';
 import {dark} from '../../../../assets/Styles/GlobalTheme';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const DATA = [
   {
@@ -109,9 +110,9 @@ const Item = ({data}: any) => (
                 size={responsiveScreenWidth(4)}
               />
               <Text style={{fontSize: 10, color: dark}}>{data.rating}</Text>
-              <Ionicons
-                name="locate-outline"
-                size={responsiveScreenWidth(4)}
+              <MaterialCommunityIcons
+                name="map-marker"
+                size={responsiveScreenWidth(3)}
                 color="#234F68"
               />
               <Text style={{fontSize: 10, color: dark}}>{data.location}</Text>

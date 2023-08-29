@@ -60,9 +60,9 @@ const CategoryEstate: React.FC<props> = ({cityData}) => {
             borderTopLeftRadius: responsiveWidth(5),
           }}
           style={styles.imageContainer}
-          source={mainImage}>
+          source={{uri: `${data?.images[0]}`}}>
           <TouchableOpacity style={styles.heartContainer}>
-            <Image style={styles.heart} source={heartImage} />
+            
           </TouchableOpacity>
           <TouchableOpacity style={styles.button}>
             <Text style={styles.buttonText}>
@@ -75,7 +75,7 @@ const CategoryEstate: React.FC<props> = ({cityData}) => {
           <Text style={styles.detailesHeadertext}>{data.title}</Text>
           <View style={styles.ratingContainer}>
             <Image style={styles.star} source={locationImage} />
-            <Text style={styles.location}>{data.location}</Text>
+            <Text style={styles.location}>{data.city}</Text>
           </View>
         </View>
         <View style={styles.details}>
@@ -104,10 +104,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   itemContainer: {
+    width: '100%',
     marginVertical: responsiveScreenHeight(1),
   },
   featuredCard: {
-    width: responsiveWidth(94),
+    width: '100%',
     borderRadius: responsiveWidth(5),
     backgroundColor: '#F5F4F8',
     gap: responsiveScreenWidth(3),
@@ -162,13 +163,13 @@ const styles = StyleSheet.create({
   },
   location: {
     color: dark,
-    fontSize: responsiveFontSize(3),
+    fontSize: responsiveFontSize(2.5),
   },
 
   detailesHeadertext: {
     color: dark,
     marginTop: responsiveScreenHeight(1),
-    fontSize: responsiveFontSize(3),
+    fontSize: responsiveFontSize(2),
   },
   map: {
     flexDirection: 'row',

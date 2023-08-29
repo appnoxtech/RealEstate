@@ -128,7 +128,7 @@ const EditProfile = () => {
                 alignItems: 'center',
                 paddingRight: responsiveScreenWidth(18),
               }}>
-              <Text style={styles.profileText}>Profile Detail</Text>
+              <Text style={styles.profileText}>Edit Profile</Text>
             </View>
           </View>
           <View style={styles.userIcon}>
@@ -231,6 +231,7 @@ const styles = StyleSheet.create({
     borderColor: '#F5F4F8',
     borderRadius: 10,
     padding: 10,
+    color: dark,
     fontSize: responsiveFontSize(2),
   },
   inputContainer1: {
@@ -247,6 +248,7 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     padding: 10,
     fontSize: responsiveFontSize(2),
+    color: dark
   },
   input: {
     flex: 1,

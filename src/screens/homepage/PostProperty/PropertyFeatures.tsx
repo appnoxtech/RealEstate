@@ -1,4 +1,4 @@
-import {Alert, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {Alert, Platform, SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
@@ -24,6 +24,7 @@ import {
   UpdatePropertyData,
 } from '../../../services/properties';
 import {dark} from '../../../../assets/Styles/GlobalTheme';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const PropertyFeatures = () => {
   const textRegex = /^[A-Za-z]+$/;
@@ -33,7 +34,6 @@ const PropertyFeatures = () => {
   const [area, setArea] = useState('');
   const {createPropertyHandler} = usePropertyHook();
   const {newListing} = useSelector((store: any) => store.post);
-
 
   const {userDetails} = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
@@ -48,8 +48,7 @@ const PropertyFeatures = () => {
     } else if (!numberRegex.test(newListing?.area)) {
       setAreaError('');
       setAreaError('Please enter valid area !');
-    }
-     else if (!newListing?.description) {
+    } else if (!newListing?.description) {
       setAreaError('');
       setDescriptionError('Please add description!');
       return false;
@@ -57,8 +56,7 @@ const PropertyFeatures = () => {
       setAreaError('');
       setDescriptionError('Please add valid description!');
       return false;
-    }
-     else {
+    } else {
       setAreaError('');
       setDescriptionError('');
       return true;
@@ -66,9 +64,9 @@ const PropertyFeatures = () => {
   };
 
   const handelPost = () => {
-    const isValid = validate()
-    if(isValid) {
-    createPropertyHandler(newListing);
+    const isValid = validate();
+    if (isValid) {
+      createPropertyHandler(newListing);
     }
   };
   const discriptionHandel = (params: any) => {
@@ -142,19 +140,22 @@ const PropertyFeatures = () => {
         <View>
           <HeaderWithBackBtn />
         </View>
-        <View style={styles.inputContainer}>
-        <View style={styles.headerText}>
-                  <Text style={styles.steps}>Step 4 of 4</Text>
-                  <Text style={styles.basicDetailsText}>Area & Description</Text>
-                </View>
-        <View style={styles.mainText}>
-        <Text style={{color: dark}}>Area </Text>
-                 <Text
-                      style={{fontSize: responsiveFontSize(2.5), color: 'red'}}>
-                      *
-                    </Text>
-              </View>
-         
+        <KeyboardAwareScrollView
+            enableOnAndroid={true}
+            extraHeight={Platform.select({ android: 100 })}
+            showsVerticalScrollIndicator={false}>
+       <View style={styles.inputContainer}>
+          <View style={styles.headerText}>
+            <Text style={styles.steps}>Step 4 of 4</Text>
+            <Text style={styles.basicDetailsText}>Area & Description</Text>
+          </View>
+          <View style={styles.mainText}>
+            <Text style={{color: dark}}>Area </Text>
+            <Text style={{fontSize: responsiveFontSize(2.5), color: 'red'}}>
+              *
+            </Text>
+          </View>
+
           <CustomTextInput
             onChangeText={areaHandel}
             value={newListing?.area}
@@ -168,14 +169,13 @@ const PropertyFeatures = () => {
           ) : null}
         </View>
         <View style={styles.inputContainer}>
-        <View style={styles.mainText}>
-        <Text style={{color: dark}}>Description </Text>
-                 <Text
-                      style={{fontSize: responsiveFontSize(2.5), color: 'red'}}>
-                      *
-                    </Text>
-              </View>
-          
+          <View style={styles.mainText}>
+            <Text style={{color: dark}}>Description </Text>
+            <Text style={{fontSize: responsiveFontSize(2.5), color: 'red'}}>
+              *
+            </Text>
+          </View>
+
           <CustomTextInput
             onChangeText={discriptionHandel}
             value={newListing?.description}
@@ -189,7 +189,7 @@ const PropertyFeatures = () => {
           ) : null}
         </View>
 
-        <View>
+        <View style={{marginTop: responsiveScreenHeight(2)}}>
           <ExploreButton
             onPress={() => (newListing?.id ? handleUpdatePost() : handelPost())}
             title={
@@ -199,6 +199,7 @@ const PropertyFeatures = () => {
             }
           />
         </View>
+       </KeyboardAwareScrollView>
       </View>
     </SafeAreaView>
   );
